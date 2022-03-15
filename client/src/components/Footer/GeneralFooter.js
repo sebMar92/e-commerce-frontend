@@ -12,7 +12,7 @@ export default function GeneralFooter() {
         <div>
             <footer >
 
-                <div className="bg-gray-300 flex sm:flex-row flex-wrap justify-evenly">
+                <div className="bg-gray-300 flex sm:flex-row flex-wrap justify-evenly p-4">
                     <div>
                         <h4>Need help?</h4>
                         <a href="https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox?compose=DmwnWsLPtkNmvlMqVnDjlPPRxjmPzjBJnXlZqFVwPjHtQNJJcsVgxbtxnXfQBwGtGTzpnCWrmxLQ" className="no-underline text-black"><h6 className="flex"><CgMail />Contact us</h6></a>
@@ -41,7 +41,7 @@ export default function GeneralFooter() {
                         <Link to={`/historial/${id}`} className="no-underline text-black"><h6 className="flex"><MdOutlineShoppingBag />Shopps</h6></Link>
                     </div>
                 </div>
-                <p className="bg-gray-300 text-center">© 2022 by Nombre e-commerce</p>
+                <p className="bg-gray-300 text-center mt-3 p-1">© 2022 by Nombre e-commerce</p>
 
             </footer>
         </div>
