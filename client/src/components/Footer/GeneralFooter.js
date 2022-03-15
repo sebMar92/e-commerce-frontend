@@ -5,7 +5,7 @@ import { CgMail, CgProfile } from "react-icons/cg"
 import { MdFavorite, MdOutlineShoppingBag } from "react-icons/md"
 
 
-export default function AllFooter() {
+export default function GeneralFooter() {
     const { id } = useParams()
 
     return (
