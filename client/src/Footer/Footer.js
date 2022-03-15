@@ -1,10 +1,8 @@
 import React from "react";
 import { useLocation } from "react-router-dom"
 
-import AllFooter from "./AllFooter";
+import GeneralFooter from "./GeneralFooter";
 import FooterHome from "./FooterHome";
-
-/* import { useLocation } from 'react-router-dom'; */
 
 export default function Footer() {
     const location = useLocation()
@@ -16,12 +14,12 @@ export default function Footer() {
         return (
             <div>
                 <FooterHome />
-                <AllFooter />
+                <GeneralFooter />
             </div>
         )
     } else {
         return (
-            <AllFooter />
+            <GeneralFooter />
         )
     }
 }
