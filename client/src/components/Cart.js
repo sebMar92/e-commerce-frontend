@@ -3,7 +3,7 @@ import NavBar from './NavBar';
 import Footer from './Footer';
 
 
-export default function Cart() {
+export default function Cart({}) {
     return (
         <>
         <NavBar/>
