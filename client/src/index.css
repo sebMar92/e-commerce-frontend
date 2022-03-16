@@ -1,10 +1,30 @@
 @tailwind base;
+@layer base {
+    h1 {
+      @apply text-3xl;
+    }
+    h2 {
+      @apply text-xl;
+    }
+    h3 {
+      @apply text-lg;
+    }
+    h4{
+      @apply text-base;
+    }
+    h5{
+      @apply text-sm;
+    }
+    h6{
+      @apply text-xs;
+    }
+    a {
+      @apply text-blue-600 underline;
+    }
+  }
 @tailwind components;
-
-
 @tailwind utilities;
 
 html {
   scroll-behavior: smooth;
 }
-
