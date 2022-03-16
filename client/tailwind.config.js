@@ -2,8 +2,17 @@ module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        lora: "'Lora',serif",
+        dm: "'DM Mono', monospace"
+      },
+      screens: {
+        xs: '500px',
+        xxl: '1800px'
+      },
       colors: {
         primary: {
           100: '#FFE9CF',
@@ -13,8 +22,15 @@ module.exports = {
           500: '#FFAC4B',
           600: '#FFA438',
           700: '#FF9921',
+        },
+        secondary: {
+          100: '#EEEEEE',
+          200: '#808080',
+          500: '#535252',
+          700: '#424242',
+          900: '#2E2D2D',
         }
-}
+      }
     },
   },
   plugins: [],
