@@ -1,6 +1,6 @@
 import React from 'react';
 import NavBar from './NavBar';
-import Footer from './Footer';
+import Footer from './Footer/Footer';
 
 
 export default function Wishlist() {
