@@ -1,7 +1,9 @@
 import React from 'react';
 import NavBar from './NavBar';
 import Footer from './Footer';
-import Card from './Card';
+import CardHome from './CardHome';
+
+
 
 
 export default function Home() {
@@ -11,7 +13,7 @@ export default function Home() {
         <div className='home'>
             
             <h1>This is home</h1>
-           <Card/>
+           <CardHome/>
         </div>
         <Footer/>
         </>
