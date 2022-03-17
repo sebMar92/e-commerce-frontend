@@ -2,8 +2,8 @@ import React from 'react';
 import NavBar from './NavBar'
 import CarouselPromo from './CarouselPromo';
 import CarouselCateg from './CarouselCateg';
-import CardHome from './CardHome';
 import Footer from './Footer/Footer';
+import CardHome from './CardHome';
 
 
 
@@ -12,9 +12,17 @@ export default function Home() {
         <>
         <NavBar/>
         <CarouselPromo />
-        <div className='flex justify-center items-center gap-2'>
+        <div>
+            <h1 className="flex justify-center">Category1</h1>
             <CarouselCateg />
-            <CardHome/>
+        </div>
+            <div>
+            <h1 className="flex justify-center">Category2</h1>
+            <CarouselCateg />
+        </div>
+            <div>
+            <h1 className="flex justify-center">Category3</h1>
+            <CarouselCateg />
         </div>
         <Footer/>
         </>
