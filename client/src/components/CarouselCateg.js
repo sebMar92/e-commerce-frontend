@@ -88,7 +88,7 @@ export default function CarouselCateg () {
                 key={product.id}
                 id={product.id}
                 image={product.images[0].url}
-                name={product.name}
+                title={product.title}
                 price={product.price}
             />
             </div>
