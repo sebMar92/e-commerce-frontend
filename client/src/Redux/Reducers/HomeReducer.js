@@ -1,4 +1,4 @@
-import { GET_PRODUCTS, GET_CATEGORIES } from "../Action types/types"
+import { GET_PRODUCTS, GET_CATEGORIES } from '../Actions/types'
 
 //Reducer de prueba, no hace nada
 
@@ -7,7 +7,6 @@ const initialState = {
     categories: [], //estado con las categorias como strings
 }
 export const HomeReducer = (state = initialState,action) => {
-    
     switch(action.type){
         case GET_PRODUCTS:
             return{
