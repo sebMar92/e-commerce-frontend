@@ -7,10 +7,10 @@ export default function DropDown({ tittle, array }) {
   return (
     <div className="">
       <button
-        class="bg-primary-300 font-medium rounded-lg 	text-align: center text-sm w-11/12 px-2 py-2 "
+        class="bg-primary-300 font-medium rounded-lg text-center text-sm w-11/12 px-2 py-2 "
         onClick={() => setIsOpen(!isOpen)}
       >
-        <div class="flex justify-between 	text-align: center;">
+        <div class="flex justify-between text-center">
           <div>
             <h4></h4>
           </div>
@@ -32,12 +32,12 @@ export default function DropDown({ tittle, array }) {
         </div>
       </button>
       <div
-        class={`bg-secondary-100 flex flex-col rounded ${isOpen && hidden} `}
+        class={`bg-secondary-100 flex flex-col rounded absolute ${isOpen && hidden} `}
       >
         {array.map((i) => (
           <Link
             to={`/${tittle}/${i}`}
-            class="px-2 py-1 hover:bg-primary-300 rounded text-decoration-line: no-underline text-black"
+            class="px-2 py-1 hover:bg-primary-300 rounded no-underline text-black"
           >
             {i}
           </Link>

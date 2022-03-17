@@ -34,7 +34,6 @@ export default function CarouselCateg () {
       return (
         <div
           className={className}
-          className='block bg-red-600'
           onClick={onClick}
         />
       );
