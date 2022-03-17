@@ -17,7 +17,7 @@ export default function CardCart({ image, name, price, shippingCost, stock }) {
           <div className=" flex flex-wrap justify-between   rounded-lg w-11/12 h-auto">
             <div className=" flex flex-wrap">
               <img
-                className="w-32 m-3 rounded-t-lg"
+                className="h-28 m-3 rounded-t-lg"
                 src={Product} /* src={image} */
                 alt="product image"
               />
