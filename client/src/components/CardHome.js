@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Star from "./utils/star-regular-24.png";
 import Cart from "./utils/cart-alt-solid-24.png";
 
-
 export default function CardHome({ image, name, price }) {
 /* return (
     <div classNameName="md:w-64 h-96 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
