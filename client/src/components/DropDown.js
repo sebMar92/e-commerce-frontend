@@ -5,14 +5,17 @@ export default function DropDown({ tittle, array }) {
   const [isOpen, setIsOpen] = useState(true);
   const hidden = "hidden";
   return (
-    <div>
+    <div className="">
       <button
-        id="dropDownButton"
-        class="bg-primary-300 font-medium rounded-lg text-sm px-4 py-2 "
+        class="bg-primary-300 font-medium rounded-lg 	text-align: center text-sm w-11/12 px-2 py-2 "
         onClick={() => setIsOpen(!isOpen)}
       >
-        <div class="flex">
-          {tittle}
+        <div class="flex justify-between 	text-align: center;">
+          <div>
+            <h4></h4>
+          </div>
+          <h5>{tittle}</h5>
+
           <svg
             class="-mr-1 ml-2 h-5 w-5"
             xmlns="http://www.w3.org/2000/svg"
@@ -29,10 +32,7 @@ export default function DropDown({ tittle, array }) {
         </div>
       </button>
       <div
-        class={`bg-secondary-100 flex flex-col rounded mt-1 p-2 text-sm w-32 ${
-          isOpen && hidden
-        } `}
-        id="menu"
+        class={`bg-secondary-100 flex flex-col rounded ${isOpen && hidden} `}
       >
         {array.map((i) => (
           <Link
