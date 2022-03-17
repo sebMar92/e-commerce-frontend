@@ -2,16 +2,22 @@ import React from 'react';
 import NavBar from './NavBar';
 import Footer from './Footer/Footer';
 import Card from './Card';
+import FilterAndOrderComponent from './FilterAndOrden';
 
 export default function Products() {
     return (
-        <div>
-        <NavBar/>
-        <div className='products'>
-            <h1>This is products by category</h1>
-            <Card/>
-        </div>
-        <Footer/>
-        </div>
+        <>
+            <NavBar />
+            <div className='flex flex-col sm:flex-row'>
+                <FilterAndOrderComponent />
+                <div className='products'>
+                    <h1>This is products by category</h1>
+                    <Card />
+                </div>
+            </div>
+            <Footer />
+        </>
     );
 }
+
+
