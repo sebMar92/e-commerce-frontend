@@ -34,11 +34,13 @@ export default function CardHome({ image, name, price }) {
   <div className="p-10">  
   <div className="max-w-sm rounded overflow-hidden shadow-lg">
     <a href="/product/:idProduct">
-        <img className="w-full" src={image} alt="img"/>
+        <div className="flex justify-center">
+        <img className="h-36" src={image} alt="img"/>
+        </div>
     </a>
     <div className="px-6 py-4">
       <div className="font-bold text-xl mb-2"></div>
-      <p className="font-semibold tracking-tight text-gray-900 dark:text-white text-base">
+      <p className="font-semibold tracking-tight h-36 text-gray-900 dark:text-white text-base">
         {name}
       </p>
     </div>
