@@ -12,7 +12,7 @@ export default function NavBar() {
 
   return (
     <div class="bg-primary-500 font-medium text-md px-4 py-2">
-      <div class="flex flex-direction:row justify-between">
+      <div className="flex flex-direction:row justify-between">
         <div>
           <Link to="/">
             <div class="flex space-x-2 text-decoration-line: no-underline">
@@ -26,9 +26,6 @@ export default function NavBar() {
               </h3>
             </div>
           </Link>
-        </div>
-        <div>
-          <SearchBar class="" />
         </div>
         <div class="block lg:hidden">
           <button
@@ -46,29 +43,25 @@ export default function NavBar() {
             </svg>
           </button>
         </div>
-        <div
-          class={`mg:hidden  lg:flex flex-direction:row space-x-2 ${
-            isOpen && hidden
-          } `}
-        >
-          <DropDown tittle="Favorites" array={arrayPrueba} />
-          <DropDown tittle="Cart" array={arrayPrueba} />
-          <NightModeButton />
-          <DropDown tittle="User" array={arrayPrueba} />
+      </div>
+      <div>
+        <div>
+          <SearchBar class="" />
         </div>
       </div>
+
       <div
-        class={` mg:hidden lg:flex flex-direction:row justify-between ${
+        className={`bg-primary-300 rounded m-2 w-10/12 mg:hidden lg:flex flex-direction:row justify-between ${
           isOpen && hidden
         } `}
       >
-        <div class="flex flex-direction:row space-x-2">
-          <DropDown tittle="Category" array={arrayPrueba} />
-          <DropDown tittle="Historial" array={arrayPrueba} />
-        </div>
-        <div>
-          <DropDown tittle="Notices" array={arrayPrueba} />
-        </div>
+        <DropDown tittle="Favorites" array={arrayPrueba} />
+        <DropDown tittle="Cart" array={arrayPrueba} />
+        <NightModeButton />
+        <DropDown tittle="User" array={arrayPrueba} />
+        <DropDown tittle="Category" array={arrayPrueba} />
+        <DropDown tittle="Historial" array={arrayPrueba} />
+        <DropDown tittle="Notices" array={arrayPrueba} />
       </div>
     </div>
   );
