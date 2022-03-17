@@ -3,6 +3,7 @@ import NavBar from './NavBar';
 import Footer from './Footer/Footer';
 import Card from './Card';
 import FilterAndOrderComponent from './FilterAndOrden';
+import Pagination from './Pagination';
 
 export default function Products() {
     return (
@@ -15,6 +16,7 @@ export default function Products() {
                     <Card />
                 </div>
             </div>
+            <Pagination />
             <Footer />
         </>
     );
