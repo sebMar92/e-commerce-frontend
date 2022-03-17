@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Star from "./utils/star-regular-24.png";
 import Cart from "./utils/cart-alt-solid-24.png";
 
-export default function CardHome({ image, name, price }) {
+export default function CardHome({ image, title, price }) {
 /* return (
     <div classNameName="md:w-64 h-96 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
     <a href="/product/:idProduct">
@@ -41,7 +41,7 @@ export default function CardHome({ image, name, price }) {
     <div className="px-6 py-4">
       <div className="font-bold text-xl mb-2"></div>
       <p className="font-semibold tracking-tight h-36 text-gray-900 dark:text-white text-base">
-        {name}
+        {title}
       </p>
     </div>
     <div className="px-6 pt-4 pb-2">
