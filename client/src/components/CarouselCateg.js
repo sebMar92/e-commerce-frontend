@@ -99,31 +99,4 @@ export default function CarouselCateg () {
       </div>
     );
 }
-
 <br/>
-
-/* <div className="flex items-center justify-center w-full h-full py-24 sm:py-8 px-4">
-  <div className="w-full relative flex items-center justify-center">
-    <div className="flex items-center justify-center w-full h-full py-24 sm:py-8 px-4">
-        <div className="w-full relative flex items-center justify-center">
-            <div className="w-full h-full mx-auto overflow-x-hidden overflow-y-hidden">
-                <div id="slider" className="h-full flex lg:gap-8 md:gap-6 gap-14 items-center justify-start transition ease-out duration-700">
-                    <div className="flex flex-shrink-0 relative w-full sm:w-auto">
-                    {allProducts.length > 0 && (
-                        allProducts.map(product => {
-                            return(<CardHome 
-                                key={product.id}
-                                id={product.id}
-                                image={product.images[0].url}
-                                name={product.name}
-                                price={product.price}
-                            />
-                            
-                        )}))};
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-        </div>
-    </div> */
