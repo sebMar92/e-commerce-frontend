@@ -30,10 +30,11 @@ export default function CarouselCateg () {
     }
     
     function SamplePrevArrow(props) {
-      const { className, style={"width":"400px"}, onClick } = props;
+      const { className, style, onClick } = props;
       return (
         <div
           className={className}
+          style={{ ...style, display: "block", background: "red" }}
           onClick={onClick}
         />
       );
@@ -44,7 +45,7 @@ export default function CarouselCateg () {
         infinite: true,
         speed: 500,
         slidesToShow: 4,
-        slidesToScroll: 1,
+        slidesToScroll: 4,
         initialSlide: 0,
         nextArrow: <SampleNextArrow />,
         prevArrow: <SamplePrevArrow />,
