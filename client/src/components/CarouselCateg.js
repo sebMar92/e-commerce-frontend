@@ -31,22 +31,19 @@ export default function CarouselCateg () {
     function SamplePrevArrow(props) {
       const { className, style, onClick } = props;
       return (
-        <div
-          className="bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 cursor-pointer hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold"
-          style={{ ...style, display: "flex", flex: "flex-start"}}
-          onClick={onClick}
-        />
+        <div className="absolute w-auto top-1/2 transform -translate-y-1/2 cursor-pointer">
+          <button className="bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 cursor-pointer hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold" onClick={onClick}><AiOutlineLeft/></button>
+        </div>
+        
       );
     }
 
     function SampleNextArrow(props) {
       const { className, style, onClick } = props;
       return (
-        <div
-          className="bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 cursor-pointer hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold"
-          style={{ ...style, display: "inline"}}
-          onClick={onClick}
-        />
+        <div className="absolute w-auto top-1/2 transform translate-x-full transform -translate-y-1/2 cursor-pointer">
+          <button className="bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 cursor-pointer hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold" onClick={onClick}><AiOutlineRight/></button>
+        </div>
       );
     }
     
