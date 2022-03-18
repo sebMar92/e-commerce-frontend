@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_PRODUCTS,GET_CATEGORIES } from './types';
+import { GET_PRODUCTS,GET_CATEGORIES, RES_STATE } from './types';
 
 // action para traer los productos
 export function getProducts(){
@@ -21,4 +21,12 @@ export function getCategories(){
             payload: json.data
         });
     };
+}
+
+//action para crear productos
+export function postProduct(product){
+    return async function(){
+        const create= await axios.post("http://localhost:3001/admin/products", product);
+        return create;
+    }
 }

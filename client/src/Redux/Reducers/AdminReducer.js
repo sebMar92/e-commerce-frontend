@@ -1,5 +1,6 @@
 /* import { ACTION } from "../Action types/types" */
 
+
 //Reducer de prueba, no hace nada
 const initialState = null
 
