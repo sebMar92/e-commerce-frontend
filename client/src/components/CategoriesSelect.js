@@ -8,12 +8,16 @@ export default function CategoriesSelect(props) {
     const dispatch = useDispatch();
 
 
-    const storeCategories = useSelector((state) => state.categories);
+    const storeCategories = useSelector((state) => state.home.categories);
 
-    console.log(storeCategories)
+
     useEffect(() => {
         dispatch(getCategories());
       }, [dispatch]);
+      
+      useEffect(() => {
+       console.log(storeCategories)
+      }, [storeCategories]);
 
   return (
     <div>

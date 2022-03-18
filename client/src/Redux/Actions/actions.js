@@ -14,10 +14,13 @@ export function getProducts(){
 
 //action para traer las categorias
 export function getCategories(){
+    console.log("entro")
     return async function(dispatch){
         var json = await axios.get("http://localhost:3001/categories");
-        return dispatch({
-            type: GET_CATEGORIES,
+        console.log(json.data)
+          return dispatch({
+              
+              type: GET_CATEGORIES,
             payload: json.data
         });
     };
