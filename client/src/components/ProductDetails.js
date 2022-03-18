@@ -42,14 +42,14 @@ export default function ProductDetails() {
             </div>
             <div className='grid grid-cols-3 grid-rows-3 p-2 gap-2 max-h-96'>
                 <div className="p-2 shadow-sm rounded-md bg-white col-span-2 row-span-2 w-full h-full">
-                    <img className='w-full h-full object-contain shadow-sm rounded-md' src={product.images && product.images[index].url} alt="X" />
+                    <img className='w-full h-full object-contain rounded-md' src={product.images && product.images[index].url} alt="X" />
                 </div>
                 <div className='row-span-2 grid grid-rows-5 gap-2'>
                     {product.images?.map(img => <div className='shadow-sm bg-white rounded-md p-2'>
-                                                    <img className='w-full h-full object-contain shadow-sm bg-white rounded-md' alt='X' src={img.url} onClick={()=>handleIndex(product.images.indexOf(img))}/>
+                                                    <img className='w-full h-full object-contain bg-white rounded-md' alt='X' src={img.url} onClick={()=>handleIndex(product.images.indexOf(img))}/>
                                                 </div>)}
                 </div>
-                <div className='col-span-3 row-start-3 bg-white rounded-md shadow-sm h-fit text-center p-2'>
+                <div className='col-span-3 row-start-3 bg-white rounded-md shadow-sm h-full text-center p-2 flex items-center justify-center'>
                     
                         <p className='text-sm'>{product.name}</p>
                     
@@ -71,8 +71,8 @@ export default function ProductDetails() {
             </div>
             {/* Description*/}
             <div className='p-2'>
-                <div className='bg-white rounded-md shadow-sm p-2 flex flex-col gap-2 text-center'>
-                    <div className='border-b-[1px] border-b-primary-500 pb-2'>
+                <div className='bg-white rounded-md shadow-sm p-2 flex flex-col gap-2'>
+                    <div className='border-b-[1px] border-b-primary-500 pb-2 text-center'>
                         <h2>Description</h2>
                     </div>
                     <p className='text-sm'>{product.description}</p>
