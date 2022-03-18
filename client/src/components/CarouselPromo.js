@@ -53,16 +53,15 @@ export default function Carousel(){
 
 
 return (
-    <div className="max-w-screen-md m-auto">
+    <div className="max-w-screen-lg m-auto mt-3 sm:mt-5 ">
       <div ref={slideRef} className="w-full relative select-none">
-          <div className="aspect-w-16 aspect-h-9">
-            <img src={data[currentIndex].image} alt="" />
-            <div className='text-xl max-w-prose text-center top-2/3 text-red-900 '>{data[currentIndex].text}</div>
+          <div className="aspect-w-9 aspect-h-4">
+            <img className="sm:rounded" src={data[currentIndex].image} alt="" />
+            <span className='font-lora text-center text-xs sm:text-lg md:text-xl lg:text-2xl font-bold top-1/2 text-orange-500 '>{data[currentIndex].text}</span>
           </div>
-
         <div className="absolute w-full top-1/2 transform -translate-y-1/2 flex justify-between items-start px-3 cursor-pointer">
-          <button className="bg-black text-white p-1 rounded-full bg-opacity-10 cursor-pointer hover:bg-opacity-60 transition" onClick={handlePreviousClick}><AiOutlineLeft size={60}/></button>
-          <button className="bg-black text-white p-1 rounded-full bg-opacity-10 cursor-pointer hover:bg-opacity-60 transition" onClick={handleNextClick}><AiOutlineRight size={60}/></button>
+          <button className="bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 cursor-pointer hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold" onClick={handlePreviousClick}><AiOutlineLeft/></button>
+          <button className="bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 cursor-pointer hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold" onClick={handleNextClick}><AiOutlineRight/></button>
         </div>
       </div>
     </div>

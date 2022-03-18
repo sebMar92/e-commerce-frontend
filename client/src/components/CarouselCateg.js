@@ -12,33 +12,44 @@ export default function CarouselCateg () {
 
     const dispatch = useDispatch();
     const allProducts = useSelector((state) => state.home.products); //Accedemos a la parte del estado del reducer en particular
+    const allCategories = useSelector((state) => state.home.categories);
+
+    
 
     useEffect(() => {
         dispatch(getProducts());
         dispatch(getCategories());
     }, []);
 
+    function randomCategories(allCategories){
+      var categories = [];
+      categories = [...allCategories].sort(() => Math.random() > 0.5 ? 1 : -1).slice(0,3);
+      console.log(categories);
+      return categories;
+    }
+
+    function SamplePrevArrow(props) {
+      const { className, style, onClick } = props;
+      return (
+        <div
+          className="bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 cursor-pointer hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold"
+          style={{ ...style, display: "flex", flex: "flex-start"}}
+          onClick={onClick}
+        />
+      );
+    }
+
     function SampleNextArrow(props) {
       const { className, style, onClick } = props;
       return (
         <div
-          className={className}
-          style={{ ...style, display: "block", background: "red" }}
+          className="bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 cursor-pointer hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold"
+          style={{ ...style, display: "inline"}}
           onClick={onClick}
         />
       );
     }
     
-    function SamplePrevArrow(props) {
-      const { className, style, onClick } = props;
-      return (
-        <div
-          className={className}
-          style={{ ...style, display: "block", background: "red" }}
-          onClick={onClick}
-        />
-      );
-    }
 
     var settings = {
         dots: true,
@@ -54,7 +65,7 @@ export default function CarouselCateg () {
             breakpoint: 1024,
             settings: {
               slidesToShow: 3,
-              slidesToScroll: 1,
+              slidesToScroll: 3,
               infinite: true,
               dots: true
             }
@@ -71,32 +82,39 @@ export default function CarouselCateg () {
             breakpoint: 480,
             settings: {
               slidesToShow: 1,
-              slidesToScroll: 1
+              slidesToScroll: 1,
+              dots: false
             }
           }
         ]
       };
       
 
-    return(
-      <div >
-        <Slider {...settings}>
-          {allProducts && allProducts.map(product => {
+  return(
+      <div className="max-w-screen-lg m-auto mt-3 sm:mt-5">
+        {randomCategories(allCategories).map(categ => {
           return(
-            <div >
-              <CardHome 
-                key={product.id}
-                id={product.id}
-                image={product.images[0].url}
-                title={product.title}
-                price={product.price}
-            />
+            <div className="font-lora text-center text-xs sm:text-lg md:text-xl lg:text-2xl font-bold">
+              <span>{categ}</span>
+              <Slider {...settings}>
+                {allProducts && allProducts.map(product => {
+                  return(
+                    <div>
+                      <CardHome 
+                        key={product.id}
+                        id={product.id}
+                        image={product.images[0].url}
+                        title={product.title}
+                        price={product.price}
+                      />
+                    </div>
+                  );
+                })}
+            </Slider>
             </div>
-              );
-            })
-          }
-        </Slider>
+          );
+        })}
       </div>
-    );
+  ); 
 }
 <br/>

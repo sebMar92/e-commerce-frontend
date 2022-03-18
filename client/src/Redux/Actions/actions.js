@@ -2,9 +2,9 @@ import axios from 'axios';
 import { GET_PRODUCTS,GET_CATEGORIES, GET_PRODUCT_BY_ID } from './types';
 
 // action para traer los productos de una categoría y página en específico
-export function getProducts(id, page){
+export function getProducts(){
     return async function(dispatch){
-        var json = await axios.get("http://localhost:3001/products?category=" + id + "&offset=" + page);
+        var json = await axios.get("http://localhost:3001/products");
         return dispatch({
             type: GET_PRODUCTS,
             payload: json.data
