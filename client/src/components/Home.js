@@ -12,15 +12,15 @@ export default function Home() {
         <>
         <NavBar/>
         <CarouselPromo />
-        <div>
+        <div className='md:my-32'>
             <h1 className="flex justify-center">Category1</h1>
             <CarouselCateg />
         </div>
-            <div>
+        <div className='my-32'>
             <h1 className="flex justify-center">Category2</h1>
             <CarouselCateg />
         </div>
-            <div>
+        <div className='my-32'>
             <h1 className="flex justify-center">Category3</h1>
             <CarouselCateg />
         </div>
