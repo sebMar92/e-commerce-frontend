@@ -1,5 +1,6 @@
 // Definir los tipos de actions como constantes para evitar errores de tipeo
 export const GET_PRODUCTS = "GET_PRODUCTS";
 export const GET_CATEGORIES = "GET_CATEGORIES";
-export const GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID"
-export const GET_PRODUCTS_BY_CATEGORY = "GET_PRODUCTS_BY_CATEGORY"
+export const GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID";
+export const SEARCH_PRODUCT = "SEARCH_PRODUCT";
+export const GET_PRODUCTS_BY_CATEGORY = "GET_PRODUCTS_BY_CATEGORY";

@@ -1,19 +1,25 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useEffect, useDispatch } from 'react-redux';
 import Slider from "react-slick"
 import { Link } from 'react-router-dom';
 import { getProductsByCategory } from '../Redux/Actions/actions';
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { getCategories, getProducts } from '../Redux/Actions/actions';
 import CardHome from './CardHome';
 
 export default function CarouselCateg () {
-
+    const dispatch=useDispatch();
     const allCategories = useSelector((state) => state.home.categories);
 
     var arr = [];
-    for (let i = 0; i < allCategories.length; i++) {
-      arr.push({ id: i + 1, name: allCategories[i] });
+    for(let i = 0; allCategories.length; i++){
+      arr.push({id: i + 1 , name: allCategories[i]})
     }
+
+    useEffect(() => {
+        dispatch(getProducts(""));
+        dispatch(getCategories());
+    }, []);
 
     function randomCategories(allCategories){
       var categories = [];
