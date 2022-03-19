@@ -4,7 +4,6 @@ import { useMemo, useRef, useState } from "react";
 import { createAutocomplete } from "@algolia/autocomplete-core";
 /* import { useDispatch, useSelector } from "react-redux"; */
 import { Link } from "react-router-dom";
-import SearchProducts from "../SearchProducts";
 
 const AutocompleteItem = ({ id, title, images, price }) => {
   return (
@@ -29,7 +28,7 @@ const AutocompleteItem = ({ id, title, images, price }) => {
 export default function SearchBar(props) {
   /* const dispatch = useDispatch();
   const allCategories = useSelector((state) => state.home.categories); */
-  /* const [search, setSearch] = useState(false); */
+  const [search, setSearch] = useState("");
   const [autocompleteState, setAutocompleteState] = useState({
     collections: [],
     isOpen: false,
@@ -38,6 +37,7 @@ export default function SearchBar(props) {
   const autocomplete = useMemo(
     () =>
       createAutocomplete({
+        props,
         placeholder: "Type to search...",
         onStateChange: ({ state }) => setAutocompleteState(state),
         getSources: () => [
@@ -66,22 +66,25 @@ export default function SearchBar(props) {
                     const { title } = product;
                     return title.toLowerCase().includes(query.toLowerCase());
                   });
-                  /* console.log(results); */
-                  <SearchProducts array={results} />;
+
+                  setSearch(results);
+
                   return results;
                 }
               }
             },
           },
         ],
-        ...props,
       }),
     [props]
   );
+  console.log(search);
 
-  const formRef = useRef(null);
-  const inputRef = useRef(null);
-  const panelRef = useRef(null);
+  const formRef = useRef("");
+  const inputRef = useRef("");
+  const panelRef = useRef("");
+
+  /* console.log(inputRef.current.value); */
 
   const formProps = autocomplete.getFormProps({
     inputElement: inputRef.current,
@@ -89,9 +92,13 @@ export default function SearchBar(props) {
   const inputProps = autocomplete.getInputProps({
     inputElement: inputRef.current,
   });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <form
-      /* onSubmit={handleSubmit} */
+      onSubmit={handleSubmit}
       ref={formRef}
       className="flex justify-center font-lora"
       {...formProps}
