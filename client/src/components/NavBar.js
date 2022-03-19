@@ -59,7 +59,7 @@ export default function NavBar() {
         <DropDown tittle="News" array={arrayPrueba} />
         <DropDown tittle="Historial" array={arrayPrueba} />
         <DropDown tittle="User" array={arrayPrueba} />
-        <DropDown tittle="Category" array={arrayPrueba} />
+        <DropDown tittle="Categories" array={arrayPrueba} />
         <DropDown tittle="Cart" array={arrayPrueba} />
         <DropDown tittle="Favorites" array={arrayPrueba} />
       </div>
