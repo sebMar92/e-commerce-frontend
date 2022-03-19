@@ -15,7 +15,7 @@ export default function CarouselCateg () {
     console.log(allProducts)
 
     useEffect(() => {
-        dispatch(getProducts());
+        dispatch(getProducts(""));
         dispatch(getCategories());
     }, []);
 

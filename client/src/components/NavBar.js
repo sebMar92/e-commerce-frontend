@@ -1,14 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "./commons/SearchBar";
 import DropDown from "./DropDown";
 import NightModeButton from "./commons/NightModeButton";
+
+import { useDispatch, useSelector } from "react-redux"
+import { getCategories } from "../Redux/Actions/actions";
+
+import DropDownCategories from "./DropDownCategories"
+
 
 export default function NavBar() {
   const arrayPrueba = ["hola", "hello"];
 
   const [isOpen, setIsOpen] = useState(true);
   const hidden = "hidden";
+
+  const dispatch = useDispatch()
+  const allCategories = useSelector(state => state.home.categories)
+
+  useEffect(() => {
+    dispatch(getCategories())
+  }, [])
+
+
 
   return (
     <div class="bg-primary-500 font-medium text-lg px-4 py-2">
@@ -57,11 +72,11 @@ export default function NavBar() {
         } `}
       >
         <DropDown tittle="News" array={arrayPrueba} />
-        <DropDown tittle="Historial" array={arrayPrueba} />
-        <DropDown tittle="User" array={arrayPrueba} />
-        <DropDown tittle="Categories" array={arrayPrueba} />
-        <DropDown tittle="Cart" array={arrayPrueba} />
-        <DropDown tittle="Favorites" array={arrayPrueba} />
+          <DropDown tittle="Historial" array={arrayPrueba} />
+          <DropDown tittle="User" array={arrayPrueba} />
+          <DropDownCategories tittle="Categories" array={allCategories} />
+          <DropDown tittle="Cart" array={arrayPrueba} />
+          <DropDown tittle="Favorites" array={arrayPrueba} />
       </div>
     </div>
     </div>

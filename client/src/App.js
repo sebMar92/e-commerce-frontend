@@ -26,7 +26,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route exact path='/' element={<Home/>}/>
-        <Route path='/categories/:idCategory'
+        <Route path='/products'
         element={<ProductsByCategory/>}/>
         <Route path='/product/:idProduct'
         element={<ProductDetails/>}/>
