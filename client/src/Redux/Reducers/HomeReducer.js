@@ -5,6 +5,8 @@ import { GET_PRODUCTS, GET_CATEGORIES, SEARCH_PRODUCT } from "../Actions/types";
 const initialState = {
   products: [], //estado con los productos como objetos
   categories: [], //estado con las categorias como strings
+  currentPage: 0,
+  totalPages: 0
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -12,6 +14,8 @@ export const HomeReducer = (state = initialState, action) => {
       return {
         ...state,
         products: action.payload.products,
+        currentPage: action.payload.page,
+        totalPages: action.payload.pages
       };
     case GET_CATEGORIES:
       return {
