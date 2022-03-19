@@ -1,26 +1,36 @@
 import React from "react";
 import NavBar from "./NavBar";
 import Footer from "./Footer/Footer";
+import Card from "./Card";
 import FilterAndOrderComponent from "./FilterAndOrden";
 import Pagination from "./Pagination";
-import CardHome from "./CardHome";
-/* var array = [
-  { image: "", title: "hola", price: "" },
-  { image: "", title: "hola", price: "" },
-  { image: "", title: "hola", price: "" },
-]; */
-export default function SearchProducts() {
-  /* console.log(array); */
+import { useSelector } from "react-redux";
+
+export default function Products() {
+  const searchProducts = useSelector((state) => state.home.search.products);
+
   return (
     <>
       <NavBar />
       <div className="flex flex-col sm:flex-row">
         <FilterAndOrderComponent />
         <div className="products">
-          <h1>There are all products</h1>
-          {/* {array.map((i) => {
-            return <CardHome image={i.image} title={i.title} price={i.price} />;
-          })} */}
+          <h1>This is products by category</h1>
+          <p></p>
+          <div className="sm:flex sm:flex-wrap">
+            {searchProducts &&
+              searchProducts.map((item) => {
+                return (
+                  <Card
+                    key={item.id}
+                    name={item.title}
+                    price={item.price}
+                    image={item.images[1].url}
+                    shippingCost={item.shippingCost}
+                  />
+                );
+              })}
+          </div>
         </div>
       </div>
       <Pagination />

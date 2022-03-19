@@ -23,43 +23,31 @@ import ActivateDiscounts from "./components/ActivateDiscounts";
 function App() {
   return (
     <>
-    <div className="App">
-      <Routes>
-        <Route exact path='/' element={<Home/>}/>
-        <Route path='/products'
-        element={<ProductsByCategory/>}/>
-        <Route path='/product/:idProduct'
-        element={<ProductDetails/>}/>
-        <Route path='/purchase/:idUser'
-        element={<PurchasePage/>}/>
-        <Route path='/user/:idUser'
-        element={<UserProfile/>}/>
-        <Route path='/login'
-        element={<Login/>}/>
-        <Route path='/historial/:idUser'
-        element={<Historial/>}/>
-        <Route path='/wishlist/:idUser'
-        element={<Wishlist/>}/>
-        <Route path='/cart/:idUser'
-        element={<Cart/>}/>
-        <Route path='/admin/:idUser'
-        element={<AdminProfile/>}/>
-        <Route path='/admin/edit/:idProduct'
-        element={<CreateEditProducts/>}/>
-        <Route path='/admin/orders'
-        element={<ListOfOrders/>}/>
-        <Route path='/admin/order/:idOrder'
-        element={<OrderDetails/>}/>
-        <Route path='/admin/products'
-        element={<AdminAllProducts/>}/>
-        <Route path='/admin/users'
-        element={<AdminAllUsers/>}/>
-        <Route path='/admin/newsletter'
-        element={<NewsletterEdit/>}/>
-        <Route path='/admin/discounts'
-        element={<ActivateDiscounts/>}/>
-      </Routes>
-    </div>
+      <div className="App">
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/products" element={<ProductsByCategory />} />
+          <Route path="/products/search" element={<SearchProducts />} />
+          <Route path="/product/:idProduct" element={<ProductDetails />} />
+          <Route path="/purchase/:idUser" element={<PurchasePage />} />
+          <Route path="/user/:idUser" element={<UserProfile />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/historial/:idUser" element={<Historial />} />
+          <Route path="/wishlist/:idUser" element={<Wishlist />} />
+          <Route path="/cart/:idUser" element={<Cart />} />
+          <Route path="/admin/:idUser" element={<AdminProfile />} />
+          <Route
+            path="/admin/edit/:idProduct"
+            element={<CreateEditProducts />}
+          />
+          <Route path="/admin/orders" element={<ListOfOrders />} />
+          <Route path="/admin/order/:idOrder" element={<OrderDetails />} />
+          <Route path="/admin/products" element={<AdminAllProducts />} />
+          <Route path="/admin/users" element={<AdminAllUsers />} />
+          <Route path="/admin/newsletter" element={<NewsletterEdit />} />
+          <Route path="/admin/discounts" element={<ActivateDiscounts />} />
+        </Routes>
+      </div>
     </>
   );
 }
