@@ -1,25 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
-import { useNavigate, createSearchParams, useSearchParams } from "react-router-dom";
+import { useNavigate, createSearchParams} from "react-router-dom";
 
 export default function DropDownCategories({ tittle, array }) {
     const [isOpen, setIsOpen] = useState(true);
     const hidden = "hidden";
 
     const navigate = useNavigate()
-    /*  navigate({
-         search: ({
-             search,
-             minPrice,
-             maxPrice,
-             freeShipping,
-             categoryId,
-             order,
-             limit,
-             offset,
-         })
-     }) */
 
 
 
