@@ -1,4 +1,4 @@
-import { GET_PRODUCTS, GET_CATEGORIES } from '../Actions/types'
+import { GET_PRODUCTS, GET_CATEGORIES, GET_PRODUCTS_BY_CATEGORY } from '../Actions/types'
 
 //Reducer de prueba, no hace nada
 
@@ -17,6 +17,11 @@ export const HomeReducer = (state = initialState,action) => {
             return{
                 ...state,
                 categories: action.payload,
+            }
+        case GET_PRODUCTS_BY_CATEGORY:
+            return{
+                ...state,
+                products: action.payload.products,
             }
         default:
             return state;

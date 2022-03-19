@@ -27,7 +27,7 @@ export default function Carousel(){
     const slider = () => {
       slideInterval = setInterval(() => {
             handleNextClick();
-        }, 15000);
+        }, 5000);
     };
 
     const pauseSlider = () => {

@@ -1,25 +1,19 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getProducts, getCategories } from '../Redux/Actions/actions';
+import { useSelector } from 'react-redux';
 import Slider from "react-slick"
 import { Link } from 'react-router-dom';
+import { getProductsByCategory } from '../Redux/Actions/actions';
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import CardHome from './CardHome';
 
-
 export default function CarouselCateg () {
 
-    const dispatch = useDispatch();
-    const allProducts = useSelector((state) => state.home.products); //Accedemos a la parte del estado del reducer en particular
     const allCategories = useSelector((state) => state.home.categories);
 
-    
-
-    useEffect(() => {
-        dispatch(getProducts());
-        dispatch(getCategories());
-    }, []);
+    var arr = [];
+    for (let i = 0; i < allCategories.length; i++) {
+      arr.push({ id: i + 1, name: allCategories[i] });
+    }
 
     function randomCategories(allCategories){
       var categories = [];
@@ -46,6 +40,7 @@ export default function CarouselCateg () {
         </div>
       );
     }
+    
     
 
     var settings = {
@@ -85,16 +80,21 @@ export default function CarouselCateg () {
           }
         ]
       };
-      
+      return(
+        <div>
+          <h1>dgsdg</h1>
+        </div>
+      )
 
-  return(
+/*   return(
       <div className="max-w-screen-lg m-auto mt-3 sm:mt-5">
         {randomCategories(allCategories).map(categ => {
           return(
             <div className="font-lora text-center text-xs sm:text-lg md:text-xl lg:text-2xl font-bold">
-              <span>{categ}</span>
+              <span>{categ.name}</span>
               <Slider {...settings}>
-                {allProducts && allProducts.map(product => {
+                {currentProduct && currentProduct.filter(product => 
+                product.categories[0].name === categ.name).map(product => {
                   return(
                     <div>
                       <CardHome 
@@ -112,6 +112,6 @@ export default function CarouselCateg () {
           );
         })}
       </div>
-  ); 
+  );  */
 }
 <br/>
