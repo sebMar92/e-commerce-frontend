@@ -1,5 +1,5 @@
-import React from 'react';
-import { useSelector, useEffect, useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Slider from "react-slick"
 import { Link } from 'react-router-dom';
 import { getProductsByCategory } from '../Redux/Actions/actions';
