@@ -14,7 +14,7 @@ export default function CarouselCateg () {
     const allProducts = useSelector((state) => state.home.products); //Accedemos a la parte del estado del reducer en particular
 
     useEffect(() => {
-        dispatch(getProducts());
+        dispatch(getProducts(""));
         dispatch(getCategories());
     }, []);
 

@@ -2,15 +2,16 @@ import axios from "axios";
 import { GET_PRODUCTS, GET_CATEGORIES, GET_PRODUCT_BY_ID } from "./types";
 
 // action para traer los productos
-export function getProducts() {
+export function getProducts(search) {
   return async function (dispatch) {
-    var json = await axios.get("http://localhost:3001/products");
-    return dispatch({
-      type: GET_PRODUCTS,
-      payload: json.data,
-    });
+      var json = await axios.get(`http://localhost:3001/products${search}`);
+      return dispatch({
+          type: GET_PRODUCTS,
+          payload: json.data
+      });
   };
 }
+
 
 //action para traer las categorias
 export function getCategories() {
