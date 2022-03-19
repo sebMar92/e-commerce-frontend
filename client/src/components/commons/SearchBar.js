@@ -2,14 +2,15 @@ import React from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useMemo, useRef, useState } from "react";
 import { createAutocomplete } from "@algolia/autocomplete-core";
-import { searchProduct } from "../../Redux/Actions/actions";
+/* import { useDispatch, useSelector } from "react-redux"; */
 import { Link } from "react-router-dom";
+import SearchProducts from "../SearchProducts";
 
 const AutocompleteItem = ({ id, title, images, price }) => {
   return (
     <li>
       <Link to={`/products/${id}`}>
-        <a className="hover:bg-blue-300 flex gap-4 p-4">
+        <a className="hover:bg-primary-300 flex gap-4 p-4">
           <img
             src={images[0].url}
             alt={title}
@@ -26,6 +27,9 @@ const AutocompleteItem = ({ id, title, images, price }) => {
 };
 
 export default function SearchBar(props) {
+  /* const dispatch = useDispatch();
+  const allCategories = useSelector((state) => state.home.categories); */
+  /* const [search, setSearch] = useState(false); */
   const [autocompleteState, setAutocompleteState] = useState({
     collections: [],
     isOpen: false,
@@ -38,13 +42,34 @@ export default function SearchBar(props) {
         onStateChange: ({ state }) => setAutocompleteState(state),
         getSources: () => [
           {
-            sourceId: "offers-next-api",
+            sourceId: "products",
             getItems: async ({ query }) => {
               if (!!query) {
                 const res = await fetch(
                   `http://localhost:3001/products?limit=100&search=${query}`
                 );
-                return await res.json();
+
+                /* for (let i = 0; i < allCategories.length; i++) {
+                  if (i.toLowerCase().includes(query.toLowerCase())) {
+                    console.log(i);
+                  }
+                } */
+
+                const info = await res.json();
+
+                const data = info.products;
+
+                if (data.length === 0) {
+                  console.log("element not found");
+                } else {
+                  const results = data.filter((product) => {
+                    const { title } = product;
+                    return title.toLowerCase().includes(query.toLowerCase());
+                  });
+                  /* console.log(results); */
+                  <SearchProducts array={results} />;
+                  return results;
+                }
               }
             },
           },
@@ -66,6 +91,7 @@ export default function SearchBar(props) {
   });
   return (
     <form
+      /* onSubmit={handleSubmit} */
       ref={formRef}
       className="flex justify-center font-lora"
       {...formProps}
@@ -77,18 +103,18 @@ export default function SearchBar(props) {
       />
       {autocompleteState.isOpen && (
         <div
-          className="absolute mt-16 top-0 left-0 border border-gray-100 bg-white overflow-hidden rounded-lg shadow-lg z-10"
+          className="absolute mt-16 border border-secondary-100 bg-white overflow-hidden rounded-lg shadow-lg z-10"
           ref={panelRef}
           {...autocomplete.getPanelProps()}
         >
           {autocompleteState.collections.map((collection, index) => {
             const { items } = collection;
-            console.log({ items });
+
             return (
               <section key={`section-${index}`}>
                 {items.length > 0 && (
                   <ul {...autocomplete.getListProps()}>
-                    {items[0].products.map((item) => (
+                    {items.map((item) => (
                       <AutocompleteItem key={item.id} {...item} />
                     ))}
                   </ul>
