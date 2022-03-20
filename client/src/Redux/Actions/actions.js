@@ -10,6 +10,7 @@ import {
 export function getProducts(search) {
   return async function (dispatch) {
     var json = await axios.get(`http://localhost:3001/products${search}`);
+
     return dispatch({
       type: GET_PRODUCTS,
       payload: json.data,
@@ -50,7 +51,6 @@ export function getSearch(query) {
       const json = await axios.get(
         `http://localhost:3001/products?limit=100&search=${query}`
       );
-
       return dispatch({
         type: GET_SEARCH,
         payload: json.data,
