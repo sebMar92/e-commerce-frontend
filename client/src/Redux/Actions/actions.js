@@ -68,3 +68,10 @@ export function searchProduct(name) {
     }
   };
 }
+
+export function postProduct(product){
+    return async function(){
+        const create= await axios.post("http://localhost:3001/admin/products", product);
+        return create;
+    }
+}
