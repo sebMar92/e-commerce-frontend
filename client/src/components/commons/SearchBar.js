@@ -1,15 +1,16 @@
 import React from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useMemo, useRef, useState } from "react";
-import { createAutocomplete } from "@algolia/autocomplete-core";
-import { searchProduct } from "../../Redux/Actions/actions";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { getSearch } from "../../Redux/Actions/actions";
 
+const hidden = "hidden";
 const AutocompleteItem = ({ id, title, images, price }) => {
   return (
-    <li>
-      <Link to={`/products/${id}`}>
-        <a className="hover:bg-blue-300 flex gap-4 p-4">
+    <div>
+      <Link to={`/product/${id}`}>
+        <div className="hover:bg-primary-300 flex gap-4 p-4">
           <img
             src={images[0].url}
             alt={title}
@@ -19,91 +20,62 @@ const AutocompleteItem = ({ id, title, images, price }) => {
             <h3 className="text-sm font-semibold">{title}</h3>
             <p className="text-xs text-gray-600">{price}</p>
           </div>
-        </a>
+        </div>
       </Link>
-    </li>
+    </div>
   );
 };
 
 export default function SearchBar(props) {
-  const [autocompleteState, setAutocompleteState] = useState({
-    collections: [],
-    isOpen: false,
-  });
+  const [isOpen, setIsOpen] = useState(true);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  /* const allCategories = useSelector((state) => state.home.categories); */
+  /* const [search, setSearch] = useState(""); */
+  const prod = useSelector((state) => state.home.search.products);
+  /* setSearch(prod); */
 
-  const autocomplete = useMemo(
-    () =>
-      createAutocomplete({
-        placeholder: "Type to search...",
-        onStateChange: ({ state }) => setAutocompleteState(state),
-        getSources: () => [
-          {
-            sourceId: "offers-next-api",
-            getItems: async ({ query }) => {
-              if (!!query) {
-                const res = await fetch(
-                  `http://localhost:3001/products?limit=100&search=${query}`
-                );
-                return await res.json();
-              }
-            },
-          },
-        ],
-        ...props,
-      }),
-    [props]
-  );
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate({
+      pathname: "/products/search",
+    });
+    setIsOpen(!isOpen);
+  };
+  const handleInputChange = (e) => {
+    const { value } = e.target;
+    dispatch(getSearch(value));
 
-  const formRef = useRef(null);
-  const inputRef = useRef(null);
-  const panelRef = useRef(null);
+    console.log(prod);
+  };
 
-  const formProps = autocomplete.getFormProps({
-    inputElement: inputRef.current,
-  });
-  const inputProps = autocomplete.getInputProps({
-    inputElement: inputRef.current,
-  });
   return (
     <form
-      ref={formRef}
+      onSubmit={handleSubmit}
       className="flex justify-center font-lora"
-      {...formProps}
+      on
+      onClick={() => setIsOpen(!isOpen)}
     >
       <input
-        ref={inputRef}
+        onChange={(e) => handleInputChange(e)}
         className="bg-secondary-100 p-2 h-8 rounded-md w-10/12 md:w-4/12 focus:outline-none"
-        {...inputProps}
       />
-      {autocompleteState.isOpen && (
-        <div
-          className="absolute mt-16 top-0 left-0 border border-gray-100 bg-white overflow-hidden rounded-lg shadow-lg z-10"
-          ref={panelRef}
-          {...autocomplete.getPanelProps()}
-        >
-          {autocompleteState.collections.map((collection, index) => {
-            const { items } = collection;
-            console.log({ items });
-            return (
-              <section key={`section-${index}`}>
-                {items.length > 0 && (
-                  <ul {...autocomplete.getListProps()}>
-                    {items[0].products.map((item) => (
-                      <AutocompleteItem key={item.id} {...item} />
-                    ))}
-                  </ul>
-                )}
-              </section>
-            );
-          })}
-        </div>
-      )}
       <button
         type="submit"
         className="text-secondary-200 bg-secondary-100 p-1 ml-1 rounded-md active:translate-y-1"
       >
         <AiOutlineSearch />
       </button>
+      <div
+        className={`absolute mt-24 bg-secondary-100 m-2 overflow-hidden rounded-lg shadow-lg z-10 overflow-y-auto h-1/2 overflow-x-auto  ${
+          isOpen && hidden
+        }`}
+      >
+        {prod &&
+          prod.map((i) => {
+            return AutocompleteItem(i);
+          })}
+      </div>
     </form>
   );
 }
