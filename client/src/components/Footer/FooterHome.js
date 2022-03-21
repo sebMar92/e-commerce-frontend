@@ -5,7 +5,7 @@ export default function FooterHome() {
 
     return (
         <div>
-            <footer className="bg-gray-50 flex flex-row flex-wrap justify-evenly items-center p-6 font-lora">
+            <footer className="bg-gray-50 flex flex-row flex-wrap justify-evenly items-center p-20 font-lora font-bold">
 
                 <div>
                     <h1>Join our newsletter</h1>

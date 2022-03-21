@@ -24,13 +24,12 @@ export default function Products() {
             <NavBar />
             <div className='flex flex-col sm:flex-row'>
                 <FilterAndOrderComponent />
-                <div className='products'>
-                    <h1>This is products by category</h1>
-                    <p></p>
-                    <div className='sm:flex sm:flex-wrap'>
+                <div className='m-auto'>
+                    <h1 className='font-bold font-lora flex justify-center my-8 text-4xl'>Products by Category</h1>
+                    <div className='grid grid-cols-1 sm:grid-cols-2 sm:gap-10 sm:m-auto 2xl:grid-cols-2 2xl:gap-30'>
                         {allProducts && allProducts.map(item => {
                             return (
-                                <Card key={item.id} name={item.title} price={item.price} image={item.images[1].url} shippingCost={item.shippingCost} />
+                                <Card key={item.id} path={item.id} name={item.title} price={item.price} image={item.images[1].url} shippingCost={item.shippingCost} />
                             )
                         })}
                     </div>

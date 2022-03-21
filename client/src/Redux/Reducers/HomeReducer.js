@@ -1,4 +1,4 @@
-import { GET_PRODUCTS, GET_CATEGORIES, GET_SEARCH } from "../Actions/types";
+import { GET_PRODUCTS, GET_CATEGORIES, GET_SEARCH, POST_NEWUSER, VALIDATE_MAIL,LOGIN_USER } from "../Actions/types";
 
 //Reducer de prueba, no hace nada
 
@@ -8,6 +8,8 @@ const initialState = {
   currentPage: 0,
   totalPages: 0,
   search: [],
+  userInfo: [],
+  userTokens: []
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -27,6 +29,21 @@ export const HomeReducer = (state = initialState, action) => {
       return {
         ...state,
         search: action.payload,
+      };
+    case POST_NEWUSER:
+      return {
+        ...state,
+        userInfo: action.payload,
+      };
+    case VALIDATE_MAIL:
+      return {
+        ...state,
+        userInfo: action.payload,
+      };
+      case LOGIN_USER:
+      return {
+        ...state,
+        userTokens: action.payload,
       };
 
     default:
