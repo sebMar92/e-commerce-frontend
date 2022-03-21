@@ -28,6 +28,7 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         search: action.payload,
       };
+
     default:
       return state;
   }

@@ -4,32 +4,6 @@ import Star from "./utils/star-regular-24.png";
 import Cart from "./utils/cart-alt-solid-24.png";
 
 export default function CardHome({ id, image, title, price }) {
-  /* return (
-    <div classNameName="md:w-64 h-96 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-    <a href="/product/:idProduct">
-        <img classNameName="p-3 rounded-t-lg" src={image} alt="img" />
-    </a>
-    <br/>
-    <div classNameName="px-5 pb-5">
-        <a href="/product/:idProduct">
-            <h5 classNameName="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{name}</h5>
-        </a>
-        <div classNameName="flex flex-wrap justify-around items-center mt-2.5 mb-5">
-        <Link to={"/wishlist/:idUser"} > 
-                    <img  classNameName="p-2 hover:w-10" src={Star} alt="img"/>
-                </Link>
-                <Link to={"/cart/:idUser"} style={{textDecoration: "inherit"}}> 
-                    <img classNameName="p-2 hover:w-10" src={Cart} alt="img"/>
-                </Link>
-        </div>
-        <div classNameName="flex justify-between items-center">
-            <span classNameName="text-3xl font-bold text-gray-900 dark:text-white">{price}</span>
-            
-        </div>
-    </div>
-</div>
-       
-  ); */
   return (
     <Link to={`/product/${id}`} className="no-underline">
       <div className="p-10">
