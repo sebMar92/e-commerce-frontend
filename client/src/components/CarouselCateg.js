@@ -1,6 +1,6 @@
 import React from "react";
 import Slider from "react-slick"
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts, getCategories } from "../Redux/Actions/actions";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
@@ -8,16 +8,8 @@ import CardHome from "./CardHome";
 
 export default function CarouselCateg() {
   const dispatch = useDispatch();
-  const allProducts = useSelector((state) => state.home.products); //Accedemos a la parte del estado del reducer en particular
+  const allProducts = useSelector((state) => state.home.products);
   const allCategories = useSelector((state) => state.home.categories);
-
-  /* const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 2;
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage; */
-  
-
-  /* const [cp, setCp] = useState(); */
 
 
   
@@ -55,7 +47,6 @@ export default function CarouselCateg() {
           infinite: false,
           speed: 500,
           slidesToShow: 1,
-          /* slidesToScroll: 1, */
           nextArrow: <SampleNextArrow />,
           prevArrow: <SamplePrevArrow />,
           responsive: [
@@ -63,7 +54,6 @@ export default function CarouselCateg() {
               breakpoint: 1024,
               settings: {
                 slidesToShow: 1,
-                /* slidesToScroll: 3, */
                 infinite: false,
                 dots: true,
               },
@@ -72,7 +62,6 @@ export default function CarouselCateg() {
               breakpoint: 600,
               settings: {
                 slidesToShow: 1,
-                /* slidesToScroll: 2, */
                 infinite: false,
                 dots: true,
               },
@@ -81,7 +70,6 @@ export default function CarouselCateg() {
               breakpoint: 480,
               settings: {
                 slidesToShow: 1,
-                /* slidesToScroll: 1, */
                 infinite: false,
                 dots: true,
               },
@@ -103,7 +91,6 @@ export default function CarouselCateg() {
               breakpoint: 1024,
               settings: {
                 slidesToShow: 2,
-                /* slidesToScroll: 3, */
                 infinite: false,
                 dots: true,
               },
@@ -112,7 +99,6 @@ export default function CarouselCateg() {
               breakpoint: 600,
               settings: {
                 slidesToShow: 2,
-                /* slidesToScroll: 2, */
                 infinite: false,
                 dots: true,
               },
@@ -135,7 +121,6 @@ export default function CarouselCateg() {
           infinite: false,
           speed: 500,
           slidesToShow: 3,
-          /* slidesToScroll: 1, */
           nextArrow: <SampleNextArrow />,
           prevArrow: <SamplePrevArrow />,
           responsive: [
@@ -143,7 +128,6 @@ export default function CarouselCateg() {
               breakpoint: 1024,
               settings: {
                 slidesToShow: 3,
-                /* slidesToScroll: 3, */
                 infinite: false,
                 dots: true,
               },
@@ -212,10 +196,6 @@ export default function CarouselCateg() {
     }
     return b;
   }
-
-  /* let result = prod(allProducts,cp)
-  const currentProducts = result.slice(indexOfFirstProduct, indexOfLastProduct)
-  console.log( "esto es", currentProducts) */
 
   function SamplePrevArrow(props) {
     const { className, style, onClick } = props;
