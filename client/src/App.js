@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Home from "./components/Home";
-import SearchProducts from "./components/SearchProducts";
 import ProductsByCategory from "./components/ProductsByCategory";
 import ProductDetails from "./components/ProductDetails";
 import PurchasePage from "./components/PurchasePage";
@@ -27,7 +26,6 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/products" element={<ProductsByCategory />} />
-          <Route path="/products/search" element={<SearchProducts />} />
           <Route path="/product/:idProduct" element={<ProductDetails />} />
           <Route path="/purchase/:idUser" element={<PurchasePage />} />
           <Route path="/user/:idUser" element={<UserProfile />} />

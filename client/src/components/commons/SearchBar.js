@@ -11,7 +11,6 @@ export default function SearchBar(props) {
   const [isOpen, setIsOpen] = useState(true); //controla que aparezca y desaparezca el autocomplete
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [search, setSearch] = useState(""); //manejo de ids de las categorias
   const prod = useSelector((state) => state.home.search.products);
   const [cat, setCat] = useState(); //manejo las categorias que vayan coincidiendo
   const allCategories = useSelector((state) => state.home.categories);
@@ -38,7 +37,6 @@ export default function SearchBar(props) {
       setStt(value);
       for (let i = 0; i < arr.length; i++) {
         if (arr[i].title.includes(value.toLowerCase())) {
-          setSearch(arr[i].id.toString()); //me guardo el id de la categoria que matchea con el valor que ingresa el usuario
           setCat(arr[i]); //me guardo esa categoria
         }
       }
@@ -56,13 +54,9 @@ export default function SearchBar(props) {
       pathname: `/products?search=${stt}`,
     });
   };
-  console.log("hago la verificacion && ");
+
   prod && category && prod.unshift(category);
   let product = [...new Set(prod)]; //para que no se repitan los objetos
-  /* let p = [...new Set(product)]; */
-
-  /* prod.filter((i) => typeof i === "object"); */
-  console.log(product);
 
   return (
     <form
@@ -136,7 +130,6 @@ export default function SearchBar(props) {
                 </div>
               );
             }
-            /* return AutocompleteItem(i); */
           })}
       </div>
     </form>
