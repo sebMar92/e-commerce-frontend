@@ -55,7 +55,7 @@ export default function CardHome({ id, image, title, price }) {
             </span>
             <br />
             <span className="inline-block text-3xl font-bold text-gray-900 mr-2 mb-2 dark:text-white">
-              {price}
+              US $ {price}
             </span>
           </div>
         </div>
