@@ -41,7 +41,6 @@ export default function SearchBar(props) {
         }
       }
       dispatch(getSearch(value));
-      dispatch(getProducts("?search=" + value));
     }
   };
 
