@@ -34,7 +34,9 @@ export default function DropDownCategories({ tittle, array }) {
         </div>
       </button>
       <div
-        className={`bg-secondary-100 flex flex-col rounded absolute ${isOpen && hidden} `}
+        className={`bg-secondary-100 flex flex-col rounded absolute ${
+          isOpen && hidden
+        } `}
       >
         {array.map((cat, i) => {
           return (
