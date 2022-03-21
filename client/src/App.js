@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Home from "./components/Home";
+import SearchProducts from "./components/SearchProducts";
 import ProductsByCategory from "./components/ProductsByCategory";
 import ProductDetails from "./components/ProductDetails";
 import PurchasePage from "./components/PurchasePage";
