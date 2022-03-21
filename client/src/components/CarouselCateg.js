@@ -263,8 +263,6 @@ export default function CarouselCateg() {
     ],
   };
 
-
-
   return (
     <div className="max-w-screen-lg m-auto mt-3 sm:mt-5">
       {randomCategories(arr).map((categ) => {
