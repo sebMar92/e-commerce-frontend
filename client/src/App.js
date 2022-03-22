@@ -12,17 +12,19 @@ import Historial from "./components/Historial";
 import Wishlist from "./components/Wishlist";
 import Cart from "./components/Cart";
 import AdminProfile from "./components/AdminProfile";
-import CreateEditProducts from "./components/CreateEditProducts";
+import CreateProducts from "./components/CreateProducts";
 import ListOfOrders from "./components/ListOfOrders";
 import OrderDetails from "./components/OrderDetails";
 import AdminAllProducts from "./components/AdminAllProducts";
 import AdminAllUsers from "./components/AdminAllUsers";
 import NewsletterEdit from "./components/NewsletterEdit";
 import ActivateDiscounts from "./components/ActivateDiscounts";
+import EditProducts from "./components/EditProducts";
 
 function App() {
   return (
     <>
+
       <div className="App">
         <Routes>
           <Route exact path="/" element={<Home />} />
@@ -35,10 +37,10 @@ function App() {
           <Route path="/wishlist/:idUser" element={<Wishlist />} />
           <Route path="/cart/:idUser" element={<Cart />} />
           <Route path="/admin/:idUser" element={<AdminProfile />} />
-          <Route
-            path="/admin/edit/:idProduct"
-            element={<CreateEditProducts />}
-          />
+          <Route path='/admin/create/Product'
+        element={<CreateProducts/>}/>
+         <Route path='/admin/edit/:idProduct'
+        element={<EditProducts/>}/>
           <Route path="/admin/orders" element={<ListOfOrders />} />
           <Route path="/admin/order/:idOrder" element={<OrderDetails />} />
           <Route path="/admin/products" element={<AdminAllProducts />} />
@@ -47,6 +49,7 @@ function App() {
           <Route path="/admin/discounts" element={<ActivateDiscounts />} />
         </Routes>
       </div>
+
     </>
   );
 }
