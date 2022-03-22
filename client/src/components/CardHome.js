@@ -5,35 +5,36 @@ import Cart from "./utils/cart-alt-solid-24.png";
 
 export default function CardHome({ id, image, title, price }) {
   return (
-    <Link to={`/product/${id}`} className="no-underline">
-      <div className="p-10">
-        <div className="max-w-sm rounded overflow-hidden shadow-lg">
-          <div className="flex justify-center">
-            <img className="h-36" src={image} alt="img" />
+    <div className=" shadow-md shadow-slate-300 hover:shadow-slate-500 rounded-lg scale-95 hover:scale-100">
+      <div className="max-w-sm rounded overflow-hidden shadow-lg h-full">
+        <Link to={`/product/${id}`} className="no-underline">
+          <div className="flex justify-center m-3">
+            <img className="h-36  rounded-lg" src={image} alt="img" />
           </div>
 
-          <div className="px-6 py-4">
-            <div className="font-bold text-xl mb-2"></div>
-            <p className="font-semibold tracking-tight h-36 text-gray-900 dark:text-white text-base">
+          <div className="m-1">
+            <div className="font-bold text-xl flex justify-start "></div>
+            <p className="font-semibold tracking-tight h-12 text-gray-900 dark:text-white text-base">
               {title}
             </p>
           </div>
-          <div className="px-6 pt-4 pb-2">
-            <span className="flex flex-wrap justify-around">
-              <Link to={"/wishlist/:idUser"}>
-                <img className="p-2 hover:w-10" src={Star} alt="img" />
-              </Link>
-              <Link to={"/cart/:idUser"} style={{ textDecoration: "inherit" }}>
-                <img className="p-2 hover:w-10" src={Cart} alt="img" />
-              </Link>
-            </span>
-            <br />
-            <span className="inline-block text-3xl font-bold text-gray-900 mr-2 mb-2 dark:text-white">
-              US $ {price} 
-            </span>
-          </div>
+        </Link>
+        <div className="pt-5">
+          <span className="flex flex-row justify-around">
+            {/* <Link to={"/wishlist/:idUser"} className="disable"> */}
+            <img className="p-2 hover:scale-125" src={Star} alt="img" />
+            {/*  </Link> */}
+            {/* <Link to={"/cart/:idUser"} style={{ textDecoration: "inherit" }}> */}
+            <img className="p-2 hover:scale-125" src={Cart} alt="img" />
+            {/*  </Link> */}
+          </span>
+          <br />
+          <span className="flex justify-center text-3xl font-bold text-gray-900 mr-2 mb-2 dark:text-white">
+            ${price}
+          </span>
         </div>
       </div>
-    </Link>
+
+    </div >
   );
 }

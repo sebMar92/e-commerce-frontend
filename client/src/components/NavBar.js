@@ -23,7 +23,7 @@ export default function NavBar() {
   }, []);
 
   return (
-    <div class="bg-primary-500 font-medium text-lg px-4 py-2">
+    <div className="bg-primary-500 font-medium text-lg px-4 py-2">
       <div className="flex flex-row justify-between">
         <div>
           <Link to="/" className="text-decoration-line: no-underline">
@@ -37,7 +37,7 @@ export default function NavBar() {
             </div>
           </Link>
         </div>
-        <NightModeButton />
+      {/*   <NightModeButton /> */}
         <div className="block lg:hidden">
           <button
             className="flex items-center px-3 py-2 rounded"
