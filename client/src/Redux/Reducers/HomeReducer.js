@@ -9,7 +9,8 @@ const initialState = {
   totalPages: 0,
   search: [],
   userInfo: [],
-  userTokens: []
+  userTokens: [],
+  userMail: []
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -38,7 +39,7 @@ export const HomeReducer = (state = initialState, action) => {
     case VALIDATE_MAIL:
       return {
         ...state,
-        userInfo: action.payload,
+        userMail: action.payload,
       };
       case LOGIN_USER:
       return {

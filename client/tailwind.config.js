@@ -12,6 +12,7 @@ module.exports = {
         xxl: "1800px",
       },
       colors: {
+        dark: "#34373c",
         primary: {
           100: "#FFE9CF",
           200: "#FFDAAF",
