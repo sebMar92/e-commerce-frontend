@@ -1,7 +1,8 @@
 import React from "react";
-import {Route, Routes} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import Home from "./components/Home";
+import SearchProducts from "./components/SearchProducts";
 import ProductsByCategory from "./components/ProductsByCategory";
 import ProductDetails from "./components/ProductDetails";
 import PurchasePage from "./components/PurchasePage";
@@ -20,51 +21,37 @@ import NewsletterEdit from "./components/NewsletterEdit";
 import ActivateDiscounts from "./components/ActivateDiscounts";
 import EditProducts from "./components/EditProducts";
 
-
 function App() {
   return (
     <>
-    <div className="App">
-      <Routes>
-        <Route exact path='/' element={<Home/>}/>
-        <Route path='/products/:idCategory'
-        element={<ProductsByCategory/>}/>
-        <Route path='/product/:idProduct'
-        element={<ProductDetails/>}/>
-        <Route path='/purchase/:idUser'
-        element={<PurchasePage/>}/>
-        <Route path='/user/:idUser'
-        element={<UserProfile/>}/>
-        <Route path='/login'
-        element={<Login/>}/>
-        <Route path='/historial/:idUser'
-        element={<Historial/>}/>
-        <Route path='/wishlist/:idUser'
-        element={<Wishlist/>}/>
-        <Route path='/cart/:idUser'
-        element={<Cart/>}/>
-        <Route path='/admin/:idUser'
-        element={<AdminProfile/>}/>
-        <Route path='/admin/create/Product'
+
+      <div className="App">
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/products" element={<ProductsByCategory />} />
+          <Route path="/product/:idProduct" element={<ProductDetails />} />
+          <Route path="/purchase/:idUser" element={<PurchasePage />} />
+          <Route path="/user/:idUser" element={<UserProfile />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/historial/:idUser" element={<Historial />} />
+          <Route path="/wishlist/:idUser" element={<Wishlist />} />
+          <Route path="/cart/:idUser" element={<Cart />} />
+          <Route path="/admin/:idUser" element={<AdminProfile />} />
+          <Route path='/admin/create/Product'
         element={<CreateProducts/>}/>
          <Route path='/admin/edit/:idProduct'
         element={<EditProducts/>}/>
-        <Route path='/admin/orders'
-        element={<ListOfOrders/>}/>
-        <Route path='/admin/order/:idOrder'
-        element={<OrderDetails/>}/>
-        <Route path='/admin/products'
-        element={<AdminAllProducts/>}/>
-        <Route path='/admin/users'
-        element={<AdminAllUsers/>}/>
-        <Route path='/admin/newsletter'
-        element={<NewsletterEdit/>}/>
-        <Route path='/admin/discounts'
-        element={<ActivateDiscounts/>}/>
-      </Routes>
-    </div>
+          <Route path="/admin/orders" element={<ListOfOrders />} />
+          <Route path="/admin/order/:idOrder" element={<OrderDetails />} />
+          <Route path="/admin/products" element={<AdminAllProducts />} />
+          <Route path="/admin/users" element={<AdminAllUsers />} />
+          <Route path="/admin/newsletter" element={<NewsletterEdit />} />
+          <Route path="/admin/discounts" element={<ActivateDiscounts />} />
+        </Routes>
+      </div>
+
     </>
-    );
+  );
 }
 
 export default App;
