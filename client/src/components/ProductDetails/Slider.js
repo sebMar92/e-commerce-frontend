@@ -27,13 +27,13 @@ function Slider({ images }) {
     }
 
   return (
-    <div className="2l:w-1/2 2xl:flex 2xl:flex-row-reverse 2xl:w-1/2">
+    <div className="">
         <div className='w-full h-[275px] flex justify-between p-2 lg:h-[400px] 2xl:self-center'>
-            <button className='w-auto h-fit self-center 2xl:hidden' onClick={prev}><AiOutlineLeft/></button>
+            <button className='w-auto h-fit self-center ' onClick={prev}><AiOutlineLeft/></button>
                 <img className='object-contain w-9/12 rounded lg:w-full lg:self-center lg:h-full' src={images && images[index].url} alt="" />
-            <button className='w-auto h-fit self-center 2xl:hidden' onClick={next}><AiOutlineRight/></button>
+            <button className='w-auto h-fit self-center ' onClick={next}><AiOutlineRight/></button>
         </div>
-        <div className='flex gap-2 p-2 2xl:flex-col'>
+        <div className='flex gap-2 p-2'>
             {
                 images && images.map(el => 
                     <button className='h-16 w-16 border-[1px] p-2 border-primary-300 rounded flex items-center justify-center active:border-[3px] focus:border-[3px]'>
