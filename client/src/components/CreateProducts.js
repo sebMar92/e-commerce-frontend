@@ -7,12 +7,13 @@ import ButtonBuy from "./commons/ButtonBuy";
 import check from "./utils/check-shield-regular-24.png";
 import Modelo from "./utils/modelo.jpg";
 import mas from "./utils/image-add-regular-24.png";
+import OpenFile from "../components/commons/OpenFile";
 
 export default function CreateProducts() {
   const dispatch = useDispatch();
   const allCategories = useSelector((e) => e.home.categories);
 
-  const[inputImages, setInputImages]= useState("")
+  const [inputImages, setInputImages] = useState("");
   const [errors, setErrors] = useState({});
   const [input, setInput] = useState({
     title: "",
@@ -23,7 +24,6 @@ export default function CreateProducts() {
     images: [],
     stock: "",
     categories: [],
-    
   });
   useEffect(() => {
     dispatch(getCategories());
@@ -57,7 +57,6 @@ export default function CreateProducts() {
   }
 
   function handelChange(e) {
-  
     setInput({
       ...input,
       [e.target.name]: e.target.value,
@@ -71,7 +70,6 @@ export default function CreateProducts() {
   }
 
   function handleSelectCategories(e) {
-   
     if (!input.categories.includes(e.target.value)) {
       setInput({
         ...input,
@@ -79,20 +77,16 @@ export default function CreateProducts() {
       });
     }
   }
-  function addImage(e){
-    console.log(e.target.value)
+  function addImage(e) {
+    console.log(e.target.value);
     setInput({
       ...input,
-      images:[...input.images, inputImages],
-      
-    })
+      images: [...input.images, inputImages],
+    });
     setInputImages("");
   }
 
-
-
   function handleDelete(e) {
-    
     e.preventDefault();
     setInput({
       ...input,
@@ -102,16 +96,12 @@ export default function CreateProducts() {
     });
   }
 
-
-  function handleDeleteImage(e){
+  function handleDeleteImage(e) {
     e.preventDefault();
-    
 
     setInput({
       ...input,
-      images: input.images.filter(
-        (name) => name !== e.target.name
-      ),
+      images: input.images.filter((name) => name !== e.target.name),
     });
   }
 
@@ -144,7 +134,8 @@ export default function CreateProducts() {
                   name="name"
                   value={input.name}
                   onChange={(e) => handelChange(e)}
-                /><strong>{errors.name}</strong>
+                />
+                <strong>{errors.name}</strong>
               </div>
 
               <div className=" justify-center p-2 ">
@@ -156,7 +147,8 @@ export default function CreateProducts() {
                   placeholder="$ 000.00"
                   value={input.price}
                   onChange={(e) => handelChange(e)}
-                /><strong>{errors.price}</strong>
+                />
+                <strong>{errors.price}</strong>
               </div>
 
               <div className=" justify-center p-2 ">
@@ -168,7 +160,8 @@ export default function CreateProducts() {
                   placeholder="$ 000.00"
                   value={input.shippingCost}
                   onChange={(e) => handelChange(e)}
-                /><strong>{errors.shippingCost}</strong>
+                />
+                <strong>{errors.shippingCost}</strong>
               </div>
 
               <div className=" justify-center p-2 ">
@@ -219,30 +212,53 @@ export default function CreateProducts() {
 
               <div className=" justify-center py-2 ">
                 <label>Images</label>
-                  <div className="flex">
-                <input
-                  className="rounded-md h-9 w-full hover:[bg-secundary-200] border-2 border-gray-300 bg-gray-50"
-                  type="text"
-                  placeholder="URL..."
-                  value={inputImages}
-                  onChange={e=> setInputImages(e.target.value)}
-                />
-                <img  onClick={(e) => addImage(e)} className="cursor-pointer"src={mas}/>
-              
+                <div className="flex">
+                  <input
+                    className="rounded-md h-9 w-full hover:[bg-secundary-200] border-2 border-gray-300 bg-gray-50"
+                    type="text"
+                    placeholder="URL..."
+                    value={inputImages}
+                    onChange={(e) => setInputImages(e.target.value)}
+                  />
+                  <img
+                    onClick={(e) => addImage(e)}
+                    className="cursor-pointer"
+                    src={mas}
+                  />
                 </div>
-              <div className="flex">
-                {input.images && input.images.map((name) => {
-                 
-                return (
-                  <div className="flex border-2 border-primary-500  rounded-lg bg-gray-50">
-                    <img className="w-10 h-10 m-0.5 " src={name} alt={name} />
-                    <button className="bg-primary-500 w-6 my-0.5  rounded-lg hover:bg-primary-400" name={name} onClick={(name) => handleDeleteImage(name)}>
-                      X
-                    </button>
-                  </div>
-                );
-              })}
-              </div>
+                <h1>Otra forma</h1>
+                <div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onchange={(e) => {
+                      OpenFile(e);
+                    }}
+                  />
+                  <br />
+                  <img id="output" style="height:100px; width:100px;"></img>
+                </div>
+                <div className="flex">
+                  {input.images &&
+                    input.images.map((name) => {
+                      return (
+                        <div className="flex border-2 border-primary-500  rounded-lg bg-gray-50">
+                          <img
+                            className="w-10 h-10 m-0.5 "
+                            src={name}
+                            alt={name}
+                          />
+                          <button
+                            className="bg-primary-500 w-6 my-0.5  rounded-lg hover:bg-primary-400"
+                            name={name}
+                            onClick={(name) => handleDeleteImage(name)}
+                          >
+                            X
+                          </button>
+                        </div>
+                      );
+                    })}
+                </div>
               </div>
             </div>
             <ButtonBuy
@@ -253,7 +269,15 @@ export default function CreateProducts() {
           </form>
         </div>
         <div className="justify-center items-center w-6/12 m-8 sm:hidden lg:flex z-10 hidden">
-          {input.images.length>0 ? <div><img src={input.images[0]} /></div> : <div><img src={Modelo}/></div> }
+          {input.images.length > 0 ? (
+            <div>
+              <img src={input.images[0]} />
+            </div>
+          ) : (
+            <div>
+              <img src={Modelo} />
+            </div>
+          )}
         </div>
       </div>
     </>
