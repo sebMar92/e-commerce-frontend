@@ -54,7 +54,7 @@ export default function SearchBar(props) {
         {categories &&
           categories.map((category) => {
             return (
-              <div className="text-black" key={category.name}>
+              <div className="text-black" key={category.id}>
                 <Link
                   to={`/products?categoryId=${category.id}&offset=1`}
                   className="text-decoration-line: no-underline"
@@ -79,7 +79,7 @@ export default function SearchBar(props) {
           products.products &&
           products.products.map((product) => {
             return (
-              <div key={product.title}>
+              <div key={product.id}>
                 <Link
                   to={`/product/${product.id}`}
                   className="text-decoration-line: no-underline"
