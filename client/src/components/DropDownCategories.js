@@ -3,14 +3,12 @@ import { useNavigate, createSearchParams } from "react-router-dom";
 
 export default function DropDownCategories({ tittle, array }) {
   const [isOpen, setIsOpen] = useState(true);
-  const hidden = "hidden";
   const navigate = useNavigate();
 
   return (
     <div className="group">
       <button
-        className="bg-primary-300 font-medium rounded-lg text-center text-sm w-11/12 px-2 py-2 "
-        onClick={() => setIsOpen(!isOpen)}
+        className="bg-primary-300 font-medium rounded-lg text-center text-sm w-11/12 px-2 py-2"
       >
         <div className="flex justify-between text-center">
           <div>

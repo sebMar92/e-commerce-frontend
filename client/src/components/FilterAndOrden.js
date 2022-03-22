@@ -136,7 +136,8 @@ export default function FilterAndOrderComponent() {
   }
 
   return (
-    <div className="sm:w-52 bg-secondary-100 rounded-xl m-2">
+    <div className="sm:w-52 bg-secondary-100 rounded-xl m-2 font-lora font-semibold">
+      <h1 className="flex justify-center py-2">Filters</h1>
       <div className="text-center">
         <h5>{idCategory}</h5>
       </div>

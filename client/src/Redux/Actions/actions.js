@@ -4,6 +4,9 @@ import {
   GET_CATEGORIES,
   GET_PRODUCT_BY_ID,
   GET_SEARCH,
+  POST_NEWUSER,
+  VALIDATE_MAIL,
+  LOGIN_USER
 } from "./types";
 
 // action para traer los productos
@@ -67,3 +70,34 @@ export function postProduct(product){
         return create;
     }
 }
+
+export function postNewUser(obj){
+  return async function(dispatch){
+      const user = await axios.post("http://localhost:3001/user", obj);
+      return dispatch({
+        type: POST_NEWUSER,
+        payload: user.data,
+      });
+  }
+}
+
+export function loginUser(val){
+  return async function(dispatch){
+      const login = await axios.post("http://localhost:3001/user/login", val);
+      return dispatch({
+        type: LOGIN_USER,
+        payload: login.data,
+      });
+  }
+}
+
+export function validateMail(mail){
+  return async function(dispatch){
+      const validate = await axios.post("http://localhost:3001/user/email", mail);
+      return dispatch({
+        type: VALIDATE_MAIL,
+        payload: validate.data,
+      });
+  }
+}
+
