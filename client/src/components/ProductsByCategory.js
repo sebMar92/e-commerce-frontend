@@ -30,7 +30,7 @@ export default function Products() {
             <div className='flex flex-col sm:flex-row'>
                 <FilterAndOrderComponent />
                 <div className='m-auto'>
-                    <h1 className='font-bold font-lora flex justify-center my-8 text-4xl bg-primary-400 p-1 rounded-xl'>{valueTitle}</h1>
+                    <h1 className='font-bold font-lora flex justify-center my-8 text-4xl bg-primary-400 p-1 rounded-xl'>{valueTitle? valueTitle.name: ""}</h1>
                     <div className='grid grid-cols-1 sm:grid-cols-2 sm:gap-10 sm:m-auto 2xl:grid-cols-2 2xl:gap-30'>
                         {allProducts && allProducts.map(item => {
                             return (

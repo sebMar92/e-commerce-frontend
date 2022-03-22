@@ -236,14 +236,14 @@ export default function FilterAndOrderComponent() {
                 <input
                   id="minimo"
                   type="number"
-                  placeholder="Minimo"
+                  placeholder="Min"
                   className="m-1 w-20 rounded-sm"
                   onChange={(e) => onChange(e)}
                 />
                 <input
                   id="maximo"
                   type="number"
-                  placeholder="Maximo"
+                  placeholder="Max"
                   className="m-1 w-20 rounded-sm"
                   onChange={(e) => onChange(e)}
                 />
