@@ -27,7 +27,6 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/products" element={<ProductsByCategory />} />
-          <Route path="/products/search" element={<SearchProducts />} />
           <Route path="/product/:idProduct" element={<ProductDetails />} />
           <Route path="/purchase/:idUser" element={<PurchasePage />} />
           <Route path="/user/:idUser" element={<UserProfile />} />

@@ -3,7 +3,6 @@ import NavBar from "./NavBar";
 import CarouselPromo from "./CarouselPromo";
 import CarouselCateg from "./CarouselCateg";
 import Footer from "./Footer/Footer";
-import CardHome from "./CardHome";
 
 export default function Home() {
   return (

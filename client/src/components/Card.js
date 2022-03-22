@@ -20,18 +20,18 @@ export default function Card({ image, name, price, shippingCost,path }) {
           </div>
           <div className="pl-3 items-center">
             <h3 className="text-xl font-bold">{name}</h3>
-            <br />
-            <p className="font-mono font-bold text-2xl">${price}</p>
-            <p className="font-light text-md">Shipping ${shippingCost}</p>
-            <br />
-            <br />
+              <br />
+                <p className="font-mono font-bold text-2xl">${price}</p>
+                <p className="font-light text-md">Shipping ${shippingCost}</p>
+              <br />
+              <br />
             <div className="flex justify-around">
-              <Link to={"/wishlist/:idUser"} style={{ textDecoration: "inherit" }}>
-                <img className="p-1 hover:p-0" src={Star} />
-              </Link>
-              <Link to={"/cart/:idUser"} style={{ textDecoration: "inherit" }}>
-                <img className="p-1 hover:p-0" src={Cart} />
-              </Link>
+                <Link to={"/wishlist/:idUser"} style={{ textDecoration: "inherit" }}>
+                  <img className="p-1 hover:p-0" src={Star} />
+                </Link>
+                <Link to={"/cart/:idUser"} style={{ textDecoration: "inherit" }}>
+                  <img className="p-1 hover:p-0" src={Cart} />
+                </Link>
             </div>
           </div>
         </div>
