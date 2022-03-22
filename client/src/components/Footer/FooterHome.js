@@ -1,7 +1,9 @@
 import React from "react";
 
 export default function FooterHome() {
-
+    function hanldeClickDeletData() {
+        document.getElementById("texto").value = ""
+    }
 
     return (
         <div>
@@ -13,9 +15,9 @@ export default function FooterHome() {
                 </div>
 
                 <div>
-                    <input type="text" placeholder="Example@gmail.com" className="border-solid border-black border-b-2 rounded-t-sm rounded-bl-sm"/>
+                    <input id="texto" type="text" placeholder="Example@gmail.com" className="border-solid border-black border-b-2 rounded-t-sm rounded-bl-sm" />
 
-                    <input type="submit" value="Suscribe" className="bg-black p-1 text-white text-sm border-b-black border-b-2 rounded-sm cursor-pointer active:translate-y-1"/>
+                    <input onClick={hanldeClickDeletData} type="submit" value="Suscribe" className="bg-black p-1 text-white text-sm border-b-black border-b-2 rounded-sm cursor-pointer active:translate-y-1" />
                 </div>
 
             </footer>

@@ -7,7 +7,7 @@ export default function DropDownCategories({ tittle, array }) {
   const navigate = useNavigate();
 
   return (
-    <div className="">
+    <div className="group">
       <button
         className="bg-primary-300 font-medium rounded-lg text-center text-sm w-11/12 px-2 py-2 "
         onClick={() => setIsOpen(!isOpen)}
@@ -26,17 +26,15 @@ export default function DropDownCategories({ tittle, array }) {
             aria-hidden="true"
           >
             <path
-              fill-rule="evenodd"
+              fillRule="evenodd"
               d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clip-rule="evenodd"
+              clipRule="evenodd"
             />
           </svg>
         </div>
       </button>
       <div
-        className={`bg-secondary-100 flex flex-col rounded absolute ${
-          isOpen && hidden
-        } `}
+        className={`bg-secondary-100 flex-col rounded absolute hidden group-hover:block `}
       >
         {array.map((cat, i) => {
           return (

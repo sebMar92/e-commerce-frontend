@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProducts, getCategories } from "../Redux/Actions/actions";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import CardHome from "./CardHome";
+import { Link } from "react-router-dom";
 
 export default function CarouselCateg() {
   const dispatch = useDispatch();
@@ -12,7 +13,7 @@ export default function CarouselCateg() {
   const allCategories = useSelector((state) => state.home.categories);
 
 
-  
+
   let arr = [];
   for (let i = 0; i < allCategories.length; i++) {
     arr.push({ id: i + 1, name: allCategories[i] });
@@ -41,7 +42,7 @@ export default function CarouselCateg() {
           }
         }
       }
-      if (b.length === 1){
+      if (b.length === 1) {
         var settings = {
           dots: true,
           infinite: false,
@@ -75,9 +76,9 @@ export default function CarouselCateg() {
               },
             },
           ],
-        };        
+        };
       }
-      if(b.length === 2){
+      if (b.length === 2) {
         var settings = {
           dots: true,
           infinite: false,
@@ -113,9 +114,9 @@ export default function CarouselCateg() {
               },
             },
           ],
-        };        
+        };
       }
-      if(b.length === 3){
+      if (b.length === 3) {
         var settings = {
           dots: true,
           infinite: false,
@@ -151,9 +152,9 @@ export default function CarouselCateg() {
               },
             },
           ],
-        };        
+        };
       }
-      if (b.length >= 4){
+      if (b.length >= 4) {
         var settings = {
           dots: true,
           infinite: true,
@@ -191,7 +192,7 @@ export default function CarouselCateg() {
               },
             },
           ],
-        }; 
+        };
       }
     }
     return b;
@@ -202,7 +203,7 @@ export default function CarouselCateg() {
     return (
       <div className="flex flex-start top-1/2 cursor-pointer">
         <button
-          className="absolute bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 cursor-pointer hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold top-1/2 cursor-pointer text-center  right-full"
+          className="border-2 border-solid border-primary-500 shadow-lg shadow-slate-400  mr-5 hidden lg:block absolute bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold top-1/2 cursor-pointer text-center  right-full"
           onClick={onClick}
         >
           <AiOutlineLeft />
@@ -213,9 +214,9 @@ export default function CarouselCateg() {
   function SampleNextArrow(props) {
     const { className, style, onClick } = props;
     return (
-      <div className="flex flex-start top-1/2 cursor-pointer"> 
+      <div className="flex flex-start top-1/2 cursor-pointer">
         <button
-          className="absolute bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 cursor-pointer hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold top-1/2 cursor-pointer text-center  left-full right-4/" 
+          className="border-2 border-solid border-primary-500 shadow-lg shadow-slate-400 ml-5 hidden lg:block absolute bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold top-1/2 cursor-pointer text-center  left-full right-4/"
           onClick={onClick}
         >
           <AiOutlineRight />
@@ -264,15 +265,20 @@ export default function CarouselCateg() {
   };
 
   return (
-    <div className="max-w-screen-lg m-auto mt-3 sm:mt-5">
+    <div  className="max-w-screen-lg m-auto mt-3 sm:mt-5 h-full">
       {randomCategories(arr).map((categ) => {
         return (
-          <div className="font-lora text-center text-xs sm:text-lg md:text-xl lg:text-2xl font-bold ">
-            <h1 className="my-16">{categ.name}</h1>
+          <div key={categ.id} className="m-20 mt-40 font-lora text-xs sm:text-lg md:text-xl lg:text-2xl font-bold">
+            <Link to={`/products?categoryId=${categ.id}`} className="no-underline text-slate-700   ">
+              <div className="text-center bg-primary-200 rounded-lg p-2 hover:bg-primary-400">
+                <h1>{categ.name} </h1>
+              </div>
+            </Link>
+
             <Slider {...settings}>
               {prod(allProducts, categ).map((product) => {
                 return (
-                  <div>
+                  <div key={product.id} className="p-2 h-full">
                     <CardHome
                       key={product.id}
                       id={product.id}
@@ -283,11 +289,11 @@ export default function CarouselCateg() {
                   </div>
                 );
               })}
-              </Slider>
-            </div>
+            </Slider>
+          </div>
         );
       })}
-    </div>
+    </div >
   );
 }
 <br />;
