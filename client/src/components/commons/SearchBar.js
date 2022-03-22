@@ -5,66 +5,38 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, createSearchParams } from "react-router-dom";
 import { getProducts, getSearch } from "../../Redux/Actions/actions";
 
-const hidden = "hidden";
-
 export default function SearchBar(props) {
   const [isOpen, setIsOpen] = useState(true); //controla que aparezca y desaparezca el autocomplete
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const prod = useSelector((state) => state.home.search.products);
-  const [cat, setCat] = useState(); //manejo las categorias que vayan coincidiendo
-  const allCategories = useSelector((state) => state.home.categories);
-  const [stt, setStt] = useState();
-  let arr = []; //creo un array para modificar las categorias y agregarles info
-  let c = []; //array para ir guardando las categorias que ya matchearon en el input
-  for (let i = 0; i < allCategories.length; i++) {
-    arr.push({
-      id: i + 1,
-      title: allCategories[i].toLowerCase(),
-      images: [
-        {
-          url: "https://www.warnborough.online/wp-content/uploads/2017/05/technology-785742_1920.jpg",
-        },
-      ],
-      price: "",
-      categ: true,
-    });
-  }
+  const products = useSelector((state) => state.home.search.products);
+  const categories = useSelector((state) => state.home.search.categories);
+  const [searchValue, setSearchValue] = useState("");
 
   const handleInputChange = (e) => {
     const { value } = e.target;
+    setSearchValue(value);
     if (value !== "") {
-      setStt(value);
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i].title.includes(value.toLowerCase())) {
-          setCat(arr[i]); //me guardo esa categoria
-        }
-      }
       dispatch(getSearch(value));
     }
   };
 
-  cat && c.push(cat); //voy agregando las categorias al arreglo
-  let category = c.pop(); //me quedo con la ultima que matcheó porque esta es la que realmente coincide con el valor actual del input
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate({
-      pathname: `/products?search=${stt}`,
-    });
+    if (searchValue !== "") {
+      navigate({
+        pathname: `/products?search=${searchValue}`,
+      });
+      setSearchValue("");
+    }
   };
 
-  prod && category && prod.unshift(category);
-  let product = [...new Set(prod)]; //para que no se repitan los objetos
-
   return (
-    <form
-      onClick={() => setIsOpen(!isOpen)}
-      onSubmit={handleSubmit}
-      className="flex justify-center font-lora"
-    >
+    <form onSubmit={handleSubmit} className="flex justify-center font-lora">
       <input
         onChange={(e) => handleInputChange(e)}
+        onFocus={() => setIsOpen(false)}
+        value={searchValue}
         className="bg-secondary-100 p-2 h-8 rounded-md w-10/12 md:w-4/12 focus:outline-none"
         placeholder="Type to search..."
       />
@@ -75,60 +47,59 @@ export default function SearchBar(props) {
         <AiOutlineSearch />
       </button>
       <div
-        className={`absolute mt-24 bg-secondary-100 m-2 overflow-hidden rounded-lg shadow-lg z-10 overflow-y-auto h-1/2 overflow-x-auto  ${
-          isOpen && hidden
+        className={`absolute mt-10 bg-secondary-100 m-2 overflow-hidden rounded-lg shadow-lg z-20 w-10/12 md:w-4/12 overflow-y-auto max-h-96 overflow-x-auto  ${
+          (isOpen || searchValue === "") && "hidden"
         }`}
       >
-        {product &&
-          product.map((i) => {
-            if (i.categ) {
-              return (
-                <div className="text-black">
-                  <Link
-                    to={`/products?categId=${i.id}`}
-                    className="text-decoration-line: no-underline"
-                  >
-                    <div className="hover:bg-primary-300 flex gap-4 p-4 justify-center">
-                      <img
-                        src={i.images[0].url}
-                        alt={i.title}
-                        className="w-12 h-12 object-contain"
-                      />
-                      <div className="self-center">
-                        <h1 className="text-sm flex-center font-bold text-black ">
-                          Category: {i.title}
-                        </h1>
-                      </div>
+        {categories &&
+          categories.map((category) => {
+            return (
+              <div className="text-black" key={category.name}>
+                <Link
+                  to={`/products?categoryId=${category.id}&offset=1`}
+                  className="text-decoration-line: no-underline"
+                >
+                  <div className="hover:bg-primary-300 flex gap-4 p-4">
+                    <img
+                      src={category.image}
+                      alt={category.name}
+                      className="w-12 h-12 object-contain"
+                    />
+                    <div className="self-center">
+                      <h1 className="text-sm font-bold text-black ">
+                        Category: {category.name}
+                      </h1>
                     </div>
-                  </Link>
-                </div>
-              );
-            } else {
-              return (
-                <div>
-                  <Link
-                    to={`/product/${i.id}`}
-                    className="text-decoration-line: no-underline"
-                  >
-                    <div className="hover:bg-primary-300 flex gap-4 p-4">
-                      <img
-                        src={i.images[0].url}
-                        alt={i.title}
-                        className="w-12 h-12 object-contain"
-                      />
-                      <div>
-                        <h3 className="text-sm font-semibold text-black">
-                          {i.title}
-                        </h3>
-                        <p className="text-xs text-gray-600">
-                          Price: US $ {i.price}
-                        </p>
-                      </div>
+                  </div>
+                </Link>
+              </div>
+            );
+          })}
+        {products &&
+          products.products &&
+          products.products.map((product) => {
+            return (
+              <div key={product.title}>
+                <Link
+                  to={`/product/${product.id}`}
+                  className="text-decoration-line: no-underline"
+                >
+                  <div className="hover:bg-primary-300 flex gap-4 p-4">
+                    <img
+                      src={product.images[0].url}
+                      alt={product.title}
+                      className="w-12 h-12 object-contain"
+                    />
+                    <div>
+                      <h3 className="text-sm font-semibold text-black">
+                        {product.title}
+                      </h3>
+                      <p className="text-xs text-gray-600">Price: US $ {product.price}</p>
                     </div>
-                  </Link>
-                </div>
-              );
-            }
+                  </div>
+                </Link>
+              </div>
+            );
           })}
       </div>
     </form>
