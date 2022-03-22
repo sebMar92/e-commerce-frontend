@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BsFillArrowRightCircleFill, BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
-import { useNavigate, createSearchParams, useLocation } from "react-router-dom";
+import { useNavigate, createSearchParams } from "react-router-dom";
 import useURLqueries from "./commons/useURLqueries";
 
 export default function Pagination() {
@@ -10,12 +10,38 @@ export default function Pagination() {
   const pages = useSelector((state) => state.home.totalPages);
   const pagesArray = pages && Array.from({ length: pages }, (value, i) => i + 1);
 
+useEffect(()=>{
+  const btnPrev = document.getElementById("btnPrev")
+  const btnNext = document.getElementById("btnNext")
+if(queryObjects.offset == 1){
+ btnPrev.classList.add("hidden")
+}else{
+  btnPrev.classList.remove("hidden")
+}
+if(queryObjects.offset == pages){
+  btnNext.classList.add("hidden")
+ }else{
+   btnNext.classList.remove("hidden")
+ }
+
+},[queryObjects])
+
+
   return (
     <div>
       <nav>
         <ul className="flex justify-evenly sm:justify-center m-2">
-          <div>
-            <button className="m-0.5 text-2xl text-secondary-200 border-2 rounded-full border-primary-400 hover:scale-125 hover:shadow hover:shadow-secondary-500">
+          <div id="btnPrev" className="">
+            <button
+              onClick={(e) => {
+                navigate({
+                  search: createSearchParams({
+                    ...queryObjects,
+                    offset: Number(queryObjects.offset) - 1
+                  }).toString(),
+                });
+              }}
+              className={"m-0.5 text-2xl text-secondary-200 border-2 rounded-full border-primary-400 hover:scale-125 hover:shadow hover:shadow-secondary-500 "}>
               <BsFillArrowLeftCircleFill />
             </button>
             <label className="flex flex-col sm:hidden">Previous</label>
@@ -48,8 +74,17 @@ export default function Pagination() {
                 </div>
               );
             })}
-          <div>
-            <button className="m-0.5 text-2xl text-secondary-200 border-2 rounded-full border-primary-400 hover:scale-125 hover:shadow hover:shadow-secondary-500">
+          <div id="btnNext" className="">
+            <button
+              onClick={(e) => {
+                navigate({
+                  search: createSearchParams({
+                    ...queryObjects,
+                    offset: Number(queryObjects.offset) + 1
+                  }).toString(),
+                });
+              }}
+              className="m-0.5 text-2xl text-secondary-200 border-2 rounded-full border-primary-400 hover:scale-125 hover:shadow hover:shadow-secondary-500"  >
               <BsFillArrowRightCircleFill />
             </button>
             <label className="flex flex-col sm:hidden">Next</label>
