@@ -44,9 +44,9 @@ export default function DropDownCategories({ tittle, array }) {
                   pathname: "/products",
                   search: createSearchParams({
                     categoryId: e.target.id,
+                    offset: "1"
                   }).toString(),
                 });
-                console.log(e.target.id);
               }}
               className="px-2 py-1 hover:bg-primary-300 rounded no-underline text-black cursor-pointer"
             >
