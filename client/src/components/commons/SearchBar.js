@@ -85,7 +85,7 @@ export default function SearchBar(props) {
               return (
                 <div className="text-black">
                   <Link
-                    to={`/products?categId=${i.id}`}
+                    to={`/products?categoryId=${i.id}&offset=1`}
                     className="text-decoration-line: no-underline"
                   >
                     <div className="hover:bg-primary-300 flex gap-4 p-4 justify-center">
