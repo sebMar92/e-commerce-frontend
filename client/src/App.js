@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Home from "./components/Home";
-import SearchProducts from "./components/SearchProducts";
 import ProductsByCategory from "./components/ProductsByCategory";
 import ProductDetails from "./components/ProductDetails/ProductDetails";
 import PurchasePage from "./components/PurchasePage";
@@ -24,7 +23,6 @@ import EditProducts from "./components/EditProducts";
 function App() {
   return (
     <>
-
       <div className="App">
         <Routes>
           <Route exact path="/" element={<Home />} />
@@ -37,10 +35,8 @@ function App() {
           <Route path="/wishlist/:idUser" element={<Wishlist />} />
           <Route path="/cart/:idUser" element={<Cart />} />
           <Route path="/admin/:idUser" element={<AdminProfile />} />
-          <Route path='/admin/create/Product'
-        element={<CreateProducts/>}/>
-         <Route path='/admin/edit/:idProduct'
-        element={<EditProducts/>}/>
+          <Route path="/admin/create/Product" element={<CreateProducts />} />
+          <Route path="/admin/edit/:idProduct" element={<EditProducts />} />
           <Route path="/admin/orders" element={<ListOfOrders />} />
           <Route path="/admin/order/:idOrder" element={<OrderDetails />} />
           <Route path="/admin/products" element={<AdminAllProducts />} />
@@ -49,7 +45,6 @@ function App() {
           <Route path="/admin/discounts" element={<ActivateDiscounts />} />
         </Routes>
       </div>
-
     </>
   );
 }

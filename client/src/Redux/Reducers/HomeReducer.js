@@ -16,6 +16,7 @@ const initialState = {
   userInfo: [],
   userTokens: [],
   userMail: [],
+  openFiles: "",
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
