@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { BsFillArrowRightCircleFill, BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useNavigate, createSearchParams } from "react-router-dom";
-import useURLqueries from "./commons/useURLqueries";
+import useURLqueries from "./hooks/useURLqueries";
 
 export default function Pagination() {
   const navigate = useNavigate();

@@ -10,7 +10,7 @@ export default function Login() {
     return (
         <>
         <NavBarEmpty />
-        <LoginComponent />
+        <EmailVerification />
         <Footer />
         </>
     );

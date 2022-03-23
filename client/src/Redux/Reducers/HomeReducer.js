@@ -7,11 +7,9 @@ import {
   LOGIN_USER,
 } from "../Actions/types";
 
-//Reducer de prueba, no hace nada
-
 const initialState = {
-  products: [], //estado con los productos como objetos
-  categories: [], //estado con las categorias como strings
+  products: [], 
+  categories: [], 
   currentPage: 0,
   totalPages: 0,
   search: {},
