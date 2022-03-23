@@ -7,8 +7,7 @@ import Pagination from './Pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories, getProducts } from '../Redux/Actions/actions';
 import { useLocation } from 'react-router-dom';
-
-import useURLqueries from "./commons/useURLqueries";
+import useURLqueries from "./hooks/useURLqueries";
 
 export default function Products() {
     const queryObjects = useURLqueries();
