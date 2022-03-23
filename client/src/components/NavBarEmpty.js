@@ -27,7 +27,7 @@ export default function NavBarEmpty(){
   return (
     <div className="bg-primary-500 font-medium text-lg px-4 py-2">
     <div className="flex flex-row justify-between">
-      <div>
+      <div className="select-none">
         <Link to="/">
           <div className="flex space-x-2 no-underline">
             <img
@@ -41,7 +41,7 @@ export default function NavBarEmpty(){
           </div>
         </Link>
       </div>
-      <motion.div layout transition={spring} onClick={isOn} onClick={toggleSwitch} className={`bg-primary-700 font-medium rounded-lg text-sm w-20 px-2 py-2 flex cursor-pointer ${isOn && "justify-end"}`}>
+      <motion.div layout transition={spring} onClick={isOn} onClick={toggleSwitch} className={`bg-primary-700 font-medium rounded-lg text-sm w-20 px-2 py-2 flex cursor-pointer select-none ${isOn && "justify-end"}`}>
           {isOn ? "🌙" : "🌞"}
     </motion.div>
     </div>
