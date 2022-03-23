@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FiArrowRightCircle } from "react-icons/fi";
 import { MdOutlineArrowDropDownCircle } from "react-icons/md";
 import { useNavigate, useParams, createSearchParams } from "react-router-dom";
-import useURLqueries from "./commons/useURLqueries";
+import useURLqueries from "./hooks/useURLqueries";
 
 export default function FilterAndOrderComponent() {
   const { idCategory } = useParams();
