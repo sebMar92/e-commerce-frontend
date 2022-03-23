@@ -62,7 +62,7 @@ export default function LoginComponent() {
                 <form className="flex" onSubmit={handleSubmit(onSubmitMail)}>
                     <input className="bg-secondary-100 h-12 my-2 p-1 rounded-md md:w-5/6 md:m-auto md:mb-2" type="email" placeholder="Email" {...register2("email",{required: true })} />
                     {errors.example && <span className="m-auto">This field is required</span>}
-                    <button type="submit" className="text-2xl text-secondary-200">></button>
+                    <button type="submit" className="text-2xl text-secondary-200"></button>
                 </form>
                 </div>
             }
