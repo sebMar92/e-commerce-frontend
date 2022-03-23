@@ -7,12 +7,13 @@ import ButtonBuy from "./commons/ButtonBuy";
 import check from "./utils/check-shield-regular-24.png";
 import Modelo from "./utils/modelo.jpg";
 import mas from "./utils/image-add-regular-24.png";
+import Slider from "./ProductDetails/Slider";
 
 export default function CreateProducts() {
   const dispatch = useDispatch();
   const allCategories = useSelector((e) => e.home.categories);
-
-  const[inputImages, setInputImages]= useState("")
+  const [inputImages, setInputImages] = useState("");
+  const [upImage, setUpImage] = useState("");
   const [errors, setErrors] = useState({});
   const [input, setInput] = useState({
     title: "",
@@ -23,7 +24,6 @@ export default function CreateProducts() {
     images: [],
     stock: "",
     categories: [],
-    
   });
   useEffect(() => {
     dispatch(getCategories());
@@ -31,17 +31,7 @@ export default function CreateProducts() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    let crear = {
-      title: input.title,
-      name: input.name,
-      price: input.price,
-      shippingCost: input.shippingCost,
-      description: input.description,
-      images: input.images.join(", "),
-      stock: input.stock,
-      categories: input.categories.join(", "),
-    };
-    dispatch(postProduct(crear));
+    dispatch(postProduct(input));
     setInput({
       title: "",
       name: "",
@@ -52,12 +42,11 @@ export default function CreateProducts() {
       stock: "",
       categories: [],
     });
-    console.log(crear);
+    console.log(input);
     alert("Product Create!!");
   }
 
   function handelChange(e) {
-  
     setInput({
       ...input,
       [e.target.name]: e.target.value,
@@ -71,7 +60,6 @@ export default function CreateProducts() {
   }
 
   function handleSelectCategories(e) {
-   
     if (!input.categories.includes(e.target.value)) {
       setInput({
         ...input,
@@ -79,20 +67,27 @@ export default function CreateProducts() {
       });
     }
   }
-  function addImage(e){
-    console.log(e.target.value)
+  console.log(upImage);
+  if (upImage !== "") {
     setInput({
       ...input,
-      images:[...input.images, inputImages],
-      
-    })
-    setInputImages("");
+      images: [...input.images, upImage],
+    });
+    setUpImage("");
   }
 
+  function addImage(e) {
+    console.log(e.target.value);
 
+    setInput({
+      ...input,
+      images: [...input.images, inputImages],
+    });
+    setInputImages("");
+  }
+  console.log(input.images);
 
   function handleDelete(e) {
-    
     e.preventDefault();
     setInput({
       ...input,
@@ -102,158 +97,209 @@ export default function CreateProducts() {
     });
   }
 
-
-  function handleDeleteImage(e){
+  function handleDeleteImage(e) {
     e.preventDefault();
-    
-
     setInput({
       ...input,
-      images: input.images.filter(
-        (name) => name !== e.target.name
-      ),
+      images: input.images.flat().filter((name) => name !== e.target.name),
     });
   }
+
+  const readURL = (file) => {
+    return new Promise((res, rej) => {
+      const reader = new FileReader();
+      reader.onload = (e) => res(e.target.result);
+      reader.onerror = (e) => rej(e);
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const preview = async (event) => {
+    let arr = [];
+    const file = event.target.files;
+    for (let i = 0; i < file.length; i++) {
+      const url = await readURL(file[i]);
+      arr.push(url);
+    }
+    setUpImage(arr);
+  };
 
   return (
     <>
       <NavBar />
       <div className="flex justify-center">
-        <div className="flex bg-gray-50  min-w-min max-w-sm m-2 rounded-md justify-center p-8">
-          <form>
-            <h2 className="justify-center">Create Product</h2>
-            <div>
-              <div className=" justify-center p-2 ">
-                <label>Title</label>
-                <br />
-                <input
-                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
-                  type="text"
-                  name="title"
-                  value={input.title}
-                  onChange={(e) => handelChange(e)}
-                />
-                <strong>{errors.title}</strong>
+        <div className="flex justify-around p-8">
+          <div className="flex bg-gray-50  min-w-min max-w-sm m-2 rounded-md justify-center p-8">
+            <form
+              onSubmit={(e) => {
+                handleSubmit(e);
+              }}
+            >
+              <h2 className="justify-center">Create Product</h2>
+              <div>
+                <div className=" justify-center p-2 ">
+                  <label>Title</label>
+                  <br />
+                  <input
+                    className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
+                    type="text"
+                    name="title"
+                    value={input.title}
+                    onChange={(e) => handelChange(e)}
+                  />
+                  <strong>{errors.title}</strong>
+                </div>
+
+                <div className=" justify-center p-2 ">
+                  <label>Name</label>
+                  <input
+                    className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
+                    type="text"
+                    name="name"
+                    value={input.name}
+                    onChange={(e) => handelChange(e)}
+                  />
+                  <strong>{errors.name}</strong>
+                </div>
+
+                <div className=" justify-center p-2 ">
+                  <label>Price </label>
+                  <input
+                    className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
+                    type="text"
+                    name="price"
+                    placeholder="$ 000.00"
+                    value={input.price}
+                    onChange={(e) => handelChange(e)}
+                  />
+                  <strong>{errors.price}</strong>
+                </div>
+
+                <div className=" justify-center p-2 ">
+                  <label>Shipping Cost</label>
+                  <input
+                    className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
+                    type="text"
+                    name="shippingCost"
+                    placeholder="$ 000.00"
+                    value={input.shippingCost}
+                    onChange={(e) => handelChange(e)}
+                  />
+                  <strong>{errors.shippingCost}</strong>
+                </div>
+
+                <div className=" justify-center p-2 ">
+                  <label>Description</label>
+                  <textarea
+                    className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
+                    type="text"
+                    name="description"
+                    overflow="auto"
+                    value={input.description}
+                    onChange={(e) => handelChange(e)}
+                  />
+                  <strong>{errors.description}</strong>
+                </div>
+
+                <div className=" justify-center p-2 ">
+                  <label>Stock</label>
+                  <input
+                    className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
+                    type="number"
+                    name="stock"
+                    value={input.stock}
+                    onChange={(e) => handelChange(e)}
+                  />
+                </div>
               </div>
 
               <div className=" justify-center p-2 ">
-                <label>Name</label>
-                <input
+                <label>Categories</label>
+                <select
                   className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
-                  type="text"
-                  name="name"
-                  value={input.name}
-                  onChange={(e) => handelChange(e)}
-                /><strong>{errors.name}</strong>
+                  onChange={(e) => handleSelectCategories(e)}
+                >
+                  <option>Select</option>
+                  {allCategories &&
+                    allCategories.map((e) => (
+                      <option key={e.id}>{e.name}</option>
+                    ))}
+                </select>
+                {input.categories.map((name) => {
+                  return (
+                    <div className="flex w-full hover:bg-secondary-100 bg-gray-50">
+                      <img src={check} alt="check" />
+                      <button onClick={(name) => handleDelete(name)}>
+                        {name}
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
-
-              <div className=" justify-center p-2 ">
-                <label>Price </label>
-                <input
-                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
-                  type="text"
-                  name="price"
-                  placeholder="$ 000.00"
-                  value={input.price}
-                  onChange={(e) => handelChange(e)}
-                /><strong>{errors.price}</strong>
-              </div>
-
-              <div className=" justify-center p-2 ">
-                <label>Shipping Cost</label>
-                <input
-                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
-                  type="text"
-                  name="shippingCost"
-                  placeholder="$ 000.00"
-                  value={input.shippingCost}
-                  onChange={(e) => handelChange(e)}
-                /><strong>{errors.shippingCost}</strong>
-              </div>
-
-              <div className=" justify-center p-2 ">
-                <label>Description</label>
-                <textarea
-                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
-                  type="text"
-                  name="description"
-                  overflow="auto"
-                  value={input.description}
-                  onChange={(e) => handelChange(e)}
-                />
-                <strong>{errors.description}</strong>
-              </div>
-
-              <div className=" justify-center p-2 ">
-                <label>Stock</label>
-                <input
-                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
-                  type="number"
-                  name="stock"
-                  value={input.stock}
-                  onChange={(e) => handelChange(e)}
-                />
-              </div>
-            </div>
-
-            <div className=" justify-center p-2 ">
-              <label>Categories</label>
-              <select
-                className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
-                onChange={(e) => handleSelectCategories(e)}
-              >
-                <option>Select</option>
-                {allCategories &&
-                  allCategories.map((e) => <option key={e}>{e}</option>)}
-              </select>
-              {input.categories.map((name) => {
-                return (
-                  <div className="flex w-full hover:bg-secondary-100 bg-gray-50">
-                    <img src={check} alt="check" />
-                    <button onClick={(name) => handleDelete(name)}>
-                      {name}
-                    </button>
-                  </div>
-                );
-              })}
-
               <div className=" justify-center py-2 ">
                 <label>Images</label>
-                  <div className="flex">
-                <input
-                  className="rounded-md h-9 w-full hover:[bg-secundary-200] border-2 border-gray-300 bg-gray-50"
-                  type="text"
-                  placeholder="URL..."
-                  value={inputImages}
-                  onChange={e=> setInputImages(e.target.value)}
-                />
-                <img  onClick={(e) => addImage(e)} className="cursor-pointer"src={mas}/>
-              
+                <div className="flex">
+                  <input
+                    className="rounded-md h-9 w-full hover:[bg-secundary-200] border-2 border-gray-300 bg-gray-50"
+                    type="text"
+                    placeholder="URL..."
+                    value={inputImages}
+                    onChange={(e) => setInputImages(e.target.value)}
+                  />
+                  <img
+                    className="cursor-pointer"
+                    onClick={(e) => addImage(e)}
+                    src={mas}
+                    alt=""
+                  />
                 </div>
-              <div className="flex">
-                {input.images && input.images.map((name) => {
-                 
-                return (
-                  <div className="flex border-2 border-primary-500  rounded-lg bg-gray-50">
-                    <img className="w-10 h-10 m-0.5 " src={name} alt={name} />
-                    <button className="bg-primary-500 w-6 my-0.5  rounded-lg hover:bg-primary-400" name={name} onClick={(name) => handleDeleteImage(name)}>
-                      X
-                    </button>
-                  </div>
-                );
-              })}
+                <div>
+                  <input
+                    type="file"
+                    onChange={(e) => {
+                      preview(e);
+                    }}
+                    multiple
+                  />
+                </div>
+                <div className="flex">
+                  {input.images &&
+                    input.images.flat().map((name) => {
+                      return (
+                        <div className="flex border-2 border-primary-500  rounded-lg bg-gray-50">
+                          <img
+                            className="w-10 h-10 m-0.5 "
+                            src={name}
+                            alt={name}
+                          />
+                          <button
+                            className="bg-primary-500 w-6 my-0.5  rounded-lg hover:bg-primary-400"
+                            name={name}
+                            onClick={(name) => handleDeleteImage(name)}
+                          >
+                            X
+                          </button>
+                        </div>
+                      );
+                    })}
+                </div>
               </div>
+              <ButtonBuy
+                text="Create Product"
+                type="submit"
+                /* onClick={(e) => handleSubmit(e)} */
+              ></ButtonBuy>
+            </form>
+          </div>
+          <div className=" justify-center items-center w-6/12 m-8 sm:hidden lg:flex z-10 hidden">
+            {input.images.length > 0 ? (
+              <Slider images={input.images.flat()} />
+            ) : (
+              <div>
+                <img src={Modelo} alt="" />
               </div>
-            </div>
-            <ButtonBuy
-              text="Create Product"
-              type="submit"
-              onClick={(e) => handleSubmit(e)}
-            ></ButtonBuy>
-          </form>
-        </div>
-        <div className="justify-center items-center w-6/12 m-8 sm:hidden lg:flex z-10 hidden">
-          {input.images.length>0 ? <div><img src={input.images[0]} /></div> : <div><img src={Modelo}/></div> }
+            )}
+          </div>
         </div>
       </div>
     </>
