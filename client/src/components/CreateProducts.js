@@ -30,18 +30,12 @@ export default function CreateProducts() {
   }, [dispatch]);
 
   function handleSubmit(e) {
+    console.log("entro");
     e.preventDefault();
-    let crear = {
-      title: input.title,
-      name: input.name,
-      price: input.price,
-      shippingCost: input.shippingCost,
-      description: input.description,
-      images: input.images.join(", "),
-      stock: input.stock,
-      categories: input.categories.join(", "),
-    };
-    dispatch(postProduct(crear));
+   
+   
+   
+    dispatch(postProduct(input));
     setInput({
       title: "",
       name: "",
@@ -52,7 +46,7 @@ export default function CreateProducts() {
       stock: "",
       categories: [],
     });
-    console.log(crear);
+  
     alert("Product Create!!");
   }
 
@@ -120,7 +114,7 @@ export default function CreateProducts() {
       <NavBar />
       <div className="flex justify-center">
         <div className="flex bg-gray-50  min-w-min max-w-sm m-2 rounded-md justify-center p-8">
-          <form>
+          <form onSubmit={(e) => handleSubmit(e)}>
             <h2 className="justify-center">Create Product</h2>
             <div>
               <div className=" justify-center p-2 ">
@@ -204,7 +198,7 @@ export default function CreateProducts() {
               >
                 <option>Select</option>
                 {allCategories &&
-                  allCategories.map((e) => <option key={e}>{e}</option>)}
+                  allCategories.map((e) => <option key={e.id}>{e.name}</option>)}
               </select>
               {input.categories.map((name) => {
                 return (
@@ -230,6 +224,7 @@ export default function CreateProducts() {
                 <img  onClick={(e) => addImage(e)} className="cursor-pointer"src={mas}/>
               
                 </div>
+               
               <div className="flex">
                 {input.images && input.images.map((name) => {
                  

@@ -68,8 +68,9 @@ export function getSearch(query) {
 }
 
 export function postProduct(product) {
+  console.log(product)
   return async function () {
-    const create = await axios.post("http://localhost:3001/admin/products", product);
+    const create = await axios.post("http://localhost:3001/products", product);
     return create;
   };
 }
