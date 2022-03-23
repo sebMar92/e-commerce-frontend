@@ -6,7 +6,6 @@ import {useSelector,useDispatch} from 'react-redux'
 import { loginUser, postNewUser,validateMail } from "../Redux/Actions/actions"
 import LoggedModal from "./modals/LoggedModal"
 import EmailVerification from "./EmailVerification"
-import useLocalStorage from './hooks/useLocalStorage'
 
 export default function LoginComponent(boolean) {
     const message = useSelector(state => state.home.userTokens)
