@@ -1,5 +1,5 @@
 import React from "react";
-import Slider from "react-slick"
+import Slider from "react-slick";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts, getCategories } from "../Redux/Actions/actions";
@@ -12,11 +12,9 @@ export default function CarouselCateg() {
   const allProducts = useSelector((state) => state.home.products);
   const allCategories = useSelector((state) => state.home.categories);
 
-
-
   let arr = [];
   for (let i = 0; i < allCategories.length; i++) {
-    arr.push({ id: i + 1, name: allCategories[i] });
+    arr.push({ id: i + 1, name: allCategories[i].name });
   }
 
   useEffect(() => {
@@ -26,9 +24,7 @@ export default function CarouselCateg() {
 
   function randomCategories(array) {
     var categories = [];
-    categories = [...array]
-      .sort(() => (Math.random() > 0.5 ? 1 : -1))
-      .slice(0, 3);
+    categories = [...array].sort(() => (Math.random() > 0.5 ? 1 : -1)).slice(0, 3);
     return categories;
   }
 
@@ -265,11 +261,17 @@ export default function CarouselCateg() {
   };
 
   return (
-    <div  className="max-w-screen-lg m-auto mt-3 sm:mt-5 h-full">
+    <div className="max-w-screen-lg m-auto mt-3 sm:mt-5 h-full">
       {randomCategories(arr).map((categ) => {
         return (
-          <div key={categ.id} className="m-20 mt-40 font-lora text-xs sm:text-lg md:text-xl lg:text-2xl font-bold">
-            <Link to={`/products?categoryId=${categ.id}`} className="no-underline text-slate-700   ">
+          <div
+            key={categ.id}
+            className="m-20 mt-40 font-lora text-xs sm:text-lg md:text-xl lg:text-2xl font-bold"
+          >
+            <Link
+              to={`/products?categoryId=${categ.id}`}
+              className="no-underline text-slate-700   "
+            >
               <div className="text-center bg-primary-200 rounded-lg p-2 hover:bg-primary-400">
                 <h1>{categ.name} </h1>
               </div>
@@ -293,7 +295,7 @@ export default function CarouselCateg() {
           </div>
         );
       })}
-    </div >
+    </div>
   );
 }
 <br />;

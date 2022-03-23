@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
-
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories, postProduct } from "../Redux/Actions/actions";
 import { validation } from "./validation";
-import ButtonCreate from "./commons/ButtonCreate";
 import ButtonBuy from "./commons/ButtonBuy";
 import check from "./utils/check-shield-regular-24.png";
 import Modelo from "./utils/modelo.jpg";
 import mas from "./utils/image-add-regular-24.png";
 
-export default function CreateEditProducts() {
+export default function CreateProducts() {
   const dispatch = useDispatch();
   const allCategories = useSelector((e) => e.home.categories);
 
+  const[inputImages, setInputImages]= useState("")
   const [errors, setErrors] = useState({});
   const [input, setInput] = useState({
     title: "",
@@ -24,6 +23,7 @@ export default function CreateEditProducts() {
     images: [],
     stock: "",
     categories: [],
+    
   });
   useEffect(() => {
     dispatch(getCategories());
@@ -37,7 +37,7 @@ export default function CreateEditProducts() {
       price: input.price,
       shippingCost: input.shippingCost,
       description: input.description,
-      images: input.images,
+      images: input.images.join(", "),
       stock: input.stock,
       categories: input.categories.join(", "),
     };
@@ -57,7 +57,7 @@ export default function CreateEditProducts() {
   }
 
   function handelChange(e) {
-   
+  
     setInput({
       ...input,
       [e.target.name]: e.target.value,
@@ -71,7 +71,7 @@ export default function CreateEditProducts() {
   }
 
   function handleSelectCategories(e) {
-    console.log(e.target.value)
+   
     if (!input.categories.includes(e.target.value)) {
       setInput({
         ...input,
@@ -83,17 +83,34 @@ export default function CreateEditProducts() {
     console.log(e.target.value)
     setInput({
       ...input,
-      images:[...input.images, e.target.value]
+      images:[...input.images, inputImages],
+      
     })
+    setInputImages("");
   }
 
+
+
   function handleDelete(e) {
-    console.log(e.target.innerText);
+    
     e.preventDefault();
     setInput({
       ...input,
       categories: input.categories.filter(
         (name) => name !== e.target.innerText
+      ),
+    });
+  }
+
+
+  function handleDeleteImage(e){
+    e.preventDefault();
+    
+
+    setInput({
+      ...input,
+      images: input.images.filter(
+        (name) => name !== e.target.name
       ),
     });
   }
@@ -127,7 +144,7 @@ export default function CreateEditProducts() {
                   name="name"
                   value={input.name}
                   onChange={(e) => handelChange(e)}
-                />
+                /><strong>{errors.name}</strong>
               </div>
 
               <div className=" justify-center p-2 ">
@@ -139,7 +156,7 @@ export default function CreateEditProducts() {
                   placeholder="$ 000.00"
                   value={input.price}
                   onChange={(e) => handelChange(e)}
-                />
+                /><strong>{errors.price}</strong>
               </div>
 
               <div className=" justify-center p-2 ">
@@ -151,7 +168,7 @@ export default function CreateEditProducts() {
                   placeholder="$ 000.00"
                   value={input.shippingCost}
                   onChange={(e) => handelChange(e)}
-                />
+                /><strong>{errors.shippingCost}</strong>
               </div>
 
               <div className=" justify-center p-2 ">
@@ -164,6 +181,7 @@ export default function CreateEditProducts() {
                   value={input.description}
                   onChange={(e) => handelChange(e)}
                 />
+                <strong>{errors.description}</strong>
               </div>
 
               <div className=" justify-center p-2 ">
@@ -205,13 +223,26 @@ export default function CreateEditProducts() {
                 <input
                   className="rounded-md h-9 w-full hover:[bg-secundary-200] border-2 border-gray-300 bg-gray-50"
                   type="text"
-                  name="images"
-                  value={input.images}
-                  onChange={(e) => handelChange(e)}          
+                  placeholder="URL..."
+                  value={inputImages}
+                  onChange={e=> setInputImages(e.target.value)}
                 />
-                <img key="images" value={input.images} onClick={(e) => addImage(e)} className="cursor-pointer"src={mas}/>
+                <img  onClick={(e) => addImage(e)} className="cursor-pointer"src={mas}/>
               
                 </div>
+              <div className="flex">
+                {input.images && input.images.map((name) => {
+                 
+                return (
+                  <div className="flex border-2 border-primary-500  rounded-lg bg-gray-50">
+                    <img className="w-10 h-10 m-0.5 " src={name} alt={name} />
+                    <button className="bg-primary-500 w-6 my-0.5  rounded-lg hover:bg-primary-400" name={name} onClick={(name) => handleDeleteImage(name)}>
+                      X
+                    </button>
+                  </div>
+                );
+              })}
+              </div>
               </div>
             </div>
             <ButtonBuy
@@ -221,7 +252,9 @@ export default function CreateEditProducts() {
             ></ButtonBuy>
           </form>
         </div>
-        <div></div>
+        <div className="justify-center items-center w-6/12 m-8 sm:hidden lg:flex z-10 hidden">
+          {input.images.length>0 ? <div><img src={input.images[0]} /></div> : <div><img src={Modelo}/></div> }
+        </div>
       </div>
     </>
   );

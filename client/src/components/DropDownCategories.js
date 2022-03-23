@@ -2,14 +2,11 @@ import React, { useState } from "react";
 import { useNavigate, createSearchParams } from "react-router-dom";
 
 export default function DropDownCategories({ tittle, array }) {
-  const [isOpen, setIsOpen] = useState(true);
   const navigate = useNavigate();
 
   return (
     <div className="group">
-      <button
-        className="bg-primary-300 font-medium rounded-lg text-center text-sm w-11/12 px-2 py-2"
-      >
+      <button className="bg-primary-300 font-medium rounded-lg text-center text-sm w-11/12 px-2 py-2">
         <div className="flex justify-between text-center">
           <div>
             <h4></h4>
@@ -34,23 +31,23 @@ export default function DropDownCategories({ tittle, array }) {
       <div
         className={`bg-secondary-100 flex-col rounded absolute hidden group-hover:block `}
       >
-        {array.map((cat, i) => {
+        {array.map((cat) => {
           return (
             <div
-              key={cat}
-              id={i + 1}
+              key={cat.id}
+              id={cat.id}
               onClick={(e) => {
                 navigate({
                   pathname: "/products",
                   search: createSearchParams({
                     categoryId: e.target.id,
+                    offset: "1"
                   }).toString(),
                 });
-                console.log(e.target.id);
               }}
               className="px-2 py-1 hover:bg-primary-300 rounded no-underline text-black cursor-pointer"
             >
-              {cat}
+              {cat.name}
             </div>
           );
         })}

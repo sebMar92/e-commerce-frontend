@@ -28,11 +28,6 @@ export default function FilterAndOrderComponent() {
   const queryObjects = useURLqueries();
   const navigate = useNavigate();
 
-  function handleClickPrice(e) {
-    e.preventDefault();
-    document.getElementById("minimo").value = "";
-    document.getElementById("maximo").value = "";
-  }
   function onChange(e) {
     e.preventDefault();
     if (e.target.id === "minimo") {
@@ -203,7 +198,7 @@ export default function FilterAndOrderComponent() {
           <ul className="w-full">
             <label className="m-1">Price:</label>
 
-            <li>
+            <li className="hidden">
               <div className=" flex justify-between items-center bg-gray-200 rounded-md">
                 <label className="m-1">Less than $5000</label>
                 <div className="m-1 bg-primary-600 h-4 w-4 rounded-full flex items-center justify-center ">
@@ -218,7 +213,7 @@ export default function FilterAndOrderComponent() {
               </div>
             </li>
 
-            <li>
+            <li className="hidden">
               <div className=" flex justify-between items-center bg-gray-200 rounded-md">
                 <label className="m-1">More than $5000</label>
                 <div className="m-1 bg-primary-600 h-4 w-4 rounded-full flex items-center justify-center ">
@@ -241,14 +236,14 @@ export default function FilterAndOrderComponent() {
                 <input
                   id="minimo"
                   type="number"
-                  placeholder="Minimo"
+                  placeholder="Min"
                   className="m-1 w-20 rounded-sm"
                   onChange={(e) => onChange(e)}
                 />
                 <input
                   id="maximo"
                   type="number"
-                  placeholder="Maximo"
+                  placeholder="Max"
                   className="m-1 w-20 rounded-sm"
                   onChange={(e) => onChange(e)}
                 />
@@ -256,7 +251,7 @@ export default function FilterAndOrderComponent() {
               </form>
               <FiArrowRightCircle
                 className=" m-auto w-20 h-7 rounded-sm cursor-pointer"
-                onClick={(e) => handleClickPrice(e)}
+                onClick={(e) => handleSubmit(e)}
               />
             </li>
           </ul>
