@@ -37,9 +37,9 @@ function App() {
           <Route path="/wishlist/:idUser" element={<Wishlist />} />
           <Route path="/cart/:idUser" element={<Cart />} />
           <Route path="/admin/:idUser" element={<AdminProfile />} />
-          <Route path='/admin/create/Product'
+          <Route path='/admin/create'
         element={<CreateProducts/>}/>
-         <Route path='/admin/edit/:idProduct'
+         <Route path='/admin/edit'
         element={<EditProducts/>}/>
           <Route path="/admin/orders" element={<ListOfOrders />} />
           <Route path="/admin/order/:idOrder" element={<OrderDetails />} />
