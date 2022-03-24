@@ -28,12 +28,12 @@ export default function  NavbarAdmin({name, idUser}){
             <p className="font-semibold tracking-tight h-8 text-gray-900 dark:text-white text-base">List of products</p>
           </div>
         </Link>
-        <Link to={`/admin/create`} className="no-underline">
+        <Link to={`/admin/create/Product`} className="no-underline">
           <div className='m-0.5 bg-primary-300 text-decoration-line: no-underline font-medium text-lg px-1 py-1 text-slate-900 flex justify-center rounded hover:bg-primary-400'>
             <p className="font-semibold tracking-tight h-8 text-gray-900 dark:text-white text-base">Create products</p>
           </div>
         </Link>
-        <Link to={`/admin/edit`} className="no-underline">
+        <Link to={`/admin/edit/:idProduct`} className="no-underline">
           <div className='m-0.5 bg-primary-300 text-decoration-line: no-underline font-medium text-lg px-1 py-1 text-slate-900 flex justify-center rounded hover:bg-primary-400'>
             <p className="font-semibold tracking-tight h-8 text-gray-900 dark:text-white text-base">Edit products</p>
           </div>

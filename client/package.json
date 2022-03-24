@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@cloudinary/url-gen": "^1.7.0",
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
+    "cloudinary": "^1.29.0",
     "framer-motion": "^6.2.8",
     "postcss-preset-env": "^7.4.2",
     "react": "^17.0.2",

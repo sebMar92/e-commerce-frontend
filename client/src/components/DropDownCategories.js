@@ -5,7 +5,7 @@ export default function DropDownCategories({ tittle, array }) {
   const navigate = useNavigate();
 
   return (
-    <div className="group">
+    <div className="group ">
       <button className="bg-primary-300 font-medium rounded-lg text-center text-sm w-11/12 px-2 py-2">
         <div className="flex justify-between text-center">
           <div>
@@ -29,7 +29,7 @@ export default function DropDownCategories({ tittle, array }) {
         </div>
       </button>
       <div
-        className={`bg-secondary-100 flex-col rounded absolute hidden group-hover:block `}
+        className={`bg-secondary-100 flex-col overflow-y-auto max-h-56 overflow-x-auto rounded absolute hidden group-hover:block  `}
       >
         {array.map((cat) => {
           return (
@@ -41,7 +41,7 @@ export default function DropDownCategories({ tittle, array }) {
                   pathname: "/products",
                   search: createSearchParams({
                     categoryId: e.target.id,
-                    offset: "1"
+                    offset: "1",
                   }).toString(),
                 });
               }}
