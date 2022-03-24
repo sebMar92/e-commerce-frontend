@@ -109,14 +109,38 @@ export function getUserInfo(token) {
   const headers = {
     'Authorization': `Bearer ${token}`,
   };
-  return async (dispatch) => {
+  return (dispatch) => {
     try {
-      console.log('here here');
-      const user = await axios.get('http://localhost:3001/user', { headers: headers });
-      return dispatch({
-        type: GET_USER_INFO,
-        payload: user.data,
-      });
+      return axios
+        .get('http://localhost:3001/user', { headers: headers })
+        .then((res) => {
+          dispatch({
+            type: GET_USER_INFO,
+            payload: res.data,
+          });
+        })
+        .catch((error) => {
+          if (error.response.status === 403) {
+            let refreshToken = window.localStorage.getItem('refresh');
+            axios
+              .post('http://localhost:3001/user/token', { token: refreshToken })
+              .then((res) => {
+                window.localStorage.setItem('access', res.data.token);
+                axios
+                  .get('http://localhost:3001/user', {
+                    headers: {
+                      'Authorization': `Bearer ${res.data.token}`,
+                    },
+                  })
+                  .then((res) => {
+                    dispatch({
+                      type: GET_USER_INFO,
+                      payload: res.data,
+                    });
+                  });
+              });
+          }
+        });
     } catch (error) {
       console.log(error);
     }
