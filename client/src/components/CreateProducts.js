@@ -8,15 +8,21 @@ import check from "./utils/check-shield-regular-24.png";
 import Modelo from "./utils/modelo.jpg";
 import mas from "./utils/image-add-regular-24.png";
 import Slider from "./ProductDetails/Slider";
+import { Cloudinary } from "@cloudinary/url-gen";
 
 export default function CreateProducts() {
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: "dmjbff5rm",
+    },
+  });
   const dispatch = useDispatch();
   const allCategories = useSelector((e) => e.home.categories);
-  const [newCategory, setNewCategory] = useState("");;
+  const [newCategory, setNewCategory] = useState("");
   const [inputImages, setInputImages] = useState("");
   const [upImage, setUpImage] = useState("");
   const [errors, setErrors] = useState({});
-  
+
   const [input, setInput] = useState({
     title: "",
     name: "",
@@ -33,6 +39,7 @@ export default function CreateProducts() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    console.log(input);
     dispatch(postProduct(input));
     setInput({
       title: "",
@@ -44,8 +51,22 @@ export default function CreateProducts() {
       stock: "",
       categories: [],
     });
-console.log(input)
+
     alert("Product Create!!");
+  }
+  function handleAddCategory(e) {
+    const { value } = e.target;
+    setNewCategory(value);
+  }
+  function handleSubmitAddCategory(e) {
+    e.preventDefault();
+    if (newCategory !== "") {
+      setInput({
+        ...input,
+        categories: [...input.categories, newCategory],
+      });
+      setNewCategory("");
+    }
   }
 
   function handelChange(e) {
@@ -62,7 +83,6 @@ console.log(input)
   }
 
   function handleSelectCategories(e) {
-        
     if (!input.categories.includes(e.target.value)) {
       setInput({
         ...input,
@@ -71,9 +91,7 @@ console.log(input)
     }
   }
 
-    
-  
- /*  console.log(upImage); */
+  /*  console.log(upImage); */
   if (upImage !== "") {
     setInput({
       ...input,
@@ -91,7 +109,7 @@ console.log(input)
     setInputImages("");
   }
   /* console.log(input.images);
- */
+   */
   function handleDelete(e) {
     e.preventDefault();
     setInput({
@@ -110,23 +128,25 @@ console.log(input)
     });
   }
 
-  const readURL = (file) => {
+  /* const readURL = (file) => {
     return new Promise((res, rej) => {
       const reader = new FileReader();
       reader.onload = (e) => res(e.target.result);
       reader.onerror = (e) => rej(e);
       reader.readAsDataURL(file);
     });
-  };
+  }; */
 
   const preview = async (event) => {
     let arr = [];
     const file = event.target.files;
     for (let i = 0; i < file.length; i++) {
-      const url = await readURL(file[i]);
+      const myImage = cld.image(file[i]);
+      const url = myImage.toURL();
       arr.push(url);
     }
     setUpImage(arr);
+    console.log(arr);
   };
 
   const desc = input.description && input.description.split(".");
@@ -232,21 +252,27 @@ console.log(input)
                     allCategories.map((e) => (
                       <option key={e.id}>{e.name}</option>
                     ))}
-                
                 </select>
-               
-                  <div>
-                    <input
-                      className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
-                      type="text"
-                      placeholder="Another Cartegory... "
-                      name="newCategory"
-                      value={input.newCategory}
-                      onChange={(e) => handelChange(e)}
-                    
-                    />
-                  </div>
-              
+
+                <div className="flex">
+                  <input
+                    className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
+                    type="text"
+                    placeholder="Add Cartegory... "
+                    name="categories"
+                    value={newCategory}
+                    onChange={(e) => {
+                      handleAddCategory(e);
+                    }}
+                  />
+                  <button
+                    type="button"
+                    className="text-secondary-200 bg-secondary-100 p-1 ml-1 rounded-md "
+                    onClick={(e) => handleSubmitAddCategory(e)}
+                  >
+                    Add
+                  </button>
+                </div>
 
                 {input.categories.map((name) => {
                   return (
@@ -278,6 +304,7 @@ console.log(input)
                 </div>
                 <div>
                   <input
+                    key="OpenFil"
                     type="file"
                     onChange={(e) => {
                       preview(e);
@@ -324,7 +351,7 @@ console.log(input)
                   <Slider images={input.images.flat()} />
                 ) : (
                   <div className="flex justify-center">
-                    <img className=" w-8/12"src={Modelo} alt="" />
+                    <img className=" w-8/12" src={Modelo} alt="" />
                   </div>
                 )}
               </div>
