@@ -9,6 +9,8 @@ import Star from "../utils/star-regular-24.png";
 import Slider from "./Slider";
 
 export default function ProductDetails() {
+  const admin = useSelector((state) => state.home.admin);
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   let { idProduct } = useParams();
 
@@ -45,6 +47,26 @@ export default function ProductDetails() {
             id="product_container"
             className="p-2 bg-white rounded shadow-sm my-2"
           >
+            <div className="flex justify-end">
+              <div>
+                <button>
+                  <img
+                    className="h-10 w-10 p-1 hover:scale-125"
+                    src="https://cdn-icons-png.flaticon.com/128/483/483923.png"
+                    alt=""
+                  />
+                </button>
+              </div>
+              <div>
+                <button>
+                  <img
+                    className="h-10 w-10 p-1 hover:scale-125"
+                    src="https://cdn-icons.flaticon.com/png/128/2874/premium/2874821.png?token=exp=1648083606~hmac=839349f9cabeac79cb4496ac3d098c97"
+                    alt=""
+                  />
+                </button>
+              </div>
+            </div>
             <div className="p-2 border-b-[1px] border-b-primary-300 font-lora">
               <h2 className="2xl:text-2xl">{product && product.title}</h2>
             </div>
