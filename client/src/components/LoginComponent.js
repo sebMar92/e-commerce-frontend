@@ -39,8 +39,8 @@ export default function LoginComponent(boolean) {
                 alert("Password incorrect, try again")
         }else{
             navigate("/")
-            window.localStorage.setItem("access","Bearer " + message.accessToken)
-            window.localStorage.setItem("refresh","Bearer " + message.refreshToken)
+            window.localStorage.setItem("access",message.accessToken)
+            window.localStorage.setItem("refresh",message.refreshToken)
         }
     }, [message]);
 

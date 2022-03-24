@@ -5,11 +5,12 @@ import {
   POST_NEWUSER,
   VALIDATE_MAIL,
   LOGIN_USER,
+  GET_USER_INFO,
 } from "../Actions/types";
 
 const initialState = {
-  products: [], 
-  categories: [], 
+  products: [],
+  categories: [],
   currentPage: 0,
   totalPages: 0,
   search: {},
@@ -17,6 +18,7 @@ const initialState = {
   userTokens: [],
   userMail: [],
   openFiles: "",
+  user: {},
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -51,6 +53,11 @@ export const HomeReducer = (state = initialState, action) => {
       return {
         ...state,
         userTokens: action.payload,
+      };
+    case GET_USER_INFO:
+      return {
+        ...state,
+        user: action.payload,
       };
 
     default:
