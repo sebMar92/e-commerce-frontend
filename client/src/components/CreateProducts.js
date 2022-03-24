@@ -12,9 +12,11 @@ import Slider from "./ProductDetails/Slider";
 export default function CreateProducts() {
   const dispatch = useDispatch();
   const allCategories = useSelector((e) => e.home.categories);
+  const [newCategory, setNewCategory] = useState("");;
   const [inputImages, setInputImages] = useState("");
   const [upImage, setUpImage] = useState("");
   const [errors, setErrors] = useState({});
+  
   const [input, setInput] = useState({
     title: "",
     name: "",
@@ -42,7 +44,7 @@ export default function CreateProducts() {
       stock: "",
       categories: [],
     });
-    console.log(input);
+console.log(input)
     alert("Product Create!!");
   }
 
@@ -60,6 +62,7 @@ export default function CreateProducts() {
   }
 
   function handleSelectCategories(e) {
+        
     if (!input.categories.includes(e.target.value)) {
       setInput({
         ...input,
@@ -67,7 +70,10 @@ export default function CreateProducts() {
       });
     }
   }
-  console.log(upImage);
+
+    
+  
+ /*  console.log(upImage); */
   if (upImage !== "") {
     setInput({
       ...input,
@@ -77,16 +83,15 @@ export default function CreateProducts() {
   }
 
   function addImage(e) {
-    console.log(e.target.value);
-
+    /* console.log(e.target.value); */
     setInput({
       ...input,
       images: [...input.images, inputImages],
     });
     setInputImages("");
   }
-  console.log(input.images);
-
+  /* console.log(input.images);
+ */
   function handleDelete(e) {
     e.preventDefault();
     setInput({
@@ -124,11 +129,14 @@ export default function CreateProducts() {
     setUpImage(arr);
   };
 
+  const desc = input.description && input.description.split(".");
+  const description2 = desc && desc.slice(0, -1);
+
   return (
     <>
       <NavBar />
-      <div className="flex justify-center">
-        <div className="flex justify-around p-8">
+      <div className="flex justify-center bg-secondary-100">
+        <div className="flex justify-around p-2">
           <div className="flex bg-gray-50  min-w-min max-w-sm m-2 rounded-md justify-center p-8">
             <form
               onSubmit={(e) => {
@@ -224,7 +232,22 @@ export default function CreateProducts() {
                     allCategories.map((e) => (
                       <option key={e.id}>{e.name}</option>
                     ))}
+                
                 </select>
+               
+                  <div>
+                    <input
+                      className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
+                      type="text"
+                      placeholder="Another Cartegory... "
+                      name="newCategory"
+                      value={input.newCategory}
+                      onChange={(e) => handelChange(e)}
+                    
+                    />
+                  </div>
+              
+
                 {input.categories.map((name) => {
                   return (
                     <div className="flex w-full hover:bg-secondary-100 bg-gray-50">
@@ -236,7 +259,7 @@ export default function CreateProducts() {
                   );
                 })}
               </div>
-              <div className=" justify-center py-2 ">
+              <div className=" justify-center py-2 m-2 ">
                 <label>Images</label>
                 <div className="flex">
                   <input
@@ -291,14 +314,53 @@ export default function CreateProducts() {
               ></ButtonBuy>
             </form>
           </div>
-          <div className=" justify-center items-center w-6/12 m-8 sm:hidden lg:flex z-10 hidden">
-            {input.images.length > 0 ? (
-              <Slider images={input.images.flat()} />
-            ) : (
-              <div>
-                <img src={Modelo} alt="" />
+          <div className="sm:hidden lg:flex z-10 hidden">
+            <div className="p-2 bg-white rounded shadow-sm my-2 ">
+              <div className="p-2 border-b-[1px] border-b-primary-300 font-lora">
+                <h2 className="2xl:text-2xl">{input.title}</h2>
               </div>
-            )}
+              <div className=" justify-center w-full sm:hidden lg:flex z-10 hidden">
+                {input.images.length > 0 ? (
+                  <Slider images={input.images.flat()} />
+                ) : (
+                  <div className="flex justify-center">
+                    <img className=" w-8/12"src={Modelo} alt="" />
+                  </div>
+                )}
+              </div>
+              <div className="flex justify-between w-full p-2">
+                <div className="text-3xl font-bold text-primary-700 font-lora flex justify-center items-center">
+                  <span>US$ {input.price}</span>
+                </div>
+                <button
+                  className="rounded no-underline h-fit w-fit font-bold p-2 text-white bg-primary-400 font-lora hover:bg-primary-700 focus:bg-primary-700 pointer-events-none"
+                  to={"/cart/:idUser"}
+                >
+                  ADD TO CART
+                </button>
+              </div>
+              <div className="flex justify-center">
+                <div className=" p-2 border-[1px] border-primary-300 rounded flex flex-col items-center w-1/2">
+                  <h2 className="pb-2 border-b-[1px] border-b-primary-300 font-lora">
+                    Description
+                  </h2>
+                  <div className="text-sm pt-2">
+                    {desc &&
+                      desc.map((el) => {
+                        return description2.indexOf(el) % 2 === 0 ? (
+                          <div className="p-2 bg-primary-200 rounded">
+                            <p>{el}</p>
+                          </div>
+                        ) : (
+                          <div className="p-2 rounded">
+                            <p>{el}</p>
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
