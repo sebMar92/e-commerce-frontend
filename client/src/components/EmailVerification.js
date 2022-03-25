@@ -31,11 +31,11 @@ export default function EmailVerification() {
       if (validation.msg.includes("doesn't")) {
         setShowLogin(false);
         setBoolean(false);
-        alert(validation.msg, boolean);
+        console.log(validation.msg);
       } else {
         setShowLogin(false);
         setBoolean(true);
-        alert(validation.msg, boolean);
+        console.log(validation.msg);
       }
     }
   }, [validation]);

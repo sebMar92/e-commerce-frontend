@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Star from "./utils/star-regular-24.png";
-import Cart from "./utils/cart-alt-solid-24.png";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import { GrFavorite } from "react-icons/gr";
+
 
 export default function CardHome({ id, image, title, price }) {
   return (
@@ -21,12 +22,8 @@ export default function CardHome({ id, image, title, price }) {
         </Link>
         <div className="pt-5">
           <span className="flex flex-row justify-around">
-            {/* <Link to={"/wishlist/:idUser"} className="disable"> */}
-            <img className="p-2 hover:scale-125" src={Star} alt="img" />
-            {/*  </Link> */}
-            {/* <Link to={"/cart/:idUser"} style={{ textDecoration: "inherit" }}> */}
-            <img className="p-2 hover:scale-125" src={Cart} alt="img" />
-            {/*  </Link> */}
+              <GrFavorite className="text-2xl hover:scale-125 hover:cursor-pointer" />
+              <AiOutlineShoppingCart className="text-2xl hover:scale-125 hover:cursor-pointer"/>
           </span>
           <br />
           <span className="flex justify-center text-3xl font-bold text-gray-900 mr-2 mb-2 dark:text-white">

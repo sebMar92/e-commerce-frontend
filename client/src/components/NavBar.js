@@ -10,6 +10,8 @@ import { getCategories } from "../Redux/Actions/actions";
 import { motion } from "framer-motion";
 
 import DropDownCategories from "./DropDownCategories";
+import CartModal from "./commons/CartModal";
+import FavsModal from "./commons/FavsModal";
 
 export default function NavBar() {
   const arrayPrueba = ["hola", "hello"];
@@ -48,14 +50,18 @@ export default function NavBar() {
                 alt="company icon"
                 className="flex-none h-10 w-10"
               ></img>
-              <h3 className=" text-black no-underline">Company Name</h3>
+              <h3 className=" text-black no-underline">TechStore</h3>
             </div>
           </Link>
         </div>
-        {/* <motion.div layout transition={spring} data-isOn={isOn} onClick={toggleSwitch} className={`bg-primary-700 font-medium rounded-lg text-sm w-20 px-2 py-2 flex cursor-pointer ${isOn && "justify-end"}`}>
+{/*         <motion.div layout transition={spring} data-isOn={isOn} onClick={toggleSwitch} className={`bg-primary-700 font-medium rounded-lg text-sm w-20 px-2 py-2 flex cursor-pointer ${isOn && "justify-end"}`}>
           {isOn ? "🌙" : "🌞"}
         </motion.div> */}
+        <div className="flex justify-evenly">
+        <FavsModal />
+        <CartModal />
         <LoginProfileButton />
+        </div>
         <div className="block lg:hidden">
           <button
             className="flex items-center px-3 py-2 rounded"
@@ -80,16 +86,12 @@ export default function NavBar() {
       </div>
       <div className="flex justify-center">
         <div
-          className={`bg-primary-300 rounded m-2 w-10/12 sm:hidden lg:flex flex-row justify-between z-10 ${
+          className={`bg-primary-500 rounded m-2 w-full sm:hidden lg:flex flex-row justify-evenly z-10 mt-4 ${
             isOpen && hidden
           } `}
         >
           <DropDown tittle="News" array={arrayPrueba} />
-          <DropDown tittle="Historial" array={arrayPrueba} />
-          <DropDown tittle="User" array={arrayPrueba} />
           <DropDownCategories tittle="Categories" array={allCategories} />
-          <DropDown tittle="Cart" array={arrayPrueba} />
-          <DropDown tittle="Favorites" array={arrayPrueba} />
         </div>
       </div>
     </div>
