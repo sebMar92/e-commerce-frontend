@@ -1,27 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserInfo } from '../../Redux/Actions/actions';
+import { getOrder, getUserInfo } from '../../Redux/Actions/actions';
 import { Link } from 'react-router-dom';
 import { AiOutlineShoppingCart } from "react-icons/ai";
 
 export default function CartModal() {
-  const [logedIn, setLogedIn] = useState(false);
   const token = window.localStorage.getItem('access');
   const user = useSelector((state) => state.home.user);
-  const [reRender, setReRender] = useState({});
+  const order = useSelector((state) => state.home.orders)
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getUserInfo(token));
-    if (token) {
-      setLogedIn(true);
-    } else {
-      setLogedIn(false);
-    }
-  }, [token]);
-  const handleLogOut = () => {
-    window.localStorage.clear();
-    setReRender({});
-  };
+  console.log(order)
+
+
   return (
     <div>
         <div className="group">
@@ -31,15 +21,6 @@ export default function CartModal() {
               <Link to="/user" className="no-underline text-black">
                 <li className="rounded-t-md bg-secondary-100 p-1.5 z-10 translate-y-10  invisible group-hover:translate-x-0 group-hover:translate-y-0 group-hover:visible duration-100 ease-in hover:bg-primary-300 ">
                   Profile
-                </li>
-              </Link>
-              <Link
-                to="/"
-                onClick={(e) => handleLogOut()}
-                className="no-underline text-black"
-              >
-                <li className="rounded-b-md bg-secondary-100 p-1.5 z-10 translate-y-16  invisible group-hover:translate-x-0 group-hover:translate-y-0 group-hover:visible duration-150 ease-in hover:bg-primary-300">
-                  Logout
                 </li>
               </Link>
             </ul>

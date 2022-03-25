@@ -13,8 +13,6 @@ import {
 
 } from './types';
 
-import { toast } from "react-toastify";
-
 // action para traer los productos
 export function getProducts(search) {
   return async function (dispatch) {
@@ -97,7 +95,6 @@ export function loginUser(val) {
       type: LOGIN_USER,
       payload: login.data,
     });
-    toast.success("MY SUCCESS");
   };
 }
 
@@ -136,7 +133,7 @@ export function postOrder(order, token){
     return async (dispatch) => {
       try {
         
-        const cart = await axios.post('http://localhost:3001/orders',{status:"inCart"}, { headers: headers });
+        const cart = await axios.post('http://localhost:3001/order',{status:"inCart"}, { headers: headers });
         return dispatch({
           type: GET_ORDERS,
           payload: cart.data,
@@ -152,25 +149,26 @@ export function postOrder(order, token){
     const headers ={
       "Authorization": `Bearer ${token}`
     };
+
     return (dispatch) => {
       try {
         return axios.
-        post("http://localhost:3001/orders", order, {headers: headers})
+        post("http://localhost:3001/order", order, {headers: headers})
           .then((res) => {
             dispatch({
               type: POST_ORDERS,
-               payload: res.data
+                payload: res.data
             });
           })
           .catch((error) => {
             if (error.response.status === 403) {
               let refreshToken = window.localStorage.getItem('refresh');
               axios
-                .post('http://localhost:3001/orders', { token: refreshToken })
+                .post('http://localhost:3001/user/token', { token: refreshToken })
                 .then((res) => {
                   window.localStorage.setItem('access', res.data.token);
                   axios
-                    .get('http://localhost:3001/orders', {
+                    .post('http://localhost:3001/order',order, {
                       headers: {
                         'Authorization': `Bearer ${res.data.token}`,
                       },
@@ -189,18 +187,17 @@ export function postOrder(order, token){
       }
     };
   }
-    
-   
   
   // para llamar cart y whislist -finali -proces
     export function getOrder(order, token) {
       console.log(token)
+      console.log(order)
       const headers = {
         'Authorization': `Bearer ${token}`,
       };
       return (dispatch) => {
         try {
-          return  axios.post('http://localhost:3001/orders', order, { headers: headers })
+          return  axios.get('http://localhost:3001/order?status='+ order.status, { headers: headers })
           .then(res=> {
             dispatch({
               type: GET_ORDERS,
@@ -211,11 +208,11 @@ export function postOrder(order, token){
           if(error.response.status === 403){
             let refreshToken = window.localStorage.getItem('refresh');
             axios
-              .post('http://localhost:3001/orders', { token: refreshToken })
+              .post('http://localhost:3001/order', { token: refreshToken })
               .then((res) => {
                 window.localStorage.setItem('access', res.data.token);
                   axios
-                    .get('http://localhost:3001/orders', {
+                    .get('http://localhost:3001/order', {
                       headers: {
                         'Authorization': `Bearer ${res.data.token}`,
                       },

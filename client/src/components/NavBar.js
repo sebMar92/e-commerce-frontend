@@ -90,7 +90,6 @@ export default function NavBar() {
             isOpen && hidden
           } `}
         >
-          <DropDown tittle="News" array={arrayPrueba} />
           <DropDownCategories tittle="Categories" array={allCategories} />
         </div>
       </div>
