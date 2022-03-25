@@ -1,10 +1,17 @@
-/* import { ACTION } from "../Action types/types" */
+import { GET_SALES } from '../Actions/types.js';
 
+const initialState = {
+  sales: [],
+};
 
-//Reducer de prueba, no hace nada
-const initialState = null
-
-export const AdminReducer = (state = initialState,action) => {
-    /* console.log(ACTION,action) */
-    return state
-}
+export const AdminReducer = (state = initialState, { type, payload }) => {
+  switch (type) {
+    case GET_SALES:
+      return {
+        ...state,
+        sales: payload,
+      };
+    default:
+      return state;
+  }
+};

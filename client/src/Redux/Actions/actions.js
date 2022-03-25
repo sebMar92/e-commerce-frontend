@@ -8,6 +8,7 @@ import {
   VALIDATE_MAIL,
   LOGIN_USER,
   GET_USER_INFO,
+  GET_SALES,
 } from './types';
 
 // action para traer los productos
@@ -144,5 +145,15 @@ export function getUserInfo(token) {
     } catch (error) {
       console.log(error);
     }
+  };
+}
+
+export function getSales() {
+  return async function (dispatch) {
+    var json = await axios.get('http://localhost:3001/sale');
+    return dispatch({
+      type: GET_SALES,
+      payload: json.data,
+    });
   };
 }
