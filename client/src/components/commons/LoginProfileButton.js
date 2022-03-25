@@ -7,6 +7,7 @@ export default function LoginProfileButton() {
   const [logedIn, setLogedIn] = useState(false);
   const token = window.localStorage.getItem('access');
   const user = useSelector((state) => state.home.user);
+  const [reRender, setReRender] = useState({});
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserInfo(token));
@@ -18,6 +19,7 @@ export default function LoginProfileButton() {
   }, [token]);
   const handleLogOut = () => {
     window.localStorage.clear();
+    setReRender({});
   };
   return (
     <div>

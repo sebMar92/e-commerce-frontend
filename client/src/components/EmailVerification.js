@@ -53,7 +53,7 @@ export default function EmailVerification() {
               {...register2('email', { required: true })}
             />
             <button type="submit" className="text-2xl text-secondary-200 animate-bounce">
-              >
+              {'>'}
             </button>
           </form>
         </div>
