@@ -8,3 +8,4 @@ export const VALIDATE_MAIL = "VALIDATE_MAIL";
 export const LOGIN_USER = "LOGIN_USER";
 export const POST_ORDERS = "POST_ORDERS";
 export const GET_ORDERS = "GET_ORDERS";
+export const GET_USER_INFO = "GET_USER_INFO";

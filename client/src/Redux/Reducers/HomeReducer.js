@@ -5,13 +5,17 @@ import {
   POST_NEWUSER,
   VALIDATE_MAIL,
   LOGIN_USER,
+<<<<<<< HEAD
   POST_ORDERS,
   GET_ORDERS
+=======
+  GET_USER_INFO,
+>>>>>>> 4a7649bd82bab8859c07c324d8fb59d1bfe35ea6
 } from "../Actions/types";
 
 const initialState = {
-  products: [], 
-  categories: [], 
+  products: [],
+  categories: [],
   currentPage: 0,
   totalPages: 0,
   search: {},
@@ -19,7 +23,11 @@ const initialState = {
   userTokens: [],
   userMail: [],
   openFiles: "",
+<<<<<<< HEAD
   orders:[],
+=======
+  user: {},
+>>>>>>> 4a7649bd82bab8859c07c324d8fb59d1bfe35ea6
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -65,6 +73,11 @@ export const HomeReducer = (state = initialState, action) => {
             ...state,
             orders: action.payload
         }
+    case GET_USER_INFO:
+      return {
+        ...state,
+        user: action.payload,
+      };
 
     default:
       return state;
