@@ -16,10 +16,12 @@ export default function LoginProfileButton() {
       setLogedIn(false);
     }
   }, [token]);
+  const handleLogOut = () => {
+    window.localStorage.clear();
+  };
   return (
     <div>
       {logedIn ? (
-        //bg-primary-300
         <div className="group">
           <button className=" rounded-t-full w-10/10 px-2 py-2 group ">
             <div></div>
@@ -28,21 +30,29 @@ export default function LoginProfileButton() {
               className="relative object-cover w-11 h-11 border-4 border-secondary-100/0 rounded-full z-20 group-hover:border-secondary-100/100 "
             ></img>
             <ul className="absolute -ml-2 mt-1 rounded-lg  z-10 text-sm">
-              <li className="rounded-t-md bg-secondary-100 p-1.5 z-10 translate-y-10  invisible group-hover:translate-x-0 group-hover:translate-y-0 group-hover:visible duration-100 ease-in hover:bg-primary-300 ">
-                <Link to="/" className="no-underline text-black">
+              <Link to="/user" className="no-underline text-black">
+                <li className="rounded-t-md bg-secondary-100 p-1.5 z-10 translate-y-10  invisible group-hover:translate-x-0 group-hover:translate-y-0 group-hover:visible duration-100 ease-in hover:bg-primary-300 ">
                   Profile
-                </Link>
-              </li>
-              <li className="rounded-b-md bg-secondary-100 p-1.5 z-10 translate-y-16  invisible group-hover:translate-x-0 group-hover:translate-y-0 group-hover:visible duration-150 ease-in hover:bg-primary-300">
-                Logout
-              </li>
+                </li>
+              </Link>
+              <Link
+                to="/"
+                onClick={(e) => handleLogOut()}
+                className="no-underline text-black"
+              >
+                <li className="rounded-b-md bg-secondary-100 p-1.5 z-10 translate-y-16  invisible group-hover:translate-x-0 group-hover:translate-y-0 group-hover:visible duration-150 ease-in hover:bg-primary-300">
+                  Logout
+                </li>
+              </Link>
             </ul>
           </button>
         </div>
       ) : (
-        <button className="bg-primary-700 font-small rounded-lg text-sm w-12/14 px-2 py-2 ">
-          Log in / Sign up
-        </button>
+        <Link to="/login" className="no-underline text-black">
+          <button className="bg-primary-700 font-small rounded-lg text-sm w-12/14 px-2 py-2 ">
+            Log in / Sign up
+          </button>
+        </Link>
       )}
     </div>
   );
