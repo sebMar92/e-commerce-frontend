@@ -2,16 +2,44 @@ import React from "react";
 import NavBar from "./NavBar";
 import Footer from "./Footer/Footer";
 import CardCart from "./CardCart";
+import { useEffect, useState } from "react";
+import { useParams, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { MdRestaurantMenu } from "react-icons/md";
+import { getOrder } from "../Redux/Actions/actions";
 
 export default function Cart({}) {
+const dispatch = useDispatch();
+let {idProduct}= useParams()
+const product = useSelector((state) => state.home.cart)
+console.log(product)
+useEffect(() => {
+  getOrder(idProduct);
+}, [dispatch, idProduct]);
+
+function adjuntarCart(cart){
+  cart.map(e=> {
+  return (
+    <div>
+     <CardCart 
+     key={e.id}
+     name={e.name}
+     price={e.price}
+     shippingCost={e.shippingCost}
+     stock={e.stock}
+     /> 
+    </div>
+  )
+})} 
+
+
   return (
     <div>
       <NavBar />
 
       <h1>This is Cart</h1>
-
-      <CardCart />
-
+     
+     {product.length > 0 ? adjuntarCart() : <div> <h2 className="flex justify-center" >no products </h2></div>} 
       {/*  total envio  */}
       <div className="flex flex-wrap justify-center">
         <div className="bg-secondary-100 w-9/12 m-5 rounded-md">

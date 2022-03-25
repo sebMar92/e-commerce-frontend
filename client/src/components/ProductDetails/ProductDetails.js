@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import NavBar from "../NavBar";
-import Footer from "../Footer/Footer";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
-import { getProductByID } from "../../Redux/Actions/actions";
-import { useEffect } from "react";
+import Footer from '../Footer/Footer';
+import { useDispatch, useSelector} from "react-redux"
+import { useParams, Link } from 'react-router-dom';
+import { getProductByID, postOrder } from '../../Redux/Actions/actions';
+import { useEffect } from 'react';
 import Star from "../utils/star-regular-24.png";
 import Slider from "./Slider";
 
@@ -25,7 +25,19 @@ export default function ProductDetails() {
   const desc = product.description && product.description.split(".");
   const description = desc && desc.slice(0, -1);
 
-  console.log(description);
+    console.log(description)
+    
+function addCart(){
+    let token= window.localStorage.getItem('access')
+   dispatch(postOrder({
+     status: "inCart",
+   amount: 1,
+  productId: idProduct
+  
+  },token))
+  
+    }
+  
 
   return (
     <>
@@ -77,7 +89,7 @@ export default function ProductDetails() {
                   <div className="text-3xl font-bold text-primary-700 font-lora flex justify-center items-center">
                     <span>U$S {product.price}</span>
                   </div>
-                  <Link
+                  <Link onClick={(e=> addCart(e))}
                     className="rounded no-underline h-fit w-fit font-bold p-2 text-white bg-primary-400 font-lora hover:bg-primary-700 focus:bg-primary-700 pointer-events-none"
                     to={"/cart/:idUser"}
                   >

@@ -33,7 +33,7 @@ export default function Products() {
                     <div className='grid grid-cols-1 sm:grid-cols-2 sm:gap-10 sm:m-auto 2xl:grid-cols-2 2xl:gap-30'>
                         {allProducts && allProducts.map(item => {
                             return (
-                                <Card key={item.id} path={item.id} name={item.title} price={item.price} image={item.images[1].url} shippingCost={item.shippingCost} />
+                                <Card id={item.id} key={item.id} path={item.id} name={item.title} price={item.price} image={item.images[1].url} shippingCost={item.shippingCost} />
                             )
                         })}
                     </div>
