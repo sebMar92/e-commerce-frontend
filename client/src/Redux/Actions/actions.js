@@ -9,6 +9,8 @@ import {
   LOGIN_USER,
 } from "./types";
 
+import { toast } from "react-toastify";
+
 // action para traer los productos
 export function getProducts(search) {
   return async function (dispatch) {
@@ -91,6 +93,7 @@ export function loginUser(val) {
       type: LOGIN_USER,
       payload: login.data,
     });
+    toast.success("MY SUCCESS");
   };
 }
 
