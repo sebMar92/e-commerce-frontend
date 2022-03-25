@@ -6,3 +6,5 @@ export const GET_SEARCH = "GET_SEARCH";
 export const POST_NEWUSER = "POST_NEWUSER";
 export const VALIDATE_MAIL = "VALIDATE_MAIL";
 export const LOGIN_USER = "LOGIN_USER";
+export const POST_ORDERS = "POST_ORDERS";
+export const GET_ORDERS = "GET_ORDERS";

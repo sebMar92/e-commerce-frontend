@@ -1,10 +1,26 @@
 import React from "react";
+import { useDispatch, useSelector} from "react-redux";
 import { Link } from "react-router-dom";
 import Star from "./utils/star-regular-24.png";
 import Cart from "./utils/cart-alt-solid-24.png";
+import { postOrder } from "../Redux/Actions/actions";
 
 
-export default function Card({ image, name, price, shippingCost, path }) {
+export default function Card({ id, image, name, price, shippingCost, path }) {
+const dispatch = useDispatch();
+
+ 
+function addCart(){
+  let token= window.localStorage.getItem('access')
+ dispatch(postOrder({
+   status: "inCart",
+ amount: 1,
+productId: id
+
+},token))
+
+  }
+
   return (
     <>
       <div className="flex flex-wrap content-center font-lora">
@@ -32,7 +48,7 @@ export default function Card({ image, name, price, shippingCost, path }) {
               <img className="p-1 hover:scale-125" src={Star} />
             {/* </Link> */}
             {/* <Link to={"/cart/:idUser"} style={{ textDecoration: "inherit" }}> */}
-              <img className="p-1 hover:scale-125" src={Cart} />
+              <img onClick={(e=> addCart(e))} className="p-1 hover:scale-125" src={Cart} />
             {/* </Link> */}
           </div>
         </div>

@@ -2,9 +2,16 @@
 
 
 //Reducer de prueba, no hace nada
-const initialState = null
+const initialState = {
+    
+}
 
-export const AdminReducer = (state = initialState,action) => {
+export const AdminReducer = (state = initialState, action) => {
     /* console.log(ACTION,action) */
-    return state
+    switch(action.type){
+       
+        default:
+      return state; 
+    }
+    
 }

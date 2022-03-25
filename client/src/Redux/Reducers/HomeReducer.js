@@ -5,6 +5,8 @@ import {
   POST_NEWUSER,
   VALIDATE_MAIL,
   LOGIN_USER,
+  POST_ORDERS,
+  GET_ORDERS
 } from "../Actions/types";
 
 const initialState = {
@@ -17,6 +19,7 @@ const initialState = {
   userTokens: [],
   userMail: [],
   openFiles: "",
+  orders:[],
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -52,6 +55,16 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         userTokens: action.payload,
       };
+      case POST_ORDERS:
+        return{
+            ...state,
+            orders: action.payload
+        }
+    case GET_ORDERS:
+        return{
+            ...state,
+            orders: action.payload
+        }
 
     default:
       return state;
