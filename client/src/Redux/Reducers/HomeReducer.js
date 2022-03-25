@@ -5,12 +5,9 @@ import {
   POST_NEWUSER,
   VALIDATE_MAIL,
   LOGIN_USER,
-<<<<<<< HEAD
   POST_ORDERS,
-  GET_ORDERS
-=======
+  GET_ORDERS,
   GET_USER_INFO,
->>>>>>> 4a7649bd82bab8859c07c324d8fb59d1bfe35ea6
 } from "../Actions/types";
 
 const initialState = {
@@ -23,11 +20,8 @@ const initialState = {
   userTokens: [],
   userMail: [],
   openFiles: "",
-<<<<<<< HEAD
   orders:[],
-=======
   user: {},
->>>>>>> 4a7649bd82bab8859c07c324d8fb59d1bfe35ea6
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
