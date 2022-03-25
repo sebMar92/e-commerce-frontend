@@ -1,6 +1,6 @@
-import React,{useEffect, useState} from 'react'
-import { useForm } from "react-hook-form"
-import { useSelector,useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useSelector, useDispatch } from 'react-redux';
 import { validateMail } from '../Redux/Actions/actions';
 import LoginComponent from './LoginComponent';
 import { ToastContainer, toast } from 'react-toastify';
@@ -11,18 +11,34 @@ export default function EmailVerification() {
     const validation = useSelector(state => state.home.userMail)
     console.log(validation)
 
-    //Seteo estados que me ayuden a renderizar condicionalmente
+  //Seteo estados que me ayuden a renderizar condicionalmente
 
     const [showLogin,setShowLogin] = useState(true)
     const [boolean,setBoolean] = useState(false)
     const [showtoast,setShowToast] = useState()
     const dispatch = useDispatch()
 
-    //Valido la el mail ingresado
+  //Valido la el mail ingresado
 
-    const onSubmit = data =>{
-        dispatch(validateMail(data))
+  const onSubmit = (data) => {
+    dispatch(validateMail(data));
+  };
+
+  //En la base a la respuesta renderizo un form u otro y seteo los booleanos
+
+  useEffect(() => {
+    if (validation.hasOwnProperty('msg')) {
+      if (validation.msg.includes("doesn't")) {
+        setShowLogin(false);
+        setBoolean(false);
+        alert(validation.msg, boolean);
+      } else {
+        setShowLogin(false);
+        setBoolean(true);
+        alert(validation.msg, boolean);
+      }
     }
+  }, [validation]);
 
     //En la base a la respuesta renderizo un form u otro y seteo los booleanos
     const notify = () => {

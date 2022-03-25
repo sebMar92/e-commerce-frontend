@@ -10,11 +10,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function LoginComponent(boolean) {
-    const message = useSelector(state => state.home.userTokens)
-    const mailRes = useSelector(state => state.home.userMail)
-    const dispatch = useDispatch()
-    let navigate = useNavigate();
-     //   const [refresh,setRefresh] = useLocalStorage("refresh","")
+  const message = useSelector((state) => state.home.userTokens);
+  const mailRes = useSelector((state) => state.home.userMail);
+  const dispatch = useDispatch();
+  let navigate = useNavigate();
+  //   const [refresh,setRefresh] = useLocalStorage("refresh","")
 
     //Accedo al valor de la respuesta
     const value = Object.entries(boolean)[0][1]
@@ -23,7 +23,7 @@ export default function LoginComponent(boolean) {
     const [showtoast,setShowToast] = useState(true)
     console.log(mailRes)
 
-    //Renderizo un form u otro en base al booleano que recibo por props 
+  //Renderizo un form u otro en base al booleano que recibo por props
 
 
     const onSubmit = data => {
@@ -33,7 +33,9 @@ export default function LoginComponent(boolean) {
     }else{
         dispatch(loginUser(data))
     }
-};
+  };
+
+  //Usememo se ejecuta solo cuando una de sus dependencias cambia
 
 
 
@@ -47,8 +49,8 @@ export default function LoginComponent(boolean) {
         }else{
             setShowToast(true)
             navigate("/")
-            window.localStorage.setItem("access","Bearer " + message.accessToken)
-            window.localStorage.setItem("refresh","Bearer " + message.refreshToken)
+            window.localStorage.setItem("access",message.accessToken)
+            window.localStorage.setItem("refresh",message.refreshToken)
         }
     }, [message]);
 
@@ -76,18 +78,25 @@ export default function LoginComponent(boolean) {
                     {hasAccount ? null : <input className="h-12 my-2 md:w-5/6 md:m-auto md:mb-2" type="text" placeholder="LastName" {...register("lastName",{ required: true })} />
                     }
 
-                    <input className="h-12 my-2 md:w-5/6 md:m-auto md:mb-2" type="email" placeholder="Email" {...register("email",{required: true })} />
-                    {errors.example && <span className="m-auto">This field is required</span>}
+            <input
+              className="h-12 my-2 md:w-5/6 md:m-auto md:mb-2"
+              type="password"
+              placeholder="Password"
+              {...register('password', { required: true })}
+            />
+            {errors.exampleRequired && (
+              <span className="m-auto">This field is required</span>
+            )}
 
-                    <input className="h-12 my-2 md:w-5/6 md:m-auto md:mb-2" type="password" placeholder="Password" {...register("password", { required: true })} />
-                    {errors.exampleRequired && <span className="m-auto">This field is required</span>}
-                    
-                    <button type="submit" className='bg-[#3b82f6] w-6/6 m-auto text-white px-6 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-[#3491fc] shadow-lg shadow-primary-200/80'>
-                        {hasAccount ? "Login" : "Register"}
-                    </button>
-                </form>
-            </div> 
+            <button
+              type="submit"
+              className="bg-[#3b82f6] w-6/6 m-auto text-white px-6 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-[#3491fc] shadow-lg shadow-primary-200/80"
+            >
+              {hasAccount ? 'Login' : 'Register'}
+            </button>
+          </form>
         </div>
-        </>
-    );
+      </div>
+    </>
+  );
 }

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   GET_PRODUCTS,
   GET_CATEGORIES,
@@ -7,7 +7,8 @@ import {
   POST_NEWUSER,
   VALIDATE_MAIL,
   LOGIN_USER,
-} from "./types";
+  GET_USER_INFO,
+} from './types';
 
 import { toast } from "react-toastify";
 
@@ -26,7 +27,7 @@ export function getProducts(search) {
 //action para traer las categorias
 export function getCategories() {
   return async function (dispatch) {
-    var json = await axios.get("http://localhost:3001/categories");
+    var json = await axios.get('http://localhost:3001/categories');
     return dispatch({
       type: GET_CATEGORIES,
       payload: json.data,
@@ -38,7 +39,7 @@ export function getCategories() {
 export function getProductByID(id) {
   return async function (dispatch) {
     try {
-      var json = await axios.get("http://localhost:3001/products/" + id);
+      var json = await axios.get('http://localhost:3001/products/' + id);
       return dispatch({
         type: GET_PRODUCT_BY_ID,
         payload: json.data,
@@ -71,14 +72,14 @@ export function getSearch(query) {
 
 export function postProduct(product) {
   return async function () {
-    const create = await axios.post("http://localhost:3001/products", product);
+    const create = await axios.post('http://localhost:3001/products', product);
     return create;
   };
 }
 
 export function postNewUser(obj) {
   return async function (dispatch) {
-    const user = await axios.post("http://localhost:3001/user", obj);
+    const user = await axios.post('http://localhost:3001/user', obj);
     return dispatch({
       type: POST_NEWUSER,
       payload: user.data,
@@ -88,7 +89,7 @@ export function postNewUser(obj) {
 
 export function loginUser(val) {
   return async function (dispatch) {
-    const login = await axios.post("http://localhost:3001/user/login", val);
+    const login = await axios.post('http://localhost:3001/user/login', val);
     return dispatch({
       type: LOGIN_USER,
       payload: login.data,
@@ -99,10 +100,52 @@ export function loginUser(val) {
 
 export function validateMail(mail) {
   return async function (dispatch) {
-    const validate = await axios.post("http://localhost:3001/user/email", mail);
+    const validate = await axios.post('http://localhost:3001/user/email', mail);
     return dispatch({
       type: VALIDATE_MAIL,
       payload: validate.data,
     });
+  };
+}
+
+export function getUserInfo(token) {
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+  };
+  return (dispatch) => {
+    try {
+      return axios
+        .get('http://localhost:3001/user', { headers: headers })
+        .then((res) => {
+          dispatch({
+            type: GET_USER_INFO,
+            payload: res.data,
+          });
+        })
+        .catch((error) => {
+          if (error.response.status === 403) {
+            let refreshToken = window.localStorage.getItem('refresh');
+            axios
+              .post('http://localhost:3001/user/token', { token: refreshToken })
+              .then((res) => {
+                window.localStorage.setItem('access', res.data.token);
+                axios
+                  .get('http://localhost:3001/user', {
+                    headers: {
+                      'Authorization': `Bearer ${res.data.token}`,
+                    },
+                  })
+                  .then((res) => {
+                    dispatch({
+                      type: GET_USER_INFO,
+                      payload: res.data,
+                    });
+                  });
+              });
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 }

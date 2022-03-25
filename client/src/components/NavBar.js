@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import SearchBar from "./commons/SearchBar";
 import DropDown from "./DropDown";
 import NightModeButton from "./commons/NightModeButton";
+import LoginProfileButton from "./commons/LoginProfileButton";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../Redux/Actions/actions";
-import {motion} from 'framer-motion'
+import { motion } from "framer-motion";
 
 import DropDownCategories from "./DropDownCategories";
 
@@ -18,16 +19,16 @@ export default function NavBar() {
   const spring = {
     type: "spring",
     stiffness: 700,
-    damping: 30
-    };
+    damping: 30,
+  };
 
   const [isOn, setIsOn] = useState(false);
-  const [dark,setDark] = useState(false)
+  const [dark, setDark] = useState(false);
 
   const toggleSwitch = () => {
-    setIsOn(!isOn)
-    document.documentElement.classList.toggle('dark')
-  }
+    setIsOn(!isOn);
+    document.documentElement.classList.toggle("dark");
+  };
 
   const dispatch = useDispatch();
   const allCategories = useSelector((state) => state.home.categories);
@@ -54,6 +55,7 @@ export default function NavBar() {
         {/* <motion.div layout transition={spring} data-isOn={isOn} onClick={toggleSwitch} className={`bg-primary-700 font-medium rounded-lg text-sm w-20 px-2 py-2 flex cursor-pointer ${isOn && "justify-end"}`}>
           {isOn ? "🌙" : "🌞"}
         </motion.div> */}
+        <LoginProfileButton />
         <div className="block lg:hidden">
           <button
             className="flex items-center px-3 py-2 rounded"

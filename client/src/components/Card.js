@@ -1,8 +1,6 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import Star from "./utils/star-regular-24.png";
 import Cart from "./utils/cart-alt-solid-24.png";
-
 
 export default function Card({ image, name, price, shippingCost, path }) {
   return (
@@ -12,7 +10,8 @@ export default function Card({ image, name, price, shippingCost, path }) {
           <Link to={"/product/" + path} className="no-underline text-black">
             <div className="flex p-3">
               <div>
-                <img className="h-5/6 object-contain sm:object-cover max-h-[52rem] hover:shadow-secondary-700"
+                <img
+                  className="h-5/6 object-contain sm:object-cover max-h-[52rem] hover:shadow-secondary-700"
                   src={image}
                   alt={name}
                 />
@@ -29,15 +28,14 @@ export default function Card({ image, name, price, shippingCost, path }) {
           </Link>
           <div className="flex justify-around pl-3 items-center">
             {/* <Link to={"/wishlist/:idUser"} style={{ textDecoration: "inherit" }}> */}
-              <img className="p-1 hover:scale-125" src={Star} />
+            <img className="p-1 hover:scale-125" src={Star} />
             {/* </Link> */}
             {/* <Link to={"/cart/:idUser"} style={{ textDecoration: "inherit" }}> */}
-              <img className="p-1 hover:scale-125" src={Cart} />
+            <img className="p-1 hover:scale-125" src={Cart} />
             {/* </Link> */}
           </div>
         </div>
       </div>
-
     </>
   );
 }

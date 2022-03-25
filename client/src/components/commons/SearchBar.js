@@ -94,7 +94,9 @@ export default function SearchBar(props) {
                       <h3 className="text-sm font-semibold text-black">
                         {product.title}
                       </h3>
-                      <p className="text-xs text-gray-600">Price: US $ {product.price}</p>
+                      <p className="text-xs text-gray-600">
+                        Price: US $ {product.price}
+                      </p>
                     </div>
                   </div>
                 </Link>
