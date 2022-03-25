@@ -20,7 +20,6 @@ export default function LoginComponent(boolean) {
     const value = Object.entries(boolean)[0][1]
     const [hasAccount,setHasAccount] = useState(value)
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const [showtoast,setShowToast] = useState(true)
     console.log(message)
 
     //Renderizo un form u otro en base al booleano que recibo por props 
@@ -52,11 +51,6 @@ export default function LoginComponent(boolean) {
     }, [message]);
 
 
-    const notify = () => {
-        toast.error("Check your password!", {
-            position: toast.POSITION.BOTTOM_LEFT
-        })
-    }
 
 
 
@@ -81,7 +75,7 @@ export default function LoginComponent(boolean) {
                     <input className="h-12 my-2 md:w-5/6 md:m-auto md:mb-2" type="password" placeholder="Password" {...register("password", { required: true })} />
                     {errors.exampleRequired && <span className="m-auto">This field is required</span>}
                     
-                    <button type="submit" onClick={notify} className='bg-[#3b82f6] w-6/6 m-auto text-white px-6 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-[#3491fc] shadow-lg shadow-primary-200/80'>
+                    <button type="submit" className='bg-[#3b82f6] w-6/6 m-auto text-white px-6 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-[#3491fc] shadow-lg shadow-primary-200/80'>
                         {hasAccount ? "Login" : "Register"}
                     </button>
                 </form>
