@@ -8,6 +8,7 @@ import check from "./utils/check-shield-regular-24.png";
 import Modelo from "./utils/modelo.jpg";
 import mas from "./utils/image-add-regular-24.png";
 import Slider from "./ProductDetails/Slider";
+import NavbarAdmin from "./NavbarAdmin";
 import { Cloudinary } from "@cloudinary/url-gen";
 
 export default function CreateProducts() {
@@ -155,6 +156,8 @@ export default function CreateProducts() {
   return (
     <>
       <NavBar />
+      <div className='flex flex-col sm:flex-row' >
+      <NavbarAdmin />
       <div className="flex justify-center bg-secondary-100">
         <div className="flex justify-around p-2">
           <div className="flex bg-gray-50  min-w-min max-w-sm m-2 rounded-md justify-center p-8">
@@ -390,6 +393,7 @@ export default function CreateProducts() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </>
   );
