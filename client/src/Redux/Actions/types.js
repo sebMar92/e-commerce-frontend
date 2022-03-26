@@ -9,3 +9,4 @@ export const LOGIN_USER = "LOGIN_USER";
 export const POST_ORDERS = "POST_ORDERS";
 export const GET_ORDERS = "GET_ORDERS";
 export const GET_USER_INFO = "GET_USER_INFO";
+export const GET_COMMENT_BY_ID ="GET_COMMENT_BY_ID"
