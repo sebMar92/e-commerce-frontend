@@ -8,19 +8,13 @@ import check from "./utils/check-shield-regular-24.png";
 import Modelo from "./utils/modelo.jpg";
 import mas from "./utils/image-add-regular-24.png";
 import Slider from "./ProductDetails/Slider";
-import { Cloudinary } from "@cloudinary/url-gen";
+import Axios from "axios";
 
 export default function CreateProducts() {
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: "dmjbff5rm",
-    },
-  });
   const dispatch = useDispatch();
   const allCategories = useSelector((e) => e.home.categories);
   const [newCategory, setNewCategory] = useState("");
   const [inputImages, setInputImages] = useState("");
-  const [upImage, setUpImage] = useState("");
   const [errors, setErrors] = useState({});
 
   const [input, setInput] = useState({
@@ -90,15 +84,24 @@ export default function CreateProducts() {
       });
     }
   }
-
-  /*  console.log(upImage); */
-  if (upImage !== "") {
-    setInput({
-      ...input,
-      images: [...input.images, upImage],
-    });
-    setUpImage("");
-  }
+  let arr = [];
+  const uploadImage = (files) => {
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append("file", files[i]);
+      formData.append("upload_preset", "ecommerce");
+      Axios.post(
+        "https://api.cloudinary.com/v1_1/dmjbff5rm/image/upload",
+        formData
+      ).then((res) => {
+        arr.push(res.data.secure_url);
+        setInput({
+          ...input,
+          images: [...input.images, arr],
+        });
+      });
+    }
+  };
 
   function addImage(e) {
     /* console.log(e.target.value); */
@@ -127,26 +130,6 @@ export default function CreateProducts() {
       images: input.images.flat().filter((name) => name !== e.target.name),
     });
   }
-
-  /* const readURL = (file) => {
-    return new Promise((res, rej) => {
-      const reader = new FileReader();
-      reader.onload = (e) => res(e.target.result);
-      reader.onerror = (e) => rej(e);
-      reader.readAsDataURL(file);
-    });
-  }; */
-
-  const preview = async (event) => {
-    let arr = [];
-    const file = event.target.files;
-    for (let i = 0; i < file.length; i++) {
-      const myImage = cld.image(file[i]);
-      const url = myImage.toURL();
-      arr.push(url);
-    }
-    setUpImage(arr);
-  };
 
   const desc = input.description && input.description.split(".");
   const description2 = desc && desc.slice(0, -1);
@@ -303,13 +286,12 @@ export default function CreateProducts() {
                 </div>
                 <div>
                   <input
-                    key="OpenFil"
                     type="file"
-                    onChange={(e) => {
-                      preview(e);
-                    }}
                     multiple
-                  />
+                    onChange={(e) => {
+                      uploadImage(e.target.files);
+                    }}
+                  ></input>
                 </div>
                 <div className="flex">
                   {input.images &&
