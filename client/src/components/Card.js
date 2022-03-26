@@ -20,6 +20,17 @@ function addCart(){
 
   }
 
+  function addWishList(){
+    let token= window.localStorage.getItem('access')
+   dispatch(postOrder({
+     status: "inWishList",
+   amount: 1,
+  productId: id
+  
+  },token))
+  
+    }
+
   return (
     <>
       <div className="flex flex-wrap content-center font-lora">
@@ -44,8 +55,10 @@ function addCart(){
             </div>
           </Link>
           <div className="flex justify-around pl-3 items-center">
-              <GrFavorite onClick={(e=> addCart(e))} className="text-2xl hover:scale-125 hover:cursor-pointer" />
+
+              <GrFavorite onClick={(e=> addWishList(e))} className="text-2xl hover:scale-125 hover:cursor-pointer" />
               <AiOutlineShoppingCart onClick={(e=> addCart(e))} className="text-2xl hover:scale-125 hover:cursor-pointer"/>
+
           </div>
         </div>
       </div>
