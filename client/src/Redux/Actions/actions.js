@@ -7,6 +7,8 @@ import {
   POST_NEWUSER,
   VALIDATE_MAIL,
   LOGIN_USER,
+  GET_USER_INFO,
+  PUT_USER_INFO
 } from "./types";
 
 // action para traer los productos
@@ -101,5 +103,43 @@ export function validateMail(mail) {
       type: VALIDATE_MAIL,
       payload: validate.data,
     });
+  };
+}
+
+export function getUserInfo(token) {
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+  };
+  return async (dispatch) => {
+    try {
+      const user = await axios.get('http://localhost:3001/user', { headers: headers });
+      return dispatch({
+        type: GET_USER_INFO,
+        payload: user.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+
+export function putUserInfo(token, body) {
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+
+  console.log(body)
+
+  return async (dispatch) => {
+    try {
+      const userChangeData = await axios.put('http://localhost:3001/user', body, { headers: headers });
+      return dispatch({
+        type: PUT_USER_INFO,
+        payload: userChangeData.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
