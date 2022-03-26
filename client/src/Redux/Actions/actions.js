@@ -133,7 +133,7 @@ export function postOrder(order, token){
     return async (dispatch) => {
       try {
         
-        const cart = await axios.post('http://localhost:3001/orders',{status:"inCart"}, { headers: headers });
+        const cart = await axios.post('http://localhost:3001/order',{status:"inCart"}, { headers: headers });
         return dispatch({
           type: GET_ORDERS,
           payload: cart.data,
@@ -189,9 +189,12 @@ export function postOrder(order, token){
   }
   
   // para llamar cart y whislist -finali -proces
+
     export function getOrder(order) {
 
       const token = window.localStorage.getItem('access')
+
+
       const headers = {
         'Authorization': `Bearer ${token}`,
       };
