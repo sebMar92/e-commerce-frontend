@@ -8,7 +8,9 @@ import {
   POST_ORDERS,
   GET_ORDERS,
   GET_USER_INFO,
+  PUT_USER_INFO,
   GET_ORDERS_FAVS,
+
 } from "../Actions/types";
 
 const initialState = {
@@ -21,6 +23,7 @@ const initialState = {
   userTokens: [],
   userMail: [],
   openFiles: "",
+  answer: {},
   orders:[],
   user: {},
   favs: [],
@@ -59,6 +62,13 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         userTokens: action.payload,
       };
+     
+      case POST_ORDERS:
+        return{
+            ...state,
+           
+        }
+
     case GET_ORDERS:
         return{
             ...state,
@@ -69,6 +79,12 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
       };
+    case PUT_USER_INFO:
+      return {
+        ...state,
+        answer: action.payload,
+      }
+
       case GET_ORDERS_FAVS:
       return {
         ...state,

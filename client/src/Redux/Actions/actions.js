@@ -10,9 +10,11 @@ import {
   POST_ORDERS,
   GET_ORDERS,
   GET_USER_INFO,
+  PUT_USER_INFO,
   GET_ORDERS_FAVS,
   POST_ORDERS_FAV,
   GET_COMMENT_BY_ID
+
 } from './types';
 
 // action para traer los productos
@@ -169,6 +171,22 @@ export function validateMail(mail) {
   };
 }
 
+
+  export function putUserInfo(token, body) {
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+
+  console.log(body)
+
+  return async (dispatch) => {
+    try {
+      const userChangeData = await axios.put('http://localhost:3001/user', body, { headers: headers });
+      return dispatch({
+        type: PUT_USER_INFO,
+        payload: userChangeData.data,
+      });
+
     export function postOrder(order){
       console.log(order, "cart")
     const token= window.localStorage.getItem('access')
@@ -213,6 +231,7 @@ export function validateMail(mail) {
       }
     };
   }
+
 
   export function postOrderFav(order){
     const token = window.localStorage.getItem('access')
@@ -385,4 +404,7 @@ export function getUserInfo(token) {
       console.log(error);
     }
   };
+
+
 }
+
