@@ -9,9 +9,10 @@ export default function LoginProfileButton() {
   const user = useSelector((state) => state.home.user);
   const [reRender, setReRender] = useState({});
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(getUserInfo(token));
-    if (token) {
+    if (token && token.length > 4) {
+      dispatch(getUserInfo(token));
       setLogedIn(true);
     } else {
       setLogedIn(false);
@@ -25,15 +26,15 @@ export default function LoginProfileButton() {
     <div>
       {logedIn ? (
         <div className="group">
-          <button className="rounded-t-full w-10/10 px-2 py-2 group">
+          <button className="rounded-t-full w-10/10 px-2 group">
             <div></div>
             <img
               src={user.profilePicture}
-              className="relative object-cover w-11 h-11 border-4 border-secondary-100/0 rounded-full z-20 group-hover:border-secondary-100/100 "
+              className="relative object-cover w-11 h-11 border-4 border-secondary-100/0 rounded-full group-hover:border-secondary-100/100 "
             ></img>
-            <ul className="absolute -ml-2 mt-1 rounded-lg  z-10 text-sm">
+            <ul className="absolute -ml-2 mt-1 rounded-lg text-sm z-20">
               <Link to="/user" className="no-underline text-black">
-                <li className="rounded-t-md bg-secondary-100 p-1.5 z-10 translate-y-10  invisible group-hover:translate-x-0 group-hover:translate-y-0 group-hover:visible duration-100 ease-in hover:bg-primary-300 ">
+                <li className="rounded-t-md bg-secondary-100 p-1.5 z-10 translate-y-10  invisible group-hover:translate-x-0 group-hover:translate-y-0 group-hover:visible  duration-100 ease-in hover:bg-primary-300 ">
                   Profile
                 </li>
               </Link>
