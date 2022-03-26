@@ -8,7 +8,6 @@ import {
   POST_ORDERS,
   GET_ORDERS,
   GET_USER_INFO,
-  PUT_USER_INFO,
   GET_ORDERS_FAVS,
   PUT_USER_INFO
 } from "../Actions/types";
