@@ -1,7 +1,8 @@
-import { GET_PRODUCT_BY_ID } from '../Actions/types'
+import { GET_PRODUCT_BY_ID, GET_COMMENT_BY_ID } from '../Actions/types'
 
 const initialState = {
-    product: []
+    product: [],
+    comment: undefined
 }
 
 export const getProductByID = (state = initialState, action) => {
@@ -10,6 +11,11 @@ export const getProductByID = (state = initialState, action) => {
             return {
                 ...state,
                 product: action.payload
+            }
+        case GET_COMMENT_BY_ID:
+            return {
+                ...state,
+                comment: action.payload
             }
         default:
             return state;

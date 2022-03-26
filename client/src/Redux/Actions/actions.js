@@ -11,7 +11,8 @@ import {
   GET_ORDERS,
   GET_USER_INFO,
   GET_ORDERS_FAVS,
-  POST_ORDERS_FAV
+  POST_ORDERS_FAV,
+  GET_COMMENT_BY_ID
 } from './types';
 
 // action para traer los productos
@@ -44,6 +45,65 @@ export function getProductByID(id) {
       var json = await axios.get('http://localhost:3001/products/' + id);
       return dispatch({
         type: GET_PRODUCT_BY_ID,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function updateComment(comment, token) {
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+  };
+  
+  return async function () {
+    try {
+      const commentUpdated = await axios.put("http://localhost:3001/comment", comment, { headers: headers } );
+      return commentUpdated;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function postComment(comment, token) {
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+  };
+  
+  return async function () {
+    try {
+      const commentCreated = await axios.post("http://localhost:3001/comment", comment, { headers: headers } );
+      return commentCreated;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function deleteComment(id, token) {
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+  };
+  
+  return async function () {
+    try {
+      const commentDeleted = await axios.delete("http://localhost:3001/comment", { data: { id: id },  headers: headers } );
+      return commentDeleted;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getCommentByID(id) {
+  return async function (dispatch) {
+    try {
+      var json = await axios.get(`http://localhost:3001/comment/?productId=${id}`);
+      return dispatch({
+        type: GET_COMMENT_BY_ID,
         payload: json.data,
       });
     } catch (error) {
