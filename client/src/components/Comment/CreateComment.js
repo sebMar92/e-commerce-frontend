@@ -50,16 +50,16 @@ const CreateComment = ({ id }) => {
     
     :
 
-    <div className='p-2 w-1/2 font-lora flex flex-col items-center mt-2 gap-2'>
+    <div className='p-2 font-lora flex flex-col items-center mt-2 gap-2'>
         <div className="pb-2 border-b-[1px] border-b-primary-300">
             <h2>Leave a review!</h2>
         </div>
-        <form className="w-4/5" onSubmit={(e) => {handleSubmit(e)}}>
+        <form className="w-1/2" onSubmit={(e) => {handleSubmit(e)}}>
 
             <textarea className='border-[1px] border-primary-300 rounded w-full p-2 font-lora min-h-[120px] outline-none text-sm' value={comment.content} type="text" name="content" onChange={(e) => handleChange(e)}>
 
             </textarea>
-            <div className="flex justify-between p-2 items-center">
+            <div className="flex justify-between p-2 items-center flex-col sm:flex-row gap-2">
                 <div className="flex gap-2">
                     {[...Array(5)].map((el, i) => {
                     
