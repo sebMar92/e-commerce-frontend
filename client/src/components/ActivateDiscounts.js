@@ -8,7 +8,15 @@ import { getSales } from '../Redux/Actions/actions';
 export default function ActivateDiscounts() {
   const allSales = useSelector((state) => state.admin.sales);
   const [tab, setTab] = useState(true);
-  const [selectedItem, setSelectedItem] = useState(0);
+  const [sale, setSale] = useState({
+    description: '',
+    percentage: '',
+    day: '',
+    productAmount: '',
+    category: '',
+    product: '',
+    id: 0,
+  });
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSales());
@@ -17,20 +25,86 @@ export default function ActivateDiscounts() {
     setTab(!tab);
   }
   function handleItem(e) {
-    const items = document.getElementsByClassName('saleItem');
-    for (const item of items) {
-      item.classList.toggle('hidden');
-    }
-    e.target.classList.toggle('hidden');
-    e.target.classList.toggle('bg-secondary-100');
-    e.target.classList.toggle('bg-primary-300');
-    e.target.classList.toggle('font-medium');
-    if (selectedItem !== e.target.id) {
-      setSelectedItem(e.target.id);
+    if (sale.id !== e.target.id) {
+      setSale({
+        ...sale,
+        id: e.target.id,
+        description: e.target.getAttribute('description'),
+        percentage: e.target.getAttribute('percentage'),
+        day: e.target.getAttribute('day'),
+        productAmount: e.target.getAttribute('amount'),
+        category: e.target.getAttribute('category'),
+        product: e.target.getAttribute('product'),
+      });
     } else {
-      setSelectedItem(0);
+      setSale({
+        description: '',
+        percentage: '',
+        day: '',
+        productAmount: '',
+        category: '',
+        product: '',
+        id: 0,
+      });
     }
   }
+  function handleDay(e) {
+    if (sale.day !== e.target.id) {
+      setSale({ ...sale, day: e.target.id });
+    } else {
+      setSale({ ...sale, day: '' });
+    }
+  }
+  useEffect(() => {
+    const items = document.getElementsByClassName('saleItem');
+    const dropdowns = document.getElementsByClassName('dropdown');
+    if (sale.id !== 0) {
+      const selectedItem = document.getElementById(sale.id);
+      const selectedDropdown = document.getElementById('dropdown ' + sale.id);
+      for (const item of items) {
+        item.classList.add('hidden');
+        item.classList.remove('bg-primary-300');
+        item.classList.add('bg-secondary-100');
+      }
+      for (const drop of dropdowns) {
+        drop.classList.add('hidden');
+      }
+      selectedItem.classList.toggle('hidden');
+      selectedItem.classList.toggle('bg-secondary-100');
+      selectedItem.classList.toggle('bg-primary-300');
+      selectedDropdown.classList.toggle('hidden');
+    } else {
+      if (items) {
+        for (const item of items) {
+          item.classList.remove('hidden');
+          item.classList.remove('bg-primary-300');
+          item.classList.add('bg-secondary-100');
+        }
+        if (dropdowns) {
+          for (const drop of dropdowns) {
+            drop.classList.add('hidden');
+          }
+        }
+      }
+    }
+  }, [sale.id]);
+
+  useEffect(() => {
+    const selected = document.getElementsByClassName(sale.day);
+    const others = document.getElementsByClassName('dayItem');
+    if (others) {
+      for (const other of others) {
+        other.classList.remove('bg-primary-500');
+        other.classList.add('bg-white');
+      }
+    }
+    if (selected) {
+      for (const select of selected) {
+        select.classList.add('bg-primary-500');
+        select.classList.remove('bg-white');
+      }
+    }
+  }, [sale.day]);
   return (
     <>
       <NavBar />
@@ -61,32 +135,96 @@ export default function ActivateDiscounts() {
                 return (
                   <div key={sale.id}>
                     <div
-                      id={sale.id}
+                      description={sale.description}
+                      percentage={sale.percentage}
+                      day={sale.day}
+                      amount={sale.productAmount}
+                      category={sale.category}
+                      product={sale.product}
+                      id={'sale ' + sale.id}
                       onClick={(e) => handleItem(e)}
                       className="saleItem border-t-4 mx-2 border-white p-4 bg-secondary-100 hover:bg-primary-200 hover:font-medium"
                     >
                       {sale.description}
                     </div>
-                    <form id={sale.id} className="m-2 ">
-                      <div className="bg-secondary-100 flex p-4">
-                        <div className="w-1/12">Percentage: </div>
+                    <form id={'dropdown sale ' + sale.id} className="dropdown m-2 hidden">
+                      <div className="bg-secondary-100 flex p-4 items-center ">
+                        <div>Percentage: </div>
                         <input
                           placeholder={sale.percentage}
                           className="ml-2 rounded-sm border border-primary-500 pl-2"
                         ></input>
                       </div>
-                      <div className="bg-secondary-100 flex p-4">
-                        <div className="w-1/12">Days: </div>
-                        <ul className="ml-2 rounded-sm flex pl-2">
-                          <li className="mr-2"> Monday</li>
-                          <li className="mr-2"> Tuesday</li>
-                          <li className="mr-2"> Wednesday</li>
-                          <li className="mr-2"> Thursday</li>
-                          <li className="mr-2"> Friday</li>
-                          <li className="mr-2"> Saturday</li>
-                          <li className="mr-2"> Sunday</li>
-                          <li className="mr-2"> All</li>
-                        </ul>
+                      <div className="bg-secondary-100 flex p-4 items-center">
+                        <div>Requires more than one? </div>
+                        <span
+                          id="yes"
+                          onClick={(e) => handleDay(e)}
+                          className={`yes mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2`}
+                        ></span>
+                        Yes
+                        <span
+                          id="no"
+                          onClick={(e) => handleDay(e)}
+                          className={`no mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2`}
+                        ></span>
+                        No
+                        <div className="ml-4">How many? </div>
+                        <input
+                          placeholder={1}
+                          className="ml-2 rounded-sm border border-primary-500 pl-2"
+                        ></input>
+                      </div>
+                      <div className="bg-secondary-100 flex p-4 items-center">
+                        <div className="mr-2">Days: </div>
+                        <span
+                          id="monday"
+                          onClick={(e) => handleDay(e)}
+                          className={`dayItem monday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2`}
+                        ></span>
+                        Monday
+                        <span
+                          id="tuesday"
+                          onClick={(e) => handleDay(e)}
+                          className={`dayItem tuesday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2`}
+                        ></span>
+                        Tuesday
+                        <span
+                          id="wednesday"
+                          onClick={(e) => handleDay(e)}
+                          className={`dayItem wednesday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2`}
+                        ></span>
+                        Wednesday
+                        <span
+                          id="thursday"
+                          onClick={(e) => handleDay(e)}
+                          className={`dayItem thursday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2`}
+                        ></span>
+                        Thursday
+                        <span
+                          id="friday"
+                          onClick={(e) => handleDay(e)}
+                          className={`dayItem friday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2`}
+                        ></span>
+                        Friday
+                        <span
+                          id="saturday"
+                          onClick={(e) => handleDay(e)}
+                          className={`dayItem saturday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2`}
+                        ></span>
+                        Saturday
+                        <span
+                          id="sunday"
+                          onClick={(e) => handleDay(e)}
+                          className={`dayItem sunday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2`}
+                        ></span>
+                        Sunday
+                        <span
+                          id="all"
+                          onClick={(e) => handleDay(e)}
+                          className={`dayItem all mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2`}
+                        ></span>
+                        All
                       </div>
                     </form>
                   </div>
