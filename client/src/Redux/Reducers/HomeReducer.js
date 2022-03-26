@@ -5,8 +5,11 @@ import {
   POST_NEWUSER,
   VALIDATE_MAIL,
   LOGIN_USER,
+  POST_ORDERS,
+  GET_ORDERS,
   GET_USER_INFO,
-  PUT_USER_INFO
+   PUT_USER_INFO
+
 } from "../Actions/types";
 
 const initialState = {
@@ -19,8 +22,9 @@ const initialState = {
   userTokens: [],
   userMail: [],
   openFiles: "",
-  user: {},
   answer: {},
+  orders:[],
+  user: {},
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -56,6 +60,17 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         userTokens: action.payload,
       };
+      
+      case POST_ORDERS:
+        return{
+            ...state,
+           
+        }
+    case GET_ORDERS:
+        return{
+            ...state,
+            orders: action.payload,
+        }
     case GET_USER_INFO:
       return {
         ...state,
@@ -66,7 +81,6 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         answer: action.payload,
       }
-
     default:
       return state;
   }
