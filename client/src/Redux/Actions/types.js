@@ -13,4 +13,5 @@ export const PUT_USER_INFO = "PUT_USER_INFO";
 export const GET_ORDERS_FAVS = "GET_ORDERS_FAV";
 export const POST_ORDERS_FAV = "POST_ORDERS_FAV";
 export const GET_COMMENT_BY_ID ="GET_COMMENT_BY_ID";
+export const PUT_USER_INFO = "PUT_USER_INFO"
 

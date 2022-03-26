@@ -236,7 +236,7 @@ function UserProfileModal({ onClose, directionsUser }) {
                                 <div id="submitChanges" className="">
                                     <button type="submit" /* onSubmit={(e) => handleSubmitChangeNewAdress(e)} */
                                         className='text-md items-center flex rounded-md shadow-sm shadow-slate-400 m-1 w-44 justify-center'>
-                                        Submit New Adress   <AiOutlineSend />
+                                        Submit New Adress   <AiOutlineSend />
                                     </button>
                                 </div>
 
@@ -370,7 +370,7 @@ function UserProfileModal({ onClose, directionsUser }) {
                                                     <div id="submitChanges" className="">
                                                         <button type="submit" onSubmit={(e) => handleSubmitChangeAdressExist(e)}
                                                             className='text-md items-center flex rounded-md shadow-sm shadow-slate-400 m-1 w-44 justify-center'>
-                                                            Submit Changes   <AiOutlineSend />
+                                                            Submit Changes   <AiOutlineSend />
                                                         </button>
                                                     </div>
 

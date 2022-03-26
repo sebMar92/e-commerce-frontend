@@ -10,7 +10,7 @@ import {
   GET_USER_INFO,
   PUT_USER_INFO,
   GET_ORDERS_FAVS,
-
+  PUT_USER_INFO
 } from "../Actions/types";
 
 const initialState = {
@@ -27,6 +27,7 @@ const initialState = {
   orders:[],
   user: {},
   favs: [],
+  answer: {},
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -89,6 +90,11 @@ export const HomeReducer = (state = initialState, action) => {
       return {
         ...state,
         favs: action.payload
+      };
+      case PUT_USER_INFO:
+      return {
+        ...state,
+        answer: action.payload
       };
 
     default:
