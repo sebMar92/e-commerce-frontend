@@ -9,6 +9,9 @@ import Modelo from "./utils/modelo.jpg";
 import mas from "./utils/image-add-regular-24.png";
 import Slider from "./ProductDetails/Slider";
 import Axios from "axios";
+import NavbarAdmin from "./NavbarAdmin";
+import { Cloudinary } from "@cloudinary/url-gen";
+
 
 export default function CreateProducts() {
   const dispatch = useDispatch();
@@ -137,8 +140,10 @@ export default function CreateProducts() {
   return (
     <>
       <NavBar />
+      <div className='flex flex-col sm:flex-row' >
+      <NavbarAdmin />
       <div className="flex justify-center bg-secondary-100">
-        <div className="flex justify-around p-2">
+        <div className="flex justify-around p-2  w-full m-11">
           <div className="flex bg-gray-50  min-w-min max-w-sm m-2 rounded-md justify-center p-8">
             <form
               onSubmit={(e) => {
@@ -322,21 +327,23 @@ export default function CreateProducts() {
               ></ButtonBuy>
             </form>
           </div>
-          <div className="sm:hidden lg:flex z-10 hidden">
-            <div className="p-2 bg-white rounded shadow-sm my-2 ">
+          <div className="sm:hidden lg:flex z-10 hidden w-full">
+            <div className="w-full p-2 bg-white rounded shadow-sm mx-6 my-2 ">
               <div className="p-2 border-b-[1px] border-b-primary-300 font-lora">
                 <h2 className="2xl:text-2xl">{input.title}</h2>
               </div>
               <div className=" justify-center w-full sm:hidden lg:flex z-10 hidden">
                 {input.images.length > 0 ? (
+                  <div className="">
                   <Slider images={input.images.flat()} />
+                  </div>
                 ) : (
                   <div className="flex justify-center">
                     <img className=" w-8/12" src={Modelo} alt="" />
                   </div>
                 )}
               </div>
-              <div className="flex justify-between w-full p-2">
+              <div className="flex justify-between w-11/12 m-8 ">
                 <div className="text-3xl font-bold text-primary-700 font-lora flex justify-center items-center">
                   <span>US$ {input.price}</span>
                 </div>
@@ -371,6 +378,7 @@ export default function CreateProducts() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </>
   );

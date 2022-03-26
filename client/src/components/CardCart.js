@@ -1,10 +1,14 @@
 import React, { useState } from "react";
+
 import Product from "./utils/Notebook-Odyssey-2.jpg";
 
 export default function CardCart({ image, name, price, shippingCost, stock }) {
   const [count, setCount] = useState(0);
   const [value, setValue] = useState(price);
 
+
+ 
+  
   return (
     <div className="flex flex-wrap justify-center">
       <div className="bg-secondary-100 w-9/12 m-5 rounded-md">
@@ -18,14 +22,25 @@ export default function CardCart({ image, name, price, shippingCost, stock }) {
             <div className=" flex flex-wrap">
               <img
                 className="h-28 m-3 rounded-t-lg"
-                src={Product} /* src={image} */
+                src={image}
                 alt="product image"
               />
 
               <div>
                 <h5 className="text-2xl">Laptop{name}</h5>
                 <div>
-                  <p className="text-xs text-blue-900 m-3">Free shipping</p>
+                  {shippingCost == 0 ? (
+                    <div>
+                      <p className="text-xs text-blue-900 m-3">Free shipping</p>
+                    </div>
+                  ) : (
+                    <div>
+                      <p className="text-xs text-blue-900 m-3">
+                        {shippingCost}
+                      </p>
+                    </div>
+                  )}
+
                   <button className="bg-[#3b82f6] text-white p-1 rounded-md text-xs font-lora font-bold active:translate-y-1 hover:bg-[#3491fc] shadow-lg shadow-primary-200/80 mx-2 m-1">
                     Buy now
                   </button>
@@ -54,9 +69,9 @@ export default function CardCart({ image, name, price, shippingCost, stock }) {
                   >
                     +
                   </button>
-                  {/*  {(count!==1) ? setValue(value*count) : value}  */}
+                  {(count!==1) ? setValue(value*count) : value}  
                   <span className="text-1xl font-bold text-gray-900 mx-5">
-                    $10.000{value}
+                    $ {value}
                   </span>
                   <p className="text-xs text-gray-400 text-center mr-24">
                     stock{stock}
