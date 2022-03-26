@@ -1,9 +1,37 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Star from "./utils/star-regular-24.png";
-import Cart from "./utils/cart-alt-solid-24.png";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import { GrFavorite } from "react-icons/gr";
+import { postOrder } from "../Redux/Actions/actions";
+import { useDispatch} from "react-redux";
 
 export default function CardHome({ id, image, title, price }) {
+  const dispatch = useDispatch();
+
+ 
+function addCart(){
+  let token= window.localStorage.getItem('access')
+ dispatch(postOrder({
+   status: "inCart",
+ amount: 1,
+productId: id
+
+},token))
+
+  }
+
+  
+  function addWishList(){
+    let token= window.localStorage.getItem('access')
+   dispatch(postOrder({
+     status: "inWishList",
+   amount: 1,
+  productId: id
+  
+  },token))
+  
+    }
+
   return (
     <div className=" shadow-md shadow-slate-300 hover:shadow-slate-500 rounded-lg scale-95 hover:scale-100">
       <div className="max-w-sm rounded overflow-hidden shadow-lg h-full">
@@ -21,12 +49,8 @@ export default function CardHome({ id, image, title, price }) {
         </Link>
         <div className="pt-5">
           <span className="flex flex-row justify-around">
-            {/* <Link to={"/wishlist/:idUser"} className="disable"> */}
-            <img className="p-2 hover:scale-125" src={Star} alt="img" />
-            {/*  </Link> */}
-            {/* <Link to={"/cart/:idUser"} style={{ textDecoration: "inherit" }}> */}
-            <img className="p-2 hover:scale-125" src={Cart} alt="img" />
-            {/*  </Link> */}
+              <GrFavorite onClick={(e=> addWishList(e))} className="text-2xl hover:scale-125 hover:cursor-pointer" />
+              <AiOutlineShoppingCart onClick={(e=> addCart(e))} className="text-2xl hover:scale-125 hover:cursor-pointer"/>
           </span>
           <br />
           <span className="flex justify-center text-3xl font-bold text-gray-900 mr-2 mb-2 dark:text-white">

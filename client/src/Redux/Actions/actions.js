@@ -7,8 +7,11 @@ import {
   POST_NEWUSER,
   VALIDATE_MAIL,
   LOGIN_USER,
+  POST_ORDERS,
+  GET_ORDERS,
   GET_USER_INFO,
   GET_SALES,
+  GET_COMMENT_BY_ID,
 } from './types';
 
 // action para traer los productos
@@ -41,6 +44,72 @@ export function getProductByID(id) {
       var json = await axios.get('http://localhost:3001/products/' + id);
       return dispatch({
         type: GET_PRODUCT_BY_ID,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function updateComment(comment, token) {
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+  };
+
+  return async function () {
+    try {
+      const commentUpdated = await axios.put('http://localhost:3001/comment', comment, {
+        headers: headers,
+      });
+      return commentUpdated;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function postComment(comment, token) {
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+  };
+
+  return async function () {
+    try {
+      const commentCreated = await axios.post('http://localhost:3001/comment', comment, {
+        headers: headers,
+      });
+      return commentCreated;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function deleteComment(id, token) {
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+  };
+
+  return async function () {
+    try {
+      const commentDeleted = await axios.delete('http://localhost:3001/comment', {
+        data: { id: id },
+        headers: headers,
+      });
+      return commentDeleted;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getCommentByID(id) {
+  return async function (dispatch) {
+    try {
+      var json = await axios.get(`http://localhost:3001/comment/?productId=${id}`);
+      return dispatch({
+        type: GET_COMMENT_BY_ID,
         payload: json.data,
       });
     } catch (error) {
@@ -103,6 +172,132 @@ export function validateMail(mail) {
       type: VALIDATE_MAIL,
       payload: validate.data,
     });
+  };
+}
+/* 
+export function postOrder(order, token){
+  const headers ={
+    "Authorization": `Bearer ${token}`
+  }
+  return async function(dispatch){
+  
+    try{
+      const crearCart= await axios.post("http://localhost:3001/order", order, {headers: headers});
+      return dispatch({
+        type: POST_ORDERS,
+        payload: crearCart.data
+      });
+    }catch (error){
+      console.log(error)
+    }
+  }
+  }
+
+  export function getOrder(token) {
+    const headers = {
+      'Authorization': `Bearer ${token}`,
+    };
+    return async (dispatch) => {
+      try {
+        
+        const cart = await axios.post('http://localhost:3001/order',{status:"inCart"}, { headers: headers });
+        return dispatch({
+          type: GET_ORDERS,
+          payload: cart.data,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  }  */
+
+export function postOrder(order, token) {
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+  };
+
+  return (dispatch) => {
+    try {
+      return axios
+        .post('http://localhost:3001/order', order, { headers: headers })
+        .then((res) => {
+          dispatch({
+            type: POST_ORDERS,
+            payload: res.data,
+          });
+        })
+        .catch((error) => {
+          if (error.response.status === 403) {
+            let refreshToken = window.localStorage.getItem('refresh');
+            axios
+              .post('http://localhost:3001/user/token', { token: refreshToken })
+              .then((res) => {
+                window.localStorage.setItem('access', res.data.token);
+                axios
+                  .post('http://localhost:3001/order', order, {
+                    headers: {
+                      'Authorization': `Bearer ${res.data.token}`,
+                    },
+                  })
+                  .then((res) => {
+                    dispatch({
+                      type: POST_ORDERS,
+                      payload: res.data,
+                    });
+                  });
+              });
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+// para llamar cart y whislist -finali -proces
+
+export function getOrder(order) {
+  const token = window.localStorage.getItem('access');
+
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+  };
+
+  return (dispatch) => {
+    try {
+      return axios
+        .get('http://localhost:3001/order?status=' + order.status, { headers: headers })
+        .then((res) => {
+          dispatch({
+            type: GET_ORDERS,
+            payload: res.data,
+          });
+        })
+        .catch((error) => {
+          if (error.response.status === 403) {
+            let refreshToken = window.localStorage.getItem('refresh');
+            axios
+              .post('http://localhost:3001/order', { token: refreshToken })
+              .then((res) => {
+                window.localStorage.setItem('access', res.data.token);
+                axios
+                  .get('http://localhost:3001/order', {
+                    headers: {
+                      'Authorization': `Bearer ${res.data.token}`,
+                    },
+                  })
+                  .then((res) => {
+                    dispatch({
+                      type: GET_ORDERS,
+                      payload: res.data,
+                    });
+                  });
+              });
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
 

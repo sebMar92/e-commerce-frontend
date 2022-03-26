@@ -5,6 +5,8 @@ import {
   POST_NEWUSER,
   VALIDATE_MAIL,
   LOGIN_USER,
+  POST_ORDERS,
+  GET_ORDERS,
   GET_USER_INFO,
 } from "../Actions/types";
 
@@ -18,6 +20,7 @@ const initialState = {
   userTokens: [],
   userMail: [],
   openFiles: "",
+  orders:[],
   user: {},
 };
 export const HomeReducer = (state = initialState, action) => {
@@ -54,6 +57,16 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         userTokens: action.payload,
       };
+      case POST_ORDERS:
+        return{
+            ...state,
+           
+        }
+    case GET_ORDERS:
+        return{
+            ...state,
+            orders: action.payload,
+        }
     case GET_USER_INFO:
       return {
         ...state,
