@@ -9,7 +9,9 @@ export const LOGIN_USER = "LOGIN_USER";
 export const POST_ORDERS = "POST_ORDERS";
 export const GET_ORDERS = "GET_ORDERS";
 export const GET_USER_INFO = "GET_USER_INFO";
+export const PUT_USER_INFO = "PUT_USER_INFO";
 export const GET_ORDERS_FAVS = "GET_ORDERS_FAV";
 export const POST_ORDERS_FAV = "POST_ORDERS_FAV";
 export const GET_COMMENT_BY_ID ="GET_COMMENT_BY_ID";
 export const PUT_USER_INFO = "PUT_USER_INFO"
+
