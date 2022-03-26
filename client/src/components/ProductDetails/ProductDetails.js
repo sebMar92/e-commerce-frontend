@@ -35,9 +35,19 @@ function addCart(){
   productId: idProduct
   
   },token))
-  
+
     }
-  
+
+    function addWishList(){
+      let token= window.localStorage.getItem('access')
+     dispatch(postOrder({
+       status: "inWishList",
+     amount: 1,
+    productId: idProduct
+    
+    },token))
+    
+      }
 
   return (
     <>
@@ -51,7 +61,7 @@ function addCart(){
                   {el.name}
                 </div>
               ))}
-            {/* <Link className="ml-auto" to={"/wishlist/:idUser"} >
+            {/* <Link onClik={(e=> addWhisList(e))} className="ml-auto" to={"/wishlist/:idUser"} >
                         <img src={Star} />
                     </Link> */}
           </div>

@@ -10,6 +10,7 @@ import {
   POST_ORDERS,
   GET_ORDERS,
   GET_USER_INFO,
+  PUT_PRODUCT_BY_ID
 
 } from './types';
 
@@ -43,6 +44,20 @@ export function getProductByID(id) {
       var json = await axios.get('http://localhost:3001/products/' + id);
       return dispatch({
         type: GET_PRODUCT_BY_ID,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function putProductByID(id) {
+  return async function (dispatch) {
+    try {
+      var json = await axios.put('http://localhost:3001/products/' + id);
+      return dispatch({
+        type: PUT_PRODUCT_BY_ID,
         payload: json.data,
       });
     } catch (error) {

@@ -40,7 +40,7 @@ export default function CreateProducts() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(input);
+   
     dispatch(postProduct(input));
     setInput({
       title: "",
@@ -147,7 +147,7 @@ export default function CreateProducts() {
       arr.push(url);
     }
     setUpImage(arr);
-    console.log(arr);
+    
   };
 
   const desc = input.description && input.description.split(".");
