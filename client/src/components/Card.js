@@ -3,22 +3,30 @@ import { Link } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { GrFavorite } from "react-icons/gr";
 import { useDispatch, useSelector} from "react-redux";
-import { postOrder } from "../Redux/Actions/actions";
+import { postOrder, postOrderFav } from '../Redux/Actions/actions';
 
 
 export default function Card({ id, image, name, price, shippingCost, path }) {
 const dispatch = useDispatch();
 
 
-function addCart(){
-  let token= window.localStorage.getItem('access')
+/* function addCart(){
+  console.log("cart")
   dispatch(postOrder({
     status: "inCart",
-  amount: 1,
-  productId: id
-},token))
-
+      amount: 1,
+      productId: id
+    }))
   }
+
+  function addFav(){
+    console.log("fav")
+    dispatch(postOrderFav({
+      status: "inWishlist",
+        amount: 1,
+        productId: id
+      }))
+  } */
 
   return (
     <>
@@ -44,8 +52,8 @@ function addCart(){
             </div>
           </Link>
           <div className="flex justify-around pl-3 items-center">
-              <GrFavorite onClick={(e=> addCart(e))} className="text-2xl hover:scale-125 hover:cursor-pointer" />
-              <AiOutlineShoppingCart onClick={(e=> addCart(e))} className="text-2xl hover:scale-125 hover:cursor-pointer"/>
+              <button /* onClick={addFav} */><GrFavorite  className="text-2xl hover:scale-125 hover:cursor-pointer" /></button>
+              <AiOutlineShoppingCart /* onClick={addCart} */ className="text-2xl hover:scale-125 hover:cursor-pointer"/>
           </div>
         </div>
       </div>

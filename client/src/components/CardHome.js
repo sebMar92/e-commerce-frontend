@@ -2,25 +2,35 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { GrFavorite } from "react-icons/gr";
-import { postOrder } from "../Redux/Actions/actions";
+import { postOrder,postOrderFav } from "../Redux/Actions/actions";
 import { useDispatch} from "react-redux";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-export default function CardHome({ id, image, title, price }) {
+export default function CardHome({ id, image, title, price,onClick,onClick2 }) {
   const dispatch = useDispatch();
+  const notify = onClick
+  const notify2 = onClick2
+  console.log(notify)
 
- 
 function addCart(){
-  let token= window.localStorage.getItem('access')
- dispatch(postOrder({
-   status: "inCart",
- amount: 1,
-productId: id
-
-},token))
-
+    dispatch(postOrder({
+      status: "inCart",
+    amount: 1,
+    productId: id
+    }))
   }
 
-  return (
+  function addFav(){
+    console.log("fav")
+    dispatch(postOrderFav({
+      status: "inWishList",
+        amount: 1,
+        productId: id
+      }))
+  } 
+
+  return (<>
     <div className=" shadow-md shadow-slate-300 hover:shadow-slate-500 rounded-lg scale-95 hover:scale-100">
       <div className="max-w-sm rounded overflow-hidden shadow-lg h-full">
         <Link to={`/product/${id}`} className="no-underline">
@@ -37,8 +47,8 @@ productId: id
         </Link>
         <div className="pt-5">
           <span className="flex flex-row justify-around">
-              <GrFavorite onClick={(e=> addCart(e))} className="text-2xl hover:scale-125 hover:cursor-pointer" />
-              <AiOutlineShoppingCart onClick={(e=> addCart(e))} className="text-2xl hover:scale-125 hover:cursor-pointer"/>
+              <GrFavorite onClick={addFav,notify} className="text-2xl hover:scale-125 hover:cursor-pointer active:scale-110" />
+              <AiOutlineShoppingCart onClick={addCart,notify2} className="text-2xl hover:scale-125 hover:cursor-pointer active:scale-110"/>
           </span>
           <br />
           <span className="flex justify-center text-3xl font-bold text-gray-900 mr-2 mb-2 dark:text-white">
@@ -48,5 +58,6 @@ productId: id
       </div>
 
     </div >
+    </>
   );
 }
