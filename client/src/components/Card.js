@@ -6,11 +6,12 @@ import { useDispatch, useSelector} from "react-redux";
 import { postOrder, postOrderFav } from '../Redux/Actions/actions';
 
 
-export default function Card({ id, image, name, price, shippingCost, path }) {
+export default function Card({ id, image, name, price, shippingCost, path, onClick,onClick2 }) {
 const dispatch = useDispatch();
+const notifyCatCLick = onClick
+const notifyCatClick2 = onClick2
 
-
-/* function addCart(){
+  function addCartCategories(){
   console.log("cart")
   dispatch(postOrder({
     status: "inCart",
@@ -19,14 +20,14 @@ const dispatch = useDispatch();
     }))
   }
 
-  function addFav(){
+  function addFavCategories(){
     console.log("fav")
     dispatch(postOrderFav({
-      status: "inWishlist",
+      status: "inWishList",
         amount: 1,
         productId: id
       }))
-  } */
+  }
 
   return (
     <>
@@ -52,8 +53,8 @@ const dispatch = useDispatch();
             </div>
           </Link>
           <div className="flex justify-around pl-3 items-center">
-              <button /* onClick={addFav} */><GrFavorite  className="text-2xl hover:scale-125 hover:cursor-pointer" /></button>
-              <AiOutlineShoppingCart /* onClick={addCart} */ className="text-2xl hover:scale-125 hover:cursor-pointer"/>
+              <GrFavorite onClick={() => {addFavCategories() ; notifyCatCLick()}} className="text-2xl hover:scale-125 hover:cursor-pointer active:scale-110" />
+              <AiOutlineShoppingCart onClick={() => {addCartCategories() ; notifyCatClick2() }} className="text-2xl hover:scale-125 hover:cursor-pointer active:scale-110"/>
           </div>
         </div>
       </div>

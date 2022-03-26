@@ -86,7 +86,7 @@ export default function NavBar() {
       </div>
       <div className="flex justify-center">
         <div
-          className={`bg-primary-500 rounded m-2 w-full sm:hidden lg:flex flex-row justify-evenly z-1 mt-4 ${
+          className={`bg-primary-500 rounded m-2 w-full sm:hidden lg:flex flex-row justify-evenly z-10 mt-4 ${
             isOpen && hidden
           } `}
         >

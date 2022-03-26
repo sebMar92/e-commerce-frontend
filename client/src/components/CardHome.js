@@ -12,6 +12,7 @@ export default function CardHome({ id, image, title, price,onClick,onClick2 }) {
   const notify = onClick;
   const notify2 = onClick2;
 
+    
 function addCart(){
     dispatch(postOrder({
       status: "inCart",
@@ -21,7 +22,6 @@ function addCart(){
   }
 
   function addFav(){
-    console.log("fav")
     dispatch(postOrderFav({
       status: "inWishList",
         amount: 1,
@@ -29,7 +29,9 @@ function addCart(){
       }))
   } 
 
-  return (<>
+
+
+  return (
     <div className=" shadow-md shadow-slate-300 hover:shadow-slate-500 rounded-lg scale-95 hover:scale-100">
       <div className="max-w-sm rounded overflow-hidden shadow-lg h-full">
         <Link to={`/product/${id}`} className="no-underline">
@@ -46,8 +48,8 @@ function addCart(){
         </Link>
         <div className="pt-5">
           <span className="flex flex-row justify-around">
-              <GrFavorite onClick={addFav,notify} className="text-2xl hover:scale-125 hover:cursor-pointer active:scale-110" />
-              <AiOutlineShoppingCart onClick={addCart,notify2} className="text-2xl hover:scale-125 hover:cursor-pointer active:scale-110"/>
+              <GrFavorite onClick={()=>{ addFav(); notify() }}className="text-2xl hover:scale-125 hover:cursor-pointer active:scale-110" />
+              <AiOutlineShoppingCart onClick={() =>{addCart(); notify2()}} className="text-2xl hover:scale-125 hover:cursor-pointer active:scale-110"/>
           </span>
           <br />
           <span className="flex justify-center text-3xl font-bold text-gray-900 mr-2 mb-2 dark:text-white">
@@ -57,6 +59,5 @@ function addCart(){
       </div>
 
     </div >
-    </>
   );
 }

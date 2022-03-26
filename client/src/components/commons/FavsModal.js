@@ -7,7 +7,7 @@ import { GrFavorite } from "react-icons/gr";
 
 export default function FavsModal() {
   const favs = useSelector((state) => state.home.favs)
-  const ordersFav = favs.slice(0,2);
+  const ordersFav = favs;
   const dispatch = useDispatch();
   console.log(ordersFav)
 
@@ -19,21 +19,30 @@ export default function FavsModal() {
   return (
     <div>
         <div className="group">
-          <button className=" rounded-t-full w-10/10 px-2 py-2 group ">
+          <button className=" rounded-t-full px-2 py-2 group ">
             <GrFavorite className='text-2xl mt-1 active:scale-120'/>
-            <ul className="absolute z-50 -translate-x-32 mt-1 text-sm">
-              {ordersFav.length > 0 && 
+            <ul className="absolute z-50 -translate-x-52 mt-1 text-sm invisible group-hover:visible p-4 bg-white rounded-xl">
+              {ordersFav.length > 0 &&
               ordersFav.map((e) => {
                 return (
+                  <>
                 <Link to="/wishlist" key={e.id} className="no-underline text-black">
-                <li className="rounded-b-md bg-secondary-100 p-1.5 z-10 translate-y-10 invisible group-focus:translate-x-0 group-focus:translate-y-0 group-focus:visible duration-100 ease-in focus:bg-primary-300 ">
+                <li className="grid grid-cols-2 gap-2 bg-white w-52 ">
                   {e.title}
                   <img src={e.images[0] && e.images[0].url} alt={e.id}/>
                 </li>
               </Link>
+                  <div className='flex justify-evenly bg-slate-100'>
+                    <button className='text-red-600 font-bold px-2 my-1 rounded-lg active:translate-y-1'>Eliminar</button>
+                    <Link to="/cart" className='no-underline text-black bg-primary-700 rounded-lg px-2 py-1 my-1 active:translate-y-1 font-bold'>Go to buy</Link>
+                </div>
+                </>
                 )
               })}
-              <Link to="/wishlist" className='rounded-b-md bg-secondary-100 invisible group-focus:translate-x-0 group-focus:translate-y-0 group-focus:visible duration-100 ease-in focus:bg-primary-300'>View full wishlist</Link>
+            {ordersFav.length > 0
+            ?
+              <Link to="/wishlist" className='flex justify-center mt-1 underline decoration-primary-700 hover:scale-105 text-black invisible group-hover:visible w-12/12'>View full wishlist</Link>
+            : null}
             </ul>
           </button>
         </div>
