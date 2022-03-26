@@ -145,7 +145,7 @@ export function postOrder(order, token){
   }  */
 
 
-   export function postOrder(order, token){
+  export function postOrder(order, token){
     const headers ={
       "Authorization": `Bearer ${token}`
     };
@@ -189,12 +189,15 @@ export function postOrder(order, token){
   }
   
   // para llamar cart y whislist -finali -proces
-    export function getOrder(order, token) {
-      console.log(token)
-      console.log(order)
+
+    export function getOrder(order) {
+
+      const token = window.localStorage.getItem('access')
+
       const headers = {
         'Authorization': `Bearer ${token}`,
       };
+     
       return (dispatch) => {
         try {
           return  axios.get('http://localhost:3001/order?status='+ order.status, { headers: headers })
@@ -273,3 +276,4 @@ export function getUserInfo(token) {
     }
   };
 }
+ 
