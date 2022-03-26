@@ -210,7 +210,7 @@ export function validateMail(mail) {
           });
       } catch (error) {
         console.log(error);
-      }
+      }   
     };
   }
 
