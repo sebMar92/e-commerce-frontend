@@ -20,6 +20,18 @@ productId: id
 
   }
 
+  
+  function addWishList(){
+    let token= window.localStorage.getItem('access')
+   dispatch(postOrder({
+     status: "inWishList",
+   amount: 1,
+  productId: id
+  
+  },token))
+  
+    }
+
   return (
     <div className=" shadow-md shadow-slate-300 hover:shadow-slate-500 rounded-lg scale-95 hover:scale-100">
       <div className="max-w-sm rounded overflow-hidden shadow-lg h-full">
@@ -38,7 +50,7 @@ productId: id
         <div className="pt-5">
           <span className="flex flex-row justify-around">
             {/* <Link to={"/wishlist/:idUser"} className="disable"> */}
-            <img className="p-2 hover:scale-125" src={Star} alt="img" />
+            <img onClick={(e=> addWishList(e))} className="p-2 hover:scale-125" src={Star} alt="img" />
             {/*  </Link> */}
             {/* <Link to={"/cart/:idUser"} style={{ textDecoration: "inherit" }}> */}
             <img onClick={(e=> addCart(e))} className="p-2 hover:scale-125" src={Cart} alt="img" />
