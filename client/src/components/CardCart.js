@@ -42,7 +42,6 @@ export default function CardCart({
             >
               <h6 className="text-lg text-lefth font-thin m-2 ">{title}</h6>
             </Link>
-
             {shippingCost == 0 ? (
               <div>
                 <p className="text-xs text-blue-900 m-3">Free shipping</p>
@@ -85,9 +84,12 @@ export default function CardCart({
               </button>
             </div>
             <p className="text-xs text-center text-gray-400 ">Stock: {stock}</p>
+
           </div>
         </div>
       </div>
-    </div>
-  );
-}
+    </div> 
+  )}
+
+
+    

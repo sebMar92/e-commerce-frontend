@@ -194,7 +194,6 @@ export function postOrder(order, token){
 
       const token = window.localStorage.getItem('access')
 
-
       const headers = {
         'Authorization': `Bearer ${token}`,
       };
