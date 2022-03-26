@@ -155,7 +155,6 @@ export function validateMail(mail) {
   }
 
   export function postOrderFav(order){
-    console.log(order)
     let token= window.localStorage.getItem('access')
     const headers ={
       "Authorization": `Bearer ${token}`
@@ -327,3 +326,4 @@ export function getUserInfo(token) {
     }
   };
 }
+ 

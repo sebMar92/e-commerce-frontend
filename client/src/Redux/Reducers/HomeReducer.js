@@ -62,7 +62,7 @@ export const HomeReducer = (state = initialState, action) => {
     case GET_ORDERS:
         return{
             ...state,
-            orders: action.payload
+            orders: action.payload,
         }
     case GET_USER_INFO:
       return {

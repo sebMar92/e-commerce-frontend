@@ -9,9 +9,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function CardHome({ id, image, title, price,onClick,onClick2 }) {
   const dispatch = useDispatch();
-  const notify = onClick
-  const notify2 = onClick2
-  console.log(notify)
+  const notify = onClick;
+  const notify2 = onClick2;
 
 function addCart(){
     dispatch(postOrder({
