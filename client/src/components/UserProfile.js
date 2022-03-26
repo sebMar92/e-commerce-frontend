@@ -6,6 +6,7 @@ import { BsSave2 } from "react-icons/bs"
 import { getUserInfo, putUserInfo } from '../Redux/Actions/actions';
 import { useDispatch, useSelector } from "react-redux";
 import ModalPortal from "../components/modals/UserProfileModal"
+import {Link} from "react-router-dom"
 
 
 
@@ -25,6 +26,7 @@ export default function UserProfile() {
 
     useEffect(() => {
         setStateUser({
+            id: user.id,
             firstName: user.firstName,
             lastName: user.lastName,
             prevPassword: "",
@@ -171,6 +173,24 @@ export default function UserProfile() {
 
                         {/* Formulario del usuario */}
                         <div className="flex flex-col w-96 justify-center items-center">
+
+                            <div className="">
+                                <Link to={`/historial/${user.id}`} className="no-underline text-black">
+                                    <button className="p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 text-xs">Go to history</button>
+                                </Link>
+
+                                <Link to={`/wishlist/${user.id}`} className="no-underline text-black">
+
+                                    <button className="mb-1 mr-16 ml-16 p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 text-xs">Go to wish list</button>
+                                </Link>
+
+                            <Link to={`/cart/${user.id}`} className="no-underline text-black">
+
+                                    <button className="p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 text-xs">Go to cart</button>
+                                </Link>
+
+                            </div>
+
                             <div className='bg-secondary-100 rounded-md p-2 shadow-sm shadow-slate-900 mb-4'>
                                 <h5 className="text-center mb-2">Data User</h5>
 
