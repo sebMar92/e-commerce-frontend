@@ -11,7 +11,8 @@ import {
   GET_ORDERS,
   GET_USER_INFO,
   PUT_PRODUCT_BY_ID,
-  GET_COMMENT_BY_ID
+  GET_COMMENT_BY_ID,
+  DELETE_ORDERS
 
 } from './types';
 
@@ -266,20 +267,18 @@ export function postOrder(order, token){
   // para llamar cart y whislist -finali -proces
 
     export function getOrder(order) {
-
       const token = window.localStorage.getItem('access')
-
       const headers = {
         'Authorization': `Bearer ${token}`,
       };
-     
       return (dispatch) => {
         try {
           return  axios.get('http://localhost:3001/order?status='+ order.status, { headers: headers })
           .then(res=> {
             dispatch({
               type: GET_ORDERS,
-              payload: res.data,
+              payload: {status: order.status, data: res.data},
+              
             });
           }) 
         .catch ((error) => {
@@ -309,6 +308,55 @@ export function postOrder(order, token){
         }
       };
     } 
+
+
+    export function deleteOrder(order){
+      const token = window.localStorage.getItem('access')
+      const headers ={
+        "Authorization": `Bearer ${token}`
+      };
+  
+      return (dispatch) => {
+        try {
+          return axios
+          .delete("http://localhost:3001/order", order, {headers: headers})
+            .then((res) => {
+              dispatch({
+                type: DELETE_ORDERS,
+                payload: {status: order.status, data: res.data},
+              });
+            })
+            .catch((error) => {
+              if (error.response.status === 403) {
+                let refreshToken = window.localStorage.getItem('refresh');
+                axios
+                  .post('http://localhost:3001/user/token', { token: refreshToken })
+                  .then((res) => {
+                    window.localStorage.setItem('access', res.data.token);
+                    axios
+                      .delete('http://localhost:3001/order',order, {
+                        headers: {
+                          'Authorization': `Bearer ${res.data.token}`,
+                        },
+                      })
+                      .then((res) => {
+                        dispatch({
+                          type: DELETE_ORDERS,
+                          payload: {status: order.status, data: res.data},
+                        });
+                      });
+                  });
+              }
+            });
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+    
+
+
+
 
 export function getUserInfo(token) {
   const headers = {

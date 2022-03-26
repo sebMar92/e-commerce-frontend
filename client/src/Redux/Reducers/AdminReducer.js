@@ -13,6 +13,7 @@ export const AdminReducer = (state = initialState, action) => {
        return{
            ...state
        };
+      
         default:
       return state; 
     }

@@ -10,7 +10,7 @@ import { getOrder } from "../Redux/Actions/actions";
 
 export default function Cart({}) {
   const dispatch = useDispatch();
-  const product = useSelector((state) => state.home.orders);
+  const product = useSelector((state) => state.home.inCart);
   const [total, setTotal]=useState(0)
 
   useEffect(() => {

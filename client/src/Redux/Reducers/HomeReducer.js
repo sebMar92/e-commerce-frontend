@@ -22,6 +22,8 @@ const initialState = {
   openFiles: "",
   orders:[],
   user: {},
+  inWishList:[],
+  inCart:[],
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -57,15 +59,16 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         userTokens: action.payload,
       };
-      case POST_ORDERS:
+      case DELETE_ORDERS:
         return{
             ...state,
-           
+            [action.payload.status]:action.payload.data
         }
     case GET_ORDERS:
+      
         return{
             ...state,
-            orders: action.payload,
+            [action.payload.status]:action.payload.data
         }
     case GET_USER_INFO:
       return {
