@@ -7,6 +7,7 @@ import { getProductByID, postOrder } from '../../Redux/Actions/actions';
 import { useEffect } from 'react';
 import Star from "../utils/star-regular-24.png";
 import Slider from "./Slider";
+import CreateComment from "../Comment/CreateComment";
 
 export default function ProductDetails() {
   const admin = useSelector((state) => state.home.admin);
@@ -20,12 +21,9 @@ export default function ProductDetails() {
 
   const product = useSelector((state) => state.productID.product);
 
-  console.log(product);
-
   const desc = product.description && product.description.split(".");
   const description = desc && desc.slice(0, -1);
 
-    console.log(description)
     
 function addCart(){
     let token= window.localStorage.getItem('access')
@@ -115,6 +113,7 @@ function addCart(){
                       })}
                   </div>
                 </div>
+                <CreateComment id={idProduct}/>
               </div>
             </div>
           </div>
