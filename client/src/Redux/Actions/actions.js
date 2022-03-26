@@ -12,7 +12,8 @@ import {
   GET_USER_INFO,
   GET_ORDERS_FAVS,
   POST_ORDERS_FAV,
-  GET_COMMENT_BY_ID
+  GET_COMMENT_BY_ID,
+  PUT_USER_INFO
 } from './types';
 
 // action para traer los productos
@@ -386,3 +387,23 @@ export function getUserInfo(token) {
     }
   };
 }
+
+export function putUserInfo(token, body) {
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+
+  console.log(body)
+
+  return async (dispatch) => {
+    try {
+      const userChangeData = await axios.put('http://localhost:3001/user', body, { headers: headers });
+      return dispatch({
+        type: PUT_USER_INFO,
+        payload: userChangeData.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+} 
