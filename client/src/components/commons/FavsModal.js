@@ -23,7 +23,8 @@ export default function FavsModal() {
             <GrFavorite className='text-2xl mt-1 active:scale-120'/>
             <ul className="absolute z-50 -translate-x-52 mt-1 text-sm invisible group-hover:visible p-4 bg-white rounded-xl">
               {ordersFav.length > 0 &&
-              ordersFav.map((e) => {
+              ordersFav.map((e,i) => {
+                if(i < 2){
                 return (
                   <>
                 <Link to="/wishlist" key={e.id} className="no-underline text-black">
@@ -37,7 +38,7 @@ export default function FavsModal() {
                     <Link to="/cart" className='no-underline text-black bg-primary-700 rounded-lg px-2 py-1 my-1 active:translate-y-1 font-bold'>Go to buy</Link>
                 </div>
                 </>
-                )
+                )}
               })}
             {ordersFav.length > 0
             ?

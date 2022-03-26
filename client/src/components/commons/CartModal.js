@@ -6,7 +6,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 
 export default function CartModal() {
   const order = useSelector((state) => state.home.orders)
-  const sliced = order;
+  const sliced = order
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -29,7 +29,8 @@ export default function CartModal() {
             <AiOutlineShoppingCart className='text-2xl mt-1 active:scale-120'/>
             <ul className="absolute z-50 -translate-x-52 mt-1 text-sm invisible group-hover:visible p-4 bg-white rounded-xl">
               {sliced.length > 0 && 
-              sliced.map((e) => {
+              sliced.map((e,i) => {
+                if(i < 2){
                 return (
                   <>
                 <Link to="/cart" key={e.id} className="no-underline text-black">
@@ -43,7 +44,7 @@ export default function CartModal() {
                     <Link to="/cart" className='no-underline text-black bg-primary-700 rounded-lg px-2 py-1 my-1 active:translate-y-1 font-bold'>Go to buy</Link>
                   </div>
               </>
-                )
+                )}
               })}
               {sliced.length > 0 ?
               <Link to="/cart" className='flex justify-center mt-1 underline decoration-primary-700 hover:scale-105 text-black invisible group-hover:visible w-12/12'>View full cart</Link>
