@@ -26,7 +26,7 @@ export default function LoginComponent(boolean) {
 
 
     const onSubmit = data => {
-
+        console.log(data)
         if(!hasAccount){
         dispatch(postNewUser(data))
         setHasAccount(!hasAccount)
@@ -46,8 +46,8 @@ export default function LoginComponent(boolean) {
             console.log(message.error)
         }else{
             navigate("/")
-            window.localStorage.setItem("access", message.accessToken)
-            window.localStorage.setItem("refresh", message.refreshToken)
+            window.localStorage.setItem("access",message.accessToken)
+            window.localStorage.setItem("refresh",message.refreshToken)
         }
     }, [message]);
 
@@ -67,9 +67,9 @@ export default function LoginComponent(boolean) {
                 <form className="grid grid-cols-1" onSubmit={handleSubmit(onSubmit)}>
                     {hasAccount ? null  : <input className="h-12 my-2 md:w-5/6 md:m-auto md:mb-2" placeholder="FirstName" {...register("firstName",{ required: true })} />
                     }
-                    
                     {hasAccount ? null : <input className="h-12 my-2 md:w-5/6 md:m-auto md:mb-2" type="text" placeholder="LastName" {...register("lastName",{ required: true })} />
                     }
+                     <input className="h-12 my-2 md:w-5/6 md:m-auto md:mb-2" type="text" placeholder="Email" {...register("email",{ required: true })} />
 
                         <input className="h-12 my-2 md:w-5/6 md:m-auto md:mb-2" type="password" placeholder="Password" {...register("password", { required: true })} />
                         {errors.exampleRequired && <span className="m-auto">This field is required</span>}
