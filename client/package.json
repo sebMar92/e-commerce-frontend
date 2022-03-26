@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@cloudinary/react": "^1.2.0",
     "@cloudinary/url-gen": "^1.7.0",
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@testing-library/jest-dom": "^5.16.2",
@@ -20,6 +21,7 @@
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
     "react-slick": "^0.28.1",
+    "react-toastify": "^8.2.0",
     "reactstrap": "^9.0.1",
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
@@ -29,7 +31,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "CI=false && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

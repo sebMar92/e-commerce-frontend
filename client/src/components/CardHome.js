@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useDispatch} from "react-redux";
-import Star from "./utils/star-regular-24.png";
-import Cart from "./utils/cart-alt-solid-24.png";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import { GrFavorite } from "react-icons/gr";
 import { postOrder } from "../Redux/Actions/actions";
+import { useDispatch} from "react-redux";
 
 export default function CardHome({ id, image, title, price }) {
   const dispatch = useDispatch();
@@ -49,12 +49,8 @@ productId: id
         </Link>
         <div className="pt-5">
           <span className="flex flex-row justify-around">
-            {/* <Link to={"/wishlist/:idUser"} className="disable"> */}
-            <img onClick={(e=> addWishList(e))} className="p-2 hover:scale-125" src={Star} alt="img" />
-            {/*  </Link> */}
-            {/* <Link to={"/cart/:idUser"} style={{ textDecoration: "inherit" }}> */}
-            <img onClick={(e=> addCart(e))} className="p-2 hover:scale-125" src={Cart} alt="img" />
-            {/*  </Link> */}
+              <GrFavorite onClick={(e=> addWishList(e))} className="text-2xl hover:scale-125 hover:cursor-pointer" />
+              <AiOutlineShoppingCart onClick={(e=> addCart(e))} className="text-2xl hover:scale-125 hover:cursor-pointer"/>
           </span>
           <br />
           <span className="flex justify-center text-3xl font-bold text-gray-900 mr-2 mb-2 dark:text-white">

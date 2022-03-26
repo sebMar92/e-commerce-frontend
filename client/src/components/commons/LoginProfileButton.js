@@ -25,7 +25,7 @@ export default function LoginProfileButton() {
     <div>
       {logedIn ? (
         <div className="group">
-          <button className=" rounded-t-full w-10/10 px-2 py-2 group ">
+          <button className="rounded-t-full w-10/10 px-2 py-2 group">
             <div></div>
             <img
               src={user.profilePicture}
