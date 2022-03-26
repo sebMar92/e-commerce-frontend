@@ -7,7 +7,7 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import CardHome from "./CardHome";
 import { Link } from "react-router-dom";
 
-export default function CarouselCateg() {
+export default function CarouselCateg({onClick,onClick2}) {
   const dispatch = useDispatch();
   const allProducts = useSelector((state) => state.home.products);
   const allCategories = useSelector((state) => state.home.categories);
@@ -282,6 +282,8 @@ export default function CarouselCateg() {
                 return (
                   <div key={product.id} className="p-2 h-full">
                     <CardHome
+                      onClick={onClick}
+                      onClick2={onClick2}
                       key={product.id}
                       id={product.id}
                       image={product.images[0].url}

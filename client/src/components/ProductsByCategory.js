@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCategories, getProducts } from '../Redux/Actions/actions';
 import { useLocation } from 'react-router-dom';
 import useURLqueries from "./hooks/useURLqueries";
+import { ToastContainer,toast } from 'react-toastify';
 
 export default function Products() {
     const queryObjects = useURLqueries();
@@ -23,9 +24,22 @@ export default function Products() {
         dispatch(getCategories())
     }, [search])
 
+    const notifyCat = () => {
+            toast.success("Added to the wishlist !", {
+            position: toast.POSITION.BOTTOM_LEFT
+            });
+        }
+        
+        const notifyCat2 = () => {
+            toast.success("Added to the cart !", {
+            position: toast.POSITION.BOTTOM_LEFT
+            });
+        }
+
     return (
         <>
             <NavBar />
+            <ToastContainer />
             <div className='flex flex-col sm:flex-row'>
                 <FilterAndOrderComponent />
                 <div className='m-auto'>
@@ -33,7 +47,7 @@ export default function Products() {
                     <div className='grid grid-cols-1 sm:grid-cols-2 sm:gap-10 sm:m-auto 2xl:grid-cols-2 2xl:gap-30'>
                         {allProducts && allProducts.map(item => {
                             return (
-                                <Card id={item.id} key={item.id} path={item.id} name={item.title} price={item.price} image={item.images[1].url} shippingCost={item.shippingCost} />
+                                <Card id={item.id} key={item.id} path={item.id} name={item.title} price={item.price} image={item.images[1].url} shippingCost={item.shippingCost} onClick={notifyCat} onClick2={notifyCat2}/>
                             )
                         })}
                     </div>
