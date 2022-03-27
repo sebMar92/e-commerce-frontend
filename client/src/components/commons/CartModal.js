@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 
 export default function CartModal() {
-  const order = useSelector((state) => state.home.orders)
+  const order = useSelector((state) => state.home.inCart)
   const render = useSelector((state) => state.home.postOrders)
   const sliced = order
   const [reRender,setReRender] = useState({})

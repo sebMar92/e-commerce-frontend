@@ -1,4 +1,8 @@
-import { GET_SALES, GET_PRODUCTS_SALES } from '../Actions/types.js';
+/* import { ACTION } from "../Action types/types" */
+
+
+//Reducer de prueba, no hace nada
+import { GET_SALES, GET_PRODUCTS_SALES, PUT_PRODUCT_BY_ID }from '../Actions/types.js';
 
 const initialState = {
   sales: [],
@@ -17,6 +21,10 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
         ...state,
         salesAllProducts: payload.products,
       };
+      case PUT_PRODUCT_BY_ID:
+        return{
+            ...state
+        };
     default:
       return state;
   }

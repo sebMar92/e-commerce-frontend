@@ -29,6 +29,7 @@ export default function ProductDetails() {
   const desc = product.description && product.description.split(".");
   const description = desc && desc.slice(0, -1);
 
+ 
   const notifyDetail = () => {
     toast.success("Added to the wishlist !", {
       position: toast.POSITION.BOTTOM_LEFT
