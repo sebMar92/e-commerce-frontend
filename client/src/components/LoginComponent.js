@@ -24,13 +24,13 @@ export default function LoginComponent(boolean) {
 
 
     const onSubmit = data => {
-        console.log(data)
         if(!hasAccount){
         dispatch(postNewUser(data))
         setHasAccount(!hasAccount)
     }else{
         dispatch(loginUser(data))
     }
+}
 
     useMemo(() => {
         if(message.hasOwnProperty("error")){
@@ -46,7 +46,6 @@ export default function LoginComponent(boolean) {
         <>
 
         <div>
-        <ToastContainer autoClose={2000}/>
             <h1 className="text-5xl flex justify-center mt-12">{hasAccount ? "Login" : "Register"}</h1>
             <div className="bg-secondary-100 my-20 pt-8 md:max-w-md md:m-auto md:my-20 md:text-xl flex-col font-lora text-3xl">
                 <form className="grid grid-cols-1" onSubmit={handleSubmit(onSubmit)}>

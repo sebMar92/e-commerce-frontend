@@ -12,7 +12,8 @@ import {
   GET_USER_INFO,
   GET_ORDERS_FAVS,
   POST_ORDERS_FAV,
-  GET_COMMENT_BY_ID
+  GET_COMMENT_BY_ID,
+  PUT_USER_INFO
 } from './types';
 
 // action para traer los productos

@@ -9,7 +9,8 @@ import {
   GET_ORDERS,
   GET_USER_INFO,
   GET_ORDERS_FAVS,
-  POST_ORDERS_FAV
+  POST_ORDERS_FAV,
+  PUT_USER_INFO
 } from "../Actions/types";
 
 const initialState = {
