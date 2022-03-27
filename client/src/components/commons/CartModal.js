@@ -1,8 +1,8 @@
-import React, { useEffect, useState,useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrder, getUserInfo } from '../../Redux/Actions/actions';
 import { Link } from 'react-router-dom';
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineShoppingCart } from 'react-icons/ai';
 
 export default function CartModal() {
   const order = useSelector((state) => state.home.orders)
@@ -10,7 +10,7 @@ export default function CartModal() {
   const sliced = order
   const [reRender,setReRender] = useState({})
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     dispatch(getOrder({status: "inCart"}))
   }, [render])
@@ -49,12 +49,17 @@ export default function CartModal() {
               </>
                 )}
               })}
-              {sliced.length > 0 ?
-              <Link to="/cart" className='flex justify-center mt-1 underline decoration-primary-700 hover:scale-105 text-black invisible group-hover:visible w-12/12'>View full cart</Link>
-              : null }
-            </ul>
-          </button>
-        </div>
+            {sliced.length > 0 ? (
+              <Link
+                to="/cart"
+                className="flex justify-center mt-1 underline decoration-primary-700 hover:scale-105 text-black invisible group-hover:visible w-12/12"
+              >
+                View full cart
+              </Link>
+            ) : null}
+          </ul>
+        </button>
+      </div>
     </div>
   );
 }

@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserInfo,getOrder, getOrderFavs } from '../../Redux/Actions/actions';
+import { getUserInfo, getOrder, getOrderFavs } from '../../Redux/Actions/actions';
 import { Link } from 'react-router-dom';
-import { GrFavorite } from "react-icons/gr";
-
+import { GrFavorite } from 'react-icons/gr';
 
 export default function FavsModal() {
   const favs = useSelector((state) => state.home.favs)
   const render = useSelector((state) => state.home.postOrders)
   const ordersFav = favs;
   const dispatch = useDispatch();
-  console.log(ordersFav)
 
   useEffect(() => {
     dispatch(getOrderFavs({status: "inWishList"}))
@@ -42,13 +40,17 @@ export default function FavsModal() {
                 </>
                 )}
               })}
-            {ordersFav.length > 0
-            ?
-              <Link to="/wishlist" className='flex justify-center mt-1 underline decoration-primary-700 hover:scale-105 text-black invisible group-hover:visible w-12/12'>View full wishlist</Link>
-            : null}
-            </ul>
-          </button>
-        </div>
+            {ordersFav.length > 0 ? (
+              <Link
+                to="/wishlist"
+                className="flex justify-center mt-1 underline decoration-primary-700 hover:scale-105 text-black invisible group-hover:visible w-12/12"
+              >
+                View full wishlist
+              </Link>
+            ) : null}
+          </ul>
+        </button>
+      </div>
     </div>
   );
 }
