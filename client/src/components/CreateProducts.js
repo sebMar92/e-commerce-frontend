@@ -11,6 +11,7 @@ import Slider from "./ProductDetails/Slider";
 import Axios from "axios";
 import NavbarAdmin from "./NavbarAdmin";
 import { Cloudinary } from "@cloudinary/url-gen";
+import NavBarEmpty from "./NavBarEmpty";
 
 
 export default function CreateProducts() {
@@ -36,7 +37,7 @@ export default function CreateProducts() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(input);
+   
     dispatch(postProduct(input));
     setInput({
       title: "",
@@ -139,8 +140,8 @@ export default function CreateProducts() {
 
   return (
     <>
-      <NavBar />
-      <div className='flex flex-col sm:flex-row' >
+      <NavBarEmpty />
+      <div className='grid sm:grid-cols-[180px_minmax(200px,_1fr)]' >
       <NavbarAdmin />
       <div className="flex justify-center bg-secondary-100">
         <div className="flex justify-around p-2  w-full m-11">

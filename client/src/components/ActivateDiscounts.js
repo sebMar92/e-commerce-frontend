@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import NavBar from './NavBar';
 import NavbarAdmin from './NavbarAdmin';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -11,6 +10,7 @@ import {
 } from '../Redux/Actions/actions';
 import Pick from './commons/Pick.js';
 import ButtonComplete from './commons/ButtonComplete.js';
+import NavBarEmpty from './NavBarEmpty';
 
 export default function ActivateDiscounts() {
   var allSales = useSelector((state) => state.admin.sales);
@@ -246,10 +246,10 @@ export default function ActivateDiscounts() {
   }, [sale.day]);
   return (
     <>
-      <NavBar />
-      <div className="flex flex-col sm:flex-row">
+      <NavBarEmpty />
+      <div className="grid grid-cols-[150px_minmax(200px,_1fr)]">
         <NavbarAdmin />
-        <div className="w-full mt-5 ml-5 mr-5 ">
+        <div className="w-12/12 mt-5 ml-5 mr-5 ">
           <div className="flex flex-row justify-center w-full bg-primary-500 rounded-t-lg">
             <div
               id="activeTab"
@@ -316,6 +316,7 @@ export default function ActivateDiscounts() {
                   <input
                     id="description"
                     value={sale.description}
+                    type="text-area"
                     onChange={(e) => handleInputChange(e)}
                     className="ml-2 rounded-sm border border-primary-500 w-full pl-2"
                   ></input>
@@ -411,7 +412,8 @@ export default function ActivateDiscounts() {
               <div className="ml-4 w-full flex-col justify-center align-center row-start-2 col-span-3">
                 <img
                   src={sale.image && sale.image}
-                  className="h-2/5 w-fit object-contain max-h-80"
+                  className="h-2/5 aspect-[6/3] mt-4"
+                  alt="Sale image"
                 />
                 New image:
                 <input
