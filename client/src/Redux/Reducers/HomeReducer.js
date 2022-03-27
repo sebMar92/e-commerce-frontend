@@ -9,6 +9,7 @@ import {
   GET_ORDERS,
   GET_USER_INFO,
   GET_ORDERS_FAVS,
+  POST_ORDERS_FAV,
   PUT_USER_INFO
 } from "../Actions/types";
 
@@ -27,6 +28,7 @@ const initialState = {
   user: {},
   favs: [],
   answer: {},
+  postOrders:[]
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -66,9 +68,14 @@ export const HomeReducer = (state = initialState, action) => {
       case POST_ORDERS:
         return{
             ...state,
-           
+           postOrders : action.payload
         }
-
+        
+        case POST_ORDERS_FAV:
+        return{
+            ...state,
+           postOrders : action.payload
+        }
     case GET_ORDERS:
         return{
             ...state,
