@@ -428,13 +428,95 @@ export function getSales() {
     });
   };
 }
+export function postSale(body) {
+  const token = window.localStorage.getItem('access');
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+  };
+
+  return (dispatch) => {
+    try {
+      return axios
+        .post('http://localhost:3001/sale', body, { headers: headers })
+        .catch((error) => {
+          if (error.response.status === 403) {
+            let refreshToken = window.localStorage.getItem('refresh');
+            axios
+              .post('http://localhost:3001/user/token', { token: refreshToken })
+              .then((res) => {
+                window.localStorage.setItem('access', res.data.token);
+                axios.post('http://localhost:3001/sale', body, {
+                  headers: {
+                    'Authorization': `Bearer ${res.data.token}`,
+                  },
+                });
+              });
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
 export function editSale(body) {
-  return async function (dispatch) {
-    var json = await axios.put('http://localhost:3001/sale', body);
-    return dispatch({
-      type: GET_SALES,
-      payload: json.data,
-    });
+  const token = window.localStorage.getItem('access');
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+  };
+
+  return (dispatch) => {
+    try {
+      return axios
+        .put('http://localhost:3001/sale', body, { headers: headers })
+        .catch((error) => {
+          if (error.response.status === 403) {
+            let refreshToken = window.localStorage.getItem('refresh');
+            axios
+              .post('http://localhost:3001/user/token', { token: refreshToken })
+              .then((res) => {
+                window.localStorage.setItem('access', res.data.token);
+                axios.put('http://localhost:3001/sale', body, {
+                  headers: {
+                    'Authorization': `Bearer ${res.data.token}`,
+                  },
+                });
+              });
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+export function deleteSale(id) {
+  const token = window.localStorage.getItem('access');
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+  };
+
+  return (dispatch) => {
+    try {
+      return axios
+        .delete('http://localhost:3001/sale?saleId=' + id, { headers: headers })
+        .catch((error) => {
+          if (error.response.status === 403) {
+            let refreshToken = window.localStorage.getItem('refresh');
+            axios
+              .post('http://localhost:3001/user/token', { token: refreshToken })
+              .then((res) => {
+                window.localStorage.setItem('access', res.data.token);
+                axios.delete('http://localhost:3001/sale?saleId=' + id, {
+                  headers: {
+                    'Authorization': `Bearer ${res.data.token}`,
+                  },
+                });
+              });
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
 

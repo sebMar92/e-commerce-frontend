@@ -1,8 +1,9 @@
-import { GET_SALES, GET_PRODUCTS_SALES } from '../Actions/types.js';
+import { GET_SALES, GET_PRODUCTS_SALES, PUT_SALE } from '../Actions/types.js';
 
 const initialState = {
   sales: [],
   salesAllProducts: [],
+  salesUpdate: {},
 };
 
 export const AdminReducer = (state = initialState, { type, payload }) => {
@@ -16,6 +17,11 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         salesAllProducts: payload.products,
+      };
+    case PUT_SALE:
+      return {
+        ...state,
+        salesUpdate: {},
       };
     default:
       return state;

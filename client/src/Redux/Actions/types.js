@@ -15,3 +15,4 @@ export const GET_COMMENT_BY_ID = 'GET_COMMENT_BY_ID';
 export const PUT_USER_INFO = 'PUT_USER_INFO';
 export const GET_SALES = 'GET_SALES';
 export const GET_PRODUCTS_SALES = 'GET_PRODUCTS_SALES';
+export const PUT_SALE = 'PUT_SALE';

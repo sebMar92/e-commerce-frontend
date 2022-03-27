@@ -2,7 +2,13 @@ import React, { useEffect, useState } from 'react';
 import NavBar from './NavBar';
 import NavbarAdmin from './NavbarAdmin';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllProductsForSales, getSales } from '../Redux/Actions/actions';
+import {
+  deleteSale,
+  editSale,
+  getAllProductsForSales,
+  getSales,
+  postSale,
+} from '../Redux/Actions/actions';
 import Pick from './commons/Pick.js';
 import ButtonComplete from './commons/ButtonComplete.js';
 
@@ -10,13 +16,14 @@ export default function ActivateDiscounts() {
   var allSales = useSelector((state) => state.admin.sales);
   const categories = useSelector((state) => state.home.categories);
   const products = useSelector((state) => state.admin.salesAllProducts);
+  const [reRender, setReRender] = useState({});
   const [tab, setTab] = useState(true);
   const [sale, setSale] = useState({
     description: '',
     percentage: '',
     day: '',
-    productAmount: '',
-    image: '',
+    productAmount: 0,
+    image: 'https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg',
     categories: [],
     products: [],
     id: 0,
@@ -26,10 +33,47 @@ export default function ActivateDiscounts() {
   useEffect(() => {
     dispatch(getSales());
     dispatch(getAllProductsForSales());
-  }, []);
+  }, [reRender]);
   function handleTab(e) {
     setTab(!tab);
   }
+  useEffect(() => {
+    const items = document.getElementsByClassName('saleItem');
+    const dropdown = document.getElementById('dropdown');
+    if (tab) {
+      if (items) {
+        for (const item of items) {
+          item.classList.remove('hidden');
+          item.classList.remove('bg-primary-300');
+          item.classList.add('bg-secondary-100');
+        }
+      }
+      if (dropdown) {
+        dropdown.classList.add('hidden');
+      }
+    } else {
+      if (items) {
+        for (const item of items) {
+          item.classList.add('hidden');
+          item.classList.remove('bg-primary-300');
+          item.classList.add('bg-secondary-100');
+        }
+      }
+      if (dropdown) {
+        dropdown.classList.remove('hidden');
+      }
+      setSale({
+        description: '',
+        percentage: '',
+        day: '',
+        image: 'https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg',
+        productAmount: 0,
+        categories: [],
+        products: [],
+        id: 0,
+      });
+    }
+  }, [tab]);
   function handleItem(e) {
     if (sale.id !== e.target.id) {
       setSale({
@@ -48,13 +92,44 @@ export default function ActivateDiscounts() {
         description: '',
         percentage: '',
         day: '',
-        productAmount: '',
+        image: 'https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg',
+        productAmount: 0,
         categories: [],
         products: [],
         id: 0,
       });
     }
   }
+  useEffect(() => {
+    const items = document.getElementsByClassName('saleItem');
+    const dropdown = document.getElementById('dropdown');
+    if (sale.id !== 0) {
+      const selectedItem = document.getElementById(sale.id);
+
+      for (const item of items) {
+        item.classList.add('hidden');
+        item.classList.remove('bg-primary-300');
+        item.classList.add('bg-secondary-100');
+      }
+      dropdown.classList.remove('hidden');
+      selectedItem.classList.toggle('hidden');
+      selectedItem.classList.toggle('bg-secondary-100');
+      selectedItem.classList.toggle('bg-primary-300');
+    } else {
+      if (tab) {
+        if (items) {
+          for (const item of items) {
+            item.classList.remove('hidden');
+            item.classList.remove('bg-primary-300');
+            item.classList.add('bg-secondary-100');
+          }
+          if (dropdown) {
+            dropdown.classList.add('hidden');
+          }
+        }
+      }
+    }
+  }, [sale.id]);
   function handleDay(e) {
     if (sale.day !== e.target.id) {
       setSale({ ...sale, day: e.target.id });
@@ -66,15 +141,6 @@ export default function ActivateDiscounts() {
     sale.productAmount > 0
       ? setSale({ ...sale, productAmount: 0 })
       : setSale({ ...sale, productAmount: 1 });
-  }
-  function handleInputChange(e) {
-    setSale({ ...sale, [e.id]: e.target.value });
-  }
-  function setCategories(ids) {
-    setSale({ ...sale, categories: ids });
-  }
-  function setProducts(ids) {
-    setSale({ ...sale, products: ids });
   }
   useEffect(() => {
     const yes = document.getElementById('yes');
@@ -96,35 +162,74 @@ export default function ActivateDiscounts() {
       }
     }
   }, [sale.productAmount]);
-  useEffect(() => {
+  function handleInputChange(e) {
+    setSale({ ...sale, [e.target.id]: e.target.value });
+  }
+  function setCategories(ids) {
+    setSale({ ...sale, categories: ids });
+  }
+  function setProducts(ids) {
+    setSale({ ...sale, products: ids });
+  }
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (tab) {
+      if (sale.id !== 0) {
+        dispatch(editSale({ ...sale, id: Number(sale.id.replace('sale ', '')) }));
+        setSale({
+          description: '',
+          percentage: '',
+          day: '',
+          image: 'https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg',
+          productAmount: 0,
+          categories: [],
+          products: [],
+          id: 0,
+        });
+      }
+    } else {
+      dispatch(
+        postSale({
+          description: sale.description,
+          percentage: sale.percentage,
+          day: sale.day,
+          image: sale.image,
+          productAmount: sale.productAmount,
+          categories: sale.categories,
+          products: sale.products,
+        })
+      );
+      setSale({
+        description: '',
+        percentage: '',
+        day: '',
+        image: 'https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg',
+        productAmount: 0,
+        categories: [],
+        products: [],
+        id: 0,
+      });
+    }
+    setReRender({});
+  }
+  function handleDelete(e) {
+    dispatch(deleteSale(e.target.id));
     const items = document.getElementsByClassName('saleItem');
     const dropdown = document.getElementById('dropdown');
-    if (sale.id !== 0) {
-      const selectedItem = document.getElementById(sale.id);
-
-      for (const item of items) {
-        item.classList.add('hidden');
-        item.classList.remove('bg-primary-300');
-        item.classList.add('bg-secondary-100');
-      }
-      dropdown.classList.remove('hidden');
-      selectedItem.classList.toggle('hidden');
-      selectedItem.classList.toggle('bg-secondary-100');
-      selectedItem.classList.toggle('bg-primary-300');
-    } else {
+    if (tab) {
       if (items) {
         for (const item of items) {
           item.classList.remove('hidden');
           item.classList.remove('bg-primary-300');
           item.classList.add('bg-secondary-100');
         }
-        if (dropdown) {
-          dropdown.classList.add('hidden');
-        }
+      }
+      if (dropdown) {
+        dropdown.classList.add('hidden');
       }
     }
-  }, [sale.id]);
-
+    setReRender({});
+  }
   useEffect(() => {
     const selected = document.getElementById(sale.day);
     const others = document.getElementsByClassName('dayItem');
@@ -147,16 +252,18 @@ export default function ActivateDiscounts() {
         <div className="w-full mt-5 ml-5 mr-5 ">
           <div className="flex flex-row justify-center w-full bg-primary-500 rounded-t-lg">
             <div
+              id="activeTab"
               onClick={(e) => handleTab(e)}
-              className={`rounded-tl-lg grow font-medium text-lg px-1 py-1 text-slate-900 flex justify-center hover:bg-primary-400 ${
+              className={`select-none rounded-tl-lg grow font-medium text-lg px-1 py-1 text-slate-900 flex justify-center hover:bg-primary-400 ${
                 !tab && 'bg-primary-300 border-b-2 border-primary-500'
               }`}
             >
               Active sales
             </div>
             <div
+              id="createTab"
               onClick={(e) => handleTab(e)}
-              className={`rounded-tr-lg grow font-medium text-lg px-1 py-1 text-slate-900 flex justify-center hover:bg-primary-400 ${
+              className={`select-none rounded-tr-lg grow font-medium text-lg px-1 py-1 text-slate-900 flex justify-center hover:bg-primary-400 ${
                 tab && 'bg-primary-300 border-b-2 border-primary-500'
               }`}
             >
@@ -165,34 +272,41 @@ export default function ActivateDiscounts() {
           </div>
           <div className="border-x-2 border-b-2 border-primary-500 h-fit ">
             {allSales &&
-              allSales.map((sale, index) => {
-                return (
-                  <div id={'sale ' + sale.id} key={sale.id} className="saleItem ">
-                    <div
-                      id={'sale ' + sale.id}
-                      className="flex flex-row justify-between border-white"
-                    >
+              allSales
+                .sort((a, b) => a.id - b.id)
+                .map((sale, index) => {
+                  return (
+                    <div id={'sale ' + sale.id} key={sale.id} className="saleItem ">
                       <div
-                        description={sale.description}
-                        percentage={sale.percentage}
-                        day={sale.day}
-                        amount={sale.productAmount}
-                        index={index}
-                        image={sale.image}
                         id={'sale ' + sale.id}
-                        onClick={(e) => handleItem(e)}
-                        className="flex grow w-full border-t-4 border-x-4 border-white p-4 bg-secondary-100 hover:bg-primary-200 hover:font-medium"
+                        className="flex flex-row justify-between border-white"
                       >
-                        {sale.description}
-                      </div>
-                      <div className="grow-0 pl-5 justify-center w-14 border-t-4 border-r-4 border-white p-4 bg-secondary-100 hover:bg-primary-200 hover:font-medium">
-                        X
+                        <div
+                          description={sale.description}
+                          percentage={sale.percentage}
+                          day={sale.day}
+                          amount={sale.productAmount}
+                          index={index}
+                          image={sale.image}
+                          id={'sale ' + sale.id}
+                          onClick={(e) => handleItem(e)}
+                          className="flex grow w-full border-t-4 border-x-4 border-white p-4 bg-secondary-100 hover:bg-primary-200 hover:font-medium"
+                        >
+                          {sale.description}
+                        </div>
+                        <div
+                          id={sale.id}
+                          onClick={(e) => handleDelete(e)}
+                          className="grow-0 pl-5 justify-center w-14 border-t-4 border-r-4 border-white p-4 bg-secondary-100 hover:bg-rose-700 hover:font-medium"
+                        >
+                          X
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             <form
+              onSubmit={(e) => handleSubmit(e)}
               id={'dropdown'}
               className="h-[70vh] border-4 border-white w-full bg-secondary-100 grid overflow-hidden grid-lines grid-cols-5 grid-rows-2 gap-2"
             >
@@ -302,6 +416,8 @@ export default function ActivateDiscounts() {
                 New image:
                 <input
                   placeholder="Image URL..."
+                  id="image"
+                  onChange={(e) => handleInputChange(e)}
                   className="mt-2 ml-2 w-1/2 border rounded border-primary-500 pl-2 "
                 />
               </div>
@@ -321,9 +437,11 @@ export default function ActivateDiscounts() {
               </div>
               <button
                 type="submit"
+                value={sale.image}
+                onSubmit={(e) => handleSubmit(e)}
                 className="bg-primary-500 p-3 rounded hover:bg-primary-700 col-span-5"
               >
-                Save changes
+                {(tab && 'Save changes') || 'Create new sale'}
               </button>
             </form>
           </div>
