@@ -10,7 +10,6 @@ import {
   POST_ORDERS,
   GET_ORDERS,
   GET_USER_INFO,
-  PUT_USER_INFO,
   GET_ORDERS_FAVS,
   POST_ORDERS_FAV,
   GET_COMMENT_BY_ID
@@ -172,7 +171,7 @@ export function validateMail(mail) {
 
 
 export function postOrder(order){
-      console.log(order, "cart")
+  console.log("asd",order);
     const token= window.localStorage.getItem('access')
     const headers ={
       "Authorization": `Bearer ${token}`
@@ -388,6 +387,10 @@ export function getUserInfo(token) {
     }
   };
 }
+
+
+
+
 
 export function putUserInfo(token, body) {
   const headers = {

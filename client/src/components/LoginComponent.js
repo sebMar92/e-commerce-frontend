@@ -1,18 +1,16 @@
-import React, { useState, useEffect, useMemo } from "react"
-import { useForm } from "react-hook-form"
-import { useNavigate } from 'react-router-dom'
-import ButtonBuy from '../components/commons/ButtonComplete'
-import { useSelector, useDispatch } from 'react-redux'
-import { loginUser, postNewUser, validateMail } from "../Redux/Actions/actions"
-import LoggedModal from "./modals/LoggedModal"
-import EmailVerification from "./EmailVerification"
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import ButtonBuy from '../components/commons/ButtonComplete';
+import { useSelector, useDispatch } from 'react-redux';
+import { loginUser, postNewUser, validateMail } from '../Redux/Actions/actions';
+import LoggedModal from './modals/LoggedModal';
+import EmailVerification from './EmailVerification';
 
 export default function LoginComponent(boolean) {
-    const message = useSelector(state => state.home.userTokens)
-    const mailRes = useSelector(state => state.home.userMail)
-    const dispatch = useDispatch()
+    const message = useSelector((state) => state.home.userTokens);
+    const mailRes = useSelector((state) => state.home.userMail);
+    const dispatch = useDispatch();
     let navigate = useNavigate();
     //   const [refresh,setRefresh] = useLocalStorage("refresh","")
 
@@ -33,13 +31,6 @@ export default function LoginComponent(boolean) {
     }else{
         dispatch(loginUser(data))
     }
-};
-
-
-
-
-
-//Usememo se ejecuta solo cuando una de sus dependencias cambia
 
     useMemo(() => {
         if(message.hasOwnProperty("error")){
@@ -50,12 +41,6 @@ export default function LoginComponent(boolean) {
             window.localStorage.setItem("refresh",message.refreshToken)
         }
     }, [message]);
-
-
-
-
-
-
 
     return (
         <>
@@ -69,7 +54,7 @@ export default function LoginComponent(boolean) {
                     }
                     {hasAccount ? null : <input className="h-12 my-2 md:w-5/6 md:m-auto md:mb-2" type="text" placeholder="LastName" {...register("lastName",{ required: true })} />
                     }
-                     <input className="h-12 my-2 md:w-5/6 md:m-auto md:mb-2" type="text" placeholder="Email" {...register("email",{ required: true })} />
+                        <input className="h-12 my-2 md:w-5/6 md:m-auto md:mb-2" type="text" placeholder="Email" {...register("email",{ required: true })} />
 
                         <input className="h-12 my-2 md:w-5/6 md:m-auto md:mb-2" type="password" placeholder="Password" {...register("password", { required: true })} />
                         {errors.exampleRequired && <span className="m-auto">This field is required</span>}
@@ -79,6 +64,7 @@ export default function LoginComponent(boolean) {
                         </button>
                     </form>
                 </div>
+
             </div>
         </>
     );
