@@ -1,12 +1,12 @@
 import React from 'react';
-import NavBar from './NavBar';
 import Footer from './Footer/Footer';
 import NavbarAdmin from './NavbarAdmin';
+import NavBarEmpty from './NavBarEmpty';
 
 export default function AdminAllProducts() {
     return (
             <>
-            <NavBar/>
+            <NavBarEmpty/>
             <div className='flex flex-col sm:flex-row' >
                 <NavbarAdmin />
                 <div className='m-auto'>
@@ -14,7 +14,6 @@ export default function AdminAllProducts() {
                     </h1>
                 </div>
             </div>
-            <Footer/>
             </>
         );
     }
