@@ -91,19 +91,22 @@ function addCart(){
 
             <div className="h-fit p-2 flex">
               <Link 
-                className="flex items-center justify-center gap-2 rounded no-underline h-fit w-[210px] font-bold p-2 text-primary-400 bg-white border-[1px] border-primary-400 font-lora hover:border-primary-700 focus:border-primary-700 hover:text-primary-700 focus:text-primary-700 hover:shadow-md"
+                className="flex items-center justify-center gap-2 rounded no-underline h-fit w-12 font-bold p-2 text-primary-400 bg-white border-[1px] border-primary-400 font-lora hover:border-primary-700 focus:border-primary-700 hover:text-primary-700 focus:text-primary-700 hover:shadow-md"
                 to={"/cart/:idUser"}>
-                <AiOutlineHeart className="h-6 w-6" color="#FEBD70"/>ADD TO WISHLIST
+                <AiOutlineHeart className="h-6 w-6" color="#FEBD70"/>
               </Link>
             </div>
 
             <div className="h-fit p-2 flex">
               <Link onClick={(e=> addCart(e))}
-                className="flex items-center justify-center gap-2 rounded no-underline h-fit w-[195px] font-bold p-2 text-white bg-primary-400 font-lora hover:bg-primary-700 focus:bg-primary-700 hover:shadow-md"
+                className="flex items-center justify-center gap-2 rounded no-underline h-fit w-12 font-bold p-2 text-white bg-primary-400 font-lora hover:bg-primary-700 focus:bg-primary-700 hover:shadow-md"
                 to={"/cart/:idUser"}>
-                <AiOutlineShoppingCart className="h-6 w-6" color="#ffffff"/>ADD TO CART
+                <AiOutlineShoppingCart className="h-6 w-6" color="#ffffff"/>
               </Link>
             </div>
+          </div>
+          <div>
+            
           </div>
 
           <div id="description_container"className="p-2 full bg-white rounded flex flex-col ">
