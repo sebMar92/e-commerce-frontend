@@ -3,33 +3,31 @@ import { Link } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { GrFavorite } from "react-icons/gr";
 import { useDispatch, useSelector} from "react-redux";
-import { postOrder } from "../Redux/Actions/actions";
+import { postOrder, postOrderFav } from '../Redux/Actions/actions';
 
 
-export default function Card({ id, image, name, price, shippingCost, path }) {
+export default function Card({ id, image, name, price, shippingCost, path, onClick,onClick2 }) {
 const dispatch = useDispatch();
+const notifyCatCLick = onClick
+const notifyCatClick2 = onClick2
 
-
-function addCart(){
-  let token= window.localStorage.getItem('access')
+  function addCartCategories(){
+  console.log("cart")
   dispatch(postOrder({
     status: "inCart",
-  amount: 1,
-  productId: id
-},token))
-
+      amount: 1,
+      productId: id
+    }))
   }
 
-  function addWishList(){
-    let token= window.localStorage.getItem('access')
-   dispatch(postOrder({
-     status: "inWishList",
-   amount: 1,
-  productId: id
-  
-  },token))
-  
-    }
+  function addFavCategories(){
+    console.log("fav")
+    dispatch(postOrderFav({
+      status: "inWishList",
+        amount: 1,
+        productId: id
+      }))
+  }
 
   return (
     <>
@@ -55,10 +53,8 @@ function addCart(){
             </div>
           </Link>
           <div className="flex justify-around pl-3 items-center">
-
-              <GrFavorite onClick={(e=> addWishList(e))} className="text-2xl hover:scale-125 hover:cursor-pointer" />
-              <AiOutlineShoppingCart onClick={(e=> addCart(e))} className="text-2xl hover:scale-125 hover:cursor-pointer"/>
-
+              <GrFavorite onClick={() => {addFavCategories() ; notifyCatCLick()}} className="text-2xl hover:scale-125 hover:cursor-pointer active:scale-110" />
+              <AiOutlineShoppingCart onClick={() => {addCartCategories() ; notifyCatClick2() }} className="text-2xl hover:scale-125 hover:cursor-pointer active:scale-110"/>
           </div>
         </div>
       </div>

@@ -51,7 +51,7 @@ export default function Carousel() {
   };
 
   return (
-    <div className="max-w-screen-sm m-auto mt-3 sm:mt-5 ">
+    <div className="max-w-screen-sm m-auto mt-3 sm:mt-5">
       <div ref={slideRef} className="w-full relative select-none shadow-md shadow-slate-600 sm:rounded">
         <div className="aspect-w-9 aspect-h-4">
           <img className="sm:rounded" src={data[currentIndex].image} alt="" />
