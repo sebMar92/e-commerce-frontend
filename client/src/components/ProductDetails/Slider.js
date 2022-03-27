@@ -46,7 +46,7 @@ function Slider({ images }) {
           <AiOutlineRight />
         </button>
       </div>
-      <div className="flex gap-2 p-2 border-b-[1px] border-primary-300">
+      <div className="flex gap-2 p-2">
         {imgsArray &&
           imgsArray.map((el) => (
             <button className="h-16 w-16 border-[1px] p-2 border-primary-300 rounded flex items-center justify-center active:border-[3px] focus:border-[3px]">

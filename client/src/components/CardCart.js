@@ -33,14 +33,16 @@ export default function CardCart({
     <div className=" flex flex-wrap  justify-center">
       <div className=" bg-secondary-100  w-9/12 m-5 rounded-md ">
         <div className=" flex justify-end">
+         
           <button onClick={((e)=> deleteCart(e))}  className=" text-rigth text-black  m-2 px-1  rounded-md font-lora font-bold active:translate-y-1 hover:bg-[#fd1e1ed7] hover:text-[#fff]  shadow-lg shadow-primary-200/80">
             x
           </button>
+          
         </div>
         <div className=" flex flex-wrap justify-between  rounded-lg w-12/12 h-auto">
           <div className="flex">
         <Link
-              to={"/product/:idProduct"}
+              to={"/product/"+id}
               className="text-inherit no-underline"
             >
           <div className=" flex flex-wrap justify-center w-40">
@@ -53,7 +55,7 @@ export default function CardCart({
           </Link>
           <div className="w-3/4"> 
             <Link
-              to={"/product/:idProduct"}
+              to={"/product/"+id}
               className="text-inherit no-underline"
             >
               <h6 className="text-lg text-lefth font-thin m-2 ">{title}</h6>

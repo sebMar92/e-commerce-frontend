@@ -52,6 +52,10 @@ const ShowComment = ({comment, token}) => {
       all: "hidden",
       edit: "visible"
     })
+    setEditComment({
+      content: comment[0].content,
+      rating: comment[0].rating,
+      id: comment[0].id})
   }
 
   const handleSubmit = (e) => {
@@ -69,8 +73,8 @@ const ShowComment = ({comment, token}) => {
   console.log(editComment)
 
   return (
-    <div className="p-2 w-1/2 font-lora flex flex-col items-center mt-2 gap-2">
-      
+    <div className="p-2 w-full font-lora flex flex-col items-center mt-2 gap-2">
+      <div className="w-full flex flex-col items-center justify-center gap-2 sm:w-4/5 lg:w-1/2">
         <div className="flex items-center justify-center w-4/5 ">
           <button onClick={handleDelete} className={`${buttons.all} mr-auto rounded p-2 font-bold font-lora border-[1px] border-red-300 text-red-300 hover:border-red-700 hover:text-red-700`}>DELETE</button>
           <div className="pb-2 border-b-[1px] border-b-primary-300"><h2 className={`${buttons.edit}`}>Your Review</h2></div>
@@ -108,11 +112,11 @@ const ShowComment = ({comment, token}) => {
                         </label>)})}
           </div>
         </form>
-        <div className={`border-[1px] border-primary-300 rounded w-4/5 p-2 font-lora min-h-[120px] outline-none ${editable.div}`}>
+        <div className={`border-[1px] border-primary-300 rounded w-4/5 p-2 font-lora min-h-[120px] bg-white outline-none ${editable.div}`}>
           <p>{editComment.content}</p>
         </div>
         <button onClick={handleEdit} className={`mr-2 rounded p-2 font-bold text-primary-400 font-lora border-[1px] border-primary-300 hover:text-primary-700 hover:border-primary-700 ${buttons.edit}`}>EDIT</button>
-      
+      </div>
     </div>
   )
 }

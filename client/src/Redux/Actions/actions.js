@@ -11,9 +11,11 @@ import {
   GET_ORDERS,
   GET_USER_INFO,
   PUT_PRODUCT_BY_ID,
+  DELETE_ORDERS,
   GET_COMMENT_BY_ID,
-  DELETE_ORDERS
-
+  PUT_USER_INFO,
+  GET_SALES,
+  GET_PRODUCTS_SALES,
 } from './types';
 
 // action para traer los productos
@@ -72,10 +74,12 @@ export function updateComment(comment, token) {
   const headers = {
     'Authorization': `Bearer ${token}`,
   };
-  
+
   return async function () {
     try {
-      const commentUpdated = await axios.put("http://localhost:3001/comment", comment, { headers: headers } );
+      const commentUpdated = await axios.put('http://localhost:3001/comment', comment, {
+        headers: headers,
+      });
       return commentUpdated;
     } catch (error) {
       console.log(error);
@@ -87,10 +91,12 @@ export function postComment(comment, token) {
   const headers = {
     'Authorization': `Bearer ${token}`,
   };
-  
+
   return async function () {
     try {
-      const commentCreated = await axios.post("http://localhost:3001/comment", comment, { headers: headers } );
+      const commentCreated = await axios.post('http://localhost:3001/comment', comment, {
+        headers: headers,
+      });
       return commentCreated;
     } catch (error) {
       console.log(error);
@@ -102,10 +108,13 @@ export function deleteComment(id, token) {
   const headers = {
     'Authorization': `Bearer ${token}`,
   };
-  
+
   return async function () {
     try {
-      const commentDeleted = await axios.delete("http://localhost:3001/comment", { data: { id: id },  headers: headers } );
+      const commentDeleted = await axios.delete('http://localhost:3001/comment', {
+        data: { id: id },
+        headers: headers,
+      });
       return commentDeleted;
     } catch (error) {
       console.log(error);
@@ -183,133 +192,96 @@ export function validateMail(mail) {
     });
   };
 }
-/* 
-export function postOrder(order, token){
+
+export function postOrder(order){
+  const token = window.localStorage.getItem('access')
   const headers ={
     "Authorization": `Bearer ${token}`
-  }
-  return async function(dispatch){
-  
-    try{
-      const crearCart= await axios.post("http://localhost:3001/order", order, {headers: headers});
-      return dispatch({
-        type: POST_ORDERS,
-        payload: crearCart.data
-      });
-    }catch (error){
-      console.log(error)
-    }
-  }
-  }
+  };
 
-  export function getOrder(token) {
+  return (dispatch) => {
+    try {
+      
+      return axios.
+      post("http://localhost:3001/order", order, {headers: headers})
+        .then((res) => {
+          dispatch({
+            type: POST_ORDERS,
+            payload: {status: order.status, data: res.data},
+          });
+        })
+        .catch((error) => {
+          if (error.response.status === 403) {
+            let refreshToken = window.localStorage.getItem('refresh');
+            axios
+              .post('http://localhost:3001/user/token', { token: refreshToken })
+              .then((res) => {
+                window.localStorage.setItem('access', res.data.token);
+                axios
+                  .post('http://localhost:3001/order',order, {
+                    headers: {
+                      'Authorization': `Bearer ${res.data.token}`,
+                    },
+                  })
+                  .then((res) => {
+                    dispatch({
+                      type: POST_ORDERS,
+                      payload: {status: order.status, data: res.data},
+                    });
+                  });
+              });
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+// para llamar cart y whislist -finali -proces
+
+  export function getOrder(order) {
+    const token = window.localStorage.getItem('access')
     const headers = {
       'Authorization': `Bearer ${token}`,
     };
-    return async (dispatch) => {
-      try {
-        
-        const cart = await axios.post('http://localhost:3001/order',{status:"inCart"}, { headers: headers });
-        return dispatch({
-          type: GET_ORDERS,
-          payload: cart.data,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  }  */
-
-
-  export function postOrder(order, token){
-    const headers ={
-      "Authorization": `Bearer ${token}`
-    };
-
     return (dispatch) => {
       try {
-        
-        return axios.
-        post("http://localhost:3001/order", order, {headers: headers})
-          .then((res) => {
-            dispatch({
-              type: POST_ORDERS,
-              payload: {status: order.status, data: res.data},
-            });
-          })
-          .catch((error) => {
-            if (error.response.status === 403) {
-              let refreshToken = window.localStorage.getItem('refresh');
-              axios
-                .post('http://localhost:3001/user/token', { token: refreshToken })
-                .then((res) => {
-                  window.localStorage.setItem('access', res.data.token);
-                  axios
-                    .post('http://localhost:3001/order',order, {
-                      headers: {
-                        'Authorization': `Bearer ${res.data.token}`,
-                      },
-                    })
-                    .then((res) => {
-                      dispatch({
-                        type: POST_ORDERS,
-                        payload: {status: order.status, data: res.data},
-                      });
-                    });
-                });
-            }
+        return  axios.get('http://localhost:3001/order?status='+ order.status, { headers: headers })
+        .then(res=> {
+          dispatch({
+            type: GET_ORDERS,
+            payload: {status: order.status, data: res.data},
+            
           });
-      } catch (error) {
+        }) 
+      .catch ((error) => {
+        if(error.response.status === 403){
+          let refreshToken = window.localStorage.getItem('refresh');
+          axios
+            .post('http://localhost:3001/order', { token: refreshToken })
+            .then((res) => {
+              window.localStorage.setItem('access', res.data.token);
+                axios
+                  .get('http://localhost:3001/order', {
+                    headers: {
+                      'Authorization': `Bearer ${res.data.token}`,
+                    },
+                  })
+                  .then((res) => {
+                    dispatch({
+                      type: GET_ORDERS,
+                      payload: {status: order.status, data: res.data},
+                    });
+                  });
+            });
+          }
+        })
+      } catch(error){
         console.log(error);
       }
     };
-  }
-  
-  // para llamar cart y whislist -finali -proces
-
-    export function getOrder(order) {
-      const token = window.localStorage.getItem('access')
-      const headers = {
-        'Authorization': `Bearer ${token}`,
-      };
-      return (dispatch) => {
-        try {
-          return  axios.get('http://localhost:3001/order?status='+ order.status, { headers: headers })
-          .then(res=> {
-            dispatch({
-              type: GET_ORDERS,
-              payload: {status: order.status, data: res.data},
-              
-            });
-          }) 
-        .catch ((error) => {
-          if(error.response.status === 403){
-            let refreshToken = window.localStorage.getItem('refresh');
-            axios
-              .post('http://localhost:3001/order', { token: refreshToken })
-              .then((res) => {
-                window.localStorage.setItem('access', res.data.token);
-                  axios
-                    .get('http://localhost:3001/order', {
-                      headers: {
-                        'Authorization': `Bearer ${res.data.token}`,
-                      },
-                    })
-                    .then((res) => {
-                      dispatch({
-                        type: GET_ORDERS,
-                        payload: {status: order.status, data: res.data},
-                      });
-                    });
-              });
-            }
-          })
-        } catch(error){
-          console.log(error);
-        }
-      };
-    } 
-
+  } 
 
     export function deleteOrder(order){
       const token = window.localStorage.getItem('access')
@@ -401,4 +373,140 @@ export function getUserInfo(token) {
     }
   };
 }
- 
+
+
+
+
+
+export function putUserInfo(token, body) {
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+  };
+
+  console.log(body);
+
+  return async (dispatch) => {
+    try {
+      const userChangeData = await axios.put('http://localhost:3001/user', body, {
+        headers: headers,
+      });
+      return dispatch({
+        type: PUT_USER_INFO,
+        payload: userChangeData.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getSales() {
+  return async function (dispatch) {
+    var json = await axios.get('http://localhost:3001/sale');
+    return dispatch({
+      type: GET_SALES,
+      payload: json.data,
+    });
+  };
+}
+export function postSale(body) {
+  const token = window.localStorage.getItem('access');
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+  };
+
+  return (dispatch) => {
+    try {
+      return axios
+        .post('http://localhost:3001/sale', body, { headers: headers })
+        .catch((error) => {
+          if (error.response.status === 403) {
+            let refreshToken = window.localStorage.getItem('refresh');
+            axios
+              .post('http://localhost:3001/user/token', { token: refreshToken })
+              .then((res) => {
+                window.localStorage.setItem('access', res.data.token);
+                axios.post('http://localhost:3001/sale', body, {
+                  headers: {
+                    'Authorization': `Bearer ${res.data.token}`,
+                  },
+                });
+              });
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function editSale(body) {
+  const token = window.localStorage.getItem('access');
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+  };
+
+  return (dispatch) => {
+    try {
+      return axios
+        .put('http://localhost:3001/sale', body, { headers: headers })
+        .catch((error) => {
+          if (error.response.status === 403) {
+            let refreshToken = window.localStorage.getItem('refresh');
+            axios
+              .post('http://localhost:3001/user/token', { token: refreshToken })
+              .then((res) => {
+                window.localStorage.setItem('access', res.data.token);
+                axios.put('http://localhost:3001/sale', body, {
+                  headers: {
+                    'Authorization': `Bearer ${res.data.token}`,
+                  },
+                });
+              });
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+export function deleteSale(id) {
+  const token = window.localStorage.getItem('access');
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+  };
+
+  return (dispatch) => {
+    try {
+      return axios
+        .delete('http://localhost:3001/sale?saleId=' + id, { headers: headers })
+        .catch((error) => {
+          if (error.response.status === 403) {
+            let refreshToken = window.localStorage.getItem('refresh');
+            axios
+              .post('http://localhost:3001/user/token', { token: refreshToken })
+              .then((res) => {
+                window.localStorage.setItem('access', res.data.token);
+                axios.delete('http://localhost:3001/sale?saleId=' + id, {
+                  headers: {
+                    'Authorization': `Bearer ${res.data.token}`,
+                  },
+                });
+              });
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getAllProductsForSales() {
+  return async function (dispatch) {
+    var json = await axios.get('http://localhost:3001/products?limit=1000');
+    return dispatch({
+      type: GET_PRODUCTS_SALES,
+      payload: json.data,
+    });
+  };
+}
