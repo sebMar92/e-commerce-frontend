@@ -37,7 +37,7 @@ export default function CreateProducts() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(input);
+   
     dispatch(postProduct(input));
     setInput({
       title: "",

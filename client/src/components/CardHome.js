@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { GrFavorite } from "react-icons/gr";
-import { postOrder,postOrderFav } from "../Redux/Actions/actions";
+import { postOrder } from "../Redux/Actions/actions";
 import { useDispatch} from "react-redux";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,7 +22,7 @@ function addCart(){
   }
 
   function addFav(){
-    dispatch(postOrderFav({
+    dispatch(postOrder({
       status: "inWishList",
         amount: 1,
         productId: id

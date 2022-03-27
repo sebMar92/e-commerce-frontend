@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserInfo, getOrder, getOrderFavs } from '../../Redux/Actions/actions';
+import { getUserInfo, getOrder } from '../../Redux/Actions/actions';
 import { Link } from 'react-router-dom';
 import { GrFavorite } from 'react-icons/gr';
 
 export default function FavsModal() {
-  const favs = useSelector((state) => state.home.favs)
+  const favs = useSelector((state) => state.home.inWishList)
   const render = useSelector((state) => state.home.postOrders)
   const ordersFav = favs;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getOrderFavs({status: "inWishList"}))
+    dispatch(getOrder({status: "inWishList"}))
   }, [render])
   
   
