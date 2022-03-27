@@ -21,6 +21,7 @@ module.exports = {
           500: "#FFAC4B",
           600: "#FFA438",
           700: "#FF9921",
+          800: "#f89e1c",
         },
         secondary: {
           100: "#EEEEEE",

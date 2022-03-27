@@ -102,14 +102,16 @@ export default function ProductDetails() {
             
             {product && product.stock > 1 ? 
             <div className="flex gap-2 text-xl items-center w-full justify-center">
-            <FaBan className="h-6 w-6 " color="red"/>
-            <span>No stock available</span>
+            <AiOutlineCheckCircle className="h-6 w-6" color="#FEBD70" />
+            <span>Stock: {product.stock}</span>
           </div>
             : 
             <div className="flex gap-2 text-xl items-center w-full justify-center">
-              <AiOutlineCheckCircle className="h-6 w-6" color="#FEBD70" />
-              <span>Stock available</span>
+              <FaBan className="h-6 w-6 " color="red"/>
+              <span>No stock available</span>
             </div>
+
+
             }
             <div className="h-fit p-2 flex">
               <button 

@@ -40,7 +40,7 @@ export default function NavBar() {
   }, []);
 
   return (
-    <div className="bg-primary-500 font-medium text-lg px-4 py-2">
+    <div className="bg-primary-800 font-medium text-lg px-4 py-2">
       <div className="flex flex-row justify-between">
         <div>
           <Link to="/" className="text-decoration-line: no-underline">
@@ -86,7 +86,7 @@ export default function NavBar() {
       </div>
       <div className="flex justify-center">
         <div
-          className={`bg-primary-500 rounded m-2 w-full sm:hidden lg:flex flex-row justify-evenly z-10 mt-4 ${
+          className={`bg-primary-800 rounded m-2 w-full sm:hidden lg:flex flex-row justify-evenly z-10 mt-4 ${
             isOpen && hidden
           } `}
         >

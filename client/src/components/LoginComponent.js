@@ -18,7 +18,6 @@ export default function LoginComponent(boolean) {
     const value = Object.entries(boolean)[0][1]
     const [hasAccount, setHasAccount] = useState(value)
     const { register, handleSubmit, formState: { errors } } = useForm();
-    console.log(message)
 
     //Renderizo un form u otro en base al booleano que recibo por props 
 

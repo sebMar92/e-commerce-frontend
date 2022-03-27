@@ -288,16 +288,15 @@ export function postOrder(order){
       const headers ={
         "Authorization": `Bearer ${token}`
       };
-  
       return (dispatch) => {
         try {
         
           return axios
-          .delete(`http://localhost:3001/order/${order.id}?id=${order.id}&status=${order.status}`, {headers: headers})
+          .delete(`http://localhost:3001/order/${order}`, {headers: headers})
             .then((res) => {
               dispatch({
                 type: DELETE_ORDERS,
-                payload: {status: order.status, data: res.data},
+                payload: res.data,
               });
             })
             .catch((error) => {
@@ -308,7 +307,7 @@ export function postOrder(order){
                   .then((res) => {
                     window.localStorage.setItem('access', res.data.token);
                     axios
-                      .delete('http://localhost:3001/order',order, {
+                      .delete(`http://localhost:3001/order${order}`, {
                         headers: {
                           'Authorization': `Bearer ${res.data.token}`,
                         },
@@ -316,7 +315,7 @@ export function postOrder(order){
                       .then((res) => {
                         dispatch({
                           type: DELETE_ORDERS,
-                          payload: {status: order.status, data: res.data},
+                          payload: res.data,
                         });
                       });
                   });
