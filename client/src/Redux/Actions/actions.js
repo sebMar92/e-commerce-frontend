@@ -12,6 +12,7 @@ import {
   GET_USER_INFO,
   GET_SALES,
   GET_COMMENT_BY_ID,
+  GET_PRODUCTS_SALES,
 } from './types';
 
 // action para traer los productos
@@ -209,6 +210,7 @@ export function postOrder(order, token){
         console.log(error);
       }
     };
+    
   }  */
 
 export function postOrder(order, token) {
@@ -348,6 +350,25 @@ export function getSales() {
     var json = await axios.get('http://localhost:3001/sale');
     return dispatch({
       type: GET_SALES,
+      payload: json.data,
+    });
+  };
+}
+export function editSale(body) {
+  return async function (dispatch) {
+    var json = await axios.put('http://localhost:3001/sale', body);
+    return dispatch({
+      type: GET_SALES,
+      payload: json.data,
+    });
+  };
+}
+
+export function getAllProductsForSales() {
+  return async function (dispatch) {
+    var json = await axios.get('http://localhost:3001/products?limit=1000');
+    return dispatch({
+      type: GET_PRODUCTS_SALES,
       payload: json.data,
     });
   };
