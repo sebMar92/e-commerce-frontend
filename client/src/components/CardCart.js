@@ -1,23 +1,39 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { deleteOrder, getOrder} from "../Redux/Actions/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 import Product from "./utils/Notebook-Odyssey-2.jpg";
 
 export default function CardCart({
+  id,
+  idOrder,
   images,
   title,
   price,
   shippingCost,
   stock,
+  amount
 }) {
-  const [count, setCount] = useState(1);
-  const [value, setValue] = useState(price);
+
+  const dispatch = useDispatch();
+  const [count, setCount] = useState(amount);
+  const [value, setValue] = useState(price*amount);
+
+  function deleteCart(e){
+    e.preventDefault();
+    let token= window.localStorage.getItem('access')
+    dispatch(deleteOrder( {
+      id : idOrder,
+      status : "inCart"
+     },token))
+}
 
   return (
     <div className=" flex flex-wrap  justify-center">
       <div className=" bg-secondary-100  w-9/12 m-5 rounded-md ">
         <div className=" flex justify-end">
-          <button className=" text-rigth text-black  m-2 px-1  rounded-md font-lora font-bold active:translate-y-1 hover:bg-[#fd1e1ed7] hover:text-[#fff]  shadow-lg shadow-primary-200/80">
+          <button onClick={((e)=> deleteCart(e))}  className=" text-rigth text-black  m-2 px-1  rounded-md font-lora font-bold active:translate-y-1 hover:bg-[#fd1e1ed7] hover:text-[#fff]  shadow-lg shadow-primary-200/80">
             x
           </button>
         </div>

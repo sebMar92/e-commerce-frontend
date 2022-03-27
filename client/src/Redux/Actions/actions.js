@@ -228,12 +228,13 @@ export function postOrder(order, token){
 
     return (dispatch) => {
       try {
+        
         return axios.
         post("http://localhost:3001/order", order, {headers: headers})
           .then((res) => {
             dispatch({
               type: POST_ORDERS,
-                payload: res.data
+              payload: {status: order.status, data: res.data},
             });
           })
           .catch((error) => {
@@ -252,7 +253,7 @@ export function postOrder(order, token){
                     .then((res) => {
                       dispatch({
                         type: POST_ORDERS,
-                        payload: res.data
+                        payload: {status: order.status, data: res.data},
                       });
                     });
                 });
@@ -297,7 +298,7 @@ export function postOrder(order, token){
                     .then((res) => {
                       dispatch({
                         type: GET_ORDERS,
-                        payload: res.data,
+                        payload: {status: order.status, data: res.data},
                       });
                     });
               });
@@ -318,8 +319,9 @@ export function postOrder(order, token){
   
       return (dispatch) => {
         try {
+        
           return axios
-          .delete("http://localhost:3001/order", order, {headers: headers})
+          .delete(`http://localhost:3001/order/${order.id}?id=${order.id}&status=${order.status}`, {headers: headers})
             .then((res) => {
               dispatch({
                 type: DELETE_ORDERS,

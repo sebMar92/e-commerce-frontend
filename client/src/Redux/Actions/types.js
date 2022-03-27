@@ -10,4 +10,5 @@ export const POST_ORDERS = "POST_ORDERS";
 export const GET_ORDERS = "GET_ORDERS";
 export const GET_USER_INFO = "GET_USER_INFO";
 export const PUT_PRODUCT_BY_ID = "PUT_PRODUCT_BY_ID";
-export const GET_COMMENT_BY_ID ="GET_COMMENT_BY_ID"
+export const GET_COMMENT_BY_ID ="GET_COMMENT_BY_ID";
+export const DELETE_ORDERS="DELETE_ORDERS";

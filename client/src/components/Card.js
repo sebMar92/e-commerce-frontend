@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { GrFavorite } from "react-icons/gr";
 import { useDispatch, useSelector} from "react-redux";
-import { postOrder } from "../Redux/Actions/actions";
+import { postOrder, deleteOrder} from "../Redux/Actions/actions";
 
 
 export default function Card({ id, image, name, price, shippingCost, path }) {
@@ -30,6 +30,7 @@ function addCart(){
   },token))
   
     }
+
 
   return (
     <>

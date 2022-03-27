@@ -9,11 +9,14 @@ import { useDispatch, useSelector } from "react-redux";
 export default function Wishlist({}) {
     const dispatch = useDispatch();
   const product = useSelector((state) => state.home.inWishList);
-  console.log(product)
+
 
   useEffect(() => {
+
     dispatch(getOrder({ status: "inWishList" }));
-  }, []);
+  }, [dispatch]);
+
+  
     return (
         <>
         <NavBar/>
@@ -21,17 +24,19 @@ export default function Wishlist({}) {
             <h1>This is Wishlist</h1>
             {product.length > 0 &&
         product.map((prod) => {
-       
+      
           return (
             <div>
  
               <CardWishlist 
-               key={prod.id}
+               id={prod.id}
+               idOrder={prod.orders[0].id}
                title={prod.title}
                 price={prod.price}
                 images={prod.images[0].url}
                 shippingCost={prod.shippingCost}
                 stock={prod.stock}
+                key={prod.id}
                 
               />
             </div>
