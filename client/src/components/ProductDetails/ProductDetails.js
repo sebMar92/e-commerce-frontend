@@ -43,7 +43,7 @@ export default function ProductDetails() {
   }
 
   const notifyDetail3 = () => {
-    toast.success("Buyed successfully !", {
+    toast.success("Purchase successfull !", {
       position: toast.POSITION.BOTTOM_LEFT
     });
   }

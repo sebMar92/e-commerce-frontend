@@ -6,6 +6,7 @@ export default function CardHistorial({
   title,
   price,
   amount,
+  id
   }) 
   {
   return (
@@ -14,7 +15,7 @@ export default function CardHistorial({
         <div>
           <div className=" flex flex-wrap justify-between   rounded-lg w-11/12 h-auto">
             <Link
-              to={"/product/:idProduct"}
+              to={`/product/${id}`}
               className="text-inherit no-underline"
             >
               <div className=" flex flex-wrap justify-center">

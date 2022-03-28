@@ -26,6 +26,7 @@ const initialState = {
   user: {},
   inWishList:[],
   inCart:[],
+  finished:[],
   postOrders:[],
   deleted: []
 };

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 export default function Historial() {
   
   const dispatch = useDispatch()
-  const products = useSelector(state => state.home.orders)
+  const products = useSelector(state => state.home.finished)
   console.log('product', products)
   useEffect(() => {
     dispatch(getOrder({ status: "finished" }))
@@ -21,7 +21,7 @@ export default function Historial() {
         {/*<h1>This is Historial</h1>*/}
         {products.length > 0 &&
         products.map((prod) => {
-       
+          console.log(prod)
           return (
             <div>
  
@@ -31,6 +31,7 @@ export default function Historial() {
                price={prod.price}
                amount={prod.orders[0].amount}
                images={prod.images[0].url}
+               id={prod.id}
                 
                 
               />

@@ -30,7 +30,9 @@ export default function FavsModal() {
     <div>
         <div className="group">
           <button className=" rounded-t-full px-2 py-2 group ">
-            <GrFavorite className='text-2xl mt-1 hover:scale-120'/>
+            <Link to="/wishlist" className='no-underline text-black'>
+              <GrFavorite className='text-2xl mt-1 hover:scale-120'/>
+            </Link>
             <ul className={`absolute z-50 -translate-x-52 mt-1 text-sm invisible group-hover:visible p-4 ${favs.length > 0 ? "bg-white" : ""} rounded-xl`}>
             <p className={`text-xl mb-2 font-bold ${favs.length > 0 ? "" : "text-transparent"}`}>Wishlist</p>
               {favs.length > 0 &&
