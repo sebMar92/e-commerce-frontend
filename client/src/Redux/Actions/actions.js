@@ -67,9 +67,8 @@ export function putProductByID(id, body) {
   return async function (dispatch) {
     try {
       var json = await axios.put('http://localhost:3001/products/' + id, body);
-      
+
       return dispatch({
-        
         type: PUT_PRODUCT_BY_ID,
         payload: json.data,
       });
@@ -285,7 +284,6 @@ export function postOrder(order) {
 
 // para llamar cart y whislist -finali -proces
 //json.data es un array de objetos
-<<<<<<< HEAD
 export function getOrder(order) {
   const token = window.localStorage.getItem('access');
 
@@ -310,32 +308,6 @@ export function getOrder(order) {
     };
   }
 }
-=======
-  export function getOrder(order) {
-    const token = window.localStorage.getItem('access');
-
-    if(token){
-      return async function (dispatch) {
-        var json = await axios.get(`http://localhost:3001/order?status=` + order.status);
-        console.log(json.data)
-        return dispatch({
-          type: GET_ORDERS,
-          payload: {status: order.status, data: json.data},
-        });
-      };
-    } else {
-        return function (dispatch) {
-          const item = window.localStorage.getItem(`${order.status}`)
-          const parsedItem = JSON.parse(item);
-          console.log(parsedItem)
-            return dispatch({
-              type: GET_ORDERS,
-              payload: {status: order.status, data: parsedItem},
-            });
-        }
-    }
-  }
->>>>>>> ee62b0d3e084666faddece108baccc5d77b136fe
 
 export function changeOrderStatus(order) {
   return async function (dispatch) {
@@ -355,16 +327,9 @@ export function changeOrderAmount(order) {
       type: PUT_ORDERS_AMOUNT,
       payload: { status: order.status, data: json.data },
     });
-<<<<<<< HEAD
   };
 }
 
-=======
-  }
-}
-
-
->>>>>>> ee62b0d3e084666faddece108baccc5d77b136fe
 /*     const token = window.localStorage.getItem('access')
     const headers = {
       'Authorization': `Bearer ${token}`,
@@ -662,4 +627,3 @@ export function getAllProductsForSales() {
     });
   };
 }
-
