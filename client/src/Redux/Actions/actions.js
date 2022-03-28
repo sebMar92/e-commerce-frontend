@@ -244,6 +244,7 @@ export function postOrder(order){
     });
   };
 }
+
 /*   const token = window.localStorage.getItem('access')
   const headers ={
     "Authorization": `Bearer ${token}`
@@ -340,15 +341,6 @@ export function changeOrderAmount(order) {
 }
 
 
-export function getOrder(order) {
-  return async function (dispatch) {
-    var json = await axios.get(`/order?status=` + order.status);
-    return dispatch({
-      type: GET_ORDERS,
-      payload: { status: order.status, data: json.data },
-    });
-  };
-}
 /*     const token = window.localStorage.getItem('access')
     const headers = {
       'Authorization': `Bearer ${token}`,
@@ -646,3 +638,4 @@ export function getAllProductsForSales() {
     });
   };
 }
+
