@@ -33,9 +33,9 @@ export default function FavsModal() {
             <Link to="/wishlist" className='no-underline text-black'>
               <GrFavorite className='text-2xl mt-1 hover:scale-120'/>
             </Link>
-            <ul className={`absolute z-50 -translate-x-52 mt-1 text-sm invisible group-hover:visible p-4 ${favs.length > 0 ? "bg-white" : ""} rounded-xl`}>
-            <p className={`text-xl mb-2 font-bold ${favs.length > 0 ? "" : "text-transparent"}`}>Wishlist</p>
-              {favs.length > 0 &&
+            <ul className={`absolute z-50 -translate-x-52 mt-1 text-sm invisible group-hover:visible p-4 ${favs && favs.length > 0 ? "bg-white" : ""} rounded-xl`}>
+            <p className={`text-xl mb-2 font-bold ${favs && favs.length > 0 ? "" : "text-transparent"}`}>Wishlist</p>
+              {favs && favs.length > 0 &&
               favs.map((e,i) => {
                 const del = e.orders[0].id
                 if(i < 2){
@@ -54,7 +54,7 @@ export default function FavsModal() {
                 </>
                 )}
               })}
-            {favs.length > 0 ? (
+            {favs && favs.length > 0 ? (
               <Link
                 to="/wishlist"
                 className="flex justify-center mt-1 underline decoration-primary-700 hover:scale-105 text-black invisible group-hover:visible w-12/12"

@@ -52,16 +52,29 @@ export default function ProductDetails() {
     dispatch(postOrder({
       status: "inCart",
       amount: 1,
-      productId: idProduct
+      productId: idProduct,
+      title: product.title,
+      shippingCost: product.shippingCost,
+      stock: product.stock,
+      description: product.description,
+      images: product.images,
+      price: product.price
     }))
   }
 
   function addFavDetails(){
     dispatch(postOrder({
       status: "inWishList",
-        amount: 1,
-        productId: idProduct
+      amount: 1,
+      productId: idProduct,
+      title: product.title,
+      shippingCost: product.shippingCost,
+      stock: product.stock,
+      description: product.description,
+      images: product.images,
+      price: product.price
       }))
+      console.log("sent")
   }
 
 

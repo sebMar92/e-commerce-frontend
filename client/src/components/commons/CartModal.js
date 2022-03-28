@@ -31,9 +31,9 @@ export default function CartModal() {
             <Link to="/cart" className='no-underline text-black'>
             <AiOutlineShoppingCart className='text-2xl mt-1 active:scale-120'/>
             </Link>
-            <ul className={`absolute z-50 -translate-x-52 mt-1 text-sm invisible group-hover:visible p-4 rounded-xl ${order.length > 0 ? "bg-white" : ""}`}>
-              <p className={`text-xl mb-2 font-bold ${order.length > 0 ? "" : "text-transparent"}`}>Shopping Cart</p>
-                  {order.length > 0 && 
+            <ul className={`absolute z-50 -translate-x-52 mt-1 text-sm invisible group-hover:visible p-4 rounded-xl ${order && order.length > 0 ? "bg-white" : ""}`}>
+              <p className={`text-xl mb-2 font-bold ${order && order.length > 0 ? "" : "text-transparent"}`}>Shopping Cart</p>
+                  {order && order.length > 0 && 
                   order.map((e,i) => {
                     const del = e.orders[0].id
                     if(i < 2){
@@ -52,7 +52,7 @@ export default function CartModal() {
                           </div>
                     )}
                   })}
-                  {order.length > 0 ? (
+                  {order && order.length > 0 ? (
                     <Link
                       to="/cart"
                       className="flex justify-center mt-1 underline decoration-primary-700 hover:scale-105 text-black invisible group-hover:visible w-12/12"
