@@ -94,7 +94,8 @@ export default function CreateProducts() {
     for (let i = 0; i < files.length; i++) {
       formData.append("file", files[i]);
       formData.append("upload_preset", "ecommerce");
-      Axios.post(
+      const newAxios = Axios.create();
+      newAxios.post(
         "https://api.cloudinary.com/v1_1/dmjbff5rm/image/upload",
         formData
       ).then((res) => {

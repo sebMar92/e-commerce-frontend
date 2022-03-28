@@ -17,6 +17,8 @@ import {
   PUT_USER_INFO,
   GET_SALES,
   GET_PRODUCTS_SALES,
+  PUT_ORDERS,
+  PUT_ORDERS_AMOUNT,
   DELETE_SALE,
 } from './types';
 
@@ -230,7 +232,29 @@ export function postOrder(order) {
   };
 } */
 
-// para llamar cart y whislist -finali -proces
+
+export function changeOrderStatus(order) {
+  console.log(order)
+  return async function (dispatch) {
+    var json = await axios.put(`/order/${order.id}?status=${order.status}`);
+    return dispatch({
+      type: PUT_ORDERS,
+      payload: { status: order.status, data: json.data },
+    });
+  }
+}
+
+export function changeOrderAmount(order) {
+  console.log(order)
+  return async function (dispatch) {
+    var json = await axios.put(`/order/${order.id}?amount=${order.amount}`);
+    return dispatch({
+      type: PUT_ORDERS_AMOUNT,
+      payload: { status: order.status, data: json.data },
+    });
+  }
+}
+
 
 export function getOrder(order) {
   return async function (dispatch) {

@@ -10,13 +10,13 @@ export default function Wishlist({}) {
     const dispatch = useDispatch();
 
   const product = useSelector((state) => state.home.inWishList);
-
+ const wishListOrder = useSelector((state)=> state.home.resPutOrder)
 
 
   useEffect(() => {
 
     dispatch(getOrder({ status: "inWishList" }));
-  }, [dispatch]);
+  }, [wishListOrder]);
 
   
     return (
