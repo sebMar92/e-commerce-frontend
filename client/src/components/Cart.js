@@ -40,7 +40,7 @@ export default function Cart({}) {
           );
         })}
       {/*  total envio  */}
-      <div className="flex flex-wrap justify-center">
+    {/*   <div className="flex flex-wrap justify-center">
         <div className="bg-secondary-100 w-9/12 m-5 rounded-md">
           <div className="flex justify-end mx-8 my-2">
             <h5 className="text-xs text-gray-900">Shipping Cost $00.00{}</h5>
@@ -64,7 +64,7 @@ export default function Cart({}) {
         <button className="bg-[#3b82f6] text-white p-1 my-8 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition  w-24">
           Continue
         </button>
-      </div>
+      </div> */}
       <Footer />
     </div>
   );
