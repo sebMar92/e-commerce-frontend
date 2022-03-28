@@ -20,6 +20,7 @@ import {
   PUT_ORDERS,
   PUT_ORDERS_AMOUNT,
   DELETE_SALE,
+  POST_NEW_ADRESS_USER
 } from './types';
 
 requestInterceptor();
@@ -518,6 +519,23 @@ export function putUserInfo(token, body) {
     }
   };
 }
+
+export function postDirectionUser(body) {
+  console.log(body);
+  return async (dispatch) => {
+    try {
+      const newAdress = await axios.post("/user/direction", body);
+      return dispatch({
+        type: POST_NEW_ADRESS_USER,
+        payload: newAdress.data,
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+
 
 export function getSales() {
   return async function (dispatch) {

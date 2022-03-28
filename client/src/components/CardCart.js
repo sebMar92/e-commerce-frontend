@@ -83,7 +83,7 @@ export default function CardCart({
                 </div>
               ) : (
                 <div>
-                  <p className="text-xs text-blue-900 m-3">{shippingCost}</p>
+                  <p className="text-xs text-blue-900 m-3">ShippingCost: ${shippingCost}</p>
                   <ButtonBuyChange id={idOrder} status={"finished"} />
                 </div>
               )}
