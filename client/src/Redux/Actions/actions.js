@@ -179,12 +179,62 @@ export function validateMail(mail) {
   };
 }
 
-export function postOrder(order) {
-  return async function (dispatch) {
-    var json = await axios.post(`/order`, order);
-    return dispatch({
-      type: POST_ORDERS,
-      payload: { status: order.status, data: json.data },
+
+export function postOrder(order){
+  const token = window.localStorage.getItem('access');
+  console.log(token)
+  if(token){
+    return async function (dispatch) {
+      var json = await axios.post(`http://localhost:3001/order`, order);
+      console.log(json.data)
+      return dispatch({
+        type: POST_ORDERS,
+        payload: {status: order.status, data: json.data},
+      });
+    }
+  } else {
+      if(!window.localStorage.getItem(`${order.status}`)) {
+        console.log("hola2")
+        const product =  {
+          status: order.status,
+          amount: order.amount,
+          productId: order.productId,
+          id: order.productId,
+          title: order.title,
+          shippingCost: order.shippingCost,
+          stock: order.stock,
+          description: order.description,
+          images: order.images,
+          orders: [{id:0}],
+          price: order.price
+        };
+        var arr = []
+        arr.push(product)
+        window.localStorage.setItem(`${order.status}`, JSON.stringify(arr))
+        var item = window.localStorage.getItem(`${order.status}`)
+        console.log(JSON.parse(item))
+    } else {
+      const product =  {
+        status: order.status,
+        amount: order.amount,
+        productId: order.productId,
+        id: order.productId,
+        title: order.title,
+        shippingCost: order.shippingCost,
+        stock: order.stock,
+        description: order.description,
+        images: order.images,
+        orders: [{id:0}],
+        price: order.price
+      };
+      var item = window.localStorage.getItem(`${order.status}`)
+      var parsedItem = JSON.parse(item)
+      parsedItem.push(product)
+      window.localStorage.setItem(`${order.status}`, JSON.stringify(parsedItem))
+    }
+    return ({
+      type: "NONE"
+
     });
   };
 }
@@ -233,6 +283,33 @@ export function postOrder(order) {
 } */
 
 
+// para llamar cart y whislist -finali -proces
+//json.data es un array de objetos
+  export function getOrder(order) {
+    const token = window.localStorage.getItem('access');
+
+    if(token){
+      return async function (dispatch) {
+        var json = await axios.get(`http://localhost:3001/order?status=` + order.status);
+        console.log(json.data)
+        return dispatch({
+          type: GET_ORDERS,
+          payload: {status: order.status, data: json.data},
+        });
+      };
+    } else {
+        return function (dispatch) {
+          const item = window.localStorage.getItem(`${order.status}`)
+          const parsedItem = JSON.parse(item);
+          console.log(parsedItem)
+            return dispatch({
+              type: GET_ORDERS,
+              payload: {status: order.status, data: parsedItem},
+            });
+        }
+    }
+
+
 export function changeOrderStatus(order) {
   console.log(order)
   return async function (dispatch) {
@@ -241,6 +318,7 @@ export function changeOrderStatus(order) {
       type: PUT_ORDERS,
       payload: { status: order.status, data: json.data },
     });
+
   }
 }
 
@@ -305,6 +383,7 @@ export function getOrder(order) {
         console.log(error);
       }
     };
+
   } */
 
 export function deleteOrder(order) {
@@ -317,6 +396,7 @@ export function deleteOrder(order) {
   };
 }
 /*    const token = window.localStorage.getItem('access')
+
       const headers ={
         "Authorization": `Bearer ${token}`
       };
