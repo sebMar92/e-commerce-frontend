@@ -20,12 +20,7 @@ export default function CardCart({
   const [count, setCount] = useState(amount);
   const [value, setValue] = useState(price*amount);
 
-  function deleteCart(e){
-    e.preventDefault();
-    dispatch(deleteOrder({
-      id : idOrder
-     }))
-}
+  const deleteCart = (e) => dispatch(deleteOrder(idOrder))
 
   return (
     <div className=" flex flex-wrap  justify-center">
