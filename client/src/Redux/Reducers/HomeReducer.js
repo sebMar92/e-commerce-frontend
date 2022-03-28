@@ -102,11 +102,6 @@ export const HomeReducer = (state = initialState, action) => {
     case PUT_ORDERS:
       return {
         ...state,
-<<<<<<< HEAD
-        answer: action.payload
-      }
-      
-=======
         resPutOrder: action.payload
       };
       case PUT_ORDERS_AMOUNT:
@@ -115,7 +110,6 @@ export const HomeReducer = (state = initialState, action) => {
           resAmountOrder: action.payload
         }
 
->>>>>>> de8c8a9724c2da33fd2c10c50e19f735bf5f6383
     default:
       return state;
   }

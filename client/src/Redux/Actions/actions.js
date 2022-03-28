@@ -17,13 +17,9 @@ import {
   PUT_USER_INFO,
   GET_SALES,
   GET_PRODUCTS_SALES,
-<<<<<<< HEAD
-  PUT_ORDERS
-=======
   PUT_ORDERS,
   PUT_ORDERS_AMOUNT,
   DELETE_SALE,
->>>>>>> de8c8a9724c2da33fd2c10c50e19f735bf5f6383
 } from './types';
 
 requestInterceptor();
