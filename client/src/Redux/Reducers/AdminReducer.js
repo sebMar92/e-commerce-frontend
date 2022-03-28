@@ -1,12 +1,14 @@
-/* import { ACTION } from "../Action types/types" */
-
-
-//Reducer de prueba, no hace nada
-import { GET_SALES, GET_PRODUCTS_SALES, PUT_PRODUCT_BY_ID }from '../Actions/types.js';
+import {
+  GET_SALES,
+  GET_PRODUCTS_SALES,
+  PUT_PRODUCT_BY_ID,
+  DELETE_SALE,
+} from '../Actions/types.js';
 
 const initialState = {
   sales: [],
   salesAllProducts: [],
+  deleted: {},
 };
 
 export const AdminReducer = (state = initialState, { type, payload }) => {
@@ -21,10 +23,15 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
         ...state,
         salesAllProducts: payload.products,
       };
-      case PUT_PRODUCT_BY_ID:
-        return{
-            ...state
-        };
+    case DELETE_SALE:
+      return {
+        ...state,
+        deleted: payload,
+      };
+    case PUT_PRODUCT_BY_ID:
+      return {
+        ...state,
+      };
     default:
       return state;
   }

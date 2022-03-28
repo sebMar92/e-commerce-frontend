@@ -166,7 +166,7 @@ export default function UserProfile() {
                 arr.push(res.data.secure_url);
                 console.log(arr.flat())
                 setStateUser({
-                    ...stateUser.profilePicture,
+                    ...stateUser,
                     profilePicture: arr.flat(),
                 });
             });

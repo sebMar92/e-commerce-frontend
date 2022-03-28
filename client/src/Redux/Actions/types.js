@@ -20,3 +20,4 @@ export const GET_PRODUCTS_SALES = 'GET_PRODUCTS_SALES';
 export const PUT_SALE = 'PUT_SALE';
 export const PUT_ORDERS = "PUT_ORDERS"
 export const PUT_ORDERS_AMOUNT = "PUT_ORDERS_AMOUNT"
+export const DELETE_SALE = 'DELETE_SALE';
