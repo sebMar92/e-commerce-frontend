@@ -175,16 +175,16 @@ export default function UserProfile() {
                         <div className="flex flex-col w-96 justify-center items-center">
 
                             <div className="">
-                                <Link to={`/historial/${user.id}`} className="no-underline text-black">
+                                <Link to={`/historial`} className="no-underline text-black">
                                     <button className="p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 text-xs">Go to history</button>
                                 </Link>
 
-                                <Link to={`/wishlist/${user.id}`} className="no-underline text-black">
+                                <Link to={`/wishlist`} className="no-underline text-black">
 
                                     <button className="mb-1 mr-16 ml-16 p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 text-xs">Go to wish list</button>
                                 </Link>
 
-                            <Link to={`/cart/${user.id}`} className="no-underline text-black">
+                            <Link to={`/cart`} className="no-underline text-black">
 
                                     <button className="p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 text-xs">Go to cart</button>
                                 </Link>

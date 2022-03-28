@@ -272,7 +272,7 @@ export default function CarouselCateg({onClick,onClick2}) {
               to={`/products?categoryId=${categ.id}`}
               className="no-underline text-slate-700   "
             >
-              <div className="text-center bg-primary-200 rounded-lg p-2 hover:bg-primary-400">
+              <div className="text-center bg-primary-700 rounded-lg p-2 hover:bg-primary-500">
                 <h1>{categ.name} </h1>
               </div>
             </Link>

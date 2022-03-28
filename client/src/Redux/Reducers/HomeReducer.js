@@ -8,7 +8,7 @@ import {
   POST_ORDERS,
   GET_ORDERS,
   GET_USER_INFO,
-  GET_ORDERS_FAVS,
+  DELETE_ORDERS,
   PUT_USER_INFO
 } from "../Actions/types";
 
@@ -23,10 +23,12 @@ const initialState = {
   userMail: [],
   openFiles: "",
   answer: {},
-  orders:[],
   user: {},
-  favs: [],
-  answer: {},
+  inWishList:[],
+  inCart:[],
+  finished:[],
+  postOrders:[],
+  deleted: []
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -62,17 +64,20 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         userTokens: action.payload,
       };
-     
+      case DELETE_ORDERS:
+        return{
+            ...state,
+            deleted: action.payload
+        }
       case POST_ORDERS:
         return{
             ...state,
-           
+           postOrders : action.payload
         }
-
     case GET_ORDERS:
         return{
             ...state,
-            orders: action.payload,
+            [action.payload.status]:action.payload.data,
         }
     case GET_USER_INFO:
       return {
@@ -85,11 +90,6 @@ export const HomeReducer = (state = initialState, action) => {
         answer: action.payload,
       }
 
-      case GET_ORDERS_FAVS:
-      return {
-        ...state,
-        favs: action.payload
-      };
       case PUT_USER_INFO:
       return {
         ...state,

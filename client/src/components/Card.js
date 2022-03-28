@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { GrFavorite } from "react-icons/gr";
 import { useDispatch, useSelector} from "react-redux";
-import { postOrder, postOrderFav } from '../Redux/Actions/actions';
+import { postOrder, deleteOrder} from "../Redux/Actions/actions";
 
 
 export default function Card({ id, image, name, price, shippingCost, path, onClick,onClick2 }) {
@@ -22,12 +22,13 @@ const notifyCatClick2 = onClick2
 
   function addFavCategories(){
     console.log("fav")
-    dispatch(postOrderFav({
+    dispatch(postOrder({
       status: "inWishList",
         amount: 1,
         productId: id
       }))
   }
+
 
   return (
     <>

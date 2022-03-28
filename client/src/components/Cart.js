@@ -10,33 +10,31 @@ import { getOrder } from "../Redux/Actions/actions";
 
 export default function Cart({}) {
   const dispatch = useDispatch();
-  const product = useSelector((state) => state.home.orders);
+  const product = useSelector((state) => state.home.inCart);
   const [total, setTotal]=useState(0)
 
   useEffect(() => {
     dispatch(getOrder({ status: "inCart" }));
-  }, []);
+  }, [product]);
  
   return (
     <div>
       <NavBar />
-
-      <h1>This is Cart</h1>
-
       {product.length > 0 &&
         product.map((prod) => {
        
           return (
             <div>
- 
               <CardCart 
-               key={prod.id}
-               title={prod.title}
+              id={prod.id}
+              idOrder={prod.orders[0].id}
+                key={prod.id}
+                title={prod.title}
                 price={prod.price}
                 images={prod.images[0].url}
                 shippingCost={prod.shippingCost}
                 stock={prod.stock}
-                
+                amount={prod.orders[0].amount}
               />
             </div>
           );
@@ -45,14 +43,11 @@ export default function Cart({}) {
       <div className="flex flex-wrap justify-center">
         <div className="bg-secondary-100 w-9/12 m-5 rounded-md">
           <div className="flex justify-end mx-8 my-2">
-            <h5 className="text-xs text-gray-900">Shipping Cost ${}</h5>
+            <h5 className="text-xs text-gray-900">Shipping Cost $00.00{}</h5>
           </div>
           <div className="flex justify-end mx-8 my-2">
-           
-                <div></div>
-            
-            
-            <h1 className="text-1xl  text-gray-900">Total $ 10.000{}</h1>
+                <h1 className="text-1xl  text-gray-900">Total ${total}</h1>
+              
           </div>
           <div className="mx-5">
             <h1>Shipment</h1>

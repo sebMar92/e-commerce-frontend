@@ -1,4 +1,8 @@
 // Definir los tipos de actions como constantes para evitar errores de tipeo
+
+
+export const PUT_PRODUCT_BY_ID = "PUT_PRODUCT_BY_ID";
+export const DELETE_ORDERS="DELETE_ORDERS";
 export const GET_PRODUCTS = 'GET_PRODUCTS';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID';
@@ -9,8 +13,6 @@ export const LOGIN_USER = 'LOGIN_USER';
 export const POST_ORDERS = 'POST_ORDERS';
 export const GET_ORDERS = 'GET_ORDERS';
 export const GET_USER_INFO = 'GET_USER_INFO';
-export const GET_ORDERS_FAVS = 'GET_ORDERS_FAV';
-export const POST_ORDERS_FAV = 'POST_ORDERS_FAV';
 export const GET_COMMENT_BY_ID = 'GET_COMMENT_BY_ID';
 export const PUT_USER_INFO = 'PUT_USER_INFO';
 export const GET_SALES = 'GET_SALES';
