@@ -6,7 +6,9 @@ import { BsSave2 } from "react-icons/bs"
 import { getUserInfo, putUserInfo } from '../Redux/Actions/actions';
 import { useDispatch, useSelector } from "react-redux";
 import ModalPortal from "../components/modals/UserProfileModal"
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
+import axios from 'axios';
+
 
 
 
@@ -50,7 +52,7 @@ export default function UserProfile() {
         email: "",
         direction: ""
     })
-    console.log(stateUser)
+    /* console.log(stateUser) */
 
 
     function handleChange(e) {
@@ -150,6 +152,30 @@ export default function UserProfile() {
         setStateModal(!stateModal)
     }
 
+    let arr = [];
+    const uploadImage = (files) => {
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+            formData.append("file", files[i]);
+            formData.append("upload_preset", "ecommerce");
+            const newAxios = axios.create();
+            newAxios.post(
+                "https://api.cloudinary.com/v1_1/dmjbff5rm/image/upload",
+                formData
+            ).then((res) => {
+                arr.push(res.data.secure_url);
+                console.log(arr.flat())
+                setStateUser({
+                    ...stateUser,
+                    profilePicture: arr.flat(),
+                });
+            });
+        }
+    };
+
+    function handleChangeImg(){
+        dispatch(putUserInfo(token, { profilePicture: stateUser.profilePicture[0] }))
+    }
 
     return (
         <>
@@ -164,6 +190,14 @@ export default function UserProfile() {
                             <br />
 
                             <img className='w-60 h-60 object-cover border-2 border-solid border-slate-700 rounded-full shadow-xl' src={stateUser.profilePicture} />
+
+                            <input
+                                type="file"
+                                onChange={(e) => {
+                                    uploadImage(e.target.files);
+                                }}
+                            ></input>
+                            <button onClick={()=>handleChangeImg()}>Confirmar</button>
 
                             <h3 className="text-center">{stateUser.firstName} {stateUser.lastName}</h3>
                             <br />
@@ -184,7 +218,7 @@ export default function UserProfile() {
                                     <button className="mb-1 mr-16 ml-16 p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 text-xs">Go to wish list</button>
                                 </Link>
 
-                            <Link to={`/cart`} className="no-underline text-black">
+                                <Link to={`/cart`} className="no-underline text-black">
 
                                     <button className="p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 text-xs">Go to cart</button>
                                 </Link>
