@@ -85,8 +85,9 @@ export default function SearchBar(props) {
                   className="text-decoration-line: no-underline"
                 >
                   <div className="hover:bg-primary-300 flex gap-4 p-4">
+                    
                     <img
-                      src={product.images[0].url}
+                      src={product.images.url && product.images[0].url}
                       alt={product.title}
                       className="w-12 h-12 object-contain"
                     />

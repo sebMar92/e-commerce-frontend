@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import NavBar from './NavBar';
 import Footer from './Footer/Footer';
 import { AiFillEdit, AiFillCloseSquare } from "react-icons/ai"
+import { RiImageEditFill } from "react-icons/ri"
 import { BsSave2 } from "react-icons/bs"
 import { getUserInfo, putUserInfo } from '../Redux/Actions/actions';
 import { useDispatch, useSelector } from "react-redux";
 import ModalPortal from "../components/modals/UserProfileModal"
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
+import axios from 'axios';
+
 
 
 
@@ -17,7 +20,7 @@ export default function UserProfile() {
     const token = window.localStorage.getItem("access")
     const user = useSelector((state) => state.home.user)
     const DirectionsUser = user.directions && user.directions
-    /* console.log(user) */
+    console.log(user)
 
     const dispatch = useDispatch()
     useEffect(() => {
@@ -51,10 +54,18 @@ export default function UserProfile() {
         email: "",
         direction: ""
     })
-
+    /* console.log(stateUser) */
 
 
     function handleChange(e) {
+        setStateUser({
+            ...stateUser,
+            [e.target.name]: e.target.value
+        })
+        
+    }
+
+    function handleChangePassword(e){
         setStateUser({
             ...stateUser,
             [e.target.name]: e.target.value
@@ -151,6 +162,38 @@ export default function UserProfile() {
         setStateModal(!stateModal)
     }
 
+    let arr = [];
+    const uploadImage = (files) => {
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+            formData.append("file", files[i]);
+            formData.append("upload_preset", "ecommerce");
+            const newAxios = axios.create();
+            newAxios.post(
+                "https://api.cloudinary.com/v1_1/dmjbff5rm/image/upload",
+                formData
+            ).then((res) => {
+                arr.push(res.data.secure_url);
+                console.log(arr.flat())
+                setStateUser({
+                    ...stateUser,
+                    profilePicture: arr.flat(),
+                });
+            });
+        }
+    };
+
+    function handleChangeImg() {
+        dispatch(putUserInfo(token, { profilePicture: stateUser.profilePicture[0] }))
+        document.getElementById("btnconfirmImg").classList.toggle("hidden")
+    }
+
+    function HandleBrowseClick() {
+        var fileinput = document.getElementById("browse");
+        fileinput.click();
+        document.getElementById("btnconfirmImg").classList.toggle("hidden")
+    }
+
 
     return (
         <>
@@ -166,6 +209,20 @@ export default function UserProfile() {
 
                             <img className='w-60 h-60 object-cover border-2 border-solid border-slate-700 rounded-full shadow-xl' src={stateUser.profilePicture} />
 
+                            <input
+                                id="browse"
+                                type="file"
+                                onChange={(e) => {
+                                    uploadImage(e.target.files);
+                                }}
+                                className=" w-20 hidden"
+                            />
+                            <div className="text-xl translate-x-52 -translate-y-10 cursor-pointer">
+                                <RiImageEditFill onClick={() => HandleBrowseClick()} />
+                            </div>
+                            <div className="flex justify-center items-center">
+                                <input id="btnconfirmImg" className="hidden mb-1 mr-16 ml-16 p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 text-xs" type="button" value="Confirm image" onClick={() => handleChangeImg()} />
+                            </div>
                             <h3 className="text-center">{stateUser.firstName} {stateUser.lastName}</h3>
                             <br />
 
@@ -185,7 +242,7 @@ export default function UserProfile() {
                                     <button className="mb-1 mr-16 ml-16 p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 text-xs">Go to wish list</button>
                                 </Link>
 
-                            <Link to={`/cart`} className="no-underline text-black">
+                                <Link to={`/cart`} className="no-underline text-black">
 
                                     <button className="p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 text-xs">Go to cart</button>
                                 </Link>
@@ -313,7 +370,7 @@ export default function UserProfile() {
                                                         type="password"
                                                         value={stateUser.prevPassword}
                                                         name="prevPassword"
-                                                        onChange={(e) => handleChange(e)}
+                                                        onChange={(e) => handleChangePassword(e)}
                                                         className="ml-1 mb-1 rounded-md border border-solid border-slate-900" />
 
                                                 </div>
@@ -326,7 +383,7 @@ export default function UserProfile() {
                                                         type="password"
                                                         value={stateUser.newPassword}
                                                         name="newPassword"
-                                                        onChange={(e) => handleChange(e)}
+                                                        onChange={(e) => handleChangePassword(e)}
                                                         disabled
                                                         className="ml-1 mb-1 rounded-md border border-solid border-slate-900" />
 
@@ -366,8 +423,8 @@ export default function UserProfile() {
 
                         {/* BUTTONS NewsLetter & DeleteAccount */}
                         <div className="flex sm:justify-between flex-col w-auto sm:w-96 m-1 mb-4">
-                            <button className="mb-2 p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 ">Subscribe NewsLetter</button>
-                            <button className="mb-2 p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 ">Delete Account</button>
+                            <button className="hidden mb-2 p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 ">Subscribe NewsLetter</button>
+                            <button className="hidden mb-2 p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 ">Delete Account</button>
                         </div>
                         {/* BUTTONS NewsLetter & DeleteAccount */}
 
