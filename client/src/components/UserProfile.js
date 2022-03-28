@@ -23,6 +23,7 @@ export default function UserProfile() {
     useEffect(() => {
         dispatch(getUserInfo(token))
     }, [token])
+    console.log(user)
 
     useEffect(() => {
         setStateUser({
@@ -50,7 +51,7 @@ export default function UserProfile() {
         email: "",
         direction: ""
     })
-    console.log(stateUser)
+
 
 
     function handleChange(e) {

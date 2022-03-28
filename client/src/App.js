@@ -1,6 +1,7 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React,{useEffect} from 'react';
+import { Route, Routes,Navigate } from 'react-router-dom';
 
+import ProtectedRoute from './components/ProtectedRoute';
 import Home from './components/Home';
 import ProductsByCategory from './components/ProductsByCategory';
 import ProductDetails from './components/ProductDetails/ProductDetails';
@@ -20,32 +21,50 @@ import NewsletterEdit from './components/NewsletterEdit';
 import ActivateDiscounts from './components/ActivateDiscounts';
 import EditProducts from './components/EditProducts';
 import axios from 'axios';
+import {useDispatch,useSelector} from 'react-redux';
+import {getUserInfo} from './Redux/Actions/actions'
+import { full } from '@cloudinary/url-gen/qualifiers/fontHinting';
+
+
 
 axios.defaults.baseURL = process.env.REACT_APP_API || 'http://localhost:3001';
 
 function App() {
+  const dispatch = useDispatch()
+  const fullUser = useSelector((state) => state.home.user)
+  
+
+  useEffect(() => {
+    dispatch(getUserInfo())
+  }, [fullUser]);
+  console.log(fullUser)
+
   return (
     <>
       <div className="App">
         <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route path="/products" element={<ProductsByCategory />} />
-          <Route path="/product/:idProduct" element={<ProductDetails />} />
-          <Route path="/purchase" element={<PurchasePage />} />
-          <Route path="/user" element={<UserProfile />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/historial" element={<Historial />} />
-          <Route path="/wishlist" element={<Wishlist />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/admin" element={<AdminProfile />} />
-          <Route path="/admin/create/Product" element={<CreateProducts />} />
-          <Route path="/admin/edit/:idProduct" element={<EditProducts />} />
-          <Route path="/admin/orders" element={<ListOfOrders />} />
-          <Route path="/admin/order/:idOrder" element={<OrderDetails />} />
-          <Route path="/admin/products" element={<AdminAllProducts />} />
-          <Route path="/admin/users" element={<AdminAllUsers />} />
-          <Route path="/admin/newsletter" element={<NewsletterEdit />} />
-          <Route path="/admin/discounts" element={<ActivateDiscounts />} />
+
+                <Route exact path="/" element={<Home />} />
+                <Route path="/products" element={<ProductsByCategory />} />
+                <Route path="/product/:idProduct" element={<ProductDetails />} />
+                <Route path="/purchase" element={<PurchasePage />} />
+                <Route path="/user" element={<UserProfile />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/historial" element={<Historial />} />
+                <Route path="/wishlist" element={<Wishlist />} />
+                <Route path="/cart" element={<Cart />} />
+
+                {Object.values(fullUser).length && <>
+                  <Route path="/admin" element={<ProtectedRoute user={fullUser}> <AdminProfile /> </ProtectedRoute> } />
+                  <Route path="/admin/create/Product" element={<ProtectedRoute user={fullUser}> <CreateProducts/> </ProtectedRoute>} />
+                  <Route path="/admin/edit/:idProduct" element={<ProtectedRoute><EditProducts/></ProtectedRoute>} />
+                  <Route path="/admin/orders" element={<ProtectedRoute><ListOfOrders /></ProtectedRoute>} />
+                  <Route path="/admin/order/:idOrder" element={<ProtectedRoute><OrderDetails /></ProtectedRoute>} />
+                  <Route path="/admin/products" element={<ProtectedRoute><AdminAllProducts /></ProtectedRoute>} />
+                  <Route path="/admin/users" element={<ProtectedRoute><AdminAllUsers/></ProtectedRoute>} />
+                  <Route path="/admin/newsletter" element={<ProtectedRoute><NewsletterEdit /></ProtectedRoute>} />
+                  <Route path="/admin/discounts" element={<ProtectedRoute><ActivateDiscounts/></ProtectedRoute>} />
+                </>}
         </Routes>
       </div>
     </>

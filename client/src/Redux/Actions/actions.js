@@ -379,6 +379,7 @@ export function deleteOrder(order) {
 export function getUserInfo() {
   return async function (dispatch) {
     const user = await axios.get('/user');
+    console.log(user)
     return dispatch({
       type: GET_USER_INFO,
       payload: user.data,
