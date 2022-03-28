@@ -24,6 +24,7 @@ export default function ProductDetails() {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   let { idProduct } = useParams();
+  const [allow, setAllow] = useState(false)
 
   const product = useSelector((state) => state.productID.product);
   useEffect(() => {
@@ -45,10 +46,12 @@ export default function ProductDetails() {
   };
 
   const notifyDetail3 = () => {
-    // toast.success("Purchase successfull !", {
-    //   position: toast.POSITION.BOTTOM_LEFT
-    // });
-  };
+    toast.success("Purchase successfull !", {
+      position: toast.POSITION.BOTTOM_LEFT
+    });
+    setAllow(true)
+  }
+
 
   function addCartDetails() {
     dispatch(
@@ -188,8 +191,7 @@ export default function ProductDetails() {
               </div>
             </div>
           </div>
-
-          <CreateComment id={idProduct} />
+        {allow ? <CreateComment id={idProduct}/> : null }
         </div>
       </div>
       <Footer />
