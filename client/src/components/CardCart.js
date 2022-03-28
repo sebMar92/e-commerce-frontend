@@ -83,7 +83,7 @@ export default function CardCart({
                 </div>
               ) : (
                 <div>
-                  <p className="text-xs text-blue-900 m-3">{shippingCost}</p>
+                  <p className="text-xs text-blue-900 m-3">ShippingCost: ${shippingCost}</p>
                   <ButtonBuyChange id={idOrder} status={"finished"} />
                 </div>
               )}
@@ -94,9 +94,10 @@ export default function CardCart({
               $ {amount * price}
             </p>
             <div className="flex justify-between">
-              <button
+              <button 
                 className=" bg-[#3b82f6] text-white  px-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-[#3491fc] shadow-lg shadow-primary-200/80 mx-2 m-1"
                 onClick={() => handleDecrease()}
+                
               >
                 -
               </button>
