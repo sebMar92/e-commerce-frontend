@@ -63,11 +63,13 @@ export function getProductByID(id) {
   };
 }
 
-export function putProductByID(id) {
+export function putProductByID(id, body) {
   return async function (dispatch) {
     try {
-      var json = await axios.put('/products/' + id);
+      var json = await axios.put('http://localhost:3001/products/' + id, body);
+      
       return dispatch({
+        
         type: PUT_PRODUCT_BY_ID,
         payload: json.data,
       });
@@ -376,6 +378,27 @@ export function changeOrderAmount(order) {
       }
     };
 
+    export function deleteOrder(order){
+      return async function (dispatch) {
+        var json = await axios.delete(`http://localhost:3001/order/${order}`);
+        return dispatch({
+          type: DELETE_ORDERS,
+          payload: json.data,
+        });
+      };
+    }
+
+    export function putOrder(order){
+      return async function (dispatch) {
+        var json = await axios.put(`http://localhost:3001/order/${order}`);
+        return dispatch({
+          type: PUT_ORDERS,
+          payload: json.data,
+        });
+      };
+    }
+
+   /*    const token = window.localStorage.getItem('access')
   } */
 
 export function deleteOrder(order) {

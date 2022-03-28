@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 export default function ButtonBuy({ text = "Buy now", id, status, amount,onClick }) {
 
   const dispatch = useDispatch()
-console.log(id, status, amount)
+
   function handleBuyProduct() {
     dispatch(postOrder({
       status: status,
