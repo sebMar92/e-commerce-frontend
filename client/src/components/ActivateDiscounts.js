@@ -16,6 +16,7 @@ export default function ActivateDiscounts() {
   var allSales = useSelector((state) => state.admin.sales);
   const categories = useSelector((state) => state.home.categories);
   const products = useSelector((state) => state.admin.salesAllProducts);
+  const deleteUpdate = useSelector((state) => state.admin.deleted);
   const [reRender, setReRender] = useState({});
   const [tab, setTab] = useState(true);
   const [sale, setSale] = useState({
@@ -31,9 +32,9 @@ export default function ActivateDiscounts() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getSales());
     dispatch(getAllProductsForSales());
-  }, [reRender]);
+    dispatch(getSales());
+  }, [reRender, deleteUpdate]);
   function handleTab(e) {
     setTab(!tab);
   }

@@ -3,6 +3,7 @@ import Product from "./utils/Notebook-Odyssey-2.jpg";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector} from "react-redux";
 import { deleteOrder, getOrder} from "../Redux/Actions/actions";
+import ButtonBuyChange from "../components/commons/ButtonBuyChange";
 
 export default function CardWishlist({
   id,
@@ -69,9 +70,7 @@ const deleteWishList = (e) => dispatch(deleteOrder(idOrder))
               <div>
                 <br />
                 <div>
-                  <button className="bg-[#3b82f6] text-white p-1 rounded-md text-xs font-lora font-bold active:translate-y-1 hover:bg-[#3491fc] shadow-lg shadow-primary-200/80 mx-2 m-1">
-                    Buy now
-                  </button>
+                  <ButtonBuyChange id={idOrder} status={"finished"} />
 
                   <span className="text-1xl font-bold text-gray-900 mx-5">
                     $ {price}

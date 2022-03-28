@@ -19,6 +19,9 @@ import AdminAllUsers from './components/AdminAllUsers';
 import NewsletterEdit from './components/NewsletterEdit';
 import ActivateDiscounts from './components/ActivateDiscounts';
 import EditProducts from './components/EditProducts';
+import axios from 'axios';
+
+axios.defaults.baseURL = process.env.REACT_APP_API || 'http://localhost:3001';
 
 function App() {
   return (
