@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import ButtonBuy from '../components/commons/ButtonComplete';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginUser, postNewUser, validateMail, postOrder } from '../Redux/Actions/actions';
+import { loginUser, postNewUser, validateMail } from '../Redux/Actions/actions';
 import LoggedModal from './modals/LoggedModal';
 import EmailVerification from './EmailVerification';
 
@@ -24,11 +24,11 @@ export default function LoginComponent(boolean) {
 
     const onSubmit = data => {
         if(!hasAccount){
-            dispatch(postNewUser(data))
-            setHasAccount(!hasAccount)
-        } else{
-            dispatch(loginUser(data))
-        }
+        dispatch(postNewUser(data))
+        setHasAccount(!hasAccount)
+    }else{
+        dispatch(loginUser(data))
+    }
 }
 
     useMemo(() => {
@@ -38,19 +38,6 @@ export default function LoginComponent(boolean) {
             navigate("/")
             window.localStorage.setItem("access",message.accessToken)
             window.localStorage.setItem("refresh",message.refreshToken)
-
-            const wishList = window.localStorage.getItem("inWishList")
-            const cart = window.localStorage.getItem("inCart")
-
-            if(cart) {
-                var parsedCart = JSON.parse(cart)
-                parsedCart.map(el => dispatch(postOrder(el)))
-            }
-    
-            if(wishList) {
-                var parsedWishList = JSON.parse(wishList)
-                parsedWishList.map(el => dispatch(postOrder(el)))
-            }
         }
     }, [message]);
 

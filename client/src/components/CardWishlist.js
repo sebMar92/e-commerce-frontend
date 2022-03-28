@@ -16,11 +16,9 @@ export default function CardWishlist({
 
 }) {
 
-const status = "inWishList"
-
 const dispatch = useDispatch();
 
-const deleteWishList = (e) => dispatch(deleteOrder(idOrder, id, status)) 
+const deleteWishList = (e) => dispatch(deleteOrder(idOrder)) 
  
 
   return (
