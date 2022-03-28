@@ -16,6 +16,7 @@ import {
   PUT_USER_INFO,
   GET_SALES,
   GET_PRODUCTS_SALES,
+  DELETE_SALE,
 } from './types';
 import { requestInterceptor, responseInterceptor } from './interceptors.js';
 requestInterceptor();
@@ -521,34 +522,41 @@ export function editSale(body) {
   };
 }
 export function deleteSale(id) {
-  const token = window.localStorage.getItem('access');
-  const headers = {
-    'Authorization': `Bearer ${token}`,
+  return async function (dispatch) {
+    var json = await axios.delete('http://localhost:3001/sale?saleId=' + id);
+    return dispatch({
+      type: DELETE_SALE,
+      payload: json.data,
+    });
   };
+  // const token = window.localStorage.getItem('access');
+  // const headers = {
+  //   'Authorization': `Bearer ${token}`,
+  // };
 
-  return (dispatch) => {
-    try {
-      return axios
-        .delete('http://localhost:3001/sale?saleId=' + id, { headers: headers })
-        .catch((error) => {
-          if (error.response.status === 403) {
-            let refreshToken = window.localStorage.getItem('refresh');
-            axios
-              .post('http://localhost:3001/user/token', { token: refreshToken })
-              .then((res) => {
-                window.localStorage.setItem('access', res.data.token);
-                axios.delete('http://localhost:3001/sale?saleId=' + id, {
-                  headers: {
-                    'Authorization': `Bearer ${res.data.token}`,
-                  },
-                });
-              });
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // return (dispatch) => {
+  //   try {
+  //     return axios
+  //       .delete('http://localhost:3001/sale?saleId=' + id, { headers: headers })
+  //       .catch((error) => {
+  //         if (error.response.status === 403) {
+  //           let refreshToken = window.localStorage.getItem('refresh');
+  //           axios
+  //             .post('http://localhost:3001/user/token', { token: refreshToken })
+  //             .then((res) => {
+  //               window.localStorage.setItem('access', res.data.token);
+  //               axios.delete('http://localhost:3001/sale?saleId=' + id, {
+  //                 headers: {
+  //                   'Authorization': `Bearer ${res.data.token}`,
+  //                 },
+  //               });
+  //             });
+  //         }
+  //       });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 }
 
 export function getAllProductsForSales() {
