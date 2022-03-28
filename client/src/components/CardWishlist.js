@@ -5,8 +5,8 @@ import { useDispatch, useSelector} from "react-redux";
 import { deleteOrder, getOrder} from "../Redux/Actions/actions";
 
 export default function CardWishlist({
-   id,
-   idOrder,
+  id,
+  idOrder,
   images,
   title,
   price,
@@ -17,15 +17,7 @@ export default function CardWishlist({
 
 const dispatch = useDispatch();
 
-  function deleteWishList(e){
-    e.preventDefault(e)
-    console.log("soy yo")
-      let token= window.localStorage.getItem('access')
-      dispatch(deleteOrder( {
-        id : idOrder, 
-        status : "inWishList"
-       },token)) 
-  }
+const deleteWishList = (e) => dispatch(deleteOrder(idOrder)) 
  
 
   return (

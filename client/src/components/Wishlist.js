@@ -23,7 +23,6 @@ export default function Wishlist({}) {
         <>
         <NavBar/>
         <div className='wishlist'>
-            <h1>This is Wishlist</h1>
             {product.length > 0 &&
         product.map((prod) => {
       

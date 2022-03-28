@@ -20,9 +20,6 @@ export default function Cart({}) {
   return (
     <div>
       <NavBar />
-
-      <h1>This is Cart</h1>
-
       {product.length > 0 &&
         product.map((prod) => {
        
