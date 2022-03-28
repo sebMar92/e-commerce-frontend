@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ReactDOM from 'react-dom';
 import { AiOutlineSend } from "react-icons/ai"
-import { putUserInfo } from '../../Redux/Actions/actions.js';
+import { putUserInfo, postDirectionUser } from '../../Redux/Actions/actions.js';
 import { useDispatch } from "react-redux"
 
 
@@ -31,7 +31,7 @@ function UserProfileModal({ onClose, directionsUser }) {
         unit: "",
         postalCode: "",
     })
-    console.log(stateDirections)
+   /*  console.log(stateDirections) */
 
     function handleSubmitChangeAdressExist(e) {
         e.preventDefault()
@@ -88,15 +88,15 @@ function UserProfileModal({ onClose, directionsUser }) {
         unit: "",
         postalCode: "",
     })
-    /* console.log(stateNewDirection) */
+   /*  console.log(stateNewDirection) */
 
-    /* FUTURO POST
+    /* FUTURO POST */
         function handleSubmitChangeNewAdress(e){
             e.preventDefault()
             const token = window.localStorage.getItem("access")
-            dispatch(postUserInfo(token, { direction: stateNewDirection }))
+            dispatch(postDirectionUser(stateNewDirection))
         }
-      FUTURO POST */
+      /* FUTURO POST */
 
     function handleChangeNewDirection(e) {
         setStateNewDirection({
@@ -133,7 +133,7 @@ function UserProfileModal({ onClose, directionsUser }) {
 
                 {/* Formulario de creacion de direcciones */}
                 <div>
-                    <form /* onSubmit={(e) => handleSubmitChangeNewAdress(e)}  */ id="formNewAdress" className='hidden rounded-md shadow-sm shadow-slate-400 mb-1 pb-1'>
+                    <form onSubmit={(e) => handleSubmitChangeNewAdress(e)}  id="formNewAdress" className='hidden rounded-md shadow-sm shadow-slate-400 mb-1 pb-1'>
                         <div className='pt-1'>
                             <div className='rounded-md shadow-sm shadow-slate-400 m-1'>
                                 <span>City:</span>
@@ -234,7 +234,7 @@ function UserProfileModal({ onClose, directionsUser }) {
                                 </div>
 
                                 <div id="submitChanges" className="">
-                                    <button type="submit" /* onSubmit={(e) => handleSubmitChangeNewAdress(e)} */
+                                    <button type="submit" onSubmit={(e) => handleSubmitChangeNewAdress(e)}
                                         className='text-md items-center flex rounded-md shadow-sm shadow-slate-400 m-1 w-44 justify-center'>
                                         Submit New Adress   <AiOutlineSend />
                                     </button>
