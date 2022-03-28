@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 export default function Wishlist({}) {
     const dispatch = useDispatch();
   const product = useSelector((state) => state.home.orders);
-  
 
   useEffect(() => {
     dispatch(getOrder({ status: "inWishList" }));
