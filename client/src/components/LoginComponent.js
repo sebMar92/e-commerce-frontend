@@ -38,6 +38,19 @@ export default function LoginComponent(boolean) {
             navigate("/")
             window.localStorage.setItem("access",message.accessToken)
             window.localStorage.setItem("refresh",message.refreshToken)
+
+            const wishList = window.localStorage.getItem("inWishList")
+            const cart = window.localStorage.getItem("inCart")
+
+            if(cart) {
+                var parsedCart = JSON.parse(cart)
+                parsedCart.map(el => dispatch(postOrder(el)))
+            }
+
+            if(wishList) {
+                var parsedWishList = JSON.parse(wishList)
+                parsedWishList.map(el => dispatch(postOrder(el)))
+            }
         }
     }, [message]);
 
