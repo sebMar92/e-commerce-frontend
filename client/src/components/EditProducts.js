@@ -354,7 +354,7 @@ if(product){
                 </div>
               </div>
               <ButtonCreate
-                text="Modific Product"
+                text="Save Changes"
                 type="submit"
                
               ></ButtonCreate>
