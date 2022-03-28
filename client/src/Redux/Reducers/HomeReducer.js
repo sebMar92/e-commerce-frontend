@@ -11,8 +11,8 @@ import {
   DELETE_ORDERS,
   PUT_USER_INFO,
   PUT_ORDERS,
-  PUT_ORDERS_AMOUNT
-} from "../Actions/types";
+  PUT_ORDERS_AMOUNT,
+} from '../Actions/types';
 
 const initialState = {
   products: [],
@@ -23,7 +23,7 @@ const initialState = {
   userInfo: [],
   userTokens: [],
   userMail: [],
-  openFiles: "",
+  openFiles: '',
   answer: {},
   user: {},
   inWishList: [],
@@ -32,7 +32,7 @@ const initialState = {
   postOrders: [],
   deleted: [],
   resPutOrder: [],
-  resAmountOrder:[]
+  resAmountOrder: {},
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -68,26 +68,26 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         userTokens: action.payload,
       };
-      case DELETE_ORDERS:
-        return{
-            ...state,
-            deleted: action.payload
-        }
-        case PUT_ORDERS:
-          return{
-            ...state,
-            [action.payload.status]:action.payload.data,
-          }
-      case POST_ORDERS:
-        return{
-            ...state,
-           postOrders : action.payload
-        }
+    case DELETE_ORDERS:
+      return {
+        ...state,
+        deleted: action.payload,
+      };
+    case PUT_ORDERS:
+      return {
+        ...state,
+        [action.payload.status]: action.payload.data,
+      };
+    case POST_ORDERS:
+      return {
+        ...state,
+        postOrders: action.payload,
+      };
     case GET_ORDERS:
       return {
         ...state,
         [action.payload.status]: action.payload.data,
-      }
+      };
     case GET_USER_INFO:
       return {
         ...state,
@@ -97,18 +97,18 @@ export const HomeReducer = (state = initialState, action) => {
       return {
         ...state,
         answer: action.payload,
-      }
+      };
 
     case PUT_ORDERS:
       return {
         ...state,
-        resPutOrder: action.payload
+        resPutOrder: action.payload,
       };
-      case PUT_ORDERS_AMOUNT:
-        return {
-          ...state,
-          resAmountOrder: action.payload
-        }
+    case PUT_ORDERS_AMOUNT:
+      return {
+        ...state,
+        resAmountOrder: action.payload,
+      };
 
     default:
       return state;
