@@ -287,26 +287,28 @@ export function postOrder(order) {
 //json.data es un array de objetos
 export function getOrder(order) {
   const token = window.localStorage.getItem('access');
-    if(token){
-      return async function (dispatch) {
-        var json = await axios.get(`http://localhost:3001/order?status=` + order.status);
-        console.log(json.data)
-        return dispatch({
-          type: GET_ORDERS,
-          payload: {status: order.status, data: json.data},
-        });
-      };
-    } else {
-        return function (dispatch) {
-          const item = window.localStorage.getItem(`${order.status}`)
-          const parsedItem = JSON.parse(item);
-            return dispatch({
-              type: GET_ORDERS,
-              payload: {status: order.status, data: parsedItem},
-            });
-        }
-    }
+
+  if (token) {
+    return async function (dispatch) {
+      var json = await axios.get(`http://localhost:3001/order?status=` + order.status);
+      console.log(json.data);
+      return dispatch({
+        type: GET_ORDERS,
+        payload: { status: order.status, data: json.data },
+      });
+    };
+  } else {
+    return function (dispatch) {
+      const item = window.localStorage.getItem(`${order.status}`);
+      const parsedItem = JSON.parse(item);
+      console.log(parsedItem);
+      return dispatch({
+        type: GET_ORDERS,
+        payload: { status: order.status, data: parsedItem },
+      });
+    };
   }
+}
 
 export function changeOrderStatus(order) {
   return async function (dispatch) {
@@ -393,31 +395,14 @@ export function changeOrderAmount(order) {
    /*    const token = window.localStorage.getItem('access')
   } */
 
-export function deleteOrder(order, id, status) {
-  const token = window.localStorage.getItem("access")
-  if(token) {
-    return async function (dispatch) {
-      var json = await axios.delete(`/order/${order}`);
-      return dispatch({
-        type: DELETE_ORDERS,
-        payload: json.data,
-      });
-    };
-  } else {
-    return function (dispatch) {
-      console.log(id)
-      const item = window.localStorage.getItem(`${status}`)
-      const parsedItem = item && JSON.parse(item);
-      console.log(parsedItem)
-      const itemDeleted = parsedItem && parsedItem.filter((el) => el.productId !== id)
-      console.log(itemDeleted)
-      window.localStorage.setItem(`${status}`, JSON.stringify(itemDeleted))
-        return dispatch({
-          type: DELETE_ORDERS,
-          payload: {status: status, data: itemDeleted},
-        });
-    }
-  }
+export function deleteOrder(order) {
+  return async function (dispatch) {
+    var json = await axios.delete(`/order/${order}`);
+    return dispatch({
+      type: DELETE_ORDERS,
+      payload: json.data,
+    });
+  };
 }
 /*    const token = window.localStorage.getItem('access')
 

@@ -18,8 +18,6 @@ export default function Home() {
     });
   }
 
-  
-
   return (
     <>
     <ToastContainer autoClose={2000} />
