@@ -3,7 +3,7 @@ import NavBar from "./NavBar";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories, postProduct } from "../Redux/Actions/actions";
 import { validation } from "./validation";
-import ButtonBuy from "./commons/ButtonBuy";
+import ButtonCreate from "./commons/ButtonCreate";
 import check from "./utils/check-shield-regular-24.png";
 import Modelo from "./utils/modelo.jpg";
 import mas from "./utils/image-add-regular-24.png";
@@ -15,12 +15,14 @@ import NavBarEmpty from "./NavBarEmpty";
 
 
 export default function CreateProducts() {
+ 
   const dispatch = useDispatch();
   const allCategories = useSelector((e) => e.home.categories);
   const [newCategory, setNewCategory] = useState("");
   const [inputImages, setInputImages] = useState("");
   const [errors, setErrors] = useState({});
 
+  
   const [input, setInput] = useState({
     title: "",
     name: "",
@@ -34,6 +36,8 @@ export default function CreateProducts() {
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
+
+
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -94,6 +98,7 @@ export default function CreateProducts() {
     for (let i = 0; i < files.length; i++) {
       formData.append("file", files[i]);
       formData.append("upload_preset", "ecommerce");
+      
       Axios.post(
         "https://api.cloudinary.com/v1_1/dmjbff5rm/image/upload",
         formData
@@ -321,11 +326,11 @@ export default function CreateProducts() {
                     })}
                 </div>
               </div>
-              <ButtonBuy
+              <ButtonCreate
                 text="Create Product"
                 type="submit"
                 /* onClick={(e) => handleSubmit(e)} */
-              ></ButtonBuy>
+              ></ButtonCreate>
             </form>
           </div>
           <div className="sm:hidden lg:flex z-10 hidden w-full">

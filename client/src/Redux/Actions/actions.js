@@ -17,6 +17,7 @@ import {
   PUT_USER_INFO,
   GET_SALES,
   GET_PRODUCTS_SALES,
+  PUT_ORDERS
 } from './types';
 
 requestInterceptor()
@@ -60,11 +61,13 @@ export function getProductByID(id) {
   };
 }
 
-export function putProductByID(id) {
+export function putProductByID(id, body) {
   return async function (dispatch) {
     try {
-      var json = await axios.put('http://localhost:3001/products/' + id);
+      var json = await axios.put('http://localhost:3001/products/' + id, body);
+      console.log("entra")
       return dispatch({
+        
         type: PUT_PRODUCT_BY_ID,
         payload: json.data,
       });
@@ -312,6 +315,17 @@ export function postOrder(order){
         });
       };
     }
+
+    export function putOrder(order){
+      return async function (dispatch) {
+        var json = await axios.put(`http://localhost:3001/order/${order}`);
+        return dispatch({
+          type: PUT_ORDERS,
+          payload: json.data,
+        });
+      };
+    }
+
    /*    const token = window.localStorage.getItem('access')
       const headers ={
         "Authorization": `Bearer ${token}`

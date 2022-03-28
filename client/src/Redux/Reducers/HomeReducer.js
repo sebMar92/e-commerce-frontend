@@ -9,7 +9,8 @@ import {
   GET_ORDERS,
   GET_USER_INFO,
   DELETE_ORDERS,
-  PUT_USER_INFO
+  PUT_USER_INFO,
+  PUT_ORDERS
 } from "../Actions/types";
 
 const initialState = {
@@ -69,6 +70,11 @@ export const HomeReducer = (state = initialState, action) => {
             ...state,
             deleted: action.payload
         }
+        case PUT_ORDERS:
+          return{
+            ...state,
+            [action.payload.status]:action.payload.data,
+          }
       case POST_ORDERS:
         return{
             ...state,
@@ -94,8 +100,8 @@ export const HomeReducer = (state = initialState, action) => {
       return {
         ...state,
         answer: action.payload
-      };
-
+      }
+      
     default:
       return state;
   }

@@ -22,6 +22,7 @@ export default function CardCart({
 
   const deleteCart = (e) => dispatch(deleteOrder(idOrder))
 
+
   return (
     <div className=" flex flex-wrap  justify-center">
       <div className=" bg-secondary-100  w-9/12 m-5 rounded-md ">
@@ -79,6 +80,7 @@ export default function CardCart({
 
                   setCount(count - 1);
                   setValue((count - 1) * price);
+
                 }}
               >
                 -
