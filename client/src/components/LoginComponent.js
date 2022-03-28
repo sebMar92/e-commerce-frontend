@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import ButtonBuy from '../components/commons/ButtonComplete';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginUser, postNewUser, validateMail } from '../Redux/Actions/actions';
+import { loginUser, postNewUser, validateMail, postOrder } from '../Redux/Actions/actions';
 import LoggedModal from './modals/LoggedModal';
 import EmailVerification from './EmailVerification';
 
