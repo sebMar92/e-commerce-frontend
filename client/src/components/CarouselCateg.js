@@ -1,13 +1,13 @@
-import React from "react";
-import Slider from "react-slick";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getProducts, getCategories } from "../Redux/Actions/actions";
-import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import CardHome from "./CardHome";
-import { Link } from "react-router-dom";
+import React from 'react';
+import Slider from 'react-slick';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts, getCategories } from '../Redux/Actions/actions';
+import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
+import CardHome from './CardHome';
+import { Link } from 'react-router-dom';
 
-export default function CarouselCateg({onClick,onClick2}) {
+export default function CarouselCateg({ onClick, onClick2 }) {
   const dispatch = useDispatch();
   const allProducts = useSelector((state) => state.home.products);
   const allCategories = useSelector((state) => state.home.categories);
@@ -18,7 +18,7 @@ export default function CarouselCateg({onClick,onClick2}) {
   }
 
   useEffect(() => {
-    dispatch(getProducts("?limit=100"));
+    dispatch(getProducts('?limit=100'));
     dispatch(getCategories());
   }, []);
 
