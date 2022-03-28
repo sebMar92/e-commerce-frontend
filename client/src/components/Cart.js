@@ -12,12 +12,10 @@ export default function Cart({}) {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.home.inCart);
   const [total, setTotal]=useState(0)
-  console.log(product)
 
   useEffect(() => {
-    
     dispatch(getOrder({ status: "inCart" }));
-  }, []);
+  }, [product]);
  
   return (
     <div>
@@ -30,12 +28,11 @@ export default function Cart({}) {
        
           return (
             <div>
- 
               <CardCart 
               id={prod.id}
               idOrder={prod.orders[0].id}
-               key={prod.id}
-               title={prod.title}
+                key={prod.id}
+                title={prod.title}
                 price={prod.price}
                 images={prod.images[0].url}
                 shippingCost={prod.shippingCost}
@@ -52,10 +49,6 @@ export default function Cart({}) {
             <h5 className="text-xs text-gray-900">Shipping Cost $00.00{}</h5>
           </div>
           <div className="flex justify-end mx-8 my-2">
-           
-                <div></div>
-            
-            
                 <h1 className="text-1xl  text-gray-900">Total ${total}</h1>
               
           </div>

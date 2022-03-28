@@ -26,7 +26,8 @@ const initialState = {
   user: {},
   inWishList:[],
   inCart:[],
-  postOrders:[]
+  postOrders:[],
+  deleted: []
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -65,7 +66,7 @@ export const HomeReducer = (state = initialState, action) => {
       case DELETE_ORDERS:
         return{
             ...state,
-            [action.payload.status]:action.payload.data,
+            deleted: action.payload
         }
       case POST_ORDERS:
         return{

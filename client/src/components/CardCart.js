@@ -22,11 +22,9 @@ export default function CardCart({
 
   function deleteCart(e){
     e.preventDefault();
-    let token= window.localStorage.getItem('access')
-    dispatch(deleteOrder( {
-      id : idOrder,
-      status : "inCart"
-     },token))
+    dispatch(deleteOrder({
+      id : idOrder
+     }))
 }
 
   return (

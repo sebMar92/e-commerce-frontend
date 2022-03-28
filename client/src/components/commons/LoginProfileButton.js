@@ -11,7 +11,7 @@ export default function LoginProfileButton() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (token && token.length > 4) {
+    if (token) {
       dispatch(getUserInfo(token));
       setLogedIn(true);
     } else {

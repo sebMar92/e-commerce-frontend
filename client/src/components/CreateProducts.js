@@ -141,7 +141,7 @@ export default function CreateProducts() {
   return (
     <>
       <NavBarEmpty />
-      <div className='grid sm:grid-cols-[180px_minmax(200px,_1fr)]' >
+      <div className='grid sm:grid-cols-[13rem_minmax(200px,_1fr)]' >
       <NavbarAdmin />
       <div className="flex justify-center bg-secondary-100">
         <div className="flex justify-around p-2  w-full m-11">
