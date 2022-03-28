@@ -12,7 +12,7 @@ import axios from 'axios';
 
 
 
-
+/* nose que esta pasando */
 
 
 export default function UserProfile() {
