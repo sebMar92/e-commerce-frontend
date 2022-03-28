@@ -491,7 +491,7 @@ export function deleteSale(id) {
                     'Authorization': `Bearer ${res.data.token}`,
                   },
                 });
-              });
+              }); 
           }
         });
     } catch (error) {

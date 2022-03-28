@@ -28,7 +28,9 @@ export default function CartModal() {
     <div>
         <div className="group">
           <button className="px-2 py-2 group">
+            <Link to="/cart" className='no-underline text-black'>
             <AiOutlineShoppingCart className='text-2xl mt-1 active:scale-120'/>
+            </Link>
             <ul className={`absolute z-50 -translate-x-52 mt-1 text-sm invisible group-hover:visible p-4 rounded-xl ${order.length > 0 ? "bg-white" : ""}`}>
               <p className={`text-xl mb-2 font-bold ${order.length > 0 ? "" : "text-transparent"}`}>Shopping Cart</p>
                   {order.length > 0 && 

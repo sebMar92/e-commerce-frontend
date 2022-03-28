@@ -28,9 +28,9 @@ export default function Wishlist({}) {
             <div>
  
               <CardWishlist 
-               id={prod.id}
-               idOrder={prod.orders[0].id}
-               title={prod.title}
+                id={prod.id}
+                idOrder={prod.orders[0].id}
+                title={prod.title}
                 price={prod.price}
                 images={prod.images[0].url}
                 shippingCost={prod.shippingCost}
