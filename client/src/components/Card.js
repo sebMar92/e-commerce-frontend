@@ -19,6 +19,7 @@ const notifyCatClick2 = onClick2
       productId: id
     }))
   }
+  
 
   function addFavCategories(){
     console.log("fav")

@@ -68,6 +68,7 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         userTokens: action.payload,
       };
+<<<<<<< HEAD
     case DELETE_ORDERS:
       return {
         ...state,
@@ -78,6 +79,23 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         postOrders: action.payload,
       };
+=======
+      case DELETE_ORDERS:
+        return{
+            ...state,
+            deleted: action.payload
+        }
+        case PUT_ORDERS:
+          return{
+            ...state,
+            [action.payload.status]:action.payload.data,
+          }
+      case POST_ORDERS:
+        return{
+            ...state,
+           postOrders : action.payload
+        }
+>>>>>>> ee62b0d3e084666faddece108baccc5d77b136fe
     case GET_ORDERS:
       return {
         ...state,

@@ -3,7 +3,7 @@ import NavBar from "./NavBar";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories, postProduct } from "../Redux/Actions/actions";
 import { validation } from "./validation";
-import ButtonBuy from "./commons/ButtonBuy";
+import ButtonCreate from "./commons/ButtonCreate";
 import check from "./utils/check-shield-regular-24.png";
 import Modelo from "./utils/modelo.jpg";
 import mas from "./utils/image-add-regular-24.png";
@@ -15,12 +15,14 @@ import NavBarEmpty from "./NavBarEmpty";
 
 
 export default function CreateProducts() {
+ 
   const dispatch = useDispatch();
   const allCategories = useSelector((e) => e.home.categories);
   const [newCategory, setNewCategory] = useState("");
   const [inputImages, setInputImages] = useState("");
   const [errors, setErrors] = useState({});
 
+  
   const [input, setInput] = useState({
     title: "",
     name: "",
@@ -34,6 +36,8 @@ export default function CreateProducts() {
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
+
+
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -61,7 +65,7 @@ export default function CreateProducts() {
     if (newCategory !== "") {
       setInput({
         ...input,
-        categories: [...input.categories, newCategory],
+        categories: [...input.categories, {name:newCategory, id:e.target.id}],
       });
       setNewCategory("");
     }
@@ -81,13 +85,16 @@ export default function CreateProducts() {
   }
 
   function handleSelectCategories(e) {
+    if(input.categories){
     if (!input.categories.includes(e.target.value)) {
       setInput({
         ...input,
-        categories: [...input.categories, e.target.value],
+        categories: [...input.categories, {name:e.target.value, id:e.target.id}],
       });
     }
   }
+  }
+
   let arr = [];
   const uploadImage = (files) => {
     const formData = new FormData();
@@ -102,7 +109,7 @@ export default function CreateProducts() {
         arr.push(res.data.secure_url);
         setInput({
           ...input,
-          images: [...input.images, arr],
+          images: [...input.images, {url:arr[0], alt:""}],
         });
       });
     }
@@ -112,7 +119,7 @@ export default function CreateProducts() {
     /* console.log(e.target.value); */
     setInput({
       ...input,
-      images: [...input.images, inputImages],
+      images: [...input.images, {url:inputImages, alt:""}],
     });
     setInputImages("");
   }
@@ -237,9 +244,9 @@ export default function CreateProducts() {
                   onChange={(e) => handleSelectCategories(e)}
                 >
                   <option>Select</option>
-                  {allCategories &&
+                  {allCategories && allCategories.length > 0 &&
                     allCategories.map((e) => (
-                      <option key={e.id}>{e.name}</option>
+                      <option id={e.id} key={e.id}>{e.name}</option>
                     ))}
                 </select>
 
@@ -263,12 +270,12 @@ export default function CreateProducts() {
                   </button>
                 </div>
 
-                {input.categories.map((name) => {
+                {input.categories && input.categories.map((category) => {
                   return (
                     <div className="flex w-full hover:bg-secondary-100 bg-gray-50">
                       <img src={check} alt="check" />
-                      <button onClick={(name) => handleDelete(name)}>
-                        {name}
+                      <button id={category.name} onClick={(e) => handleDelete(e.target.id)}>
+                        {category.name}
                       </button>
                     </div>
                   );
@@ -307,12 +314,12 @@ export default function CreateProducts() {
                         <div className="flex border-2 border-primary-500  rounded-lg bg-gray-50">
                           <img
                             className="w-10 h-10 m-0.5 "
-                            src={name}
-                            alt={name}
+                            src={name.url}
+                            alt={name.url}
                           />
                           <button
                             className="bg-primary-500 w-6 my-0.5  rounded-lg hover:bg-primary-400"
-                            name={name}
+                            name={name.url}
                             onClick={(name) => handleDeleteImage(name)}
                           >
                             X
@@ -322,11 +329,11 @@ export default function CreateProducts() {
                     })}
                 </div>
               </div>
-              <ButtonBuy
+              <ButtonCreate
                 text="Create Product"
                 type="submit"
                 /* onClick={(e) => handleSubmit(e)} */
-              ></ButtonBuy>
+              ></ButtonCreate>
             </form>
           </div>
           <div className="sm:hidden lg:flex z-10 hidden w-full">
