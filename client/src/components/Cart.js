@@ -72,9 +72,9 @@ export default function Cart({}) {
                 </h5>
               </div>
               <div className="flex justify-end mx-8 my-2">
-                {product.map(suma=> {
+               {/*  {product.map(suma=> {
                   setTotal+=suma.price*suma.amount
-                })}
+                })} */}
                 <h1 className="text-1xl  text-gray-900">Total ${total}</h1>
               </div>
               <div className="mx-5">
