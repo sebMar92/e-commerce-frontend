@@ -57,13 +57,13 @@ function App() {
                 {Object.values(fullUser).length && <>
                   <Route path="/admin" element={<ProtectedRoute user={fullUser}> <AdminProfile /> </ProtectedRoute> } />
                   <Route path="/admin/create/Product" element={<ProtectedRoute user={fullUser}> <CreateProducts/> </ProtectedRoute>} />
-                  <Route path="/admin/edit/:idProduct" element={<ProtectedRoute><EditProducts/></ProtectedRoute>} />
-                  <Route path="/admin/orders" element={<ProtectedRoute><ListOfOrders /></ProtectedRoute>} />
-                  <Route path="/admin/order/:idOrder" element={<ProtectedRoute><OrderDetails /></ProtectedRoute>} />
-                  <Route path="/admin/products" element={<ProtectedRoute><AdminAllProducts /></ProtectedRoute>} />
-                  <Route path="/admin/users" element={<ProtectedRoute><AdminAllUsers/></ProtectedRoute>} />
-                  <Route path="/admin/newsletter" element={<ProtectedRoute><NewsletterEdit /></ProtectedRoute>} />
-                  <Route path="/admin/discounts" element={<ProtectedRoute><ActivateDiscounts/></ProtectedRoute>} />
+                  <Route path="/admin/edit/:idProduct" element={<ProtectedRoute user={fullUser}><EditProducts/></ProtectedRoute>} />
+                  <Route path="/admin/orders" element={<ProtectedRoute user={fullUser}><ListOfOrders /></ProtectedRoute>} />
+                  <Route path="/admin/order/:idOrder" element={<ProtectedRoute user={fullUser}><OrderDetails /></ProtectedRoute>} />
+                  <Route path="/admin/products" element={<ProtectedRoute user={fullUser}><AdminAllProducts /></ProtectedRoute>} />
+                  <Route path="/admin/users" element={<ProtectedRoute user={fullUser}><AdminAllUsers/></ProtectedRoute>} />
+                  <Route path="/admin/newsletter" element={<ProtectedRoute user={fullUser}><NewsletterEdit /></ProtectedRoute>} />
+                  <Route path="/admin/discounts" element={<ProtectedRoute user={fullUser}><ActivateDiscounts/></ProtectedRoute>} />
                 </>}
         </Routes>
       </div>

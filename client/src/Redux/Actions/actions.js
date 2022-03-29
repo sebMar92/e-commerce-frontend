@@ -510,7 +510,7 @@ export function getUserInfo() {
   };
 }
 
-export function putUserInfo(token, body) {
+export function putUserInfo(body) {
   return async (dispatch) => {
     try {
       const userChangeData = await axios.put('/user', body);

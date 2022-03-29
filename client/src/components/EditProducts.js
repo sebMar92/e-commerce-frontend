@@ -147,7 +147,6 @@ export default function EditProducts() {
   }
 
   function handleDeleteImage(e) {
-    console.log(e.target.name.url);
     e.preventDefault();
     setInput({
       ...input,

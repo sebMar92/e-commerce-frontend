@@ -12,7 +12,9 @@ import {
   PUT_USER_INFO,
   PUT_ORDERS,
   PUT_ORDERS_AMOUNT,
-  CLEAR_TOKENS_USER
+  CLEAR_TOKENS_USER,
+  CLEAR_PRODUCT_DETAIL,
+  POST_NEW_ADRESS_USER
 } from '../Actions/types';
 
 const initialState = {
@@ -34,6 +36,7 @@ const initialState = {
   deleted: [],
   resPutOrder: [],
   resAmountOrder: {},
+  resNewAdress:{}
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -115,6 +118,12 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         userTokens: ""
       }
+      case POST_NEW_ADRESS_USER:
+        return {
+          ...state,
+          resNewAdress: action.payload
+        }
+
     default:
       return state;
   }
