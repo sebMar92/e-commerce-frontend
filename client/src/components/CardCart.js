@@ -91,7 +91,7 @@ export default function CardCart({
           </div>
           <div className=" w-48">
             <p className="text-1xl my-2 text-center font-bold text-gray-900 ">
-              $ {amount * price}
+              $ {(amount * price).toFixed(2)}
             </p>
             <div className="flex justify-between">
               <button 
