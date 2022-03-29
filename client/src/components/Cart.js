@@ -21,7 +21,7 @@ export default function Cart({}) {
   }
   
 
-  console.log(total)
+ 
 
   useEffect(() => {
     dispatch(getOrder({ status: "inCart" }));
