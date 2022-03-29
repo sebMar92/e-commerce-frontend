@@ -90,7 +90,7 @@ export default function Cart({ }) {
               </div>
               <div className="flex justify-end mx-8 my-2">
                 {product && product.length > 0 ? <div> <h1 className="text-1xl  text-gray-900">Total ${total}</h1></div> :<div></div>}
-               
+        
               </div>
               <div className="mx-5">
                 <h1>Shipment</h1>
