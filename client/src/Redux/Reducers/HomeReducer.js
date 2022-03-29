@@ -12,6 +12,7 @@ import {
   PUT_USER_INFO,
   PUT_ORDERS,
   PUT_ORDERS_AMOUNT,
+  CLEAR_TOKENS_USER
 } from '../Actions/types';
 
 const initialState = {
@@ -109,7 +110,11 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         resAmountOrder: action.payload,
       };
-
+    case CLEAR_TOKENS_USER:
+      return {
+        ...state,
+        userTokens: ""
+      }
     default:
       return state;
   }

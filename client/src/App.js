@@ -36,7 +36,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getUserInfo())
-  }, [fullUser]);
+  }, []);
   console.log(fullUser)
 
   return (
