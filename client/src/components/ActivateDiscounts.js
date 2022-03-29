@@ -5,11 +5,11 @@ import {
   deleteSale,
   editSale,
   getAllProductsForSales,
+  getCategories,
   getSales,
   postSale,
 } from '../Redux/Actions/actions';
 import Pick from './commons/Pick.js';
-import ButtonComplete from './commons/ButtonComplete.js';
 import NavBarEmpty from './NavBarEmpty';
 
 export default function ActivateDiscounts() {
@@ -32,6 +32,7 @@ export default function ActivateDiscounts() {
 
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(getCategories());
     dispatch(getAllProductsForSales());
     dispatch(getSales());
   }, [reRender, deleteUpdate]);
