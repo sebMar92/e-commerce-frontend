@@ -12,7 +12,7 @@ import carrito from "./utils/carrito triste.png";
 export default function Cart({ }) {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.home.inCart);
-  const direccion = useSelector((state) => state.home.user.directions[0]); 
+  const direccion = useSelector((state) => state.home.user.directions); 
   var total=0;
   var finalShippingCost=[];
 
@@ -93,11 +93,18 @@ export default function Cart({ }) {
               </div>
               <div className="mx-5">
                 <h1>Shipment</h1>
-                <span>Direction: {direccion.city+", "+direccion.street+" "+direccion.streetNumber}</span>
-                <br />
-                <button className="bg-[#3b82f6] text-white p-1 m-2 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition">
-                  Change direction
-                </button>
+                <span>Direction: </span>
+          
+                <select id="direction"className="bg-[#3b82f6] text-white p-1 m-2 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition">
+                 { direccion && direccion.map((dir)=>{ 
+                   console.log(dir)
+                   return (
+                     <option>{dir.city+", "+dir.street+" "+dir.streetNumber}</option>
+                   )
+                    } )
+                 }
+                  
+                </select>
               </div>
             </div>
           </div>
