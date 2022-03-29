@@ -16,7 +16,7 @@ export default function Cart({ }) {
   var total=0;
   var finalShippingCost=[];
 
-  console.log(direccion)
+  
 
   const resPutOrder = useSelector((state) => state.home.resPutOrder);
 
