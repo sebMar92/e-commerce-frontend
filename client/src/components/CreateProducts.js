@@ -61,7 +61,6 @@ export default function CreateProducts() {
     setNewCategory(value);
   }
   function handleSubmitAddCategory(e) {
-    e.preventDefault();
     if (newCategory !== "") {
       setInput({
         ...input,
@@ -130,7 +129,7 @@ export default function CreateProducts() {
     setInput({
       ...input,
       categories: input.categories.filter(
-        (name) => name !== e.target.innerText
+        (category) => category.name !== e.target.id
       ),
     });
   }
@@ -139,7 +138,7 @@ export default function CreateProducts() {
     e.preventDefault();
     setInput({
       ...input,
-      images: input.images.flat().filter((name) => name !== e.target.name),
+      images: input.images.flat().filter((name) => name.url !== e.target.name),
     });
   }
 
@@ -274,7 +273,7 @@ export default function CreateProducts() {
                   return (
                     <div className="flex w-full hover:bg-secondary-100 bg-gray-50">
                       <img src={check} alt="check" />
-                      <button id={category.name} onClick={(e) => handleDelete(e.target.id)}>
+                      <button type="button" id={category.name} onClick={(e) => handleDelete(e)}>
                         {category.name}
                       </button>
                     </div>
