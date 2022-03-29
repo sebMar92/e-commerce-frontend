@@ -4,7 +4,7 @@ import Footer from './Footer/Footer';
 import { AiFillEdit, AiFillCloseSquare } from "react-icons/ai"
 import { RiImageEditFill } from "react-icons/ri"
 import { BsSave2 } from "react-icons/bs"
-import { getUserInfo, putUserInfo } from '../Redux/Actions/actions';
+import { putUserInfo } from '../Redux/Actions/actions';
 import { useDispatch, useSelector } from "react-redux";
 import ModalPortal from "../components/modals/UserProfileModal"
 import { Link } from "react-router-dom"
@@ -17,15 +17,20 @@ import axios from 'axios';
 
 export default function UserProfile() {
 
-    const token = window.localStorage.getItem("access")
     const user = useSelector((state) => state.home.user)
-    const DirectionsUser = user.directions && user.directions
+    const [directionsUser, setDirectionsUser] = useState([])
+    const dispatch = useDispatch()
     console.log(user)
 
-    const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(getUserInfo(token))
-    }, [token])
+    const [stateUser, setStateUser] = useState({
+        firstName: "",
+        lastName: "",
+        prevPassword: "",
+        newPassword: "",
+        profilePicture: "",
+        email: "",
+        direction: ""
+    })
 
     useEffect(() => {
         setStateUser({
@@ -41,30 +46,16 @@ export default function UserProfile() {
     }, [user])
 
     const answer = useSelector((state) => state.home.answer)
-    console.log("answer", answer)
-
-
-    const [stateUser, setStateUser] = useState({
-        firstName: "",
-        lastName: "",
-        prevPassword: "",
-        newPassword: "",
-        profilePicture: "",
-        email: "",
-        direction: ""
-    })
-    /* console.log(stateUser) */
-
 
     function handleChange(e) {
         setStateUser({
             ...stateUser,
             [e.target.name]: e.target.value
         })
-        
+
     }
 
-    function handleChangePassword(e){
+    function handleChangePassword(e) {
         setStateUser({
             ...stateUser,
             [e.target.name]: e.target.value
@@ -95,7 +86,7 @@ export default function UserProfile() {
             document.getElementById("firstNameBtn").classList.toggle("hidden")
             document.getElementById("btnEdit1").classList.toggle("hidden")
             document.getElementById("firstNameUser").setAttribute("disabled", "");
-            dispatch(putUserInfo(token, { firstName: stateUser.firstName }))
+            dispatch(putUserInfo({ firstName: stateUser.firstName }))
         }
         /* FIRSTNAME */
 
@@ -108,7 +99,7 @@ export default function UserProfile() {
             document.getElementById("lastNameBtn").classList.toggle("hidden")
             document.getElementById("btnEdit2").classList.toggle("hidden")
             document.getElementById("lastNameUser").setAttribute("disabled", "");
-            dispatch(putUserInfo(token, { lastName: stateUser.lastName }))
+            dispatch(putUserInfo({ lastName: stateUser.lastName }))
         }
         /* LASTNAME */
 
@@ -121,7 +112,7 @@ export default function UserProfile() {
             document.getElementById("emailBtn").classList.toggle("hidden")
             document.getElementById("btnEdit3").classList.toggle("hidden")
             document.getElementById("emailUser").setAttribute("disabled", "");
-            dispatch(putUserInfo(token, { email: stateUser.email }))
+            dispatch(putUserInfo({ email: stateUser.email }))
         }
         /* EMAIL */
 
@@ -139,8 +130,9 @@ export default function UserProfile() {
                 document.getElementById("passwordBtn").classList.toggle("hidden")
                 document.getElementById("btnEdit4").classList.toggle("hidden")
                 document.getElementById("passwordUser").classList.toggle("hidden")
-                dispatch(putUserInfo(token, { prevPassword: stateUser.prevPassword, newPassword: stateUser.newPassword }))
+                dispatch(putUserInfo({ prevPassword: stateUser.prevPassword, newPassword: stateUser.newPassword }))
                 setStateUser({
+                    ...stateUser,
                     prevPassword: "",
                     newPassword: "",
                 })
@@ -176,14 +168,14 @@ export default function UserProfile() {
                 console.log(arr.flat())
                 setStateUser({
                     ...stateUser,
-                    profilePicture: arr.flat(),
+                    profilePicture: arr.flat()[0],
                 });
             });
         }
     };
 
     function handleChangeImg() {
-        dispatch(putUserInfo(token, { profilePicture: stateUser.profilePicture[0] }))
+        dispatch(putUserInfo({ profilePicture: stateUser.profilePicture }))
         document.getElementById("btnconfirmImg").classList.toggle("hidden")
     }
 
@@ -196,7 +188,7 @@ export default function UserProfile() {
 
     return (
         <>
-            {stateModal ? <ModalPortal directionsUser={DirectionsUser} onClose={(e) => handleCloseModal(e)} /> : null}
+            {stateModal ? <ModalPortal directionsUser={user?.directions || []} onClose={(e) => handleCloseModal(e)} /> : null}
             <div>
                 <NavBar />
                 <div className='userprofile'>

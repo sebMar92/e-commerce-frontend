@@ -9,7 +9,7 @@ import { MdRestaurantMenu } from "react-icons/md";
 import { getOrder, changeOrderStatus } from "../Redux/Actions/actions";
 import carrito from "./utils/carrito triste.png";
 
-export default function Cart({}) {
+export default function Cart({ }) {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.home.inCart);
   var total=0;
@@ -28,8 +28,7 @@ export default function Cart({}) {
   }, [resPutOrder]);
 
   function handleAllBuy() {
-    product.forEach((e) => {
-    
+    product && product.forEach((e) => {
       const id = e.orders[0].id;
       dispatch(
         changeOrderStatus({
@@ -52,14 +51,14 @@ export default function Cart({}) {
             <div>
               <CardCart
                 id={prod.id}
-                idOrder={prod.orders[0].id}
+                idOrder={prod.orders && prod.orders[0].id}
                 key={prod.id}
                 title={prod.title}
                 price={prod.price}
-                images={prod.images[0].url}
+                images={prod.images && prod.images[0].url}
                 shippingCost={prod.shippingCost}
                 stock={prod.stock}
-                amount={prod.orders[0].amount}
+                amount={prod.orders && prod.orders[0].amount}
               />
             </div>
           );
