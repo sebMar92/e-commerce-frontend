@@ -28,7 +28,7 @@ export default function CardCart({
   /* const [count, setCount] = useState(amount); */
   const [value, setValue] = useState(price * amount);
 
-  const deleteCart = (e) => dispatch(deleteOrder(idOrder))
+  const deleteCart = (e) => dispatch(deleteOrder(idOrder, id, "inCart"))
 
   function handleDecrease() {
 
