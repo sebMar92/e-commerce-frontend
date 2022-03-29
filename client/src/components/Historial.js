@@ -27,8 +27,8 @@ export default function Historial() {
                   key={prod.id}
                   title={prod.title}
                   price={prod.price}
-                  amount={prod.orders[0].amount}
-                  images={prod.images[0].url}
+                  amount={prod.orders && prod.orders[0].amount}
+                  images={prod.images && prod.images[0].url}
                   id={prod.id}
                 />
               </div>

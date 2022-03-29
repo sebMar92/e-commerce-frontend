@@ -36,7 +36,7 @@ function Slider({ images }) {
           <AiOutlineLeft />
         </button>
         <img
-          className="object-contain w-9/12 rounded lg:w-full lg:self-center lg:h-full"
+          className="object-contain w-9/12 rounded lg:w-9/12 lg:self-center lg:h-full"
           src={
             imgsArray && (imgsArray[index] || imgsArray[index - 1] || imgsArray[index + 1])
           }
