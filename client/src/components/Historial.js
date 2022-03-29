@@ -9,7 +9,7 @@ import historial from "./utils/no-wishlist.svg";
 export default function Historial() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.home.finished);
-  console.log("product", products);
+  
   useEffect(() => {
     dispatch(getOrder({ status: "finished" }));
   }, []);
@@ -20,7 +20,7 @@ export default function Historial() {
       <div className="historial">
         {products && products.length > 0 ? (
           products.map((prod) => {
-            console.log(prod);
+            
             return (
               <div>
                 <CardHistorial
