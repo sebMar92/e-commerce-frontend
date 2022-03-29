@@ -12,10 +12,16 @@ import carrito from "./utils/carrito triste.png";
 export default function Cart({}) {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.home.inCart);
-
-  const [total, setTotal] = useState(0);
+  var total=0;
 
   const resPutOrder = useSelector((state) => state.home.resPutOrder);
+
+  if(product.length>0){
+    total =product.map(item => (item.price*item.orders[0].amount)).reduce((prev, curr)=> prev + curr, 0).toFixed(2)
+  }
+  
+
+  console.log(total)
 
   useEffect(() => {
     dispatch(getOrder({ status: "inCart" }));
@@ -33,6 +39,8 @@ export default function Cart({}) {
       );
     });
   }
+
+  
 
   return (
     <div>
@@ -72,10 +80,8 @@ export default function Cart({}) {
                 </h5>
               </div>
               <div className="flex justify-end mx-8 my-2">
-               {/*  {product.map(suma=> {
-                  setTotal+=suma.price*suma.amount
-                })} */}
-                <h1 className="text-1xl  text-gray-900">Total ${total}</h1>
+                {product && product.length > 0 ? <div> <h1 className="text-1xl  text-gray-900">Total ${total}</h1></div> :<div></div>}
+               
               </div>
               <div className="mx-5">
                 <h1>Shipment</h1>
