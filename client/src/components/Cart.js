@@ -12,7 +12,7 @@ import carrito from "./utils/carrito triste.png";
 export default function Cart({}) {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.home.inCart);
-  console.log(product);
+
   const [total, setTotal] = useState(0);
 
   const resPutOrder = useSelector((state) => state.home.resPutOrder);
@@ -23,7 +23,7 @@ export default function Cart({}) {
 
   function handleAllBuy() {
     product.forEach((e) => {
-      console.log("soy e", e.orders[0].id);
+    
       const id = e.orders[0].id;
       dispatch(
         changeOrderStatus({
@@ -72,6 +72,9 @@ export default function Cart({}) {
                 </h5>
               </div>
               <div className="flex justify-end mx-8 my-2">
+                {product.map(suma=> {
+                  setTotal+=suma.price*suma.amount
+                })}
                 <h1 className="text-1xl  text-gray-900">Total ${total}</h1>
               </div>
               <div className="mx-5">
