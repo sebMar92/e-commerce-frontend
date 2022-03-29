@@ -97,7 +97,7 @@ export default function Cart({ }) {
           
                 <select id="direction"className="bg-[#3b82f6] text-white p-1 m-2 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition">
                  { direccion && direccion.map((dir)=>{ 
-                   console.log(dir)
+                   
                    return (
                      <option>{dir.city+", "+dir.street+" "+dir.streetNumber}</option>
                    )
