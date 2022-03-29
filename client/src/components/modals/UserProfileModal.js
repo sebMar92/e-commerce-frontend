@@ -1,26 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from 'react-dom';
 import { AiOutlineSend } from "react-icons/ai"
-import { putUserInfo, postDirectionUser } from '../../Redux/Actions/actions.js';
-import { useDispatch } from "react-redux"
+import { putUserInfo, postDirectionUser, getUserInfo } from '../../Redux/Actions/actions.js';
+import { useDispatch, useSelector } from "react-redux"
 
-
-
-/*
-
-"id": 1,
-    "city": "San Nicolas",
-        "postalCode": "2900",
-            "street": "Calle",
-                "streetNumber": 123,
-                    "floor": "2",
-                        "unit": "B" */
 
 function UserProfileModal({ onClose, directionsUser }) {
-    /*  console.log(directionsUser) */
     const dispatch = useDispatch()
+    const res = useSelector((state) => state.home.resNewAdress)
 
 
+    useEffect(() => {
+        dispatch(getUserInfo())
+    }, [res])
 
     const [stateDirections, setStateDirections] = useState({
         id: "",
@@ -31,14 +23,11 @@ function UserProfileModal({ onClose, directionsUser }) {
         unit: "",
         postalCode: "",
     })
-   /*  console.log(stateDirections) */
 
     function handleSubmitChangeAdressExist(e) {
         e.preventDefault()
-        const token = window.localStorage.getItem("access")
-        dispatch(putUserInfo(token, { direction: stateDirections }))
+        dispatch(putUserInfo({ direction: stateDirections }))
     }
-
 
     function handleChange(e) {
         setStateDirections({
@@ -57,7 +46,6 @@ function UserProfileModal({ onClose, directionsUser }) {
     }
 
     function handleClickSelectAdrees(data) {
-        /* console.log(data); */
         document.getElementById(data.id).classList.toggle("hidden");
         setStateDirections({
             id: data.id,
@@ -88,15 +76,24 @@ function UserProfileModal({ onClose, directionsUser }) {
         unit: "",
         postalCode: "",
     })
-   /*  console.log(stateNewDirection) */
 
-    /* FUTURO POST */
-        function handleSubmitChangeNewAdress(e){
-            e.preventDefault()
-            const token = window.localStorage.getItem("access")
-            dispatch(postDirectionUser(stateNewDirection))
+    function handleSubmitChangeNewAdress(e) {
+        e.preventDefault()
+        if (!stateNewDirection.city || !stateNewDirection.street || !stateNewDirection.streetNumber || !stateNewDirection.postalCode) {
+            return alert("Complete the required fields")
         }
-      /* FUTURO POST */
+
+        dispatch(postDirectionUser(stateNewDirection))
+        setStateNewDirection({
+            city: "",
+            street: "",
+            streetNumber: 0,
+            floor: "",
+            unit: "",
+            postalCode: "",
+        })
+        document.getElementById("btnAddAdress").click()
+    }
 
     function handleChangeNewDirection(e) {
         setStateNewDirection({
@@ -133,10 +130,10 @@ function UserProfileModal({ onClose, directionsUser }) {
 
                 {/* Formulario de creacion de direcciones */}
                 <div>
-                    <form onSubmit={(e) => handleSubmitChangeNewAdress(e)}  id="formNewAdress" className='hidden rounded-md shadow-sm shadow-slate-400 mb-1 pb-1'>
+                    <form onSubmit={(e) => handleSubmitChangeNewAdress(e)} id="formNewAdress" className='hidden rounded-md shadow-sm shadow-slate-400 mb-1 pb-1'>
                         <div className='pt-1'>
                             <div className='rounded-md shadow-sm shadow-slate-400 m-1'>
-                                <span>City:</span>
+                                <span>*City:</span>
                                 <div>
                                     <input
                                         id=""
@@ -152,7 +149,7 @@ function UserProfileModal({ onClose, directionsUser }) {
 
                             <div className='rounded-md flex justify-start max-w-full'>
                                 <div className='rounded-md shadow-sm shadow-slate-400 m-1 w-44'>
-                                    <span>Street:</span>
+                                    <span>*Street:</span>
                                     <div>
                                         <input
                                             id=""
@@ -167,7 +164,7 @@ function UserProfileModal({ onClose, directionsUser }) {
                                 </div>
 
                                 <div className='rounded-md shadow-sm shadow-slate-400 m-1 w-44'>
-                                    <span>Stree number:</span>
+                                    <span>*Stree number:</span>
                                     <div>
                                         <input
                                             id=""
@@ -219,7 +216,7 @@ function UserProfileModal({ onClose, directionsUser }) {
                             <div className='max-w-full rounded-md flex justify-start'>
 
                                 <div className='w-44 rounded-md shadow-sm shadow-slate-400 m-1'>
-                                    <span>Postal Code:</span>
+                                    <span>*Postal Code:</span>
                                     <div>
                                         <input
                                             id=""
@@ -262,8 +259,13 @@ function UserProfileModal({ onClose, directionsUser }) {
                                     <div key={data.id}>
                                         <div className='rounded-md shadow-sm shadow-slate-400 mb-1 pb-1 border border-solid border-slate-900'>
 
-                                            <div className="cursor-pointer" onClick={() => handleClickSelectAdrees(data)}>
-                                                <span>{data.city}, {data.street} {data.streetNumber}</span>
+                                            <div className=" flex justify-between" >
+                                                <div className="cursor-pointer" onClick={() => handleClickSelectAdrees(data)}>
+                                                    <span>{data.city}, {data.street} {data.streetNumber}</span>
+                                                </div>
+                                                <div>
+                                                    <button className="pl-1 pr-1 h-6 text-xs mr-1 p-0 cursor-pointer bg-secondary-100 rounded-md shadow-sm shadow-slate-900 border border-solid border-primary-500 hover:shadow-md hover:bg-red-600 hover:border-black hover:text-white">DeleteAdress</button>
+                                                </div>
                                             </div>
 
                                             <div id={data.id} className='hidden'>

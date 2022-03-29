@@ -117,7 +117,7 @@ export function deleteComment(id, token) {
 export function getCommentByID(id) {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`/comment/?productId=${id}`);
+      var json = await axios.get(`/comment?productId=${id}`);
       return dispatch({
         type: GET_COMMENT_BY_ID,
         payload: json.data,
@@ -192,6 +192,7 @@ export function postOrder(order) {
       });
     };
   } else {
+    if(order.status == "inWishList" || order.status == "inCart") {
     if (!window.localStorage.getItem(`${order.status}`)) {
       const product = {
         status: order.status,
@@ -229,9 +230,11 @@ export function postOrder(order) {
       parsedItem.push(product);
       window.localStorage.setItem(`${order.status}`, JSON.stringify(parsedItem));
     }
+    
+    };
     return {
       type: 'NONE',
-    };
+  }
   }
 }
 
@@ -508,7 +511,7 @@ export function getUserInfo() {
   };
 }
 
-export function putUserInfo(token, body) {
+export function putUserInfo(body) {
   return async (dispatch) => {
     try {
       const userChangeData = await axios.put('/user', body);
