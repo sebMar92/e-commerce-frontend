@@ -24,6 +24,7 @@ import {
   POST_NEW_ADRESS_USER,
   CLEAR_TOKENS_USER,
   CLEAR_PRODUCT_DETAIL,
+  DELETE_ADRESS_USER
 } from "./types";
 
 requestInterceptor();
@@ -555,6 +556,20 @@ export function postDirectionUser(body) {
       console.log(error);
     }
   };
+}
+
+export function deleteAdressUser(id) {
+  return async (dispatch) => {
+    try {
+      const deleteDirection = await axios.delete(`/user/direction/${id}`);
+      return dispatch({
+        type: DELETE_ADRESS_USER,
+        payload: deleteDirection.data,
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 export function getSales() {
