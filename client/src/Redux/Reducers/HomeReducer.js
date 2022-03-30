@@ -116,7 +116,8 @@ export const HomeReducer = (state = initialState, action) => {
     case CLEAR_TOKENS_USER:
       return {
         ...state,
-        userTokens: ""
+        userTokens: "",
+        user: {}
       }
       case POST_NEW_ADRESS_USER:
         return {
