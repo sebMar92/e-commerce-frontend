@@ -21,6 +21,8 @@ import {
   PUT_ORDERS_AMOUNT,
   DELETE_SALE,
   POST_NEW_ADRESS_USER,
+  CLEAR_TOKENS_USER,
+  CLEAR_PRODUCT_DETAIL
 } from './types';
 
 requestInterceptor();
@@ -654,3 +656,15 @@ export function getAllProductsForSales() {
     });
   };
 }
+export function clearTokensUser(){
+  return({
+    type: CLEAR_TOKENS_USER
+  })
+}
+
+export function clearProductDetail(){
+  return({
+    type: CLEAR_PRODUCT_DETAIL
+  })
+}
+

@@ -1,4 +1,4 @@
-import { GET_PRODUCT_BY_ID, GET_COMMENT_BY_ID, PUT_PRODUCT_BY_ID} from '../Actions/types'
+import { GET_PRODUCT_BY_ID, GET_COMMENT_BY_ID, PUT_PRODUCT_BY_ID,CLEAR_PRODUCT_DETAIL} from '../Actions/types'
 
 const initialState = {
     product: [],
@@ -22,6 +22,11 @@ export const getProductByID = (state = initialState, action) => {
                     ...state,
                     product: action.payload
                 };
+            case CLEAR_PRODUCT_DETAIL:
+                return {
+                    ...state,
+                    product: []
+                    }
         default:
             return state;
     }

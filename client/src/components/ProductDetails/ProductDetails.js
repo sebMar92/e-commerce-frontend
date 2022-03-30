@@ -3,7 +3,7 @@ import NavBar from '../NavBar';
 import Footer from '../Footer/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
-import { getOrder, getProductByID, postOrder } from '../../Redux/Actions/actions';
+import { clearProductDetail, getProductByID, postOrder,getOrder } from '../../Redux/Actions/actions';
 import { useEffect } from 'react';
 import Slider from './Slider';
 import CreateComment from '../Comment/CreateComment';
@@ -21,6 +21,7 @@ import { ToastContainer, toast } from 'react-toastify';
 export default function ProductDetails() {
   const admin = useSelector((state) => state.home.admin);
   const render = useSelector((state) => state.home.resAmountOrder);
+
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   let { idProduct } = useParams();
@@ -31,7 +32,10 @@ export default function ProductDetails() {
   useEffect(() => {
     dispatch(getProductByID(idProduct));
     dispatch(getOrder({status: "finished"}))
-  }, [dispatch, idProduct, render]);
+    return () => {
+      dispatch(clearProductDetail())
+    }
+  }, []);
 
   // useEffect(() => {
   //   console.log("finished orders:", finishedOrders)

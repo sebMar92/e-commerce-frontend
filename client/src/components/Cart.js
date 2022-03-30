@@ -79,6 +79,7 @@ export default function Cart({ }) {
       )}
 
       {product && product.length > 0 ? (
+        <>
         <div>
           <div className="flex flex-wrap justify-center">
             <div className="bg-secondary-100 w-9/12 m-5 rounded-md">
@@ -89,7 +90,7 @@ export default function Cart({ }) {
               </div>
               <div className="flex justify-end mx-8 my-2">
                 {product && product.length > 0 ? <div> <h1 className="text-1xl  text-gray-900">Total ${total}</h1></div> :<div></div>}
-               
+        
               </div>
               <div className="mx-5">
                 <h1>Shipment</h1>
@@ -108,6 +109,7 @@ export default function Cart({ }) {
               </div>
             </div>
           </div>
+          </div>
 
           <div className="flex justify-center">
             <button
@@ -117,7 +119,16 @@ export default function Cart({ }) {
               Buy All
             </button>
           </div>
-        </div>
+
+      <div className="flex justify-center">
+        <button
+          onClick={() => handleAllBuy()}
+          className="bg-[#3b82f6] text-white p-1 my-8 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition  w-24"
+        >
+          Buy All
+        </button>
+      </div>
+      </>
       ) : (
         <div className="flex justify-center">
           {" "}

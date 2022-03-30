@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserInfo } from '../../Redux/Actions/actions';
+import { clearTokensUser, getUserInfo } from '../../Redux/Actions/actions';
 import { Link } from 'react-router-dom';
 
 export default function LoginProfileButton() {
@@ -20,6 +20,7 @@ export default function LoginProfileButton() {
   }, [token]);
   const handleLogOut = () => {
     window.localStorage.clear();
+    dispatch(clearTokensUser())
     setReRender({});
   };
   return (
