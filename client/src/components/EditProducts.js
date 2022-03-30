@@ -13,6 +13,7 @@ import Slider from './ProductDetails/Slider';
 import NavBarEmpty from './NavBarEmpty';
 import Axios from 'axios';
 import { AiOutlineConsoleSql } from 'react-icons/ai';
+import AdminPreview from "../components/AdminPreview"
 
 export default function EditProducts() {
   const { idProduct } = useParams();
@@ -39,6 +40,7 @@ export default function EditProducts() {
       stock: product.stock,
       categories: product.categories,
     });
+    console.log(input.images)
   }, [product]);
 
   const [input, setInput] = useState({
@@ -51,6 +53,7 @@ export default function EditProducts() {
     stock: product.stock,
     categories: product.categories,
   });
+
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -170,7 +173,7 @@ export default function EditProducts() {
                     handleSubmit(e);
                   }}
                 >
-                  <h2 className="justify-center">Create Product</h2>
+                  <h2 className="justify-center">Edit Product</h2>
                   <div>
                     <div className=" justify-center p-2 ">
                       <label>Title</label>
@@ -351,56 +354,8 @@ export default function EditProducts() {
                   <ButtonCreate text="Save Changes" type="submit"></ButtonCreate>
                 </form>
               </div>
-              <div className="sm:hidden lg:flex z-10 hidden w-full">
-                <div className="w-full p-2 bg-white rounded shadow-sm mx-6 my-2 ">
-                  <div className="p-2 border-b-[1px] border-b-primary-300 font-lora">
-                    <h2 className="2xl:text-2xl">{input.title}</h2>
-                  </div>
-                  <div className=" justify-center w-full sm:hidden lg:flex z-10 hidden">
-                    {input.images && input.images.length > 0 ? (
-                      <div className="">
-                        <Slider images={input.images.flat()} />
-                      </div>
-                    ) : (
-                      <div className="flex justify-center">
-                        <img className=" w-8/12" src={Modelo} alt="" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex justify-between w-11/12 m-8 ">
-                    <div className="text-3xl font-bold text-primary-700 font-lora flex justify-center items-center">
-                      <span>US$ {input.price}</span>
-                    </div>
-                    <button
-                      className="rounded no-underline h-fit w-fit font-bold p-2 text-white bg-primary-400 font-lora hover:bg-primary-700 focus:bg-primary-700 pointer-events-none"
-                      to={'/cart/:idUser'}
-                    >
-                      ADD TO CART
-                    </button>
-                  </div>
-                  <div className="flex justify-center">
-                    <div className=" p-2 border-[1px] border-primary-300 rounded flex flex-col items-center w-1/2">
-                      <h2 className="pb-2 border-b-[1px] border-b-primary-300 font-lora">
-                        Description
-                      </h2>
-                      <div className="text-sm pt-2">
-                        {desc &&
-                          desc.map((el) => {
-                            return description2.indexOf(el) % 2 === 0 ? (
-                              <div className="p-2 bg-primary-200 rounded">
-                                <p>{el}</p>
-                              </div>
-                            ) : (
-                              <div className="p-2 rounded">
-                                <p>{el}</p>
-                              </div>
-                            );
-                          })}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {/* previsualizacion */}
+              <AdminPreview input={input} />
             </div>
           </div>
         </div>

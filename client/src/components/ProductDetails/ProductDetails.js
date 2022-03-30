@@ -163,7 +163,7 @@ export default function ProductDetails() {
                   <AiOutlineShoppingCart className="h-6 w-6" color="#ffffff" />
                 </button>
               </div>
-              <div>
+              <div >
                 <ButtonBuy
                   id={idProduct}
                   status={'finished'}
