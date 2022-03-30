@@ -12,6 +12,7 @@ import Axios from "axios";
 import NavbarAdmin from "./NavbarAdmin";
 import { Cloudinary } from "@cloudinary/url-gen";
 import NavBarEmpty from "./NavBarEmpty";
+import AdminPreview from "../components/AdminPreview"
 
 export default function CreateProducts() {
   const dispatch = useDispatch();
@@ -49,6 +50,7 @@ export default function CreateProducts() {
       categories: [],
     });
 
+
     alert("Product Create!!");
   }
   function handleAddCategory(e) {
@@ -59,10 +61,7 @@ export default function CreateProducts() {
     if (newCategory !== "") {
       setInput({
         ...input,
-        categories: [
-          ...input.categories,
-          { name: newCategory, id: e.target.id },
-        ],
+        categories: [...input.categories, { name: newCategory, id: e.target.id }],
       });
       setNewCategory("");
     }
@@ -86,10 +85,7 @@ export default function CreateProducts() {
       if (!input.categories.includes(e.target.value)) {
         setInput({
           ...input,
-          categories: [
-            ...input.categories,
-            { name: e.target.value, id: e.target.id },
-          ],
+          categories: [...input.categories, { name: e.target.value, id: e.target.id }],
         });
       }
     }
@@ -151,7 +147,7 @@ export default function CreateProducts() {
   return (
     <>
       <NavBarEmpty />
-      <div className="grid sm:grid-cols-[13rem_minmax(200px,_1fr)]">
+      <div className='grid sm:grid-cols-[13rem_minmax(200px,_1fr)]' >
         <NavbarAdmin />
         <div className="flex justify-center bg-secondary-100">
           <div className="flex justify-around p-2  w-full m-11">
@@ -161,6 +157,13 @@ export default function CreateProducts() {
                   handleSubmit(e);
                 }}
               >
+                {/*  <div className=" justify-end lg:hidden flex ">
+                  <button type="button" className="cursor-pointer bg-secondary-100 rounded-md pl-1 pr-1 shadow-sm shadow-slate-900 border border-solid border-primary-500 hover:shadow-md">
+                    See Preview
+                  </button>
+
+                </div> */}
+
                 <h2 className="justify-center">Create Product</h2>
                 <div>
                   <div className=" justify-center p-2 ">
@@ -342,60 +345,13 @@ export default function CreateProducts() {
                 <ButtonCreate
                   text="Create Product"
                   type="submit"
-                  /* onClick={(e) => handleSubmit(e)} */
+                /* onClick={(e) => handleSubmit(e)} */
                 ></ButtonCreate>
               </form>
             </div>
-            <div className="sm:hidden lg:flex z-10 hidden w-full">
-              <div className="w-full p-2 bg-white rounded shadow-sm mx-6 my-2 ">
-                <div className="p-2 border-b-[1px] border-b-primary-300 font-lora">
-                  <h2 className="2xl:text-2xl">{input.title}</h2>
-                </div>
-                <div className=" justify-center w-full sm:hidden lg:flex z-10 hidden">
-                  {input.images.length > 0 ? (
-                    <div className="">
-                      <Slider images={input.images.flat()} />
-                    </div>
-                  ) : (
-                    <div className="flex justify-center">
-                      <img className=" w-8/12" src={Modelo} alt="" />
-                    </div>
-                  )}
-                </div>
-                <div className="flex justify-between w-11/12 m-8 ">
-                  <div className="text-3xl font-bold text-primary-700 font-lora flex justify-center items-center">
-                    <span>US$ {input.price}</span>
-                  </div>
-                  <button
-                    className="rounded no-underline h-fit w-fit font-bold p-2 text-white bg-primary-400 font-lora hover:bg-primary-700 focus:bg-primary-700 pointer-events-none"
-                    to={"/cart/:idUser"}
-                  >
-                    ADD TO CART
-                  </button>
-                </div>
-                <div className="flex justify-center">
-                  <div className=" p-2 border-[1px] border-primary-300 rounded flex flex-col items-center w-1/2">
-                    <h2 className="pb-2 border-b-[1px] border-b-primary-300 font-lora">
-                      Description
-                    </h2>
-                    <div className="text-sm pt-2">
-                      {desc &&
-                        desc.map((el) => {
-                          return description2.indexOf(el) % 2 === 0 ? (
-                            <div className="p-2 bg-primary-200 rounded">
-                              <p>{el}</p>
-                            </div>
-                          ) : (
-                            <div className="p-2 rounded">
-                              <p>{el}</p>
-                            </div>
-                          );
-                        })}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+
+            {/* previsualizacion */}
+            <AdminPreview input={input} />
           </div>
         </div>
       </div>

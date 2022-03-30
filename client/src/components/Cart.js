@@ -20,10 +20,10 @@ export default function Cart({ }) {
 
   const resPutOrder = useSelector((state) => state.home.resPutOrder);
 
-  if(product.length>0){
+  if(product && product.length>0){
     total =product.map(item => (item.price*item.orders[0].amount)).reduce((prev, curr)=> prev + curr, 0).toFixed(2)
   }
-  if(product.length>0){
+  if(product && product.length>0){
     finalShippingCost = product.map(item=>  item.shippingCost)
     
   }
