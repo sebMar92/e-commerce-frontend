@@ -9,36 +9,34 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function EmailVerification() {
     const { register: register2, handleSubmit, formState: { errors } } = useForm();
     const validation = useSelector(state => state.home.userMail)
-    console.log(validation)
-
+    const dispatch = useDispatch()
   //Seteo estados que me ayuden a renderizar condicionalmente
 
     const [showLogin,setShowLogin] = useState(true)
     const [boolean,setBoolean] = useState(false)
-    const [showtoast,setShowToast] = useState()
-    const dispatch = useDispatch()
 
   //Valido la el mail ingresado
 
   const onSubmit = (data) => {
+    console.log(data)
     dispatch(validateMail(data));
   };
 
   //En la base a la respuesta renderizo un form u otro y seteo los booleanos
 
   useEffect(() => {
+    console.log(validation)
     if (validation.hasOwnProperty('msg')) {
       if (validation.msg.includes("doesn't")) {
         setShowLogin(false);
         setBoolean(false);
-        console.log(validation.msg);
       } else {
         setShowLogin(false);
         setBoolean(true);
-        console.log(validation.msg);
       }
     }
   }, [validation]);
+
 
     //En la base a la respuesta renderizo un form u otro y seteo los booleanos
     const notify = () => {
@@ -46,28 +44,6 @@ export default function EmailVerification() {
             position: toast.POSITION.BOTTOM_LEFT
             })
 }
-
-    useEffect(() => {
-        if(validation.hasOwnProperty("msg")){
-            if(validation.msg.includes("doesn't")){
-                setBoolean(false)
-                setShowLogin(false)
-            }else{
-                setShowLogin(false)
-                setBoolean(true)
-            }
-        }
-    }, [validation]);
-
-/*     useMemo(() => {
-        if(validation.hasOwnProperty("msg")){
-            if(validation.msg.includes("doesn't")){
-                setShowToast(true)
-            }else{
-                setShowToast(false)
-            }
-        }
-    }, [validation]) */
 
     
 

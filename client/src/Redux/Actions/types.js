@@ -1,5 +1,7 @@
 // Definir los tipos de actions como constantes para evitar errores de tipeo
 
+export const CLEAR_TOKENS_USER = "DELETE_TOKENS_USER";
+export const CLEAR_PRODUCT_DETAIL = "CLEAR_PRODUCT_DETAIL";
 export const PUT_PRODUCT_BY_ID = "PUT_PRODUCT_BY_ID";
 export const DELETE_ORDERS = "DELETE_ORDERS";
 export const GET_PRODUCTS = "GET_PRODUCTS";

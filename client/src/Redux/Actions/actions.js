@@ -22,6 +22,8 @@ import {
   PUT_ORDERS_AMOUNT,
   DELETE_SALE,
   POST_NEW_ADRESS_USER,
+  CLEAR_TOKENS_USER,
+  CLEAR_PRODUCT_DETAIL,
 } from "./types";
 
 requestInterceptor();
@@ -118,7 +120,7 @@ export function deleteComment(id, token) {
 export function getCommentByID(id) {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`/comment/?productId=${id}`);
+      var json = await axios.get(`/comment?productId=${id}`);
       return dispatch({
         type: GET_COMMENT_BY_ID,
         payload: json.data,
@@ -193,45 +195,47 @@ export function postOrder(order) {
       });
     };
   } else {
-    if (!window.localStorage.getItem(`${order.status}`)) {
-      const product = {
-        status: order.status,
-        amount: order.amount,
-        productId: order.productId,
-        id: order.productId,
-        title: order.title,
-        shippingCost: order.shippingCost,
-        stock: order.stock,
-        description: order.description,
-        images: order.images,
-        orders: [{ id: 0 }],
-        price: order.price,
-      };
-      var arr = [];
-      arr.push(product);
-      window.localStorage.setItem(`${order.status}`, JSON.stringify(arr));
-      var item = window.localStorage.getItem(`${order.status}`);
-    } else {
-      const product = {
-        status: order.status,
-        amount: order.amount,
-        productId: order.productId,
-        id: order.productId,
-        title: order.title,
-        shippingCost: order.shippingCost,
-        stock: order.stock,
-        description: order.description,
-        images: order.images,
-        orders: [{ id: 0 }],
-        price: order.price,
-      };
-      var item = window.localStorage.getItem(`${order.status}`);
-      var parsedItem = JSON.parse(item);
-      parsedItem.push(product);
-      window.localStorage.setItem(
-        `${order.status}`,
-        JSON.stringify(parsedItem)
-      );
+    if (order.status == "inWishList" || order.status == "inCart") {
+      if (!window.localStorage.getItem(`${order.status}`)) {
+        const product = {
+          status: order.status,
+          amount: order.amount,
+          productId: order.productId,
+          id: order.productId,
+          title: order.title,
+          shippingCost: order.shippingCost,
+          stock: order.stock,
+          description: order.description,
+          images: order.images,
+          orders: [{ id: 0 }],
+          price: order.price,
+        };
+        var arr = [];
+        arr.push(product);
+        window.localStorage.setItem(`${order.status}`, JSON.stringify(arr));
+        var item = window.localStorage.getItem(`${order.status}`);
+      } else {
+        const product = {
+          status: order.status,
+          amount: order.amount,
+          productId: order.productId,
+          id: order.productId,
+          title: order.title,
+          shippingCost: order.shippingCost,
+          stock: order.stock,
+          description: order.description,
+          images: order.images,
+          orders: [{ id: 0 }],
+          price: order.price,
+        };
+        var item = window.localStorage.getItem(`${order.status}`);
+        var parsedItem = JSON.parse(item);
+        parsedItem.push(product);
+        window.localStorage.setItem(
+          `${order.status}`,
+          JSON.stringify(parsedItem)
+        );
+      }
     }
     return {
       type: "NONE",
@@ -666,5 +670,16 @@ export function getAllProductsForSales() {
       type: GET_PRODUCTS_SALES,
       payload: json.data,
     });
+  };
+}
+export function clearTokensUser() {
+  return {
+    type: CLEAR_TOKENS_USER,
+  };
+}
+
+export function clearProductDetail() {
+  return {
+    type: CLEAR_PRODUCT_DETAIL,
   };
 }

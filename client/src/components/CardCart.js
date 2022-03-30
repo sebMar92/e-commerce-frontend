@@ -28,7 +28,7 @@ export default function CardCart({
   /* const [count, setCount] = useState(amount); */
   const [value, setValue] = useState(price * amount);
 
-  const deleteCart = (e) => dispatch(deleteOrder(idOrder))
+  const deleteCart = (e) => dispatch(deleteOrder(idOrder, id, "inCart"))
 
   function handleDecrease() {
 
@@ -91,7 +91,7 @@ export default function CardCart({
           </div>
           <div className=" w-48">
             <p className="text-1xl my-2 text-center font-bold text-gray-900 ">
-              $ {amount * price}
+              $ {(amount * price).toFixed(2)}
             </p>
             <div className="flex justify-between">
               <button 

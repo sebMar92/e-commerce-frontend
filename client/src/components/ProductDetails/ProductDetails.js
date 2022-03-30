@@ -3,7 +3,7 @@ import NavBar from '../NavBar';
 import Footer from '../Footer/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
-import { getProductByID, postOrder } from '../../Redux/Actions/actions';
+import { clearProductDetail, getProductByID, postOrder,getOrder } from '../../Redux/Actions/actions';
 import { useEffect } from 'react';
 import Slider from './Slider';
 import CreateComment from '../Comment/CreateComment';
@@ -21,15 +21,41 @@ import { ToastContainer, toast } from 'react-toastify';
 export default function ProductDetails() {
   const admin = useSelector((state) => state.home.admin);
   const render = useSelector((state) => state.home.resAmountOrder);
+
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   let { idProduct } = useParams();
+  const finishedOrders = useSelector((state) => state.home.finished);
   const [allow, setAllow] = useState(false)
 
   const product = useSelector((state) => state.productID.product);
   useEffect(() => {
     dispatch(getProductByID(idProduct));
-  }, [dispatch, idProduct, render, product]);
+    dispatch(getOrder({status: "finished"}))
+    return () => {
+      dispatch(clearProductDetail())
+    }
+  }, []);
+
+  // useEffect(() => {
+  //   console.log("finished orders:", finishedOrders)
+  //   const found = finishedOrders && finishedOrders.error == "couldn't find orders" ? null : finishedOrders.find(el =>{
+  //     console.log("elemento", el)
+  //     console.log("producto", product)
+  //     if(el.title == product.title) {
+  //       return el
+  //     }
+  //   });
+  //   console.log(found)
+  //   if(found) {
+  //     console.log(found)
+  //     setAllow(true)
+  //     console.log(allow)
+  //   }
+  // }, [finishedOrders, product])
+
+
+
   const desc = product.description && product.description.split('.');
   const description = desc && desc.slice(0, -1);
 
@@ -49,7 +75,6 @@ export default function ProductDetails() {
     toast.success("Purchase successfull !", {
       position: toast.POSITION.BOTTOM_LEFT
     });
-    setAllow(true)
   };
 
   function addCartDetails() {
@@ -191,7 +216,7 @@ export default function ProductDetails() {
             </div>
           </div>
 
-          {allow ? <CreateComment id={idProduct}/> : null }
+          {allow && <CreateComment id={idProduct}/>}
         </div>
       </div>
       <Footer />

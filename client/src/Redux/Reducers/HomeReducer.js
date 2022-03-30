@@ -12,6 +12,8 @@ import {
   PUT_USER_INFO,
   PUT_ORDERS,
   PUT_ORDERS_AMOUNT,
+  CLEAR_TOKENS_USER,
+  CLEAR_PRODUCT_DETAIL,
   POST_NEW_ADRESS_USER
 } from '../Actions/types';
 
@@ -111,7 +113,12 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         resAmountOrder: action.payload,
       };
-      case  POST_NEW_ADRESS_USER:
+    case CLEAR_TOKENS_USER:
+      return {
+        ...state,
+        userTokens: ""
+      }
+      case POST_NEW_ADRESS_USER:
         return {
           ...state,
           resNewAdress: action.payload
