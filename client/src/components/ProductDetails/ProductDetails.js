@@ -3,7 +3,7 @@ import NavBar from '../NavBar';
 import Footer from '../Footer/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
-import { clearProductDetail, getProductByID, postOrder,getOrder } from '../../Redux/Actions/actions';
+import { clearProductDetail, getProductByID, postOrder} from '../../Redux/Actions/actions';
 import { useEffect } from 'react';
 import Slider from './Slider';
 import CreateComment from '../Comment/CreateComment';
@@ -25,36 +25,14 @@ export default function ProductDetails() {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   let { idProduct } = useParams();
-  const finishedOrders = useSelector((state) => state.home.finished);
-  const [allow, setAllow] = useState(false)
-
+  
   const product = useSelector((state) => state.productID.product);
   useEffect(() => {
     dispatch(getProductByID(idProduct));
-    dispatch(getOrder({status: "finished"}))
     return () => {
       dispatch(clearProductDetail())
     }
-  }, []);
-
-  // useEffect(() => {
-  //   console.log("finished orders:", finishedOrders)
-  //   const found = finishedOrders && finishedOrders.error == "couldn't find orders" ? null : finishedOrders.find(el =>{
-  //     console.log("elemento", el)
-  //     console.log("producto", product)
-  //     if(el.title == product.title) {
-  //       return el
-  //     }
-  //   });
-  //   console.log(found)
-  //   if(found) {
-  //     console.log(found)
-  //     setAllow(true)
-  //     console.log(allow)
-  //   }
-  // }, [finishedOrders, product])
-
-
+  }, [dispatch, idProduct, render]);
 
   const desc = product.description && product.description.split('.');
   const description = desc && desc.slice(0, -1);
@@ -107,7 +85,6 @@ export default function ProductDetails() {
         price: product.price,
       })
     );
-    console.log('sent');
   }
 
   return (
@@ -216,7 +193,7 @@ export default function ProductDetails() {
             </div>
           </div>
 
-          {allow && <CreateComment id={idProduct}/>}
+          <CreateComment id={idProduct} product={product}/>
         </div>
       </div>
       <Footer />
