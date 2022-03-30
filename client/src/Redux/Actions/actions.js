@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { requestInterceptor, responseInterceptor } from './interceptors';
+import axios from "axios";
+import { requestInterceptor, responseInterceptor } from "./interceptors";
 import {
   GET_PRODUCTS,
   GET_CATEGORIES,
@@ -15,13 +15,16 @@ import {
   DELETE_ORDERS,
   GET_COMMENT_BY_ID,
   PUT_USER_INFO,
+  GET_USERS_INFO,
   GET_SALES,
   GET_PRODUCTS_SALES,
   PUT_ORDERS,
   PUT_ORDERS_AMOUNT,
   DELETE_SALE,
   POST_NEW_ADRESS_USER,
-} from './types';
+  CLEAR_TOKENS_USER,
+  CLEAR_PRODUCT_DETAIL,
+} from "./types";
 
 requestInterceptor();
 responseInterceptor();
@@ -41,7 +44,7 @@ export function getProducts(search) {
 //action para traer las categorias
 export function getCategories() {
   return async function (dispatch) {
-    var json = await axios.get('/categories');
+    var json = await axios.get("/categories");
     return dispatch({
       type: GET_CATEGORIES,
       payload: json.data,
@@ -53,7 +56,7 @@ export function getCategories() {
 export function getProductByID(id) {
   return async function (dispatch) {
     try {
-      var json = await axios.get('/products/' + id);
+      var json = await axios.get("/products/" + id);
       return dispatch({
         type: GET_PRODUCT_BY_ID,
         payload: json.data,
@@ -67,7 +70,7 @@ export function getProductByID(id) {
 export function putProductByID(id, body) {
   return async function (dispatch) {
     try {
-      var json = await axios.put('http://localhost:3001/products/' + id, body);
+      var json = await axios.put("http://localhost:3001/products/" + id, body);
 
       return dispatch({
         type: PUT_PRODUCT_BY_ID,
@@ -82,7 +85,7 @@ export function putProductByID(id, body) {
 export function updateComment(comment, token) {
   return async function () {
     try {
-      const commentUpdated = await axios.put('/comment', comment);
+      const commentUpdated = await axios.put("/comment", comment);
       return commentUpdated;
     } catch (error) {
       console.log(error);
@@ -93,7 +96,7 @@ export function updateComment(comment, token) {
 export function postComment(comment, token) {
   return async function () {
     try {
-      const commentCreated = await axios.post('/comment', comment);
+      const commentCreated = await axios.post("/comment", comment);
       return commentCreated;
     } catch (error) {
       console.log(error);
@@ -104,7 +107,7 @@ export function postComment(comment, token) {
 export function deleteComment(id, token) {
   return async function () {
     try {
-      const commentDeleted = await axios.delete('/comment', {
+      const commentDeleted = await axios.delete("/comment", {
         data: { id: id },
       });
       return commentDeleted;
@@ -146,14 +149,14 @@ export function getSearch(query) {
 
 export function postProduct(product) {
   return async function () {
-    const create = await axios.post('/products', product);
+    const create = await axios.post("/products", product);
     return create;
   };
 }
 
 export function postNewUser(obj) {
   return async function (dispatch) {
-    const user = await axios.post('/user', obj);
+    const user = await axios.post("/user", obj);
     return dispatch({
       type: POST_NEWUSER,
       payload: user.data,
@@ -163,7 +166,7 @@ export function postNewUser(obj) {
 
 export function loginUser(val) {
   return async function (dispatch) {
-    const login = await axios.post('/user/login', val);
+    const login = await axios.post("/user/login", val);
     return dispatch({
       type: LOGIN_USER,
       payload: login.data,
@@ -173,7 +176,7 @@ export function loginUser(val) {
 
 export function validateMail(mail) {
   return async function (dispatch) {
-    const validate = await axios.post('/user/email', mail);
+    const validate = await axios.post("/user/email", mail);
     return dispatch({
       type: VALIDATE_MAIL,
       payload: validate.data,
@@ -182,7 +185,7 @@ export function validateMail(mail) {
 }
 
 export function postOrder(order) {
-  const token = window.localStorage.getItem('access');
+  const token = window.localStorage.getItem("access");
   if (token) {
     return async function (dispatch) {
       var json = await axios.post(`http://localhost:3001/order`, order);
@@ -192,49 +195,51 @@ export function postOrder(order) {
       });
     };
   } else {
-    if(order.status == "inWishList" || order.status == "inCart") {
-    if (!window.localStorage.getItem(`${order.status}`)) {
-      const product = {
-        status: order.status,
-        amount: order.amount,
-        productId: order.productId,
-        id: order.productId,
-        title: order.title,
-        shippingCost: order.shippingCost,
-        stock: order.stock,
-        description: order.description,
-        images: order.images,
-        orders: [{ id: 0 }],
-        price: order.price,
-      };
-      var arr = [];
-      arr.push(product);
-      window.localStorage.setItem(`${order.status}`, JSON.stringify(arr));
-      var item = window.localStorage.getItem(`${order.status}`);
-    } else {
-      const product = {
-        status: order.status,
-        amount: order.amount,
-        productId: order.productId,
-        id: order.productId,
-        title: order.title,
-        shippingCost: order.shippingCost,
-        stock: order.stock,
-        description: order.description,
-        images: order.images,
-        orders: [{ id: 0 }],
-        price: order.price,
-      };
-      var item = window.localStorage.getItem(`${order.status}`);
-      var parsedItem = JSON.parse(item);
-      parsedItem.push(product);
-      window.localStorage.setItem(`${order.status}`, JSON.stringify(parsedItem));
+    if (order.status == "inWishList" || order.status == "inCart") {
+      if (!window.localStorage.getItem(`${order.status}`)) {
+        const product = {
+          status: order.status,
+          amount: order.amount,
+          productId: order.productId,
+          id: order.productId,
+          title: order.title,
+          shippingCost: order.shippingCost,
+          stock: order.stock,
+          description: order.description,
+          images: order.images,
+          orders: [{ id: 0 }],
+          price: order.price,
+        };
+        var arr = [];
+        arr.push(product);
+        window.localStorage.setItem(`${order.status}`, JSON.stringify(arr));
+        var item = window.localStorage.getItem(`${order.status}`);
+      } else {
+        const product = {
+          status: order.status,
+          amount: order.amount,
+          productId: order.productId,
+          id: order.productId,
+          title: order.title,
+          shippingCost: order.shippingCost,
+          stock: order.stock,
+          description: order.description,
+          images: order.images,
+          orders: [{ id: 0 }],
+          price: order.price,
+        };
+        var item = window.localStorage.getItem(`${order.status}`);
+        var parsedItem = JSON.parse(item);
+        parsedItem.push(product);
+        window.localStorage.setItem(
+          `${order.status}`,
+          JSON.stringify(parsedItem)
+        );
+      }
     }
-    
-    };
     return {
-      type: 'NONE',
-  }
+      type: "NONE",
+    };
   }
 }
 
@@ -285,11 +290,13 @@ export function postOrder(order) {
 // para llamar cart y whislist -finali -proces
 //json.data es un array de objetos
 export function getOrder(order) {
-  const token = window.localStorage.getItem('access');
+  const token = window.localStorage.getItem("access");
 
   if (token) {
     return async function (dispatch) {
-      var json = await axios.get(`http://localhost:3001/order?status=` + order.status);
+      var json = await axios.get(
+        `http://localhost:3001/order?status=` + order.status
+      );
       return dispatch({
         type: GET_ORDERS,
         payload: { status: order.status, data: json.data },
@@ -390,32 +397,33 @@ export function changeOrderAmount(order) {
 
    /*    const token = window.localStorage.getItem('access')
   } */
-  export function deleteOrder(order, id, status) {
-    const token = window.localStorage.getItem('access');
-    if (token) {
-      return async function (dispatch) {
-        var json = await axios.delete(`/order/${order}`);
-        return dispatch({
-          type: DELETE_ORDERS,
-          payload: json.data,
-        });
-      };
-    } else {
-      return function (dispatch) {
-        console.log(id);
-        const item = window.localStorage.getItem(`${status}`);
-        const parsedItem = item && JSON.parse(item);
-        console.log(parsedItem);
-        const itemDeleted = parsedItem && parsedItem.filter((el) => el.productId !== id);
-        console.log(itemDeleted);
-        window.localStorage.setItem(`${status}`, JSON.stringify(itemDeleted));
-        return dispatch({
-          type: DELETE_ORDERS,
-          payload: { status: status, data: itemDeleted },
-        });
-      };
+export function deleteOrder(order, id, status) {
+  const token = window.localStorage.getItem("access");
+  if (token) {
+    return async function (dispatch) {
+      var json = await axios.delete(`/order/${order}`);
+      return dispatch({
+        type: DELETE_ORDERS,
+        payload: json.data,
+      });
+    };
+  } else {
+    return function (dispatch) {
+      console.log(id);
+      const item = window.localStorage.getItem(`${status}`);
+      const parsedItem = item && JSON.parse(item);
+      console.log(parsedItem);
+      const itemDeleted =
+        parsedItem && parsedItem.filter((el) => el.productId !== id);
+      console.log(itemDeleted);
+      window.localStorage.setItem(`${status}`, JSON.stringify(itemDeleted));
+      return dispatch({
+        type: DELETE_ORDERS,
+        payload: { status: status, data: itemDeleted },
+      });
     };
   }
+}
 /*    const token = window.localStorage.getItem('access')
 
       const headers ={
@@ -503,9 +511,19 @@ export function changeOrderAmount(order) {
 
 export function getUserInfo() {
   return async function (dispatch) {
-    const user = await axios.get('/user');
+    const user = await axios.get("/user");
     return dispatch({
       type: GET_USER_INFO,
+      payload: user.data,
+    });
+  };
+}
+export function getUsersInfo() {
+  return async function (dispatch) {
+    const user = await axios.get("/user/all");
+    console.log(user);
+    return dispatch({
+      type: GET_USERS_INFO,
       payload: user.data,
     });
   };
@@ -514,7 +532,7 @@ export function getUserInfo() {
 export function putUserInfo(body) {
   return async (dispatch) => {
     try {
-      const userChangeData = await axios.put('/user', body);
+      const userChangeData = await axios.put("/user", body);
       return dispatch({
         type: PUT_USER_INFO,
         payload: userChangeData.data,
@@ -528,7 +546,7 @@ export function putUserInfo(body) {
 export function postDirectionUser(body) {
   return async (dispatch) => {
     try {
-      const newAdress = await axios.post('/user/direction', body);
+      const newAdress = await axios.post("/user/direction", body);
       return dispatch({
         type: POST_NEW_ADRESS_USER,
         payload: newAdress.data,
@@ -541,7 +559,7 @@ export function postDirectionUser(body) {
 
 export function getSales() {
   return async function (dispatch) {
-    var json = await axios.get('/sale');
+    var json = await axios.get("/sale");
     return dispatch({
       type: GET_SALES,
       payload: json.data,
@@ -551,7 +569,7 @@ export function getSales() {
 
 export function postSale(body) {
   return async function (dispatch) {
-    var json = await axios.post('/sale', body);
+    var json = await axios.post("/sale", body);
   };
 }
 /*   return (dispatch) => {
@@ -580,7 +598,7 @@ export function postSale(body) {
 
 export function editSale(body) {
   return async function (dispatch) {
-    var json = await axios.put('/sale', body);
+    var json = await axios.put("/sale", body);
   };
 }
 
@@ -609,7 +627,7 @@ export function editSale(body) {
   }; */
 export function deleteSale(id) {
   return async function (dispatch) {
-    var json = await axios.delete('/sale?saleId=' + id);
+    var json = await axios.delete("/sale?saleId=" + id);
     return dispatch({
       type: DELETE_SALE,
       payload: json.data,
@@ -647,10 +665,21 @@ export function deleteSale(id) {
 
 export function getAllProductsForSales() {
   return async function (dispatch) {
-    var json = await axios.get('/products?limit=1000');
+    var json = await axios.get("/products?limit=1000");
     return dispatch({
       type: GET_PRODUCTS_SALES,
       payload: json.data,
     });
+  };
+}
+export function clearTokensUser() {
+  return {
+    type: CLEAR_TOKENS_USER,
+  };
+}
+
+export function clearProductDetail() {
+  return {
+    type: CLEAR_PRODUCT_DETAIL,
   };
 }

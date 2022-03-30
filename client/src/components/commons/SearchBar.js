@@ -16,8 +16,10 @@ export default function SearchBar(props) {
   const handleInputChange = (e) => {
     const { value } = e.target;
     setSearchValue(value);
-    if (value !== "") {
+    if(value.length > 3){
+      if(value !== "") {
       dispatch(getSearch(value));
+      }
     }
   };
 
@@ -53,6 +55,7 @@ export default function SearchBar(props) {
       >
         {categories &&
           categories.map((category) => {
+            console.log(category)
             return (
               <div className="text-black" key={category.id}>
                 <Link
@@ -87,7 +90,7 @@ export default function SearchBar(props) {
                   <div className="hover:bg-primary-300 flex gap-4 p-4">
                     
                     <img
-                      src={product.images.url && product.images[0].url}
+                      src={product.images[0].url}
                       alt={product.title}
                       className="w-12 h-12 object-contain"
                     />
