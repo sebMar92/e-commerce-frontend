@@ -12,10 +12,25 @@ import carrito from "./utils/carrito triste.png";
 export default function Cart({ }) {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.home.inCart);
+  const direccion = useSelector((state) => state.home.user.directions); 
+  var total=0;
+  var finalShippingCost=[];
 
-  const [total, setTotal] = useState(0);
+  
 
   const resPutOrder = useSelector((state) => state.home.resPutOrder);
+
+  if(product.length>0){
+    total =product.map(item => (item.price*item.orders[0].amount)).reduce((prev, curr)=> prev + curr, 0).toFixed(2)
+  }
+  if(product.length>0){
+    finalShippingCost = product.map(item=>  item.shippingCost)
+    
+  }
+
+  
+
+ 
 
   useEffect(() => {
     dispatch(getOrder({ status: "inCart" }));
@@ -32,6 +47,8 @@ export default function Cart({ }) {
       );
     });
   }
+
+  
 
   return (
     <div>
@@ -62,29 +79,36 @@ export default function Cart({ }) {
       )}
 
       {product && product.length > 0 ? (
+        <>
         <div>
           <div className="flex flex-wrap justify-center">
             <div className="bg-secondary-100 w-9/12 m-5 rounded-md">
               <div className="flex justify-end mx-8 my-2">
                 <h5 className="text-xs text-gray-900">
-                  Shipping Cost $00.00{}
+                  Shipping Cost ${Math.max(...finalShippingCost).toFixed(2) }
                 </h5>
               </div>
               <div className="flex justify-end mx-8 my-2">
-               {/*  {product.map(suma=> {
-                  setTotal+=suma.price*suma.amount
-                })} */}
-                <h1 className="text-1xl  text-gray-900">Total ${total}</h1>
+                {product && product.length > 0 ? <div> <h1 className="text-1xl  text-gray-900">Total ${total}</h1></div> :<div></div>}
+        
               </div>
               <div className="mx-5">
                 <h1>Shipment</h1>
-                <span>Direction: {}</span>
-                <br />
-                <button className="bg-[#3b82f6] text-white p-1 m-2 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition">
-                  Change direction
-                </button>
+                <span>Direction: </span>
+          
+                <select id="direction"className="bg-[#3b82f6] text-white p-1 m-2 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition">
+                 { direccion && direccion.map((dir)=>{ 
+                   
+                   return (
+                     <option>{dir.city+", "+dir.street+" "+dir.streetNumber}</option>
+                   )
+                    } )
+                 }
+                  
+                </select>
               </div>
             </div>
+          </div>
           </div>
 
           <div className="flex justify-center">
@@ -95,7 +119,16 @@ export default function Cart({ }) {
               Buy All
             </button>
           </div>
-        </div>
+
+      <div className="flex justify-center">
+        <button
+          onClick={() => handleAllBuy()}
+          className="bg-[#3b82f6] text-white p-1 my-8 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition  w-24"
+        >
+          Buy All
+        </button>
+      </div>
+      </>
       ) : (
         <div className="flex justify-center">
           {" "}

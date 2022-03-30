@@ -14,15 +14,12 @@ import { Cloudinary } from "@cloudinary/url-gen";
 import NavBarEmpty from "./NavBarEmpty";
 import AdminPreview from "../components/AdminPreview"
 
-
 export default function CreateProducts() {
-
   const dispatch = useDispatch();
   const allCategories = useSelector((e) => e.home.categories);
   const [newCategory, setNewCategory] = useState("");
   const [inputImages, setInputImages] = useState("");
   const [errors, setErrors] = useState({});
-
 
   const [input, setInput] = useState({
     title: "",
@@ -38,8 +35,6 @@ export default function CreateProducts() {
     dispatch(getCategories());
   }, [dispatch]);
 
-
-
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -54,7 +49,7 @@ export default function CreateProducts() {
       stock: "",
       categories: [],
     });
-    
+
 
     alert("Product Create!!");
   }
@@ -103,16 +98,18 @@ export default function CreateProducts() {
       formData.append("file", files[i]);
       formData.append("upload_preset", "ecommerce");
       const newAxios = Axios.create();
-      newAxios.post(
-        "https://api.cloudinary.com/v1_1/dmjbff5rm/image/upload",
-        formData
-      ).then((res) => {
-        arr.push(res.data.secure_url);
-        setInput({
-          ...input,
-          images: [...input.images, { url: arr[0], alt: "" }],
+      newAxios
+        .post(
+          "https://api.cloudinary.com/v1_1/dmjbff5rm/image/upload",
+          formData
+        )
+        .then((res) => {
+          arr.push(res.data.secure_url);
+          setInput({
+            ...input,
+            images: [...input.images, { url: arr[0], alt: "" }],
+          });
         });
-      });
     }
   };
 
@@ -160,7 +157,7 @@ export default function CreateProducts() {
                   handleSubmit(e);
                 }}
               >
-               {/*  <div className=" justify-end lg:hidden flex ">
+                {/*  <div className=" justify-end lg:hidden flex ">
                   <button type="button" className="cursor-pointer bg-secondary-100 rounded-md pl-1 pr-1 shadow-sm shadow-slate-900 border border-solid border-primary-500 hover:shadow-md">
                     See Preview
                   </button>
@@ -252,9 +249,12 @@ export default function CreateProducts() {
                     onChange={(e) => handleSelectCategories(e)}
                   >
                     <option>Select</option>
-                    {allCategories && allCategories.length > 0 &&
+                    {allCategories &&
+                      allCategories.length > 0 &&
                       allCategories.map((e) => (
-                        <option id={e.id} key={e.id}>{e.name}</option>
+                        <option id={e.id} key={e.id}>
+                          {e.name}
+                        </option>
                       ))}
                   </select>
 
@@ -278,16 +278,21 @@ export default function CreateProducts() {
                     </button>
                   </div>
 
-                  {input.categories && input.categories.map((category) => {
-                    return (
-                      <div className="flex w-full hover:bg-secondary-100 bg-gray-50">
-                        <img src={check} alt="check" />
-                        <button type="button" id={category.name} onClick={(e) => handleDelete(e)}>
-                          {category.name}
-                        </button>
-                      </div>
-                    );
-                  })}
+                  {input.categories &&
+                    input.categories.map((category) => {
+                      return (
+                        <div className="flex w-full hover:bg-secondary-100 bg-gray-50">
+                          <img src={check} alt="check" />
+                          <button
+                            type="button"
+                            id={category.name}
+                            onClick={(e) => handleDelete(e)}
+                          >
+                            {category.name}
+                          </button>
+                        </div>
+                      );
+                    })}
                 </div>
                 <div className=" justify-center py-2 m-2 ">
                   <label>Images</label>
