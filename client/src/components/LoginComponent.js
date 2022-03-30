@@ -59,8 +59,8 @@ export default function LoginComponent(boolean) {
 
         <div>
             <h1 className="text-5xl flex justify-center mt-12">{hasAccount ? "Login" : "Register"}</h1>
-            <div className="bg-secondary-100 my-20 pt-8 md:max-w-md md:m-auto md:my-20 md:text-xl flex-col font-lora text-3xl">
-                <form className="grid grid-cols-1" onSubmit={handleSubmit(onSubmit)}>
+            <div className="bg-secondary-100 my-20 pt-8 w-10/12 md:max-w-md m-auto md:my-20 md:text-xl flex-col font-lora text-3xl rounded-xl">
+                <form className="grid grid-cols-1 p-4 sm:p-1" onSubmit={handleSubmit(onSubmit)}>
                     {hasAccount ? null  : <input className="h-12 my-2 md:w-5/6 md:m-auto md:mb-2" placeholder="FirstName" {...register("firstName",{ required: true })} />
                     }
                     {hasAccount ? null : <input className="h-12 my-2 md:w-5/6 md:m-auto md:mb-2" type="text" placeholder="LastName" {...register("lastName",{ required: true })} />
