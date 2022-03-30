@@ -14,7 +14,8 @@ import {
   PUT_ORDERS_AMOUNT,
   CLEAR_TOKENS_USER,
   CLEAR_PRODUCT_DETAIL,
-  POST_NEW_ADRESS_USER
+  POST_NEW_ADRESS_USER,
+  CLEAR_PRODUCT_AND_CATEGORY
 } from '../Actions/types';
 
 const initialState = {
@@ -124,7 +125,11 @@ export const HomeReducer = (state = initialState, action) => {
           ...state,
           resNewAdress: action.payload
         }
-
+      case CLEAR_PRODUCT_AND_CATEGORY:
+        return{
+          ...state,
+          products: ""
+        }
     default:
       return state;
   }
