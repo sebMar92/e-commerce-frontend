@@ -217,8 +217,7 @@ export function postOrder(order) {
         window.localStorage.setItem(`${order.status}`, JSON.stringify(arr));
         var item = window.localStorage.getItem(`${order.status}`);
       } 
-      /* NO BORRAR HASTA SOLUCIONAR TODOS LOS BUGS */
-      /* else {
+      else {
         const product = {
           status: order.status,
           productId: order.productId,
@@ -238,7 +237,7 @@ export function postOrder(order) {
           `${order.status}`,
           JSON.stringify(parsedItem)
         );
-      } */
+      }
     }
     return {
       type: "NONE",
