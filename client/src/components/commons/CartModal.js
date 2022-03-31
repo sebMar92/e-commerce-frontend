@@ -46,7 +46,7 @@ export default function CartModal() {
             {order &&
               order.length > 0 &&
               order.map((e, i) => {
-                const del = e.orders[0].id;
+                const del = e.orders && e.orders[0].id;
                 if (i < 2) {
                   return (
                     <div key={e.id}>
