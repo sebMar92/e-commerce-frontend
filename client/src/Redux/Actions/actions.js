@@ -705,4 +705,3 @@ export function clearProductAndCategory() {
     type: CLEAR_PRODUCT_AND_CATEGORY,
   };
 }
-
