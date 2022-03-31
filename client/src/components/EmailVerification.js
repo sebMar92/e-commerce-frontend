@@ -56,7 +56,7 @@ export default function EmailVerification() {
             <form className="flex" onSubmit={handleSubmit(onSubmit)}>
                     <input className="bg-secondary-100 h-12 my-2 p-1 rounded-md w-full md:m-auto md:mb-2" type="email" placeholder="Email" {...register2("email",{ required: true })} />
 
-                    <button type="submit" className="ml-4 text-2xl text-secondary-200 animate-bounce">></button>
+                    <button type="submit" className="ml-4 text-2xl text-secondary-200 animate-bounce">{">"}</button>
                     
             </form>
     </div>

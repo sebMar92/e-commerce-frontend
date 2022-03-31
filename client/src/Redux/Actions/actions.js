@@ -201,7 +201,6 @@ export function postOrder(order) {
       if (!window.localStorage.getItem(`${order.status}`)) {
         const product = {
           status: order.status,
-          amount: order.amount,
           productId: order.productId,
           id: order.productId,
           title: order.title,
@@ -209,7 +208,7 @@ export function postOrder(order) {
           stock: order.stock,
           description: order.description,
           images: order.images,
-          orders: [{ id: 0 }],
+          orders: [{ id: 0, amount: order.amount }],
           price: order.price,
         };
         var arr = [];
@@ -219,7 +218,6 @@ export function postOrder(order) {
       } else {
         const product = {
           status: order.status,
-          amount: order.amount,
           productId: order.productId,
           id: order.productId,
           title: order.title,
@@ -227,7 +225,7 @@ export function postOrder(order) {
           stock: order.stock,
           description: order.description,
           images: order.images,
-          orders: [{ id: 0 }],
+          orders: [{ id: 0, amount: order.amount }],
           price: order.price,
         };
         var item = window.localStorage.getItem(`${order.status}`);
@@ -326,14 +324,45 @@ export function changeOrderStatus(order) {
   };
 }
 
-export function changeOrderAmount(order) {
-  return async function (dispatch) {
-    var json = await axios.put(`/order/${order.id}?amount=${order.amount}`);
-    return dispatch({
-      type: PUT_ORDERS_AMOUNT,
-      payload: { status: order.status, data: json.data },
-    });
-  };
+export function changeOrderAmount(order, id, status) {
+  console.log("order", order)
+  const token = window.localStorage.getItem("access");
+  if (token) {
+    return async function (dispatch) {
+      var json = await axios.put(`/order/${order.id}?amount=${order.amount}`);
+      return dispatch({
+        type: PUT_ORDERS_AMOUNT,
+        payload: { status: order.status, data: json.data },
+      });
+    };
+  } else {
+    return function (dispatch) {
+      const item = window.localStorage.getItem(`${status}`);
+      const parsedItem = item && JSON.parse(item);
+      const itemChange =
+        parsedItem && parsedItem.map((el) => {
+          if (el.productId === id) {
+            if ((Math.abs(el.orders[0].amount + order.amount) < 1)) {
+              return {
+                error: 'amount is less than one'
+              }
+            }
+            el.orders[0].amount = el.orders[0].amount + order.amount
+          }
+          return el
+        });
+      const itemsFilter = itemChange && itemChange.filter(el => {
+        if (!el.hasOwnProperty("error")) {
+          return el
+        }
+      })
+      window.localStorage.setItem(`${status}`, JSON.stringify(itemsFilter));
+      return dispatch({
+        type: PUT_ORDERS_AMOUNT,
+        payload: { status: status, data: itemsFilter },
+      });
+    };
+  }
 }
 
 /*     const token = window.localStorage.getItem('access')
