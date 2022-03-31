@@ -18,7 +18,6 @@ export default function LoginComponent(boolean) {
     const value = Object.entries(boolean)[0][1]
     const [hasAccount, setHasAccount] = useState(value)
     const { register, handleSubmit, formState: { errors } } = useForm();
-    console.log(message)
     //Renderizo un form u otro en base al booleano que recibo por props 
 
 
@@ -34,7 +33,7 @@ export default function LoginComponent(boolean) {
     useMemo(() => {
         if (message.hasOwnProperty("error")) {
             console.log(message.error)
-        } else if (message && hasAccount) {
+        } else if (message.hasOwnProperty("msg") && hasAccount) {
             console.log(message)
             navigate("/")
             window.localStorage.setItem("access", message.accessToken)
@@ -52,6 +51,7 @@ export default function LoginComponent(boolean) {
             if (wishList) {
                 var parsedWishList = JSON.parse(wishList)
                 parsedWishList.map(el => dispatch(postOrder(el)))
+                window.localStorage.removeItem("inWishList")
             }
         }
 
