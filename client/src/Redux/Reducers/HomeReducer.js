@@ -15,11 +15,8 @@ import {
   CLEAR_TOKENS_USER,
   CLEAR_PRODUCT_DETAIL,
   POST_NEW_ADRESS_USER,
-<<<<<<< HEAD
-  CLEAR_PRODUCT_AND_CATEGORY
-=======
+  CLEAR_PRODUCT_AND_CATEGORY,
   DELETE_ADRESS_USER
->>>>>>> a84625b8056e2bfee7090497d65e8338ace3a050
 } from '../Actions/types';
 
 const initialState = {
