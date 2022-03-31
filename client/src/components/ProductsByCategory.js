@@ -63,14 +63,16 @@ export default function Products() {
     <>
       <NavBar />
       <ToastContainer />
-      <div className="flex flex-col sm:flex-row">
+      <div className="flex flex-col sm:flex-row bg-secondary-100">
         <FilterAndOrderComponent />
         {loaded ? 
-        <div className="m-auto">
-          <h1 className="font-bold font-lora flex justify-center my-8 text-4xl bg-primary-400 p-1 rounded-xl">
-            {valueTitle ? valueTitle.name : ''}
-          </h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-10 sm:m-auto 2xl:grid-cols-2 2xl:gap-30">
+        <div className="w-full m-auto">
+          <div className='w-[90%] p-2 m-auto justify-center items-center flex bg-white rounded shadow-sm mt-2 text-center'>
+            <h1 className="font-bold font-lora p-2">
+              {valueTitle ? valueTitle.name : ''}
+            </h1>
+          </div>
+          <div className="flex flex-col lg:w-[90%] gap-5 lg:mx-auto mt-4 lg:flex-wrap lg:flex-row justify-center">
             {allProducts &&
               allProducts.map((item) => {
                 return (
@@ -80,7 +82,7 @@ export default function Products() {
                     path={item.id}
                     name={item.title}
                     price={item.price}
-                    image={item && item.images && item.images[0].url}
+                    image={item && item.images && item.images[1].url}
                     images={item.images}
                     description={item.description}
                     shippingCost={item.shippingCost}
