@@ -522,11 +522,10 @@ export function getUserInfo() {
 }
 export function getUsersInfo() {
   return async function (dispatch) {
-    const user = await axios.get("/user/all");
-    console.log(user);
+    const users = await axios.get("/user/all");
     return dispatch({
       type: GET_USERS_INFO,
-      payload: user.data,
+      payload: users.data,
     });
   };
 }
