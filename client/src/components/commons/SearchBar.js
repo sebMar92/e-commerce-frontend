@@ -1,9 +1,9 @@
-import React from "react";
-import { AiOutlineSearch } from "react-icons/ai";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, createSearchParams } from "react-router-dom";
-import { getProducts, getSearch } from "../../Redux/Actions/actions";
+import React from 'react';
+import { AiOutlineSearch } from 'react-icons/ai';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, createSearchParams } from 'react-router-dom';
+import { getProducts, getSearch } from '../../Redux/Actions/actions';
 
 export default function SearchBar(props) {
   const [isOpen, setIsOpen] = useState(true); //controla que aparezca y desaparezca el autocomplete
@@ -11,23 +11,23 @@ export default function SearchBar(props) {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.home.search.products);
   const categories = useSelector((state) => state.home.search.categories);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
 
   const handleInputChange = (e) => {
     const { value } = e.target;
     setSearchValue(value);
-    if (value !== "") {
+    if (value !== '') {
       dispatch(getSearch(value));
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (searchValue !== "") {
+    if (searchValue !== '') {
       navigate({
         pathname: `/products?search=${searchValue}`,
       });
-      setSearchValue("");
+      setSearchValue('');
     }
   };
 
@@ -48,10 +48,12 @@ export default function SearchBar(props) {
       </button>
       <div
         className={`absolute mt-10 bg-secondary-100 m-2 overflow-hidden rounded-lg shadow-lg z-20 w-10/12 md:w-4/12 overflow-y-auto max-h-96 overflow-x-auto  ${
-          (isOpen || searchValue === "") && "hidden"
+          (isOpen || searchValue === '') && 'hidden'
         }`}
       >
-        {categories &&
+        {searchValue &&
+          searchValue.length > 2 &&
+          categories &&
           categories.map((category) => {
             return (
               <div className="text-black" key={category.id}>
@@ -75,7 +77,9 @@ export default function SearchBar(props) {
               </div>
             );
           })}
-        {products &&
+        {searchValue &&
+          searchValue.length > 2 &&
+          products &&
           products.products &&
           products.products.map((product) => {
             return (
@@ -85,9 +89,8 @@ export default function SearchBar(props) {
                   className="text-decoration-line: no-underline"
                 >
                   <div className="hover:bg-primary-300 flex gap-4 p-4">
-                    
                     <img
-                      src={product.images.url && product.images[0].url}
+                      src={product.images && product.images[0].url}
                       alt={product.title}
                       className="w-12 h-12 object-contain"
                     />
@@ -95,9 +98,7 @@ export default function SearchBar(props) {
                       <h3 className="text-sm font-semibold text-black">
                         {product.title}
                       </h3>
-                      <p className="text-xs text-gray-600">
-                        Price: US $ {product.price}
-                      </p>
+                      <p className="text-xs text-gray-600">Price: US $ {product.price}</p>
                     </div>
                   </div>
                 </Link>

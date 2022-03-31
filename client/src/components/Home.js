@@ -3,24 +3,24 @@ import NavBar from "./NavBar";
 import CarouselPromo from "./CarouselPromo";
 import CarouselCateg from "./CarouselCateg";
 import Footer from "./Footer/Footer";
-import { ToastContainer,toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Home() {
   const notify = () => {
     toast.success("Added to the wishlist !", {
-      position: toast.POSITION.BOTTOM_LEFT
+      position: toast.POSITION.BOTTOM_LEFT,
     });
-  }
+  };
 
   const notify2 = () => {
     toast.success("Added to the cart !", {
-      position: toast.POSITION.BOTTOM_LEFT
+      position: toast.POSITION.BOTTOM_LEFT,
     });
-  }
+  };
 
   return (
     <>
-    <ToastContainer autoClose={2000} />
+      <ToastContainer autoClose={2000} />
       <NavBar />
       <CarouselPromo />
       <div className="md:my-32">

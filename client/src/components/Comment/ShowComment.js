@@ -9,12 +9,10 @@ const ShowComment = ({comment, token}) => {
     window.location.reload(false);
   }
   const [editComment, setEditComment] = useState({
-        content: comment[0].content,
-        rating: comment[0].rating,
-        id: comment[0].id 
+        content: comment.content,
+        rating: comment.rating,
+        id: comment.id 
   })
-
-  console.log(comment)
 
   const [editable, setEditable] = useState({
     textarea: "hidden",
@@ -31,6 +29,7 @@ const ShowComment = ({comment, token}) => {
       ...editComment,
       [e.target.name]: e.target.value,
     });
+    console.log(editComment)
 }
   const handleEdit = () => {
     setEditable({
@@ -53,15 +52,23 @@ const ShowComment = ({comment, token}) => {
       edit: "visible"
     })
     setEditComment({
-      content: comment[0].content,
-      rating: comment[0].rating,
-      id: comment[0].id})
+      content: comment.content,
+      rating: comment.rating,
+      id: comment.id})
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateComment(editComment, token));
-    refreshPage();
+    dispatch(updateComment(editComment));
+    setEditable({
+      textarea: "hidden",
+      div: "visible"
+    });
+    setButtons({
+      all: "hidden",
+      edit: "visible"
+    })
+    
   }
 
   const handleDelete = (e) => {
@@ -69,8 +76,6 @@ const ShowComment = ({comment, token}) => {
     dispatch(deleteComment(editComment.id, token));
     refreshPage();
   }
-
-  console.log(editComment)
 
   return (
     <div className="p-2 w-full font-lora flex flex-col items-center mt-2 gap-2">
@@ -87,17 +92,17 @@ const ShowComment = ({comment, token}) => {
             <div className={`flex gap-2 ${editable.textarea}`}>
                     {[...Array(5)].map((el, i) => {
                     
-                    const ratingValue = i + 1
+                    // const ratingValue = i + 1
 
                     return (
                         <label>
-                            <input type="radio" name="rating" className="hidden w-8" value={ratingValue} onChange={(e) => handleChange(e)} />
-                                <FaStar className="w-6 h-6 cursor-pointer" color={ratingValue <= editComment.rating ? "#FFAC4B" : "#808080"}/>
+                            <input type="radio" name="rating" className="w-6 hidden" value={i + 1} onChange={(e) => handleChange(e)} />
+                                <FaStar className="w-6 h-6 cursor-pointer" color={i + 1 <= editComment.rating ? "#FFAC4B" : "#808080"}/>
                         </label>)})}
             </div>
             <div>
               <button className={`mr-2 rounded p-2 font-bold text-primary-400 font-lora border-[1px] border-primary-300 hover:text-primary-700 hover:border-primary-700 ${buttons.all}`}  onClick={handleEditCancelSubmit}>CANCEL</button>
-              <button type="submit" form="form" className={`${buttons.all} rounded p-2 font-bold p-2 text-white bg-primary-400 font-lora hover:bg-primary-700 focus:bg-primary-700`} onClick={handleEditCancelSubmit}>SUBMIT</button>
+              <button type="submit" form="form" className={`${buttons.all} rounded p-2 font-bold p-2 text-white bg-primary-400 font-lora hover:bg-primary-700 focus:bg-primary-700`}>SUBMIT</button>
             </div>
           </div>
           <div className={`flex gap-2 ${editable.div} justify-center`}>
@@ -107,7 +112,7 @@ const ShowComment = ({comment, token}) => {
 
                     return (
                         <label>
-                            <input disabled type="radio" name="rating" className="hidden w-8 pointer-events-none" value={ratingValue} onChange={(e) => handleChange(e)} />
+                            <input disabled type="radio" name="rating" className="hidden w-6 pointer-events-none" value={ratingValue} onChange={(e) => handleChange(e)} />
                                 <FaStar className="w-6 h-6 pointer-events-none" color={ratingValue <= editComment.rating ? "#FFAC4B" : "#808080"}/>
                         </label>)})}
           </div>
