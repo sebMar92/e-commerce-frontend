@@ -9,7 +9,7 @@ import { MdRestaurantMenu } from "react-icons/md";
 import { getOrder, changeOrderStatus } from "../Redux/Actions/actions";
 import carrito from "./utils/carrito triste.png";
 
-export default function Cart({ }) {
+export default function Cart() {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.home.inCart);
   const direccion = useSelector((state) => state.home.user.directions); 

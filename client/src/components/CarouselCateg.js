@@ -11,6 +11,7 @@ export default function CarouselCateg({onClick,onClick2}) {
   const dispatch = useDispatch();
   const allProducts = useSelector((state) => state.home.products);
   const allCategories = useSelector((state) => state.home.categories);
+  
 
   let arr = [];
   for (let i = 0; i < allCategories.length; i++) {
@@ -262,7 +263,7 @@ export default function CarouselCateg({onClick,onClick2}) {
 
   return (
     <div className="max-w-screen-lg m-auto mt-3 sm:mt-5 h-full">
-      {randomCategories(arr).map((categ) => {
+      { randomCategories(arr)?.map((categ) => {
         return (
           <div
             key={categ.id}
@@ -278,7 +279,7 @@ export default function CarouselCateg({onClick,onClick2}) {
             </Link>
 
             <Slider {...settings}>
-              {prod(allProducts, categ).map((product) => {
+              {prod(allProducts, categ)?.map((product) => {
                 return (
                   <div key={product.id} className="p-2 h-full">
                     <CardHome
@@ -287,8 +288,12 @@ export default function CarouselCateg({onClick,onClick2}) {
                       key={product.id}
                       id={product.id}
                       image={product.images[0].url}
+                      images={product.images}
                       title={product.title}
                       price={product.price}
+                      shippingCost={product.shippingCost}
+                      stock={product.stock}
+                      description={product.description}
                     />
                   </div>
                 );
