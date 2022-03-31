@@ -16,7 +16,8 @@ import {
   CLEAR_PRODUCT_DETAIL,
   POST_NEW_ADRESS_USER,
   CLEAR_PRODUCT_AND_CATEGORY,
-  DELETE_ADRESS_USER
+  DELETE_ADRESS_USER,
+  CLEAR_USER_EMAIL
 } from '../Actions/types';
 
 const initialState = {
@@ -136,6 +137,11 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         resNewAdress: action.payload
       }
+      case CLEAR_USER_EMAIL:
+        return {
+          ...state,
+          userMail: []
+        }
 
     default:
       return state;

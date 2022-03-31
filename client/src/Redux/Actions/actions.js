@@ -25,7 +25,8 @@ import {
   CLEAR_TOKENS_USER,
   CLEAR_PRODUCT_DETAIL,
   CLEAR_PRODUCT_AND_CATEGORY,
-  DELETE_ADRESS_USER
+  DELETE_ADRESS_USER,
+  CLEAR_USER_EMAIL
 } from "./types";
 
 requestInterceptor();
@@ -215,7 +216,9 @@ export function postOrder(order) {
         arr.push(product);
         window.localStorage.setItem(`${order.status}`, JSON.stringify(arr));
         var item = window.localStorage.getItem(`${order.status}`);
-      } else {
+      } 
+      /* NO BORRAR HASTA SOLUCIONAR TODOS LOS BUGS */
+      /* else {
         const product = {
           status: order.status,
           productId: order.productId,
@@ -235,7 +238,7 @@ export function postOrder(order) {
           `${order.status}`,
           JSON.stringify(parsedItem)
         );
-      }
+      } */
     }
     return {
       type: "NONE",
@@ -733,5 +736,11 @@ export function clearProductAndCategory() {
   return {
     type: CLEAR_PRODUCT_AND_CATEGORY,
   };
+}
+
+export function clearUserEmail() {
+  return {
+    type: CLEAR_USER_EMAIL,
+  }
 }
 
