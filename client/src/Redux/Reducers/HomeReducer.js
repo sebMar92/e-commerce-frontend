@@ -15,7 +15,9 @@ import {
   PUT_ORDERS_AMOUNT,
   CLEAR_TOKENS_USER,
   CLEAR_PRODUCT_DETAIL,
-  POST_NEW_ADRESS_USER
+  POST_NEW_ADRESS_USER,
+  CLEAR_PRODUCT_AND_CATEGORY,
+  DELETE_ADRESS_USER
 } from '../Actions/types';
 
 const initialState = {
@@ -38,7 +40,7 @@ const initialState = {
   deleted: [],
   resPutOrder: [],
   resAmountOrder: {},
-  resNewAdress:{}
+  resNewAdress: {},
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -123,13 +125,24 @@ export const HomeReducer = (state = initialState, action) => {
     case CLEAR_TOKENS_USER:
       return {
         ...state,
-        userTokens: ""
+        userTokens: "",
+        user: {}
       }
       case POST_NEW_ADRESS_USER:
         return {
           ...state,
           resNewAdress: action.payload
         }
+      case CLEAR_PRODUCT_AND_CATEGORY:
+        return{
+          ...state,
+          products: ""
+        }
+    case DELETE_ADRESS_USER:
+      return {
+        ...state,
+        resNewAdress: action.payload
+      }
 
     default:
       return state;

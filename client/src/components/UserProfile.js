@@ -20,7 +20,6 @@ export default function UserProfile() {
     const user = useSelector((state) => state.home.user)
     const [directionsUser, setDirectionsUser] = useState([])
     const dispatch = useDispatch()
-    console.log(user)
 
     const [stateUser, setStateUser] = useState({
         firstName: "",

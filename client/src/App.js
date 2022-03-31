@@ -1,6 +1,7 @@
 import React,{useEffect} from 'react';
 import { Route, Routes,Navigate } from 'react-router-dom';
 
+import ProtectedRouteUser from './components/ProtectedRouteUser'
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './components/Home';
 import ProductsByCategory from './components/ProductsByCategory';
@@ -38,7 +39,6 @@ function App() {
     dispatch(getUserInfo())
   }, []);
 
-
   return (
     <>
       <div className="App">
@@ -48,9 +48,9 @@ function App() {
                 <Route path="/products" element={<ProductsByCategory />} />
                 <Route path="/product/:idProduct" element={<ProductDetails />} />
                 <Route path="/purchase" element={<PurchasePage />} />
-                <Route path="/user" element={<UserProfile />} />
+                <Route path="/user" element={<ProtectedRouteUser><UserProfile /></ProtectedRouteUser>} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/historial" element={<Historial />} />
+                <Route path="/historial" element={<ProtectedRouteUser user={fullUser}><Historial /></ProtectedRouteUser>} />
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/cart" element={<Cart />} />
 
