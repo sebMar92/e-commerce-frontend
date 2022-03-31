@@ -12,7 +12,8 @@ import Axios from "axios";
 import NavbarAdmin from "./NavbarAdmin";
 import { Cloudinary } from "@cloudinary/url-gen";
 import NavBarEmpty from "./NavBarEmpty";
-import AdminPreview from "../components/AdminPreview";
+import AdminPreview from "../components/AdminPreview"
+
 
 export default function CreateProducts() {
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ export default function CreateProducts() {
       categories: [],
     });
 
+
     alert("Product Create!!");
   }
   function handleAddCategory(e) {
@@ -60,10 +62,9 @@ export default function CreateProducts() {
     if (newCategory !== "") {
       setInput({
         ...input,
-        categories: [
-          ...input.categories,
-          { name: newCategory, id: e.target.id },
-        ],
+
+        categories: [...input.categories, { name: newCategory, id: e.target.id }],
+
       });
       setNewCategory("");
     }
@@ -87,10 +88,7 @@ export default function CreateProducts() {
       if (!input.categories.includes(e.target.value)) {
         setInput({
           ...input,
-          categories: [
-            ...input.categories,
-            { name: e.target.value, id: e.target.id },
-          ],
+          categories: [...input.categories, { name: e.target.value, id: e.target.id }],
         });
       }
     }
@@ -152,6 +150,7 @@ export default function CreateProducts() {
   return (
     <>
       <NavBarEmpty />
+
       <div className="sm:flex">
         <NavbarAdmin />
         <form
@@ -348,6 +347,9 @@ export default function CreateProducts() {
                   );
                 })}
             </div>
+
+            {/* previsualizacion */}
+            <AdminPreview input={input} />
           </div>
           <ButtonCreate
             text="Create Product"

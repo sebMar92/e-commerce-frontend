@@ -1,19 +1,20 @@
-import NavbarAdmin from "./NavbarAdmin";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getProductByID, putProductByID } from "../Redux/Actions/actions";
-import React, { useState, useEffect } from "react";
-import { getCategories } from "../Redux/Actions/actions";
-import { validation } from "./validation";
-import ButtonCreate from "./commons/ButtonCreate";
-import check from "./utils/check-shield-regular-24.png";
-import Modelo from "./utils/modelo.jpg";
-import mas from "./utils/image-add-regular-24.png";
-import Slider from "./ProductDetails/Slider";
-import NavBarEmpty from "./NavBarEmpty";
-import Axios from "axios";
-import { AiOutlineConsoleSql } from "react-icons/ai";
-import AdminPreview from "../components/AdminPreview";
+
+import NavbarAdmin from './NavbarAdmin';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProductByID, putProductByID } from '../Redux/Actions/actions';
+import React, { useState, useEffect } from 'react';
+import { getCategories } from '../Redux/Actions/actions';
+import { validation } from './validation';
+import ButtonCreate from './commons/ButtonCreate';
+import check from './utils/check-shield-regular-24.png';
+import Modelo from './utils/modelo.jpg';
+import mas from './utils/image-add-regular-24.png';
+import Slider from './ProductDetails/Slider';
+import NavBarEmpty from './NavBarEmpty';
+import Axios from 'axios';
+import { AiOutlineConsoleSql } from 'react-icons/ai';
+import AdminPreview from "../components/AdminPreview"
 
 export default function EditProducts() {
   const { idProduct } = useParams();
@@ -53,6 +54,7 @@ export default function EditProducts() {
     stock: product.stock,
     categories: product.categories,
   });
+
 
   function handleSubmit(e) {
     e.preventDefault();

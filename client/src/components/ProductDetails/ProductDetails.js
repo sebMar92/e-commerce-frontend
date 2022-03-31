@@ -1,17 +1,14 @@
-import React, { useState } from "react";
-import NavBar from "../NavBar";
-import Footer from "../Footer/Footer";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
-import {
-  clearProductDetail,
-  getProductByID,
-  postOrder,
-} from "../../Redux/Actions/actions";
-import { useEffect } from "react";
-import Slider from "./Slider";
-import CreateComment from "../Comment/CreateComment";
-import { FaBan } from "react-icons/fa";
+
+import React, { useState } from 'react';
+import NavBar from '../NavBar';
+import Footer from '../Footer/Footer';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams, Link } from 'react-router-dom';
+import { clearProductDetail, getProductByID, postOrder} from '../../Redux/Actions/actions';
+import { useEffect } from 'react';
+import Slider from './Slider';
+import CreateComment from '../Comment/CreateComment';
+import { FaBan } from 'react-icons/fa';
 import {
   AiOutlineCheckCircle,
   AiOutlineShoppingCart,
@@ -29,7 +26,6 @@ export default function ProductDetails() {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   let { idProduct } = useParams();
-
   const product = useSelector((state) => state.productID.product);
   useEffect(() => {
     dispatch(getProductByID(idProduct));
@@ -170,7 +166,7 @@ export default function ProductDetails() {
                   <AiOutlineShoppingCart className="h-6 w-6" color="#ffffff" />
                 </button>
               </div>
-              <div>
+              <div >
                 <ButtonBuy
                   id={idProduct}
                   status={"finished"}
@@ -199,7 +195,6 @@ export default function ProductDetails() {
               </div>
             </div>
           </div>
-
           <CreateComment id={idProduct} product={product} />
         </div>
       </div>

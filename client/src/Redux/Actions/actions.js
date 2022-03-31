@@ -24,6 +24,8 @@ import {
   POST_NEW_ADRESS_USER,
   CLEAR_TOKENS_USER,
   CLEAR_PRODUCT_DETAIL,
+  CLEAR_PRODUCT_AND_CATEGORY,
+  DELETE_ADRESS_USER
 } from "./types";
 
 requestInterceptor();
@@ -557,6 +559,20 @@ export function postDirectionUser(body) {
   };
 }
 
+export function deleteAdressUser(id) {
+  return async (dispatch) => {
+    try {
+      const deleteDirection = await axios.delete(`/user/direction/${id}`);
+      return dispatch({
+        type: DELETE_ADRESS_USER,
+        payload: deleteDirection.data,
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
 export function getSales() {
   return async function (dispatch) {
     var json = await axios.get("/sale");
@@ -681,5 +697,11 @@ export function clearTokensUser() {
 export function clearProductDetail() {
   return {
     type: CLEAR_PRODUCT_DETAIL,
+  };
+}
+
+export function clearProductAndCategory() {
+  return {
+    type: CLEAR_PRODUCT_AND_CATEGORY,
   };
 }
