@@ -263,7 +263,7 @@ export default function CarouselCateg({onClick,onClick2}) {
 
   return (
     <div className="max-w-screen-lg m-auto mt-3 sm:mt-5 h-full">
-      {randomCategories(arr).map((categ) => {
+      { randomCategories(arr)?.map((categ) => {
         return (
           <div
             key={categ.id}
@@ -279,7 +279,7 @@ export default function CarouselCateg({onClick,onClick2}) {
             </Link>
 
             <Slider {...settings}>
-              {prod(allProducts, categ).map((product) => {
+              {prod(allProducts, categ)?.map((product) => {
                 return (
                   <div key={product.id} className="p-2 h-full">
                     <CardHome

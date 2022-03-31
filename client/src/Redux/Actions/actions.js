@@ -24,6 +24,7 @@ import {
   POST_NEW_ADRESS_USER,
   CLEAR_TOKENS_USER,
   CLEAR_PRODUCT_DETAIL,
+  CLEAR_PRODUCT_AND_CATEGORY,
   DELETE_ADRESS_USER
 } from "./types";
 
@@ -698,3 +699,10 @@ export function clearProductDetail() {
     type: CLEAR_PRODUCT_DETAIL,
   };
 }
+
+export function clearProductAndCategory() {
+  return {
+    type: CLEAR_PRODUCT_AND_CATEGORY,
+  };
+}
+
