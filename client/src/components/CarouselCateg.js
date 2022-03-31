@@ -11,6 +11,7 @@ export default function CarouselCateg({onClick,onClick2}) {
   const dispatch = useDispatch();
   const allProducts = useSelector((state) => state.home.products);
   const allCategories = useSelector((state) => state.home.categories);
+  
 
   let arr = [];
   for (let i = 0; i < allCategories.length; i++) {
@@ -287,8 +288,12 @@ export default function CarouselCateg({onClick,onClick2}) {
                       key={product.id}
                       id={product.id}
                       image={product.images[0].url}
+                      images={product.images}
                       title={product.title}
                       price={product.price}
+                      shippingCost={product.shippingCost}
+                      stock={product.stock}
+                      description={product.description}
                     />
                   </div>
                 );
