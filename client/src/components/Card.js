@@ -6,27 +6,37 @@ import { useDispatch, useSelector} from "react-redux";
 import { postOrder, deleteOrder} from "../Redux/Actions/actions";
 
 
-export default function Card({ id, image, name, price, shippingCost, path, onClick,onClick2 }) {
+export default function Card({ id, image, name, price, shippingCost, path, onClick,onClick2, title, stock, description, images }) {
 const dispatch = useDispatch();
 const notifyCatCLick = onClick
 const notifyCatClick2 = onClick2
 
   function addCartCategories(){
-  console.log("cart")
   dispatch(postOrder({
     status: "inCart",
       amount: 1,
-      productId: id
+      productId: id,
+      title: title,
+      shippingCost: shippingCost,
+      stock: stock,
+      description: description,
+      images: images,
+      price: price
     }))
   }
   
 
   function addFavCategories(){
-    console.log("fav")
     dispatch(postOrder({
       status: "inWishList",
         amount: 1,
-        productId: id
+        productId: id,
+        title: title,
+      shippingCost: shippingCost,
+      stock: stock,
+      description: description,
+      images: images,
+      price: price
       }))
   }
 
