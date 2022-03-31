@@ -11,6 +11,7 @@ import useURLqueries from './hooks/useURLqueries';
 import { ToastContainer, toast } from 'react-toastify';
 import Loader from './Skeletons/Loader';
 import NotFound from './utils/pngwing.com.png'
+import SkeletonTitle from './Skeletons/SkeletonTitle';
 
 export default function Products() {
   const queryObjects = useURLqueries();
@@ -38,6 +39,12 @@ export default function Products() {
    }, 1500);
   }, [categories]);
 
+/*   useEffect(() => {
+    setTimeout(() => {
+      setNotFound(true)
+    }, 1500);
+  }, [allProducts])
+   */
 
   const notifyCat = () => {
     toast.success('Added to the wishlist !', {
@@ -82,8 +89,10 @@ export default function Products() {
               })}
           </div>
         </div>
-        : 
-        <Loader />} 
+        :
+        <>
+        <Loader />
+        </>} 
       </div>
       <Pagination />
       <Footer />
