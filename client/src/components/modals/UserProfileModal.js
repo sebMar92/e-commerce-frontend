@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from 'react-dom';
 import { AiOutlineSend } from "react-icons/ai"
-import { putUserInfo, postDirectionUser, getUserInfo, deleteAdressUser } from '../../Redux/Actions/actions.js';
+import { putUserInfo, postDirectionUser, getUserInfo } from '../../Redux/Actions/actions.js';
 import { useDispatch, useSelector } from "react-redux"
 
 
 function UserProfileModal({ onClose, directionsUser }) {
     const dispatch = useDispatch()
     const res = useSelector((state) => state.home.resNewAdress)
-    const answer = useSelector((state) => state.home.answer)
+
 
     useEffect(() => {
         dispatch(getUserInfo())
-    }, [res, answer])
+    }, [res])
 
     const [stateDirections, setStateDirections] = useState({
         id: "",
@@ -27,7 +27,6 @@ function UserProfileModal({ onClose, directionsUser }) {
     function handleSubmitChangeAdressExist(e) {
         e.preventDefault()
         dispatch(putUserInfo({ direction: stateDirections }))
-        alert("Updated data")
     }
 
     function handleChange(e) {
@@ -110,11 +109,6 @@ function UserProfileModal({ onClose, directionsUser }) {
         })
     }
 
-    function handleClickDeleteAdress(e, id) {
-        e.preventDefault()
-        dispatch(deleteAdressUser(id))
-    }
-
 
 
     return (
@@ -170,7 +164,7 @@ function UserProfileModal({ onClose, directionsUser }) {
                                 </div>
 
                                 <div className='rounded-md shadow-sm shadow-slate-400 m-1 w-44'>
-                                    <span>*Street number:</span>
+                                    <span>*Stree number:</span>
                                     <div>
                                         <input
                                             id=""
@@ -270,7 +264,7 @@ function UserProfileModal({ onClose, directionsUser }) {
                                                     <span>{data.city}, {data.street} {data.streetNumber}</span>
                                                 </div>
                                                 <div>
-                                                    <button type="button" className="pl-1 pr-1 h-6 text-xs mr-1 p-0 cursor-pointer bg-secondary-100 rounded-md shadow-sm shadow-slate-900 border border-solid border-primary-500 hover:shadow-md hover:bg-red-600 hover:border-black hover:text-white" onClick={(e) => handleClickDeleteAdress(e, data.id)}>DeleteAdress</button>
+                                                    <button className="pl-1 pr-1 h-6 text-xs mr-1 p-0 cursor-pointer bg-secondary-100 rounded-md shadow-sm shadow-slate-900 border border-solid border-primary-500 hover:shadow-md hover:bg-red-600 hover:border-black hover:text-white">DeleteAdress</button>
                                                 </div>
                                             </div>
 
@@ -307,7 +301,7 @@ function UserProfileModal({ onClose, directionsUser }) {
                                                     </div>
 
                                                     <div className='rounded-md shadow-sm shadow-slate-400 m-1 w-44'>
-                                                        <span>Street number:</span>
+                                                        <span>Stree number:</span>
                                                         <div>
                                                             <input
                                                                 id={data.id}

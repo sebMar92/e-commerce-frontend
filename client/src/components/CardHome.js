@@ -7,7 +7,7 @@ import { useDispatch} from "react-redux";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function CardHome({ id, image, title, price,onClick,onClick2, shippingCost, stock, description,images }) {
+export default function CardHome({ id, image, title, price,onClick,onClick2 }) {
   const dispatch = useDispatch();
   const notify = onClick;
   const notify2 = onClick2;
@@ -16,28 +16,16 @@ export default function CardHome({ id, image, title, price,onClick,onClick2, shi
 function addCart(){
     dispatch(postOrder({
       status: "inCart",
-      amount: 1,
-      productId: id,
-      title: title,
-      shippingCost: shippingCost,
-      stock: stock,
-      description: description,
-      images: images,
-      price: price
+    amount: 1,
+    productId: id
     }))
   }
 
   function addFav(){
     dispatch(postOrder({
       status: "inWishList",
-      amount: 1,
-      productId: id,
-      title: title,
-      shippingCost: shippingCost,
-      stock: stock,
-      description: description,
-      images: images,
-      price: price
+        amount: 1,
+        productId: id
       }))
   } 
 

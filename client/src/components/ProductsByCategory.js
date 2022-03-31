@@ -5,13 +5,10 @@ import Card from './Card';
 import FilterAndOrderComponent from './FilterAndOrden';
 import Pagination from './Pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearProductAndCategory, getCategories, getProducts } from '../Redux/Actions/actions';
+import { getCategories, getProducts } from '../Redux/Actions/actions';
 import { useLocation } from 'react-router-dom';
 import useURLqueries from './hooks/useURLqueries';
 import { ToastContainer, toast } from 'react-toastify';
-import Loader from './Skeletons/Loader';
-import NotFound from './utils/pngwing.com.png'
-import SkeletonTitle from './Skeletons/SkeletonTitle';
 
 export default function Products() {
   const queryObjects = useURLqueries();
@@ -21,30 +18,11 @@ export default function Products() {
   const allProducts = useSelector((state) => state.home.products);
   const categories = useSelector((state) => state.home.categories);
   const valueTitle = categories[queryObjects.categoryId - 1];
-  const [loaded,setLoaded] = useState(false)
-  const [notFound,setNotFound] = useState(false)
 
   useEffect(() => {
     dispatch(getProducts(search));
     dispatch(getCategories());
-    return () => {
-      dispatch(clearProductAndCategory())
-      setLoaded(false)
-    }
   }, [search]);
-
-  useEffect(() => {
-   setTimeout(() => {
-     setLoaded(true)
-   }, 1500);
-  }, [categories]);
-
-/*   useEffect(() => {
-    setTimeout(() => {
-      setNotFound(true)
-    }, 1500);
-  }, [allProducts])
-   */
 
   const notifyCat = () => {
     toast.success('Added to the wishlist !', {
@@ -58,14 +36,12 @@ export default function Products() {
     });
   };
 
-
   return (
     <>
       <NavBar />
       <ToastContainer />
       <div className="flex flex-col sm:flex-row">
         <FilterAndOrderComponent />
-        {loaded ? 
         <div className="m-auto">
           <h1 className="font-bold font-lora flex justify-center my-8 text-4xl bg-primary-400 p-1 rounded-xl">
             {valueTitle ? valueTitle.name : ''}
@@ -81,22 +57,14 @@ export default function Products() {
                     name={item.title}
                     price={item.price}
                     image={item && item.images && item.images[0].url}
-                    images={item.images}
-                    description={item.description}
                     shippingCost={item.shippingCost}
                     onClick={notifyCat}
                     onClick2={notifyCat2}
-                    title={item.title}
-                    stock={item.stock}
                   />
                 );
               })}
           </div>
         </div>
-        :
-        <>
-        <Loader />
-        </>} 
       </div>
       <Pagination />
       <Footer />
