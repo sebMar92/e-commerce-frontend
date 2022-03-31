@@ -521,7 +521,6 @@ export function getUserInfo() {
 export function getUsersInfo() {
   return async function (dispatch) {
     const user = await axios.get("/user/all");
-    console.log(user);
     return dispatch({
       type: GET_USERS_INFO,
       payload: user.data,
@@ -571,6 +570,13 @@ export function postSale(body) {
   return async function (dispatch) {
     var json = await axios.post("/sale", body);
   };
+}
+
+export function postEmail(data) {
+  return async function (){
+    var json = await axios.post("/emails", data);
+    return json;
+  }
 }
 /*   return (dispatch) => {
     try {
