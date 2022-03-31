@@ -23,6 +23,11 @@ export default function CardCart({
     dispatch(getOrder({ status: "inCart" }));
   }, [resAmountOrder]);
 
+  useEffect(() => {
+    console.log(price)
+    console.log(amount)
+  }, [price])
+
 
   const dispatch = useDispatch();
   /* const [count, setCount] = useState(amount); */
@@ -35,7 +40,7 @@ export default function CardCart({
     dispatch(changeOrderAmount({
       id: idOrder,
       amount: - 1
-    }))
+    }, id, "inCart"))
   }
 
   function handleIncrement() {
@@ -43,7 +48,7 @@ export default function CardCart({
     dispatch(changeOrderAmount({
       id: idOrder,
       amount: + 1
-    }))
+    }, id, "inCart"))
   }
 
   return (
@@ -94,10 +99,10 @@ export default function CardCart({
               $ {(amount * price).toFixed(2)}
             </p>
             <div className="flex justify-between">
-              <button 
+              <button
                 className=" bg-[#3b82f6] text-white  px-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-[#3491fc] shadow-lg shadow-primary-200/80 mx-2 m-1"
                 onClick={() => handleDecrease()}
-                
+
               >
                 -
               </button>
