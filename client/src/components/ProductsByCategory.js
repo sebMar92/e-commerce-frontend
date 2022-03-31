@@ -57,9 +57,13 @@ export default function Products() {
                     name={item.title}
                     price={item.price}
                     image={item && item.images && item.images[0].url}
+                    images={item.images}
+                    description={item.description}
                     shippingCost={item.shippingCost}
                     onClick={notifyCat}
                     onClick2={notifyCat2}
+                    title={item.title}
+                    stock={item.stock}
                   />
                 );
               })}
