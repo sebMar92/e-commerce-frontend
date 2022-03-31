@@ -20,6 +20,7 @@ export default function ActivateDiscounts() {
   const deleteUpdate = useSelector((state) => state.admin.deleted);
   const [reRender, setReRender] = useState({});
   const [tab, setTab] = useState(true);
+  const [errors, setErrors] = useState({});
   const [sale, setSale] = useState({
     description: "",
     percentage: "",
@@ -38,6 +39,30 @@ export default function ActivateDiscounts() {
     dispatch(getAllProductsForSales());
     dispatch(getSales());
   }, [reRender, deleteUpdate]);
+
+  const validate = (input) => {
+    let errors = {};
+    if (input.description === "") {
+      errors.description = "Description required";
+    } else if (!/^[a-zA-Z0-9_: &()]+$/.test(input.description)) {
+      errors.description = "Invalid description";
+    }
+    if (input.percentage === "") {
+      errors.percentage = "Percentage required";
+    } else if (/^[0-9]*$/.test(input.percentage)) {
+      errors.percentage = "Invalid percentage";
+    }
+    if (!input.image) {
+    } else if (
+      !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)/g.test(
+        input.image
+      )
+    ) {
+      errors.image = "Invalid link image";
+    }
+    return errors;
+  };
+
   function handleTab(e) {
     setTab(!tab);
   }
@@ -170,6 +195,7 @@ export default function ActivateDiscounts() {
   }, [sale.productAmount]);
   function handleInputChange(e) {
     setSale({ ...sale, [e.target.id]: e.target.value });
+    setErrors(validate(sale));
   }
   function setCategories(ids) {
     setSale({ ...sale, categories: ids });
@@ -179,10 +205,35 @@ export default function ActivateDiscounts() {
   }
   function handleSubmit(e) {
     e.preventDefault();
-    if (tab) {
-      if (sale.id !== 0) {
+    if (errors === {}) {
+      if (tab) {
+        if (sale.id !== 0) {
+          dispatch(
+            editSale({ ...sale, id: Number(sale.id.replace("sale ", "")) })
+          );
+          setSale({
+            description: "",
+            percentage: "",
+            day: "",
+            image:
+              "https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg",
+            productAmount: 0,
+            categories: [],
+            products: [],
+            id: 0,
+          });
+        }
+      } else {
         dispatch(
-          editSale({ ...sale, id: Number(sale.id.replace("sale ", "")) })
+          postSale({
+            description: sale.description,
+            percentage: sale.percentage,
+            day: sale.day,
+            image: sale.image,
+            productAmount: sale.productAmount,
+            categories: sale.categories,
+            products: sale.products,
+          })
         );
         setSale({
           description: "",
@@ -196,31 +247,10 @@ export default function ActivateDiscounts() {
           id: 0,
         });
       }
+      setReRender({});
     } else {
-      dispatch(
-        postSale({
-          description: sale.description,
-          percentage: sale.percentage,
-          day: sale.day,
-          image: sale.image,
-          productAmount: sale.productAmount,
-          categories: sale.categories,
-          products: sale.products,
-        })
-      );
-      setSale({
-        description: "",
-        percentage: "",
-        day: "",
-        image:
-          "https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg",
-        productAmount: 0,
-        categories: [],
-        products: [],
-        id: 0,
-      });
+      alert("Some fields are missing. Check again");
     }
-    setReRender({});
   }
   function handleDelete(e) {
     dispatch(deleteSale(e.target.id));
@@ -350,25 +380,31 @@ export default function ActivateDiscounts() {
               <div className="">
                 <div className="sm:flex">
                   <div className="col-span-3 mr-3">
-                    <div className="bg-secondary-100 flex p-4 items-center">
+                    <div className="bg-secondary-100 p-4 items-center">
                       <div>Description: </div>
-                      <input
-                        id="description"
-                        value={sale.description}
-                        type="text-area"
-                        onChange={(e) => handleInputChange(e)}
-                        className="ml-2 rounded-sm border border-primary-500 w-full pl-2"
-                      ></input>
+                      <div className="flex-col">
+                        <input
+                          id="description"
+                          value={sale.description}
+                          type="text-area"
+                          onChange={(e) => handleInputChange(e)}
+                          className="ml-2 rounded-sm border border-primary-500 w-full pl-2"
+                        ></input>
+                        <strong>{errors.description}</strong>
+                      </div>
                     </div>
-                    <div className="bg-secondary-100 flex p-4 items-center">
+                    <div className="bg-secondary-100 p-4 items-center">
                       <div>Percentage: </div>
-                      <input
-                        id="percentage"
-                        value={sale.percentage}
-                        onChange={(e) => handleInputChange(e)}
-                        type="number"
-                        className="ml-2 rounded-sm border border-primary-500 w-full pl-2"
-                      ></input>
+                      <div className="flex-col">
+                        <input
+                          id="percentage"
+                          value={sale.percentage}
+                          onChange={(e) => handleInputChange(e)}
+                          type="number"
+                          className="ml-2 rounded-sm border border-primary-500 flex w-full pl-2"
+                        ></input>
+                        <strong>{errors.percentage}</strong>
+                      </div>
                     </div>
                     <div className="flex-col sm:bg-secondary-100 flex p-4 items-center">
                       <div className="text-center">
@@ -511,12 +547,15 @@ export default function ActivateDiscounts() {
                       className="h-20 w-40"
                       alt="Not found"
                     />
-                    <input
-                      placeholder="Image URL..."
-                      id="image"
-                      onChange={(e) => handleInputChange(e)}
-                      className="mt-7 mb-2 ml-2 mr-2 h-fit border rounded border-primary-500 w-full pl-2 "
-                    />
+                    <div className="flex-col">
+                      <input
+                        placeholder="Image URL..."
+                        id="image"
+                        onChange={(e) => handleInputChange(e)}
+                        className="mt-7 mb-2 ml-2 mr-2 h-fit border rounded border-primary-500 w-full pl-2 "
+                      />
+                      <strong>{errors.image}</strong>
+                    </div>
                   </div>
 
                   <input
@@ -529,6 +568,7 @@ export default function ActivateDiscounts() {
               </div>
               <br />
               <button
+                disabled={errors?.disabledSubmit}
                 type="submit"
                 value={sale.image}
                 onSubmit={(e) => handleSubmit(e)}
