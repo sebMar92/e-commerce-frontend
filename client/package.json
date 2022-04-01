@@ -3,23 +3,42 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@cloudinary/react": "^1.2.0",
+    "@cloudinary/url-gen": "^1.7.0",
+    "@tailwindcss/aspect-ratio": "^0.4.0",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
+    "chart.js": "^3.6.0",
+    "cloudinary": "^1.29.0",
+    "dotenv": "^16.0.0",
+    "framer-motion": "^6.2.8",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "postcss-preset-env": "^7.4.2",
     "react": "^17.0.2",
+    "react-chartjs-2": "^4.0.0",
     "react-dom": "^17.0.2",
+    "react-hook-form": "^7.28.1",
+    "react-icons": "^4.3.1",
+    "react-loading-skeleton": "^3.0.3",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
+    "react-slick": "^0.28.1",
+    "react-toastify": "^8.2.0",
+    "reactstrap": "^9.0.1",
+    "recharts": "^2.1.9",
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
+    "slick-carousel": "^1.8.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "CI=false && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -40,5 +59,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.3",
+    "postcss": "^8.4.11",
+    "tailwindcss": "^3.0.23"
   }
 }
