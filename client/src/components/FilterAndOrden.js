@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 /* import {useDispatch} from "react-redux" */
-import { FiArrowRightCircle } from "react-icons/fi";
-import { MdOutlineArrowDropDownCircle } from "react-icons/md";
-import { useNavigate, useParams, createSearchParams } from "react-router-dom";
-import useURLqueries from "./hooks/useURLqueries";
+import { FiArrowRightCircle } from 'react-icons/fi';
+import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { useNavigate, useParams, createSearchParams } from 'react-router-dom';
+import useURLqueries from './hooks/useURLqueries';
 
 export default function FilterAndOrderComponent() {
   const { idCategory } = useParams();
 
   const [price, setPrice] = useState({
-    minPrice: "",
-    maxPrice: "",
+    minPrice: '',
+    maxPrice: '',
   });
 
   useEffect(() => {
     const priceCheckQuery = queryObjects;
-    if (price.minPrice === "") {
+    if (price.minPrice === '') {
       delete queryObjects.minPrice;
     }
-    if (price.maxPrice === "") {
+    if (price.maxPrice === '') {
       delete queryObjects.maxPrice;
     }
     navigate({
@@ -40,13 +40,13 @@ export default function FilterAndOrderComponent() {
 
   function onChange(e) {
     e.preventDefault();
-    if (e.target.id === "minimo") {
+    if (e.target.id === 'minimo') {
       setPrice({
         ...price,
         minPrice: e.target.value,
       });
     }
-    if (e.target.id === "maximo") {
+    if (e.target.id === 'maximo') {
       setPrice({
         ...price,
         maxPrice: e.target.value,
@@ -56,10 +56,10 @@ export default function FilterAndOrderComponent() {
   function handleSubmit(e) {
     e.preventDefault();
     const priceQuery = {};
-    if (price.minPrice !== "") {
+    if (price.minPrice !== '') {
       priceQuery.minPrice = price.minPrice;
     }
-    if (price.maxPrice !== "") {
+    if (price.maxPrice !== '') {
       priceQuery.maxPrice = price.maxPrice;
     }
     navigate({
@@ -77,14 +77,14 @@ export default function FilterAndOrderComponent() {
         navigate({
           search: createSearchParams({
             ...queryObjects,
-            freeShipping: "false",
+            freeShipping: 'false',
           }).toString(),
         });
       } else {
         navigate({
           search: createSearchParams({
             ...queryObjects,
-            freeShipping: "true",
+            freeShipping: 'true',
           }).toString(),
         });
       }
@@ -93,22 +93,22 @@ export default function FilterAndOrderComponent() {
       if (queryObjects.order === "DESC") {
         delete queryObjects.order;
       } else {
-        queryObjects.order = "DESC";
+        queryObjects.order = 'DESC';
       }
       navigate({
         search: createSearchParams({
           ...queryObjects,
         }).toString(),
       });
-      if (!document.getElementById("LowestToHighest").classList.contains("bg-white")) {
-        document.getElementById("LowestToHighest").classList.toggle("bg-white");
+      if (!document.getElementById('LowestToHighest').classList.contains('bg-white')) {
+        document.getElementById('LowestToHighest').classList.toggle('bg-white');
       }
     }
-    if (e.target.id === "LowestToHighest") {
-      if (queryObjects.order === "ASC") {
+    if (e.target.id === 'LowestToHighest') {
+      if (queryObjects.order === 'ASC') {
         delete queryObjects.order;
       } else {
-        queryObjects.order = "ASC";
+        queryObjects.order = 'ASC';
       }
       navigate({
         search: createSearchParams({
@@ -125,10 +125,10 @@ export default function FilterAndOrderComponent() {
         document.getElementById("MoreThan").classList.toggle("bg-white");
       }
     }
-    if (e.target.id === "MoreThan") {
-      document.getElementById("MoreThan").classList.toggle("bg-white");
-      if (!document.getElementById("LessThan").classList.contains("bg-white")) {
-        document.getElementById("LessThan").classList.toggle("bg-white");
+    if (e.target.id === 'MoreThan') {
+      document.getElementById('MoreThan').classList.toggle('bg-white');
+      if (!document.getElementById('LessThan').classList.contains('bg-white')) {
+        document.getElementById('LessThan').classList.toggle('bg-white');
       }
     } */
   }
@@ -160,7 +160,7 @@ export default function FilterAndOrderComponent() {
 
 
   function onClickGenralOptions() {
-    document.getElementById("generalOptions").classList.toggle("hidden");
+    document.getElementById('generalOptions').classList.toggle('hidden');
   }
 
   return (

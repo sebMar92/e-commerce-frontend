@@ -5,12 +5,16 @@ import Card from './Card';
 import FilterAndOrderComponent from './FilterAndOrden';
 import Pagination from './Pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearProductAndCategory, getCategories, getProducts } from '../Redux/Actions/actions';
+import {
+  clearProductAndCategory,
+  getCategories,
+  getProducts,
+} from '../Redux/Actions/actions';
 import { useLocation } from 'react-router-dom';
 import useURLqueries from './hooks/useURLqueries';
 import { ToastContainer, toast } from 'react-toastify';
 import Loader from './Skeletons/Loader';
-import NotFound from './utils/pngwing.com.png'
+import NotFound from './utils/pngwing.com.png';
 import SkeletonTitle from './Skeletons/SkeletonTitle';
 
 export default function Products() {
@@ -21,19 +25,24 @@ export default function Products() {
   const allProducts = useSelector((state) => state.home.products);
   const categories = useSelector((state) => state.home.categories);
   const valueTitle = categories[queryObjects.categoryId - 1];
-  const [loaded, setLoaded] = useState(false)
-  const [notFound, setNotFound] = useState(false)
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     dispatch(getProducts(search));
     dispatch(getCategories());
     return () => {
-      dispatch(clearProductAndCategory())
-      setLoaded(false)
-    }
+      dispatch(clearProductAndCategory());
+      setLoaded(false);
+    };
   }, [search]);
 
   useEffect(() => {
+    setTimeout(() => {
+      setLoaded(true);
+    }, 1500);
+  }, [categories]);
+
+  /*   useEffect(() => {
     setTimeout(() => {
       setLoaded(true)
     }, 1500);
@@ -57,7 +66,6 @@ export default function Products() {
       position: toast.POSITION.BOTTOM_LEFT,
     });
   };
-
 
   return (
     <>
