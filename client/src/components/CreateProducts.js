@@ -152,13 +152,13 @@ export default function CreateProducts() {
   return (
     <>
       <NavBarEmpty />
-      <div className="sm:flex">
-        <NavbarAdmin />
+      <div className="sm:flex ">
+        <NavbarAdmin className="dark:text-black" />
         <form
           onSubmit={(e) => {
             handleSubmit(e);
           }}
-          className="bg-secondary-100 "
+          className="bg-secondary-100 dark:bg-slate-700 dark:text-white"
         >
           {/*  <div className=" justify-end lg:hidden flex ">
                   <button type="button" className="cursor-pointer bg-secondary-100 rounded-md pl-1 pr-1 shadow-sm shadow-slate-900 border border-solid border-primary-500 hover:shadow-md">
@@ -354,9 +354,11 @@ export default function CreateProducts() {
             /* onClick={(e) => handleSubmit(e)} */
           ></ButtonCreate>
         </form>
-        <div className=" w-full bg-secondary-100">
+        <div className=" w-full bg-secondary-100 dark:bg-slate-700">
           <br />
-          <h2 className="text-center">Preview</h2>
+          <h2 className="text-center dark:bg-slate-700 dark:text-white">
+            Preview
+          </h2>
           <br />
           <hr />
           {/* previsualizacion */}
