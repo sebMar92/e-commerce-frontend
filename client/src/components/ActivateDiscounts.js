@@ -49,7 +49,7 @@ export default function ActivateDiscounts() {
     }
     if (input.percentage === "") {
       errors.percentage = "Percentage required";
-    } else if (/^[0-9]*$/.test(input.percentage)) {
+    } else if (!/^\d+$/.test(input.percentage)) {
       errors.percentage = "Invalid percentage";
     }
     if (!input.image) {
@@ -195,7 +195,7 @@ export default function ActivateDiscounts() {
   }, [sale.productAmount]);
   function handleInputChange(e) {
     setSale({ ...sale, [e.target.id]: e.target.value });
-    setErrors(validate(sale));
+    setErrors(validate({ ...sale, [e.target.id]: e.target.value }));
   }
   function setCategories(ids) {
     setSale({ ...sale, categories: ids });
@@ -416,13 +416,13 @@ export default function ActivateDiscounts() {
                         <span
                           id="yes"
                           onClick={(e) => handleAmountUnlock(e)}
-                          className={`yes mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
+                          className={`yes mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:hover:bg-slate-700`}
                         ></span>
                         Yes
                         <span
                           id="no"
                           onClick={(e) => handleAmountUnlock(e)}
-                          className={`no mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
+                          className={`no mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:hover:bg-slate-700`}
                         ></span>
                         No
                       </div>
@@ -444,7 +444,7 @@ export default function ActivateDiscounts() {
                         <span
                           id="monday"
                           onClick={(e) => handleDay(e)}
-                          className={`dayItem monday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
+                          className={`dayItem monday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:hover:bg-slate-700`}
                         ></span>
                         <h4>Monday</h4>
                       </div>
@@ -452,7 +452,7 @@ export default function ActivateDiscounts() {
                         <span
                           id="tuesday"
                           onClick={(e) => handleDay(e)}
-                          className={`dayItem tuesday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
+                          className={`dayItem tuesday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:hover:bg-slate-700`}
                         ></span>
                         <h4>Tuesday</h4>
                       </div>
@@ -460,7 +460,7 @@ export default function ActivateDiscounts() {
                         <span
                           id="wednesday"
                           onClick={(e) => handleDay(e)}
-                          className={`dayItem wednesday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
+                          className={`dayItem wednesday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:hover:bg-slate-700`}
                         ></span>
                         <h4>Wednesday</h4>
                       </div>
@@ -468,7 +468,7 @@ export default function ActivateDiscounts() {
                         <span
                           id="thursday"
                           onClick={(e) => handleDay(e)}
-                          className={`dayItem thursday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
+                          className={`dayItem thursday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:hover:bg-slate-700`}
                         ></span>
                         <h4>Thursday</h4>
                       </div>
@@ -476,7 +476,7 @@ export default function ActivateDiscounts() {
                         <span
                           id="friday"
                           onClick={(e) => handleDay(e)}
-                          className={`dayItem friday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
+                          className={`dayItem friday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:hover:bg-slate-700`}
                         ></span>
                         <h4>Friday</h4>
                       </div>
@@ -484,7 +484,7 @@ export default function ActivateDiscounts() {
                         <span
                           id="saturday"
                           onClick={(e) => handleDay(e)}
-                          className={`dayItem saturday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
+                          className={`dayItem saturday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:hover:bg-slate-700`}
                         ></span>
                         <h4>Saturday</h4>
                       </div>
@@ -492,7 +492,7 @@ export default function ActivateDiscounts() {
                         <span
                           id="sunday"
                           onClick={(e) => handleDay(e)}
-                          className={`dayItem sunday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
+                          className={`dayItem sunday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:hover:bg-slate-700`}
                         ></span>
                         <h4>Sunday</h4>
                       </div>
@@ -500,7 +500,7 @@ export default function ActivateDiscounts() {
                         <span
                           id="all"
                           onClick={(e) => handleDay(e)}
-                          className={`dayItem all mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
+                          className={`dayItem all mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:hover:bg-slate-700`}
                         ></span>
                         <h4>All</h4>
                       </div>

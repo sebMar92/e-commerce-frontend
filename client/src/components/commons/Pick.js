@@ -100,7 +100,7 @@ export default function Pick({ title, array, picked, callback }) {
               <div
                 key={Math.random(1)}
                 id={element.id}
-                className="px-2 select-none bg-primary-300 border-2 border-white hover:bg-primary-400 dark:bg-slate-700 dark:border-slate-900 dark:hover:bg-slate-900"
+                className="px-2 bg-primary-300 border-2 border-white hover:bg-primary-400 dark:bg-slate-700 dark:border-slate-900 dark:hover:bg-slate-900"
                 onClick={(e) =>
                   handleSelections(Number(element.id), e.target.innerHTML)
                 }
