@@ -21,8 +21,8 @@ export default function Products() {
   const allProducts = useSelector((state) => state.home.products);
   const categories = useSelector((state) => state.home.categories);
   const valueTitle = categories[queryObjects.categoryId - 1];
-  const [loaded,setLoaded] = useState(false)
-  const [notFound,setNotFound] = useState(false)
+  const [loaded, setLoaded] = useState(false)
+  const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
     dispatch(getProducts(search));
@@ -34,17 +34,17 @@ export default function Products() {
   }, [search]);
 
   useEffect(() => {
-   setTimeout(() => {
-     setLoaded(true)
-   }, 1500);
+    setTimeout(() => {
+      setLoaded(true)
+    }, 1500);
   }, [categories]);
 
-/*   useEffect(() => {
-    setTimeout(() => {
-      setNotFound(true)
-    }, 1500);
-  }, [allProducts])
-   */
+  /*   useEffect(() => {
+      setTimeout(() => {
+        setNotFound(true)
+      }, 1500);
+    }, [allProducts])
+     */
 
   const notifyCat = () => {
     toast.success('Added to the wishlist !', {
@@ -65,40 +65,46 @@ export default function Products() {
       <ToastContainer />
       <div className="flex flex-col sm:flex-row bg-secondary-100">
         <FilterAndOrderComponent />
-        {loaded ? 
-        <div className="w-full m-auto">
-          <div className='w-[90%] p-2 m-auto justify-center items-center flex bg-white rounded shadow-sm mt-2 text-center'>
-            <h1 className="font-bold font-lora p-2">
-              {valueTitle ? valueTitle.name : ''}
-            </h1>
+        {loaded ?
+          <div className="w-full m-auto">
+            <div className='w-[90%] p-2 m-auto justify-center items-center flex bg-white rounded shadow-sm mt-2 text-center'>
+              <h1 className="font-bold font-lora p-2">
+                {valueTitle ? valueTitle.name : ''}
+              </h1>
+            </div>
+            <div className="flex flex-col lg:w-[90%] gap-5 lg:mx-auto mt-4 lg:flex-wrap lg:flex-row justify-center">
+              {allProducts.length > 0 ?
+                allProducts.map((item) => {
+                  return (
+                    <Card
+                      id={item.id}
+                      key={item.id}
+                      path={item.id}
+                      name={item.title}
+                      price={item.price}
+                      image={item && item.images && item.images[1].url}
+                      images={item.images}
+                      description={item.description}
+                      shippingCost={item.shippingCost}
+                      onClick={notifyCat}
+                      onClick2={notifyCat2}
+                      title={item.title}
+                      stock={item.stock}
+                    />
+                  );
+                })
+                :
+                <div className="flex flex-col w-80 ml-auto mr-auto">
+                  <h1 className="text-center font-lora translate-y-48">No results found</h1>
+                  <img src={NotFound} className="my-40"/>
+                </div>
+              }
+            </div>
           </div>
-          <div className="flex flex-col lg:w-[90%] gap-5 lg:mx-auto mt-4 lg:flex-wrap lg:flex-row justify-center">
-            {allProducts &&
-              allProducts.map((item) => {
-                return (
-                  <Card
-                    id={item.id}
-                    key={item.id}
-                    path={item.id}
-                    name={item.title}
-                    price={item.price}
-                    image={item && item.images && item.images[1].url}
-                    images={item.images}
-                    description={item.description}
-                    shippingCost={item.shippingCost}
-                    onClick={notifyCat}
-                    onClick2={notifyCat2}
-                    title={item.title}
-                    stock={item.stock}
-                  />
-                );
-              })}
-          </div>
-        </div>
-        :
-        <>
-        <Loader />
-        </>} 
+          :
+          <>
+            <Loader />
+          </>}
       </div>
       <Pagination />
       <Footer />
