@@ -8,6 +8,7 @@ import {
   POST_ORDERS,
   GET_ORDERS,
   GET_USER_INFO,
+  GET_USERS_INFO,
   DELETE_ORDERS,
   PUT_USER_INFO,
   PUT_ORDERS,
@@ -32,6 +33,7 @@ const initialState = {
   openFiles: '',
   answer: {},
   user: {},
+  users:{},
   inWishList: [],
   inCart: [],
   finished: [],
@@ -100,6 +102,12 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
       };
+      case GET_USERS_INFO:
+        return {
+          ...state,
+          users: action.payload,
+        };
+
     case PUT_USER_INFO:
       return {
         ...state,
