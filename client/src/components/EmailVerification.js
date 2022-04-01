@@ -23,14 +23,12 @@ export default function EmailVerification() {
   //Valido la el mail ingresado
 
   const onSubmit = (data) => {
-    console.log(data);
     dispatch(validateMail(data));
   };
 
   //En la base a la respuesta renderizo un form u otro y seteo los booleanos
 
   useEffect(() => {
-    console.log(validation);
     if (validation.hasOwnProperty('msg')) {
       if (validation.msg.includes("doesn't")) {
         setShowLogin(false);

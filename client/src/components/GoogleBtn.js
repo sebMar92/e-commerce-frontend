@@ -6,18 +6,15 @@ import { useNavigate } from 'react-router-dom';
 export default function GoogleBtn({ renderProp }) {
   let navigate = useNavigate();
   const successResponseGoogle = (res) => {
-    console.log(res);
     axios
       .post('/google/login', { tokenId: res.tokenId })
       .then((res) => {
-        console.log('success');
-        console.log('google data ', res);
         if (res.data.hasOwnProperty('error')) throw new Error(res.data.error);
         window.localStorage.setItem('access', res.data.accessToken);
         window.localStorage.setItem('refresh', res.data.refreshToken);
         navigate('/');
       })
-      .catch((err) => console.log('ERR IS ', err));
+      .catch((err) => console.log(err));
   };
 
   const failureResponseGoogle = (err) => {
