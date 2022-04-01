@@ -310,15 +310,16 @@ export default function ActivateDiscounts() {
   return (
     <>
       <NavBarEmpty />
-      <div className="sm:flex">
+      <div className="sm:flex dark:bg-slate-700 dark:text-white">
         <NavbarAdmin />
-        <div className="w-full h-full">
-          <div className="flex flex-row w-full justify-center bg-primary-500 rounded-t-lg">
+        <div className="w-full h-full dark:text-white">
+          <div className="flex flex-row w-full justify-center bg-primary-500 rounded-t-lg dark:text-white ">
             <div
               id="activeTab"
               onClick={(e) => handleTab(e)}
-              className={`select-none rounded-tl-lg grow font-medium text-lg px-1 py-1 text-slate-900 flex justify-center hover:bg-primary-400 ${
-                !tab && "bg-primary-300 border-b-2 border-primary-500"
+              className={`select-none rounded-tl-lg grow font-medium text-lg px-1 py-1 text-slate-900 flex justify-center hover:bg-primary-400 dark:bg-slate-700 dark:text-white dark:text-white dark:hover:bg-slate-900 ${
+                !tab &&
+                "bg-primary-300 border-b-2 border-primary-500 dark:bg-slate-700 dark:text-white"
               }`}
             >
               Active sales
@@ -326,14 +327,15 @@ export default function ActivateDiscounts() {
             <div
               id="createTab"
               onClick={(e) => handleTab(e)}
-              className={`select-none rounded-tr-lg grow font-medium text-lg px-1 py-1 text-slate-900 flex justify-center hover:bg-primary-400 ${
-                tab && "bg-primary-300 border-b-2 border-primary-500"
+              className={`select-none rounded-tr-lg grow font-medium text-lg px-1 py-1 text-slate-900 flex justify-center hover:bg-primary-400 dark:bg-slate-700 dark:text-white dark:hover:bg-slate-900 ${
+                tab &&
+                "bg-primary-300 border-b-2 border-primary-500 dark:bg-slate-700 dark:text-white"
               }`}
             >
               Create sales
             </div>
           </div>
-          <div className="border-x-2 border-b-2 border-primary-500 h-fit ">
+          <div className="border-x-2 border-b-2 border-primary-500 h-fit dark:bg-slate-900 dark:text-white dark:border-slate-400">
             {allSales &&
               allSales
                 .sort((a, b) => a.id - b.id)
@@ -346,7 +348,7 @@ export default function ActivateDiscounts() {
                     >
                       <div
                         id={"sale " + sale.id}
-                        className="flex flex-row justify-between border-white"
+                        className="flex flex-row justify-between border-white dark:bg-slate-900 dark:text-white"
                       >
                         <div
                           description={sale.description}
@@ -357,14 +359,14 @@ export default function ActivateDiscounts() {
                           image={sale.image}
                           id={"sale " + sale.id}
                           onClick={(e) => handleItem(e)}
-                          className="flex grow w-full border-t-4 border-x-4 border-white p-4 bg-secondary-100 hover:bg-primary-200 hover:font-medium"
+                          className="flex grow w-full border-t-4 border-x-4 border-white p-4 bg-secondary-100 hover:bg-primary-200 hover:font-medium dark:bg-slate-800 dark:text-white dark:border-slate-900 dark:hover:bg-slate-400"
                         >
                           {sale.description}
                         </div>
                         <div
                           id={sale.id}
                           onClick={(e) => handleDelete(e)}
-                          className="grow-0 pl-5 justify-center w-14 border-t-4 border-r-4 border-white p-4 bg-secondary-100 hover:bg-rose-700 hover:font-medium"
+                          className="grow-0 pl-5 justify-center w-14 border-t-4 border-r-4 border-white p-4 bg-secondary-100 hover:bg-rose-700 hover:font-medium dark:bg-slate-800 dark:text-white dark:border-slate-900 dark:hover:bg-rose-400"
                         >
                           X
                         </div>
@@ -375,12 +377,12 @@ export default function ActivateDiscounts() {
             <form
               onSubmit={(e) => handleSubmit(e)}
               id={"dropdown"}
-              className=" w-full border-4 border-white bg-secondary-100 flex-col "
+              className=" w-full border-4 border-white bg-secondary-100 flex-col dark:bg-slate-700 dark:border-slate-900"
             >
               <div className="">
                 <div className="sm:flex">
                   <div className="col-span-3 mr-3">
-                    <div className="bg-secondary-100 p-4 items-center">
+                    <div className="bg-secondary-100 p-4 items-center dark:bg-slate-700">
                       <div>Description: </div>
                       <div className="flex-col">
                         <input
@@ -388,12 +390,12 @@ export default function ActivateDiscounts() {
                           value={sale.description}
                           type="text-area"
                           onChange={(e) => handleInputChange(e)}
-                          className="ml-2 rounded-sm border border-primary-500 w-full pl-2"
+                          className="ml-2 rounded-sm border border-primary-500 w-full pl-2 dark:bg-slate-400"
                         ></input>
                         <strong>{errors.description}</strong>
                       </div>
                     </div>
-                    <div className="bg-secondary-100 p-4 items-center">
+                    <div className="bg-secondary-100 p-4 items-center dark:bg-slate-700">
                       <div>Percentage: </div>
                       <div className="flex-col">
                         <input
@@ -401,12 +403,12 @@ export default function ActivateDiscounts() {
                           value={sale.percentage}
                           onChange={(e) => handleInputChange(e)}
                           type="number"
-                          className="ml-2 rounded-sm border border-primary-500 flex w-full pl-2"
+                          className="ml-2 rounded-sm border border-primary-500 flex w-full pl-2 dark:bg-slate-400"
                         ></input>
                         <strong>{errors.percentage}</strong>
                       </div>
                     </div>
-                    <div className="flex-col sm:bg-secondary-100 flex p-4 items-center">
+                    <div className="flex-col sm:bg-secondary-100 flex p-4 items-center dark:bg-slate-700">
                       <div className="text-center">
                         Requires more than one?{" "}
                       </div>
@@ -414,13 +416,13 @@ export default function ActivateDiscounts() {
                         <span
                           id="yes"
                           onClick={(e) => handleAmountUnlock(e)}
-                          className={`yes mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300`}
+                          className={`yes mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
                         ></span>
                         Yes
                         <span
                           id="no"
                           onClick={(e) => handleAmountUnlock(e)}
-                          className={`no mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300`}
+                          className={`no mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
                         ></span>
                         No
                       </div>
@@ -432,17 +434,17 @@ export default function ActivateDiscounts() {
                           value={sale.productAmount}
                           onChange={(e) => handleInputChange(e)}
                           type="number"
-                          className="ml-2 rounded-sm border border-primary-500 w-full pl-2"
+                          className="ml-2 rounded-sm border border-primary-500 w-full pl-2 dark:bg-slate-400"
                         ></input>
                       </div>
                     </div>
                     <div className="mr-2 text-center">Days: </div>
-                    <div className="grid grid-cols-2 gap-1 bg-secondary-100 sm:grid-cols-2 lg:grid-cols-3 p-4 items-center">
+                    <div className="grid grid-cols-2 gap-1 bg-secondary-100 sm:grid-cols-2 lg:grid-cols-3 p-4 items-center dark:bg-slate-700">
                       <div className="flex">
                         <span
                           id="monday"
                           onClick={(e) => handleDay(e)}
-                          className={`dayItem monday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300`}
+                          className={`dayItem monday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
                         ></span>
                         <h4>Monday</h4>
                       </div>
@@ -450,7 +452,7 @@ export default function ActivateDiscounts() {
                         <span
                           id="tuesday"
                           onClick={(e) => handleDay(e)}
-                          className={`dayItem tuesday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300`}
+                          className={`dayItem tuesday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
                         ></span>
                         <h4>Tuesday</h4>
                       </div>
@@ -458,7 +460,7 @@ export default function ActivateDiscounts() {
                         <span
                           id="wednesday"
                           onClick={(e) => handleDay(e)}
-                          className={`dayItem wednesday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300`}
+                          className={`dayItem wednesday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
                         ></span>
                         <h4>Wednesday</h4>
                       </div>
@@ -466,7 +468,7 @@ export default function ActivateDiscounts() {
                         <span
                           id="thursday"
                           onClick={(e) => handleDay(e)}
-                          className={`dayItem thursday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300`}
+                          className={`dayItem thursday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
                         ></span>
                         <h4>Thursday</h4>
                       </div>
@@ -474,7 +476,7 @@ export default function ActivateDiscounts() {
                         <span
                           id="friday"
                           onClick={(e) => handleDay(e)}
-                          className={`dayItem friday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300`}
+                          className={`dayItem friday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
                         ></span>
                         <h4>Friday</h4>
                       </div>
@@ -482,7 +484,7 @@ export default function ActivateDiscounts() {
                         <span
                           id="saturday"
                           onClick={(e) => handleDay(e)}
-                          className={`dayItem saturday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300`}
+                          className={`dayItem saturday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
                         ></span>
                         <h4>Saturday</h4>
                       </div>
@@ -490,7 +492,7 @@ export default function ActivateDiscounts() {
                         <span
                           id="sunday"
                           onClick={(e) => handleDay(e)}
-                          className={`dayItem sunday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300`}
+                          className={`dayItem sunday mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
                         ></span>
                         <h4>Sunday</h4>
                       </div>
@@ -498,13 +500,13 @@ export default function ActivateDiscounts() {
                         <span
                           id="all"
                           onClick={(e) => handleDay(e)}
-                          className={`dayItem all mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300`}
+                          className={`dayItem all mr-1 ml-2 rounded-sm border w-4 h-4 border-primary-500 pl-2 bg-white hover:border-2 hover:bg-primary-300 dark:bg-slate-300`}
                         ></span>
                         <h4>All</h4>
                       </div>
                     </div>
                   </div>
-                  <div className="ml-2 w-full flex-col justify-center align-center row-start-2 col-span-3 mb-6">
+                  <div className="ml-2 w-full flex-col justify-center align-center row-start-2 col-span-3 mb-6 ">
                     <div className="h-64 flex justify-evenly row-span-2 col-span-2 lg:h-96">
                       <Pick
                         array={categories}
@@ -552,7 +554,7 @@ export default function ActivateDiscounts() {
                         placeholder="Image URL..."
                         id="image"
                         onChange={(e) => handleInputChange(e)}
-                        className="mt-7 mb-2 ml-2 mr-2 h-fit border rounded border-primary-500 w-full pl-2 "
+                        className="mt-7 mb-2 ml-2 mr-2 h-fit border rounded border-primary-500 w-full pl-2 dark:bg-slate-200"
                       />
                       <strong>{errors.image}</strong>
                     </div>
@@ -572,7 +574,7 @@ export default function ActivateDiscounts() {
                 type="submit"
                 value={sale.image}
                 onSubmit={(e) => handleSubmit(e)}
-                className="bg-primary-500 p-3 rounded hover:bg-primary-700 w-full col-span-5"
+                className="bg-primary-500 p-3 rounded hover:bg-primary-700 w-full col-span-5 dark:hover:text-white dark:hover:bg-slate-900 dark:hover:shadow-slate-600 dark:bg-slate-400 dark:text-slate-900 dark:shadow-slate-900"
               >
                 {(tab && "Save changes") || "Create new sale"}
               </button>
