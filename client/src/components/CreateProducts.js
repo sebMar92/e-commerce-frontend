@@ -31,26 +31,30 @@ export default function CreateProducts() {
     stock: "",
     categories: [],
   });
+
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (errors === {}) {
+      dispatch(postProduct(input));
+      setInput({
+        title: "",
+        name: "",
+        price: "",
+        shippingCost: "",
+        description: "",
+        images: [],
+        stock: "",
+        categories: [],
+      });
 
-    dispatch(postProduct(input));
-    setInput({
-      title: "",
-      name: "",
-      price: "",
-      shippingCost: "",
-      description: "",
-      images: [],
-      stock: "",
-      categories: [],
-    });
-
-    alert("Product Create!!");
+      alert("Product Create!!");
+    } else {
+      alert("Some fields are missing. Check again");
+    }
   }
   function handleAddCategory(e) {
     const { value } = e.target;
@@ -349,6 +353,7 @@ export default function CreateProducts() {
             </div>
           </div>
           <ButtonCreate
+            disabled={errors?.disabledSubmit}
             text="Create Product"
             type="submit"
             /* onClick={(e) => handleSubmit(e)} */
