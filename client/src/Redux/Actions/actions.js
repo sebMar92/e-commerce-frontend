@@ -561,6 +561,16 @@ export function getUsersInfo() {
   };
 }
 
+export function deleteUserInfo() {
+  return async function (dispatch) {
+    const users = await axios.delete("/user/");
+    return dispatch({
+      type: GET_USERS_INFO,
+      payload: users.data,
+    });
+  };
+}
+
 export function putUserInfo(body) {
   return async (dispatch) => {
     try {
