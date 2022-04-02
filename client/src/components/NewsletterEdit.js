@@ -185,7 +185,7 @@ export default function NewsletterEdit() {
                                                 onChange={(e) => handleSelect(e)}>
                                                     {/* <option>Select</option> */}
                                                     {receiver.length &&
-                                                    <option value="All" >All</option>
+                                                    <option defaultValue="All" >All</option>
                                                         }
                                                         {receiver.length && receiver.map((rec) => {
                                                         return(
