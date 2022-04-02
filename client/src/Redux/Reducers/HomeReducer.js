@@ -33,6 +33,7 @@ const initialState = {
   user: {},
   inWishList: [],
   inCart: [],
+  pending: [],
   finished: [],
   postOrders: [],
   deleted: [],

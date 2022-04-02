@@ -24,6 +24,8 @@ export default function Products() {
   const [loaded,setLoaded] = useState(false)
   const [notFound,setNotFound] = useState(false)
 
+  console.log(allProducts)
+
   useEffect(() => {
     dispatch(getProducts(search));
     dispatch(getCategories());
