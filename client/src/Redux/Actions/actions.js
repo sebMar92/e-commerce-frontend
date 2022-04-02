@@ -240,7 +240,8 @@ export function postOrder(order) {
       }
     }
     return {
-      type: "NONE",
+      type: POST_ORDERS,
+      payload: "sarasa"
     };
   }
 }
@@ -442,13 +443,11 @@ export function deleteOrder(order, id, status) {
     };
   } else {
     return function (dispatch) {
-      console.log(id);
+      
       const item = window.localStorage.getItem(`${status}`);
       const parsedItem = item && JSON.parse(item);
-      console.log(parsedItem);
       const itemDeleted =
         parsedItem && parsedItem.filter((el) => el.productId !== id);
-      console.log(itemDeleted);
       window.localStorage.setItem(`${status}`, JSON.stringify(itemDeleted));
       return dispatch({
         type: DELETE_ORDERS,

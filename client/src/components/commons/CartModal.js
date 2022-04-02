@@ -15,7 +15,11 @@ export default function CartModal() {
     dispatch(getOrder({ status: 'inCart' }));
   }, [render, deleted]);
 
-  const deleteCartModal = (e) => dispatch(deleteOrder(e));
+  const deleteCartModal = (del, id) => dispatch(deleteOrder(
+    del,
+    id,
+    "inCart"
+  ));
 
   const notifyDeleteCart = () => {
     toast.error('Deleted from cart!', {
@@ -47,6 +51,7 @@ export default function CartModal() {
               order.length > 0 &&
               order.map((e, i) => {
                 const del = e.orders && e.orders[0].id;
+                const id = e.productId
                 if (i < 2) {
                   return (
                     <div key={e.id}>
@@ -63,7 +68,7 @@ export default function CartModal() {
                       <div className="flex justify-evenly bg-slate-100">
                         <button
                           onClick={() => {
-                            deleteCartModal(del);
+                            deleteCartModal(del, id, "inCart");
                             notifyDeleteCart();
                           }}
                           className="text-red-600 font-bold px-2 my-1 rounded-lg active:translate-y-1"
