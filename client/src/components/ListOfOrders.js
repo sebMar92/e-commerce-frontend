@@ -1,15 +1,11 @@
 import React from 'react';
-import Footer from './Footer/Footer';
 import NavbarAdmin from './NavbarAdmin';
 import NavBarEmpty from './NavBarEmpty';
-import { AiFillDelete } from "react-icons/ai";
-import { FaEdit } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { getOrder, deleteOrder } from "../Redux/Actions/actions";
+
+
 
 export default function ListOfOrders() {
-    const dispatch = useDispatch();
-    const AllOrders = useSelector((state) => state.home.inCart);
+
 
     return (
         <>
@@ -17,7 +13,7 @@ export default function ListOfOrders() {
         <div className='flex flex-col sm:flex-row' >
             <NavbarAdmin />
             <div className='justify-center w-11/12'>
-                <h1 className="text-center  font-lora  m-5">All Orders
+                <h1 className="text-center text-white bg-primary-500 font-lora  m-5">All Orders
                 </h1>
 
                 <div className="justify-center w-11/12">
@@ -26,46 +22,36 @@ export default function ListOfOrders() {
             <table className="lg:table border-separate content-center font-lora text-sm  w-11/12 border-separated mx-2 hidden md:block">
               <thead>
                 <tr>
-                  <th className="p-3  border-2 border-gray-400  ">Order</th>
-                  <th className="p-3  border-2 border-gray-400 ">Product</th>
-                  <th className="p-3  border-2 border-gray-400 ">Estado</th>
-                  <th className="p-3  border-2 border-gray-400 ">Saldo</th>
-                  <th className="p-3  border-2 border-gray-400 ">Data</th>
-                  <th className="p-3  border-2 border-gray-400 ">Options</th>
+                  <th className="p-3 rounded-lg bg-primary-200  border-2 border-primary-500  ">Order</th>
+                  <th className="p-3 rounded-lg bg-primary-200  border-2 border-primary-500 ">Product</th>
+                  <th className="p-3 rounded-lg bg-primary-200  border-2 border-primary-500 ">Estado</th>
+                  <th className="p-3 rounded-lg bg-primary-200  border-2 border-primary-500 ">Saldo</th>
+                  <th className="p-3 rounded-lg bg-primary-200  border-2 border-primary-500 ">Data</th>
+                 
                
                 </tr>
               </thead>
               <tbody>
                     <tr>
                         <th
-                          className="p-3  border border-gray-400 "
+                          className="p-3  border rounded-lg bg-secondary-100 border-gray-400 "
                           scope="row"
                         >
                           123546
                         </th>
-                        <td className="p-3  border border-gray-400 ">
+                        <td className="p-3  border rounded-lg bg-secondary-100 border-gray-400 ">
                           Producto1
                         </td>
-                        <td className="p-3  border border-gray-400 ">
+                        <td className="p-3  border rounded-lg bg-secondary-100 border-gray-400 ">
                         Estado
                         </td>
-                        <td className="p-3  border border-gray-400 ">
+                        <td className="p-3  border rounded-lg bg-secondary-100 border-gray-400 ">
                           $ 325.32
                         </td>
-                        <td className="p-3  border border-gray-400 ">
+                        <td className="p-3  border rounded-lg bg-secondary-100 border-gray-400 ">
                           02/02/2022
                         </td>
-                          <td className="p-3  border border-gray-400 flex justify-evenly ">
-                          <AiFillDelete 
-                            onClick={(e) => deleteOrder(e)}
-                            className="m-1 cursor-pointer h-6 w-6 md:h-5 md:w-5"
-                            color="#FEBD70"
-                          />
-                          <FaEdit
-                            className="m-1 h-6 w-6 md:h-5 md:w-5 cursor-pointer"
-                            color="#FEBD70"
-                          />
-                        </td>
+                         
                       </tr>
                     
               </tbody>
@@ -88,15 +74,7 @@ export default function ListOfOrders() {
                 </p>
                 
                 <p className="flex  ">
-                  <AiFillDelete
-                    onClick={(e) => deleteOrder(e)}
-                    className="m-1  h-6 w-6 md:h-5 md:w-5"
-                    color="#FEBD70"
-                  />
-                  <FaEdit
-                    className="m-1 h-6 w-6 md:h-5 md:w-5"
-                    color="#FEBD70"
-                  />
+                  
                 </p>
               </div>
            
