@@ -34,8 +34,12 @@ export default function EmailVerification() {
         setShowLogin(false);
         setBoolean(false);
       } else {
-        setShowLogin(false);
-        setBoolean(true);
+        if (validation.googleUser) {
+          document.getElementById('google-btn').click();
+        } else {
+          setShowLogin(false);
+          setBoolean(true);
+        }
       }
     }
   }, [validation]);
@@ -80,6 +84,7 @@ export default function EmailVerification() {
           <GoogleBtn
             renderProp={(renderProps) => (
               <button
+                id="google-btn"
                 onClick={renderProps.onClick}
                 disabled={renderProps.disabled}
                 className="google-button border border-blue-600 text-blue-600 p-1 flex flex-row rounded-md text-base items-center mt-4"
