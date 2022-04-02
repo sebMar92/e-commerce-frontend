@@ -17,7 +17,7 @@ export default function AdminPreview({ input }) {
 
   return (
     <div className="flex ">
-      <div className="flex w-full flex-col bg-secondary-100">
+      <div className="flex w-full flex-col bg-secondary-100 dark:bg-slate-700">
         {/* Categorias */}
         <div id="category_container" className="pt-2 flex gap-2 mx-8">
           {input.categories &&
@@ -51,10 +51,10 @@ export default function AdminPreview({ input }) {
           {/* IMAGEN */}
 
           <div className="flex flex-col w-full gap-6 pt-4 font-lora">
-            <div className="w-full bg-white rounded p-2 flex flex-col gap-3 items-center justify-center lg:flex-row">
+            <div className="w-full bg-white dark:bg-slate-800 dark:text-white rounded p-2 flex flex-col gap-3 items-center justify-center lg:flex-row">
               {/* Price */}
               <div className="flex gap-2 text-2xl items-center w-4/5 text-bold text-primary-700">
-                <span className="pb-2 border-b-[1px] border-primary-400">
+                <span className="pb-2 border-b-[1px] border-primary-400 ">
                   US$ {input.price}
                 </span>
               </div>
@@ -62,7 +62,7 @@ export default function AdminPreview({ input }) {
 
               {/* PRECIO ENVIO */}
               <div className="flex gap-2 text-xl items-center w-full justify-center">
-                <MdLocalShipping className="h-6 w-6" color="#FEBD70" />
+                <MdLocalShipping className="h-6 w-6 " color="#FEBD70 " />
                 <span>us$ {input.shippingCost}</span>
               </div>
               {/* PRECIO ENVIO */}
@@ -83,16 +83,16 @@ export default function AdminPreview({ input }) {
 
               {/* WISHLIST */}
               <div className="h-auto p-2 flex">
-                <button className="flex items-center justify-center gap-2 rounded no-underline h-auto w-12 font-bold p-2 text-primary-400 bg-white border-[1px] border-primary-400 font-lora hover:border-primary-700 focus:border-primary-700 hover:text-primary-700 focus:text-primary-700 hover:shadow-md active:scale-95">
-                  <AiOutlineHeart className="h-6 w-6" color="#FEBD70" />
+                <button className="flex items-center justify-center gap-2 rounded no-underline h-auto w-12 font-bold p-2 text-primary-400 bg-white border-[1px] border-primary-400 font-lora hover:border-primary-700 focus:border-primary-700 hover:text-primary-700 focus:text-primary-700 hover:shadow-md active:scale-95 dark:bg-slate-800 dark:hover:shadow-primary-200">
+                  <AiOutlineHeart className="h-6 w-6 " color="#FEBD70" />
                 </button>
               </div>
               {/* WISHLIST */}
 
               {/* CART */}
               <div className="h-auto p-2 flex">
-                <button className="flex items-center justify-center gap-2 rounded no-underline h-auto w-12 font-bold p-2 text-white bg-primary-400 font-lora hover:bg-primary-700 focus:bg-primary-700 hover:shadow-md active:scale-95">
-                  <AiOutlineShoppingCart className="h-6 w-6" color="#ffffff" />
+                <button className="flex items-center justify-center gap-2 rounded no-underline h-auto w-12 font-bold p-2 text-white bg-primary-400 font-lora hover:bg-primary-700 focus:bg-primary-700 hover:shadow-md active:scale-95 dark:bg-slate-700 dark:hover:shadow-secondary-100">
+                  <AiOutlineShoppingCart className="h-6 w-6 " color="#ffffff" />
                 </button>
               </div>
               {/* CART */}
@@ -105,7 +105,7 @@ export default function AdminPreview({ input }) {
             </div>
             <div
               id="description_container"
-              className="p-2 full bg-white rounded flex flex-col "
+              className="p-2 full bg-white dark:bg-slate-800 dark:text-white rounded flex flex-col "
             >
               <div className="p-2 border-b-[1px] border-primary-300">
                 <h2 className="font-lora">Description</h2>
