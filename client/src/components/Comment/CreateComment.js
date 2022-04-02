@@ -24,7 +24,9 @@ const CreateComment = ({ id, product }) => {
     useEffect(() => {
         const token = window.localStorage.getItem('access');
         if(token) {
-            const found = finishedOrders && (finishedOrders === null || finishedOrders.error == "couldn't find orders" || finishedOrders.length === 0) ? null : finishedOrders.find(el => el.title == product.title);
+            const found = (!finishedOrders || finishedOrders.error == "couldn't find orders" || finishedOrders.length === 0) 
+            ? null 
+            : finishedOrders.find(el => el.title == product.title);
             
             if(found) {
                 

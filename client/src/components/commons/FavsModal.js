@@ -15,7 +15,11 @@ export default function FavsModal() {
     dispatch(getOrder({ status: 'inWishList' }));
   }, [render, deleted]);
 
-  const deleteFavModal = (e) => dispatch(deleteOrder(e));
+  const deleteFavModal = (del, id) => dispatch(deleteOrder(
+    del,
+    id,
+    "inWishList"
+  ));
 
   const notifyDelete = () => {
     toast.error('Deleted from wishlist!', {
@@ -47,6 +51,7 @@ export default function FavsModal() {
               favs.length > 0 &&
               favs.map((e, i) => {
                 const del = e.orders[0].id;
+                const id = e.productId
                 if (i < 2) {
                   return (
                     <>
@@ -62,7 +67,7 @@ export default function FavsModal() {
                       <div className="flex justify-evenly bg-slate-100">
                         <button
                           onClick={() => {
-                            deleteFavModal(del);
+                            deleteFavModal(del, id);
                             notifyDelete();
                           }}
                           className="text-red-600 font-bold px-2 my-1 rounded-lg active:translate-y-1"

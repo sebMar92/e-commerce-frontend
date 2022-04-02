@@ -179,13 +179,13 @@ export default function EditProducts() {
     return (
       <>
         <NavBarEmpty />
-        <div className="sm:flex">
+        <div className="sm:flex dark:bg-slate-700 ">
           <NavbarAdmin />
           <form
             onSubmit={(e) => {
               handleSubmit(e);
             }}
-            className="bg-secondary-100 "
+            className="bg-secondary-100 dark:bg-slate-700 dark:text-white "
           >
             <br />
             <h2 className="text-center">Edit Product</h2>
@@ -379,7 +379,7 @@ export default function EditProducts() {
               type="submit"
             ></ButtonDiscard>
           </form>
-          <div className=" w-full bg-secondary-100">
+          <div className=" w-full bg-secondary-100 dark:bg-slate-700 dark:text-white">
             <br />
             <h2 className="text-center">Preview</h2>
             <br />

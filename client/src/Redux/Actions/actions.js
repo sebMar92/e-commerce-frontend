@@ -236,54 +236,11 @@ export function postOrder(order) {
       }
     }
     return {
-      type: 'NONE',
+      type: POST_ORDERS,
+      payload: 'sarasa',
     };
   }
 }
-
-/*   const token = window.localStorage.getItem('access')
-  const headers ={
-    "Authorization": `Bearer ${token}`
-  };
-
-  return (dispatch) => {
-    try {
-      
-      return axios.
-      post("/order", order, {headers: headers})
-        .then((res) => {
-          dispatch({
-            type: POST_ORDERS,
-            payload: {status: order.status, data: res.data},
-          });
-        })
-        .catch((error) => {
-          if (error.response.status === 403) {
-            let refreshToken = window.localStorage.getItem('refresh');
-            axios
-              .post('/user/token', { token: refreshToken })
-              .then((res) => {
-                window.localStorage.setItem('access', res.data.token);
-                axios
-                  .post('/order',order, {
-                    headers: {
-                      'Authorization': `Bearer ${res.data.token}`,
-                    },
-                  })
-                  .then((res) => {
-                    dispatch({
-                      type: POST_ORDERS,
-                      payload: {status: order.status, data: res.data},
-                    });
-                  });
-              });
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-} */
 
 // para llamar cart y whislist -finali -proces
 //json.data es un array de objetos
@@ -364,69 +321,6 @@ export function changeOrderAmount(order, id, status) {
   }
 }
 
-/*     const token = window.localStorage.getItem('access')
-    const headers = {
-      'Authorization': `Bearer ${token}`,
-    };
-    return (dispatch) => {
-      try {
-        return  axios.get('/order?status='+ order.status, { headers: headers })
-        .then(res=> {
-          dispatch({
-            type: GET_ORDERS,
-            payload: {status: order.status, data: res.data},
-            
-          });
-        }) 
-      .catch ((error) => {
-        if(error.response.status === 403){
-          let refreshToken = window.localStorage.getItem('refresh');
-          axios
-            .post('/order', { token: refreshToken })
-            .then((res) => {
-              window.localStorage.setItem('access', res.data.token);
-                axios
-                  .get('/order', {
-                    headers: {
-                      'Authorization': `Bearer ${res.data.token}`,
-                    },
-                  })
-                  .then((res) => {
-                    dispatch({
-                      type: GET_ORDERS,
-                      payload: {status: order.status, data: res.data},
-                    });
-                  });
-            });
-          }
-        })
-      } catch(error){
-        console.log(error);
-      }
-    };
-
-    export function deleteOrder(order){
-      return async function (dispatch) {
-        var json = await axios.delete(`/order/${order}`);
-        return dispatch({
-          type: DELETE_ORDERS,
-          payload: json.data,
-        });
-      };
-    }
-
-    export function putOrder(order){
-      return async function (dispatch) {
-        var json = await axios.put(`/order/${order}`);
-        return dispatch({
-          type: PUT_ORDERS,
-          payload: json.data,
-        });
-      };
-    }
-
-   /*    const token = window.localStorage.getItem('access')
-  } */
 export function deleteOrder(order, id, status) {
   const token = window.localStorage.getItem('access');
   if (token) {
@@ -439,12 +333,9 @@ export function deleteOrder(order, id, status) {
     };
   } else {
     return function (dispatch) {
-      console.log(id);
       const item = window.localStorage.getItem(`${status}`);
       const parsedItem = item && JSON.parse(item);
-      console.log(parsedItem);
       const itemDeleted = parsedItem && parsedItem.filter((el) => el.productId !== id);
-      console.log(itemDeleted);
       window.localStorage.setItem(`${status}`, JSON.stringify(itemDeleted));
       return dispatch({
         type: DELETE_ORDERS,
@@ -453,90 +344,6 @@ export function deleteOrder(order, id, status) {
     };
   }
 }
-/*    const token = window.localStorage.getItem('access')
-
-      const headers ={
-        "Authorization": `Bearer ${token}`
-      };
-      return (dispatch) => {
-        try {
-        
-          return axios
-          .delete(`/order/${order}`, {headers: headers})
-            .then((res) => {
-              dispatch({
-                type: DELETE_ORDERS,
-                payload: res.data,
-              });
-            })
-            .catch((error) => {
-              if (error.response.status === 403) {
-                let refreshToken = window.localStorage.getItem('refresh');
-                axios
-                  .post('/user/token', { token: refreshToken })
-                  .then((res) => {
-                    window.localStorage.setItem('access', res.data.token);
-                    axios
-                      .delete(`/order${order}`, {
-                        headers: {
-                          'Authorization': `Bearer ${res.data.token}`,
-                        },
-                      })
-                      .then((res) => {
-                        dispatch({
-                          type: DELETE_ORDERS,
-                          payload: res.data,
-                        });
-                      });
-                  });
-              }
-            });
-        } catch (error) {
-          console.log(error);
-        }
-      }; */
-
-/* export function getUserInfo(token) {
-  const headers = {
-    'Authorization': `Bearer ${token}`,
-  };
-  return (dispatch) => {
-    try {
-      return axios
-        .get('/user', { headers: headers })
-        .then((res) => {
-          dispatch({
-            type: GET_USER_INFO,
-            payload: res.data,
-          });
-        })
-        .catch((error) => {
-          if (error.response.status === 403) {
-            let refreshToken = window.localStorage.getItem('refresh');
-            axios
-              .post('/user/token', { token: refreshToken })
-              .then((res) => {
-                window.localStorage.setItem('access', res.data.token);
-                axios
-                  .get('/user', {
-                    headers: {
-                      'Authorization': `Bearer ${res.data.token}`,
-                    },
-                  })
-                  .then((res) => {
-                    dispatch({
-                      type: GET_USER_INFO,
-                      payload: res.data,
-                    });
-                  });
-              });
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-} */
 
 export function getUserInfo() {
   return async function (dispatch) {
@@ -549,11 +356,10 @@ export function getUserInfo() {
 }
 export function getUsersInfo() {
   return async function (dispatch) {
-    const user = await axios.get('/user/all');
-    console.log(user);
+    const users = await axios.get('/user/all');
     return dispatch({
       type: GET_USERS_INFO,
-      payload: user.data,
+      payload: users.data,
     });
   };
 }
@@ -615,29 +421,6 @@ export function postSale(body) {
     var json = await axios.post('/sale', body);
   };
 }
-/*   return (dispatch) => {
-    try {
-      return axios
-        .post('/sale', body)
-        .catch((error) => {
-          if (error.response.status === 403) {
-            let refreshToken = window.localStorage.getItem('refresh');
-            axios
-              .post('/user/token', { token: refreshToken })
-              .then((res) => {
-                window.localStorage.setItem('access', res.data.token);
-                axios.post('/sale', body, {
-                  headers: {
-                    'Authorization': `Bearer ${res.data.token}`,
-                  },
-                });
-              });
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  }; */
 
 export function editSale(body) {
   return async function (dispatch) {
@@ -645,29 +428,6 @@ export function editSale(body) {
   };
 }
 
-/*  return (dispatch) => {
-    try {
-      return axios
-        .put('/sale', body, { headers: headers })
-        .catch((error) => {
-          if (error.response.status === 403) {
-            let refreshToken = window.localStorage.getItem('refresh');
-            axios
-              .post('/user/token', { token: refreshToken })
-              .then((res) => {
-                window.localStorage.setItem('access', res.data.token);
-                axios.put('/sale', body, {
-                  headers: {
-                    'Authorization': `Bearer ${res.data.token}`,
-                  },
-                });
-              });
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  }; */
 export function deleteSale(id) {
   return async function (dispatch) {
     var json = await axios.delete('/sale?saleId=' + id);
@@ -677,34 +437,6 @@ export function deleteSale(id) {
     });
   };
 }
-// const token = window.localStorage.getItem('access');
-// const headers = {
-//   'Authorization': `Bearer ${token}`,
-// };
-
-// return (dispatch) => {
-//   try {
-//     return axios
-//       .delete('/sale?saleId=' + id, { headers: headers })
-//       .catch((error) => {
-//         if (error.response.status === 403) {
-//           let refreshToken = window.localStorage.getItem('refresh');
-//           axios
-//             .post('/user/token', { token: refreshToken })
-//             .then((res) => {
-//               window.localStorage.setItem('access', res.data.token);
-//               axios.delete('/sale?saleId=' + id, {
-//                 headers: {
-//                   'Authorization': `Bearer ${res.data.token}`,
-//                 },
-//               });
-//             });
-//         }
-//       });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 
 export function getAllProductsForSales() {
   return async function (dispatch) {
@@ -715,6 +447,7 @@ export function getAllProductsForSales() {
     });
   };
 }
+
 export function clearTokensUser() {
   return {
     type: CLEAR_TOKENS_USER,
