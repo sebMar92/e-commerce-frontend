@@ -8,6 +8,7 @@ import {
   POST_ORDERS,
   GET_ORDERS,
   GET_USER_INFO,
+  GET_USERS_INFO,
   DELETE_ORDERS,
   PUT_USER_INFO,
   PUT_ORDERS,
@@ -16,7 +17,8 @@ import {
   CLEAR_PRODUCT_DETAIL,
   POST_NEW_ADRESS_USER,
   CLEAR_PRODUCT_AND_CATEGORY,
-  DELETE_ADRESS_USER
+  DELETE_ADRESS_USER,
+  CLEAR_USER_EMAIL
 } from '../Actions/types';
 
 const initialState = {
@@ -31,6 +33,7 @@ const initialState = {
   openFiles: '',
   answer: {},
   user: {},
+  users:{},
   inWishList: [],
   inCart: [],
   pending: [],
@@ -100,6 +103,12 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
       };
+      case GET_USERS_INFO:
+        return {
+          ...state,
+          users: action.payload,
+        };
+
     case PUT_USER_INFO:
       return {
         ...state,
@@ -137,6 +146,11 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         resNewAdress: action.payload
       }
+      case CLEAR_USER_EMAIL:
+        return {
+          ...state,
+          userMail: []
+        }
 
     default:
       return state;

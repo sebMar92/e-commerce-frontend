@@ -5,12 +5,16 @@ import Card from './Card';
 import FilterAndOrderComponent from './FilterAndOrden';
 import Pagination from './Pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearProductAndCategory, getCategories, getProducts } from '../Redux/Actions/actions';
+import {
+  clearProductAndCategory,
+  getCategories,
+  getProducts,
+} from '../Redux/Actions/actions';
 import { useLocation } from 'react-router-dom';
 import useURLqueries from './hooks/useURLqueries';
 import { ToastContainer, toast } from 'react-toastify';
 import Loader from './Skeletons/Loader';
-import NotFound from './utils/pngwing.com.png'
+import NotFound from './utils/pngwing.com.png';
 import SkeletonTitle from './Skeletons/SkeletonTitle';
 
 export default function Products() {
@@ -21,8 +25,7 @@ export default function Products() {
   const allProducts = useSelector((state) => state.home.products);
   const categories = useSelector((state) => state.home.categories);
   const valueTitle = categories[queryObjects.categoryId - 1];
-  const [loaded,setLoaded] = useState(false)
-  const [notFound,setNotFound] = useState(false)
+  const [loaded, setLoaded] = useState(false);
 
   console.log(allProducts)
 
@@ -30,23 +33,29 @@ export default function Products() {
     dispatch(getProducts(search));
     dispatch(getCategories());
     return () => {
-      dispatch(clearProductAndCategory())
-      setLoaded(false)
-    }
+      dispatch(clearProductAndCategory());
+      setLoaded(false);
+    };
   }, [search]);
 
   useEffect(() => {
-   setTimeout(() => {
-     setLoaded(true)
-   }, 1500);
+    setTimeout(() => {
+      setLoaded(true);
+    }, 1500);
   }, [categories]);
 
-/*   useEffect(() => {
+  /*   useEffect(() => {
     setTimeout(() => {
-      setNotFound(true)
+      setLoaded(true)
     }, 1500);
-  }, [allProducts])
-   */
+  }, [categories]);
+
+  /*   useEffect(() => {
+      setTimeout(() => {
+        setNotFound(true)
+      }, 1500);
+    }, [allProducts])
+     */
 
   const notifyCat = () => {
     toast.success('Added to the wishlist !', {
@@ -60,45 +69,52 @@ export default function Products() {
     });
   };
 
-
   return (
     <>
       <NavBar />
       <ToastContainer />
-      <div className="flex flex-col sm:flex-row">
+      <div className="flex flex-col sm:flex-row bg-secondary-100">
         <FilterAndOrderComponent />
-        {loaded ? 
-        <div className="m-auto">
-          <h1 className="font-bold font-lora flex justify-center my-8 text-4xl bg-primary-400 p-1 rounded-xl">
-            {valueTitle ? valueTitle.name : ''}
-          </h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-10 sm:m-auto 2xl:grid-cols-2 2xl:gap-30">
-            {allProducts &&
-              allProducts.map((item) => {
-                return (
-                  <Card
-                    id={item.id}
-                    key={item.id}
-                    path={item.id}
-                    name={item.title}
-                    price={item.price}
-                    image={item && item.images && item.images[0].url}
-                    images={item.images}
-                    description={item.description}
-                    shippingCost={item.shippingCost}
-                    onClick={notifyCat}
-                    onClick2={notifyCat2}
-                    title={item.title}
-                    stock={item.stock}
-                  />
-                );
-              })}
+        {loaded ?
+          <div className="w-full m-auto">
+            <div className='w-[90%] p-2 m-auto justify-center items-center flex bg-white rounded shadow-sm mt-2 text-center'>
+              <h1 className="font-bold font-lora p-2">
+                {valueTitle ? valueTitle.name : ''}
+              </h1>
+            </div>
+            <div className="flex flex-col lg:w-[90%] gap-5 lg:mx-auto mt-4 lg:flex-wrap lg:flex-row justify-center">
+              {allProducts.length > 0 ?
+                allProducts.map((item) => {
+                  return (
+                    <Card
+                      id={item.id}
+                      key={item.id}
+                      path={item.id}
+                      name={item.title}
+                      price={item.price}
+                      image={item && item.images && item.images[1].url}
+                      images={item.images}
+                      description={item.description}
+                      shippingCost={item.shippingCost}
+                      onClick={notifyCat}
+                      onClick2={notifyCat2}
+                      title={item.title}
+                      stock={item.stock}
+                    />
+                  );
+                })
+                :
+                <div className="flex flex-col w-80 ml-auto mr-auto">
+                  <h1 className="text-center font-lora translate-y-48">No results found</h1>
+                  <img src={NotFound} className="my-40"/>
+                </div>
+              }
+            </div>
           </div>
-        </div>
-        :
-        <>
-        <Loader />
-        </>} 
+          :
+          <>
+            <Loader />
+          </>}
       </div>
       <Pagination />
       <Footer />
