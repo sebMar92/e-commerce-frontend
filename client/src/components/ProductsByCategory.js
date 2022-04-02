@@ -26,10 +26,8 @@ export default function Products() {
   const categories = useSelector((state) => state.home.categories);
   const valueTitle = categories[queryObjects.categoryId - 1];
   const [loaded, setLoaded] = useState(false);
-  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
-    console.log(location);
     dispatch(getProducts(search));
     dispatch(getCategories());
     return () => {
@@ -46,10 +44,16 @@ export default function Products() {
 
   /*   useEffect(() => {
     setTimeout(() => {
-      setNotFound(true)
+      setLoaded(true)
     }, 1500);
-  }, [allProducts])
-   */
+  }, [categories]);
+
+  /*   useEffect(() => {
+      setTimeout(() => {
+        setNotFound(true)
+      }, 1500);
+    }, [allProducts])
+     */
 
   const notifyCat = () => {
     toast.success('Added to the wishlist !', {
@@ -69,15 +73,15 @@ export default function Products() {
       <ToastContainer />
       <div className="flex flex-col sm:flex-row bg-secondary-100">
         <FilterAndOrderComponent />
-        {loaded ? (
+        {loaded ?
           <div className="w-full m-auto">
-            <div className="w-[90%] p-2 m-auto justify-center items-center flex bg-white rounded shadow-sm mt-2 text-center">
+            <div className='w-[90%] p-2 m-auto justify-center items-center flex bg-white rounded shadow-sm mt-2 text-center'>
               <h1 className="font-bold font-lora p-2">
                 {valueTitle ? valueTitle.name : ''}
               </h1>
             </div>
             <div className="flex flex-col lg:w-[90%] gap-5 lg:mx-auto mt-4 lg:flex-wrap lg:flex-row justify-center">
-              {allProducts &&
+              {allProducts.length > 0 ?
                 allProducts.map((item) => {
                   return (
                     <Card
@@ -96,14 +100,19 @@ export default function Products() {
                       stock={item.stock}
                     />
                   );
-                })}
+                })
+                :
+                <div className="flex flex-col w-80 ml-auto mr-auto">
+                  <h1 className="text-center font-lora translate-y-48">No results found</h1>
+                  <img src={NotFound} className="my-40"/>
+                </div>
+              }
             </div>
           </div>
-        ) : (
+          :
           <>
             <Loader />
-          </>
-        )}
+          </>}
       </div>
       <Pagination />
       <Footer />

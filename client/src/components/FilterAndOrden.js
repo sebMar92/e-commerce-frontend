@@ -7,10 +7,12 @@ import useURLqueries from './hooks/useURLqueries';
 
 export default function FilterAndOrderComponent() {
   const { idCategory } = useParams();
+
   const [price, setPrice] = useState({
     minPrice: '',
     maxPrice: '',
   });
+
   useEffect(() => {
     const priceCheckQuery = queryObjects;
     if (price.minPrice === '') {
@@ -27,6 +29,14 @@ export default function FilterAndOrderComponent() {
   }, [price]);
   const queryObjects = useURLqueries();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!queryObjects.minPrice && !queryObjects.maxPrice) {
+      document.getElementById("minimo").value = ""
+      document.getElementById("maximo").value = ""
+    }
+  }, [queryObjects.categoryId])
+
 
   function onChange(e) {
     e.preventDefault();
@@ -62,9 +72,8 @@ export default function FilterAndOrderComponent() {
 
   function handleClickBtns(e) {
     e.preventDefault();
-    if (e.target.id === 'FreeShipping') {
-      document.getElementById('FreeShipping').classList.toggle('bg-white');
-      if (queryObjects.freeShipping && queryObjects.freeShipping === 'true') {
+    if (e.target.id === "FreeShipping") {
+      if (queryObjects.freeShipping && queryObjects.freeShipping === "true") {
         navigate({
           search: createSearchParams({
             ...queryObjects,
@@ -80,9 +89,8 @@ export default function FilterAndOrderComponent() {
         });
       }
     }
-    if (e.target.id === 'HigestToLowest') {
-      document.getElementById('HigestToLowest').classList.toggle('bg-white');
-      if (queryObjects.order === 'DESC') {
+    if (e.target.id === "HigestToLowest") {
+      if (queryObjects.order === "DESC") {
         delete queryObjects.order;
       } else {
         queryObjects.order = 'DESC';
@@ -107,15 +115,14 @@ export default function FilterAndOrderComponent() {
           ...queryObjects,
         }).toString(),
       });
-      document.getElementById('LowestToHighest').classList.toggle('bg-white');
-      if (!document.getElementById('HigestToLowest').classList.contains('bg-white')) {
-        document.getElementById('HigestToLowest').classList.toggle('bg-white');
+      if (!document.getElementById("HigestToLowest").classList.contains("bg-white")) {
+        document.getElementById("HigestToLowest").classList.toggle("bg-white");
       }
     }
-    if (e.target.id === 'LessThan') {
-      document.getElementById('LessThan').classList.toggle('bg-white');
-      if (!document.getElementById('MoreThan').classList.contains('bg-white')) {
-        document.getElementById('MoreThan').classList.toggle('bg-white');
+    /* if (e.target.id === "LessThan") {
+      document.getElementById("LessThan").classList.toggle("bg-white");
+      if (!document.getElementById("MoreThan").classList.contains("bg-white")) {
+        document.getElementById("MoreThan").classList.toggle("bg-white");
       }
     }
     if (e.target.id === 'MoreThan') {
@@ -123,8 +130,34 @@ export default function FilterAndOrderComponent() {
       if (!document.getElementById('LessThan').classList.contains('bg-white')) {
         document.getElementById('LessThan').classList.toggle('bg-white');
       }
-    }
+    } */
   }
+
+
+  useEffect(() => {
+    /* FreeShipping */
+    if (queryObjects.freeShipping === "true") {
+      document.getElementById("FreeShipping").classList.remove("bg-white");
+    } else {
+      document.getElementById("FreeShipping").classList.add("bg-white");
+    }
+    /* FreeShipping */
+
+    /* HigsetToLowest */
+    if (queryObjects.order === "DESC") {
+      document.getElementById("HigestToLowest").classList.remove("bg-white");
+    } else {
+      document.getElementById("LowestToHighest").classList.remove("bg-white");
+    }
+    if (!queryObjects.order) {
+      document.getElementById("HigestToLowest").classList.add("bg-white");
+      document.getElementById("LowestToHighest").classList.add("bg-white");
+    }
+    /* HigsetToLowest */
+  }, [queryObjects])
+
+
+
 
   function onClickGenralOptions() {
     document.getElementById('generalOptions').classList.toggle('hidden');
@@ -153,7 +186,7 @@ export default function FilterAndOrderComponent() {
               id="FreeShipping"
               type="submit"
               value="  "
-              className="bg-white rounded-full h-3 w-3 cursor-pointer"
+              className=" bg-white rounded-full h-3 w-3 cursor-pointer"
               onClick={(e) => handleClickBtns(e)}
             />
           </div>
@@ -236,6 +269,7 @@ export default function FilterAndOrderComponent() {
                 <input
                   id="minimo"
                   type="number"
+                  value={price.minPrice}
                   placeholder="Min"
                   className="m-1 w-20 rounded-sm"
                   onChange={(e) => onChange(e)}
@@ -243,6 +277,7 @@ export default function FilterAndOrderComponent() {
                 <input
                   id="maximo"
                   type="number"
+                  value={price.maxPrice}
                   placeholder="Max"
                   className="m-1 w-20 rounded-sm"
                   onChange={(e) => onChange(e)}
