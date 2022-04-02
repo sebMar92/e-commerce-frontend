@@ -23,7 +23,7 @@ export default function NavBarEmpty() {
   };
 
   return (
-    <div className="bg-primary-500 font-medium text-lg px-4 py-2">
+    <div className="bg-primary-500 font-medium text-lg px-4 py-2 dark:bg-slate-900">
       <div className="flex flex-row justify-between">
         <div className="select-none">
           <Link to="/" className="no-underline">
@@ -33,7 +33,9 @@ export default function NavBarEmpty() {
                 alt="company icon"
                 className="flex-none h-10 w-10"
               ></img>
-              <h3 className=" text-black no-underline">TechStore</h3>
+              <h3 className=" text-black no-underline dark:text-white">
+                TechStore
+              </h3>
             </div>
           </Link>
         </div>
@@ -42,11 +44,11 @@ export default function NavBarEmpty() {
           transition={spring}
           onChange={isOn}
           onClick={toggleSwitch}
-          className={`bg-primary-700 font-medium rounded-lg text-sm w-20 px-2 py-2 flex cursor-pointer select-none ${
+          className={`dark:bg-slate-800 bg-primary-300 font-medium rounded-lg text-sm w-20 px-2 py-2 flex cursor-pointer select-none ${
             isOn && "justify-end"
           }`}
         >
-          {isOn ? "🌙" : "🌞"}
+          {isOn ? "🌙" : "🔆"}
         </motion.div>
       </div>
     </div>
