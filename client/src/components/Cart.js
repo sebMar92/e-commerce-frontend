@@ -3,7 +3,7 @@ import NavBar from "./NavBar";
 import Footer from "./Footer/Footer";
 import CardCart from "./CardCart";
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { MdRestaurantMenu } from "react-icons/md";
 import { getOrder, changeOrderStatus } from "../Redux/Actions/actions";
@@ -11,6 +11,7 @@ import carrito from "./utils/carrito triste.png";
 
 export default function Cart() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const product = useSelector((state) => state.home.inCart);
   const direccion = useSelector((state) => state.home.user.directions);
   var total = 0;
@@ -43,6 +44,9 @@ export default function Cart() {
           })
         );
       });
+      setTimeout(() => {
+        navigate("/purchase")
+      }, 3000);
   }
 
   return (

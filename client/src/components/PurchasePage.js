@@ -5,6 +5,8 @@ import Footer from './Footer/Footer';
 import Checkout from './Mercadopago/Checkout';
 import axios from 'axios';
 import { getOrder } from '../Redux/Actions/actions';
+import NavBarEmpty from './NavBarEmpty'
+import { useLocation } from 'react-router-dom';
 
 
 
@@ -13,15 +15,15 @@ export default function PurchasePage() {
   const product = useSelector((state) => state.home.pending);
   const direccion = useSelector((state) => state.home.user.directions); 
   const resPutOrder = useSelector((state) => state.home.resPutOrder);
-  console.log(product)
-
-
+  const resDelete = useSelector((state) => state.home.deleted)
+  const location = useLocation()
+  const [data,setData] = useState("")
+  
   useEffect(() => {
     dispatch(getOrder({ status: "pending" }));
-  }, []);
+  }, [resDelete,location.search]);
 
 
-  const [data,setData] = useState("")
 
 
   useEffect(() => {
@@ -35,17 +37,14 @@ export default function PurchasePage() {
       .catch((err) => console.error(err));
     }
   }, [product]);
-
+  
 
     return (
         <>
-        <NavBar/>
+        <NavBarEmpty />
         {data &&
         <Checkout data={data} products={product}/>}
         <Footer/>
         </>
     );
 }
-
-
-/* [{title:"Producto2",price:12,amount:2},{title:"Producto2",price:12,amount:2}] */

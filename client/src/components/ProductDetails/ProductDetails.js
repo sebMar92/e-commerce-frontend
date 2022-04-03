@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import NavBar from '../NavBar';
 import Footer from '../Footer/Footer';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link,useNavigate } from 'react-router-dom';
 import { clearProductDetail, getProductByID, postOrder, deleteOrder, getOrder} from '../../Redux/Actions/actions';
 import { useEffect } from 'react';
 import Slider from './Slider';
@@ -34,6 +34,7 @@ export default function ProductDetails() {
 
   const dispatch = useDispatch();
   let { idProduct } = useParams();
+  const navigate = useNavigate()
   
   useEffect(() => {
     dispatch(getOrder({ status: "inCart" }))
@@ -98,6 +99,7 @@ export default function ProductDetails() {
     toast.success("Purchase successfull !", {
       position: toast.POSITION.BOTTOM_LEFT
     });
+    navigate("/purchase")
   };
 
 
@@ -245,7 +247,7 @@ export default function ProductDetails() {
               <div >
                 <ButtonBuy
                   id={idProduct}
-                  status={'finished'}
+                  status={'pending'}
                   amount={1}
                   text={'Buy'}
                   onClick={notifyDetail3}
