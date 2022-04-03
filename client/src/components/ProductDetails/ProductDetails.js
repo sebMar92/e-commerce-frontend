@@ -177,7 +177,7 @@ export default function ProductDetails() {
         });
       } else {
         const foundProductInWL = wishListDB && wishListDB.find(el => el.id == idProduct);
-        const orderId = foundProductInWL.orders[0].id
+        const orderId = foundProductInWL && foundProductInWL.orders[0].id
         dispatch(deleteOrder(
           orderId,
           idProduct,
