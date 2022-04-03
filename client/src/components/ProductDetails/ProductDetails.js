@@ -112,7 +112,7 @@ export default function ProductDetails() {
   }, [cartLS, wishListLS, deleted, postOrders, wishListDB, cartDB])
 
 
-  const desc = product.description && product.description.split('.');
+  const desc = product.description && product.description.split('. ');
   const description = desc && desc.slice(0, -1);
 
   const notifyDetail3 = () => {
@@ -171,22 +171,22 @@ export default function ProductDetails() {
           price: product.price,
           id: idProduct
         })
-      );
-      toast.success('Added to the wishlist !', {
-        position: toast.POSITION.BOTTOM_LEFT,
-      });
-    } else {
-      const foundProductInWL = wishListDB && wishListDB.find(el => el.id == idProduct);
-      const orderId = foundProductInWL.orders[0].id
-      dispatch(deleteOrder(
-        orderId,
-        idProduct,
-        "inWishList"
-      ))
-      toast.error('Removed from wishlist !', {
-        position: toast.POSITION.BOTTOM_LEFT,
-      });
-    }
+        );
+        toast.success('Added to the wishlist !', {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      } else {
+        const foundProductInWL = wishListDB && wishListDB.find(el => el.id == idProduct);
+        const orderId = foundProductInWL && foundProductInWL.orders[0].id
+        dispatch(deleteOrder(
+          orderId,
+          idProduct,
+          "inWishList"
+        ))
+        toast.error('Removed from wishlist !', {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      }
     setWishListLS(window.localStorage.getItem("inWishList"))
   }
 

@@ -9,6 +9,7 @@ import {
   clearProductAndCategory,
   getCategories,
   getProducts,
+  getOrder
 } from '../Redux/Actions/actions';
 import { useLocation } from 'react-router-dom';
 import useURLqueries from './hooks/useURLqueries';
@@ -24,6 +25,11 @@ export default function Products() {
   const search = location.search;
   const allProducts = useSelector((state) => state.home.products);
   const categories = useSelector((state) => state.home.categories);
+  const wishListDB = useSelector((state) => state.home.inWishList);
+  const cartDB = useSelector((state) => state.home.inCart)
+  const token = window.localStorage.getItem("access")
+  const deleted = useSelector((state) => state.home.deleted)
+  const postOrders = useSelector((state) => state.home.postOrders)
   const valueTitle = categories[queryObjects.categoryId - 1];
   const [loaded, setLoaded] = useState(false);
 
@@ -31,6 +37,8 @@ export default function Products() {
   useEffect(() => {
     dispatch(getProducts(search));
     dispatch(getCategories());
+    dispatch(getOrder({ status: "inCart" }))
+    dispatch(getOrder({ status: "inWishList" }))
     return () => {
       dispatch(clearProductAndCategory());
       setLoaded(false);
@@ -55,18 +63,6 @@ export default function Products() {
       }, 1500);
     }, [allProducts])
      */
-
-  const notifyCat = () => {
-    toast.success('Added to the wishlist !', {
-      position: toast.POSITION.BOTTOM_LEFT,
-    });
-  };
-
-  const notifyCat2 = () => {
-    toast.success('Added to the cart !', {
-      position: toast.POSITION.BOTTOM_LEFT,
-    });
-  };
 
   return (
     <>
@@ -95,10 +91,13 @@ export default function Products() {
                       images={item.images}
                       description={item.description}
                       shippingCost={item.shippingCost}
-                      onClick={notifyCat}
-                      onClick2={notifyCat2}
                       title={item.title}
                       stock={item.stock}
+                      wishListDB={wishListDB}
+                      cartDB={cartDB}
+                      token={token}
+                      deleted={deleted}
+                      postOrders={postOrders}
                     />
                   );
                 })
