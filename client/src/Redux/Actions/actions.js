@@ -27,6 +27,7 @@ import {
   CLEAR_PRODUCT_AND_CATEGORY,
   DELETE_ADRESS_USER,
   CLEAR_USER_EMAIL,
+  CLEAR_CARRUSEL
 } from './types';
 
 requestInterceptor();
@@ -470,4 +471,10 @@ export function clearUserEmail() {
   return {
     type: CLEAR_USER_EMAIL,
   };
+}
+
+export function clearCarrusel() {
+  return {
+    type: CLEAR_CARRUSEL,
+  }
 }

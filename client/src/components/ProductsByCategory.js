@@ -26,6 +26,7 @@ export default function Products() {
   const categories = useSelector((state) => state.home.categories);
   const valueTitle = categories[queryObjects.categoryId - 1];
   const [loaded, setLoaded] = useState(false);
+  console.log(search)
 
   useEffect(() => {
     dispatch(getProducts(search));
