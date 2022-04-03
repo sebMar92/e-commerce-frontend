@@ -6,7 +6,7 @@ export default function DropDownCategories({ tittle, array }) {
 
   return (
     <div className="group ">
-      <button className="bg-primary-800 shadow-md font-medium rounded-lg text-center text-sm w-11/12 px-2 py-2">
+      <button className="text-decoration-line: no-underline text-black bg-primary-400 px-4 py-2 m-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-black-200/80">
         <div className="flex justify-between text-center">
           <div>
             <h4></h4>

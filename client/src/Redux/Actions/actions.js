@@ -25,7 +25,7 @@ import {
   CLEAR_TOKENS_USER,
   CLEAR_PRODUCT_DETAIL,
   CLEAR_PRODUCT_AND_CATEGORY,
-  DELETE_ADRESS_USER
+  DELETE_ADRESS_USER,
 } from "./types";
 
 requestInterceptor();
@@ -514,6 +514,7 @@ export function deleteOrder(order, id, status) {
 export function getUserInfo() {
   return async function (dispatch) {
     const user = await axios.get("/user");
+    console.log(user.data);
     return dispatch({
       type: GET_USER_INFO,
       payload: user.data,
@@ -566,11 +567,11 @@ export function deleteAdressUser(id) {
       return dispatch({
         type: DELETE_ADRESS_USER,
         payload: deleteDirection.data,
-      })
+      });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 }
 
 export function getSales() {
@@ -705,4 +706,3 @@ export function clearProductAndCategory() {
     type: CLEAR_PRODUCT_AND_CATEGORY,
   };
 }
-
