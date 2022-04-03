@@ -33,6 +33,7 @@ export default function Products() {
   const valueTitle = categories[queryObjects.categoryId - 1];
   const [loaded, setLoaded] = useState(false);
 
+
   useEffect(() => {
     dispatch(getProducts(search));
     dispatch(getCategories());
