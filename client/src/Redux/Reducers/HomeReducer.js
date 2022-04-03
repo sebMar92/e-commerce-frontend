@@ -22,8 +22,7 @@ import {
   DELETE_USER_INFO,
   DELETE_USER_ADMIN,
   PUT_USER_ADMIN,  
-  CLEAR_CARRUSEL,
-  DELETE_USER_INFO
+  CLEAR_CARRUSEL
 } from '../Actions/types';
 
 const initialState = {
