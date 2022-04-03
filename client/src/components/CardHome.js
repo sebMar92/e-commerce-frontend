@@ -14,7 +14,8 @@ export default function CardHome({ id, image, title, price, shippingCost, stock,
   const [selectedCart, setSelectedCart] = useState(false)
   const [cartLS, setCartLS] = useState(window.localStorage.getItem("inCart"))
   const [wishListLS, setWishListLS] = useState(window.localStorage.getItem("inWishList"))
-
+  
+  
   useEffect(() => {
     if (token) {
       const foundProductInCart = (!cartDB || cartDB.error == "couldn't find orders" || cartDB.length === 0) 
