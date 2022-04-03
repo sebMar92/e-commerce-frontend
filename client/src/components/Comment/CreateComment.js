@@ -75,7 +75,7 @@ const CreateComment = ({ id, product }) => {
         </div>
         <div className="h-fit p-2 flex flex-col gap-6 mt-2">
             {
-                commentsLeft &&  (commentsLeft.length > 0 || userComment) ? commentsLeft.map((c) => (
+                commentsLeft && commentsLeft.map((c) => (
                     <div className="h-full flex flex-col gap-2 font-lora">
                         <div className="flex gap-2">
                             {[...Array(5)].map((el, i) => {
@@ -89,8 +89,7 @@ const CreateComment = ({ id, product }) => {
                         </div>
                         <p>{c.content}</p>
                     </div>
-                    
-                )) : <div className='font-lora text-sm'> No reviews on this product yet. </div>
+                ))
             }
         </div>
     </div>

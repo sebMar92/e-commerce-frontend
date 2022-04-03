@@ -2,7 +2,7 @@ import React from "react";
 import Slider from "react-slick";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts, getCategories, getOrder } from "../Redux/Actions/actions";
+import { getProducts, getCategories } from "../Redux/Actions/actions";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import CardHome from "./CardHome";
 import { Link } from "react-router-dom";
@@ -11,11 +11,6 @@ export default function CarouselCateg({onClick,onClick2}) {
   const dispatch = useDispatch();
   const allProducts = useSelector((state) => state.home.products);
   const allCategories = useSelector((state) => state.home.categories);
-  const wishListDB = useSelector((state) => state.home.inWishList);
-  const cartDB = useSelector((state) => state.home.inCart)
-  const token = window.localStorage.getItem("access")
-  const deleted = useSelector((state) => state.home.deleted)
-  const postOrders = useSelector((state) => state.home.postOrders)
   
 
   let arr = [];
@@ -26,8 +21,6 @@ export default function CarouselCateg({onClick,onClick2}) {
   useEffect(() => {
     dispatch(getProducts("?limit=100"));
     dispatch(getCategories());
-    dispatch(getOrder({ status: "inCart" }))
-    dispatch(getOrder({ status: "inWishList" }))
   }, []);
 
   function randomCategories(array) {
@@ -290,6 +283,8 @@ export default function CarouselCateg({onClick,onClick2}) {
                 return (
                   <div key={product.id} className="p-2 h-full">
                     <CardHome
+                      onClick={onClick}
+                      onClick2={onClick2}
                       key={product.id}
                       id={product.id}
                       image={product.images[0].url}
@@ -299,11 +294,6 @@ export default function CarouselCateg({onClick,onClick2}) {
                       shippingCost={product.shippingCost}
                       stock={product.stock}
                       description={product.description}
-                      wishListDB={wishListDB}
-                      cartDB={cartDB}
-                      token={token}
-                      deleted={deleted}
-                      postOrders={postOrders}
                     />
                   </div>
                 );
