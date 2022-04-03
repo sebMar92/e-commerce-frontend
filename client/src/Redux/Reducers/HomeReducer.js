@@ -19,7 +19,8 @@ import {
   CLEAR_PRODUCT_AND_CATEGORY,
   DELETE_ADRESS_USER,
   CLEAR_USER_EMAIL,
-  CLEAR_CARRUSEL
+  CLEAR_CARRUSEL,
+  DELETE_USER_INFO
 } from '../Actions/types';
 
 const initialState = {
@@ -114,6 +115,11 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         answer: action.payload,
       };
+      case DELETE_USER_INFO:
+        return {
+          ...state,
+          users: action.payload,
+        }
 
     case PUT_ORDERS:
       return {

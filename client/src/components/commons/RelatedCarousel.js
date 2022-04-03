@@ -29,7 +29,6 @@ export default function RelatedCarousel({ data }) {
 
     useEffect(() => {
         setProductos(data.slice(indiceDePrimerProdcuto, indiceDeUltimoProducto))
-        console.log("useEffect", productos)
     }, [paginaActual])
 
     useEffect(() => {
