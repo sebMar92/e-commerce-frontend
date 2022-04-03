@@ -2,25 +2,38 @@ import React, { useEffect, useState } from "react";
 import NavbarAdmin from "./NavbarAdmin";
 import NavBarEmpty from "./NavBarEmpty";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsersInfo, deleteUserInfo } from "../Redux/Actions/actions";
+import { getUsersInfo, deleteUserAdmin, putUserAdmin } from "../Redux/Actions/actions";
 import { AiFillDelete } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
 
 export default function AdminAllUsers() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.home.users);
-
+  const res = useSelector ((state)=> state.home.userDelete);
+  const [stateUserRol, setStateUserRol] = useState({
+    rol:""
+  })
   useEffect(() => {
     dispatch(getUsersInfo());
-  }, [dispatch]);
 
-  function deleteUser(e) {
+  }, [res, user]);
+  
+
+  function deleteUser(u) {
      var answer = window.confirm("Delete the User?");
     if (answer == true) {
-      dispatch(deleteUserInfo(e));
+      dispatch(deleteUserAdmin(u));
     } else {
       alert("no se elimino");
     }
+  }
+
+  function editRol(e, idUser){
+    if(e === "user" ){
+    dispatch(putUserAdmin({ rol: "admin", id: idUser}));
+  } if(e === "admin" ){
+    dispatch(putUserAdmin({ rol: "user" ,id: idUser}));
+}
   }
 
 
@@ -36,50 +49,53 @@ export default function AdminAllUsers() {
             <table className="xl:table border-separate content-center font-lora text-sm  w-11/12 border-separated mx-2 hidden md:block">
               <thead>
                 <tr>
-                  <th className="p-3  rounded-lg border-2 bg-primary-300 border-primary-500  ">ID</th>
-                  <th className="p-3  rounded-lg border-2 bg-primary-300 border-primary-500 ">First Name</th>
-                  <th className="p-3  rounded-lg border-2 bg-primary-300 border-primary-500 ">Last Name</th>
-                  <th className="p-3  rounded-lg border-2 bg-primary-300 border-primary-500 ">Email</th>
-                  <th className="p-3  rounded-lg border-2 bg-primary-300 border-primary-500 ">directions</th>
-                  <th className="p-3  rounded-lg border-2 bg-primary-300 border-primary-500 ">Rol</th>
-                  <th className=" p-3 rounded-lg border-2 bg-primary-300 border-primary-500 ">Options</th>
+                  <th className="p-3  rounded-lg border-2 bg-primary-300 border-white  ">ID</th>
+                  <th className="p-3  rounded-lg border-2 bg-primary-300 border-white ">First Name</th>
+                  <th className="p-3  rounded-lg border-2 bg-primary-300 border-white ">Last Name</th>
+                  <th className="p-3  rounded-lg border-2 bg-primary-300 border-white ">Email</th>
+                  <th className="p-3  rounded-lg border-2 bg-primary-300 border-white ">Rol</th>
+                  <th className=" p-3 rounded-lg border-2 bg-primary-300 border-white ">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 {user &&
                   user.length > 0 &&
                   user.map((u) => {
+                    
                     return (
                       <tr>
                         <th
-                          className="p-3  border bg-secondary-100 rounded-lg border-gray-400 "
+                          className="p-3  border-2 bg-secondary-100 rounded-lg border-white "
                           scope="row"
                         >
                           {u.id}
                         </th>
-                        <td className="p-3  border bg-secondary-100 rounded-lg border-gray-400 ">
+                        <td className="p-3  border-2 bg-secondary-100 rounded-lg border-white ">
                           {u.firstName}
                         </td>
-                        <td className="p-3  border bg-secondary-100 rounded-lg border-gray-400 ">
+                        <td className="p-3  border-2 bg-secondary-100 rounded-lg border-white ">
                           {u.lastName}
                         </td>
-                        <td className="p-3  border bg-secondary-100 rounded-lg border-gray-400 ">
+                        <td className="p-3  border-2 bg-secondary-100 rounded-lg border-white ">
                           {u.email}
                         </td>
-                        <td className="p-3  border bg-secondary-100 rounded-lg border-gray-400 ">
-                          {u.directions[0].city}
+                       
+                        <td className="p-3  border-2 bg-secondary-100 rounded-lg border-white ">
+                         <button value={u.rol} className="flex">{u.rol}   
+                         <FaEdit className="ml-2 cursor-pointer h-5 w-5 " color="#FEBD70" onClick={()=> editRol(u.rol, u.id)}/>
+                         </button>
                         </td>
-                        <td className="p-3  border bg-secondary-100 rounded-lg border-gray-400 ">
-                          {u.rol}
-                        </td>
-                        <td className="p-3  border bg-secondary-100 rounded-lg border-gray-400 flex justify-evenly ">
-                          <AiFillDelete key={u.id}
+                        <td className="p-3  border-2 bg-secondary-100 rounded-lg border-white flex justify-evenly ">
+                       <button  
+                        key={u.id}
                           id={u.id}
-                            onClick={(e) => deleteUser(e)}
+                          value={u.id}
+                            onClick={() => deleteUser(u.id)}>
+                              <AiFillDelete 
                             className="m-1 cursor-pointer h-6 w-6 md:h-5 md:w-5"
                             color="#FEBD70"
                           />
-                         
+                         </button>  
                         </td>
                       </tr>
                     );
@@ -137,23 +153,25 @@ export default function AdminAllUsers() {
                 <p>
                   <span className=" ">Email: {u.email} </span>{" "}
                 </p>
-                <p>
-                  <span className=" ">Direction: {u.directions[0].city} </span>
-                </p>
+                
                 <p>
                   {" "}
-                  <span className="mx-3 bg-primary-100 rounded-lg px-2 ">
-                    {u.rol}{" "}
-                  </span>{" "}
+                  <button value={u.rol} className="flex">{u.rol}   
+                         <FaEdit className="ml-2 cursor-pointer h-5 w-5 " color="#FEBD70" onClick={()=> editRol(u.rol, u.id)}/>
+                         </button> 
                 </p>
                 <p className="flex  ">
-                  <AiFillDelete
-                   key={u.id}
-                   id={u.id}
-                    onClick={(e) => deleteUser(e)}
-                    className="m-1  h-6 w-6 md:h-5 md:w-5"
-                    color="#FEBD70"
-                  />
+                <button  
+                        key={u.id}
+                          id={u.id}
+                          value={u.id}
+                            onClick={() => deleteUser(u.id)}>
+                              <AiFillDelete 
+                            className="m-1 cursor-pointer h-6 w-6 md:h-5 md:w-5"
+                            color="#FEBD70"
+                          />
+                         </button>  
+                  
                   
                 </p>
               </div>

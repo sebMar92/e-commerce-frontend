@@ -15,6 +15,7 @@ import {
   DELETE_ORDERS,
   GET_COMMENT_BY_ID,
   PUT_USER_INFO,
+  PUT_USER_ADMIN,
   GET_USERS_INFO,
   GET_SALES,
   GET_PRODUCTS_SALES,
@@ -26,6 +27,8 @@ import {
   CLEAR_PRODUCT_DETAIL,
   CLEAR_PRODUCT_AND_CATEGORY,
   DELETE_ADRESS_USER,
+  DELETE_USER_INFO,
+  DELETE_USER_ADMIN,
   CLEAR_USER_EMAIL,
 } from './types';
 
@@ -364,11 +367,23 @@ export function getUsersInfo() {
   };
 }
 
-export function deleteUserInfo() {
+export function deleteUserInfo(id) {
   return async function (dispatch) {
-    const users = await axios.delete("/user/");
+    const users = await axios.delete("/user/",  {
+      data: { id: id }});
     return dispatch({
-      type: GET_USERS_INFO,
+      type: DELETE_USER_INFO,
+      payload: users.data,
+    });
+  };
+}
+
+export function deleteUserAdmin(id) {
+  return async function (dispatch) {
+    const users = await axios.delete("/user/admin",  {
+      data: { id: id }});
+    return dispatch({
+      type: DELETE_USER_ADMIN,
       payload: users.data,
     });
   };
@@ -380,6 +395,19 @@ export function putUserInfo(body) {
       const userChangeData = await axios.put('/user', body);
       return dispatch({
         type: PUT_USER_INFO,
+        payload: userChangeData.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+export function putUserAdmin(body) {
+  return async (dispatch) => {
+    try {
+      const userChangeData = await axios.put('/user/admin', body);
+      return dispatch({
+        type: PUT_USER_ADMIN,
         payload: userChangeData.data,
       });
     } catch (error) {

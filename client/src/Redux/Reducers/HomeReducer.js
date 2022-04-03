@@ -19,7 +19,10 @@ import {
   CLEAR_PRODUCT_AND_CATEGORY,
   DELETE_ADRESS_USER,
   CLEAR_USER_EMAIL,
-  DELETE_USER_INFO
+  DELETE_USER_INFO,
+  DELETE_USER_ADMIN,
+  PUT_USER_ADMIN
+  
 } from '../Actions/types';
 
 const initialState = {
@@ -43,6 +46,7 @@ const initialState = {
   resPutOrder: [],
   resAmountOrder: {},
   resNewAdress: {},
+  userDelete: {},
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -114,11 +118,22 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         answer: action.payload,
       };
+      case PUT_USER_ADMIN:
+        return {
+          ...state,
+          answer: action.payload,
+        };
       case DELETE_USER_INFO:
         return {
           ...state,
-          users: action.payload,
+          userDelete: action.payload
         }
+        case DELETE_USER_ADMIN:
+          return {
+            ...state,
+            userDelete: action.payload
+          }
+  
 
     case PUT_ORDERS:
       return {
