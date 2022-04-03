@@ -91,7 +91,7 @@ export default function ProductDetails() {
   },[cartLS, wishListLS, deleted, postOrders, wishListDB, cartDB])
 
 
-  const desc = product.description && product.description.split('.');
+  const desc = product.description && product.description.split('. ');
   const description = desc && desc.slice(0, -1);
 
   const notifyDetail3 = () => {
@@ -156,7 +156,7 @@ export default function ProductDetails() {
         });
       } else {
         const foundProductInWL = wishListDB && wishListDB.find(el => el.id == idProduct);
-        const orderId = foundProductInWL.orders[0].id
+        const orderId = foundProductInWL && foundProductInWL.orders[0].id
         dispatch(deleteOrder(
           orderId,
           idProduct,
