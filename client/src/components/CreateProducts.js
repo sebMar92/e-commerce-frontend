@@ -13,6 +13,7 @@ import NavbarAdmin from "./NavbarAdmin";
 import { Cloudinary } from "@cloudinary/url-gen";
 import NavBarEmpty from "./NavBarEmpty";
 import AdminPreview from "../components/AdminPreview";
+import { AiOutlineCloseSquare } from "react-icons/ai"
 
 export default function CreateProducts() {
   const dispatch = useDispatch();
@@ -268,7 +269,7 @@ export default function CreateProducts() {
                 ))}
             </select>
 
-            <div className="flex">
+            <div className="flex mt-1">
               <input
                 className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
                 type="text"
@@ -281,29 +282,40 @@ export default function CreateProducts() {
               />
               <button
                 type="button"
-                className="text-secondary-200 bg-secondary-100 p-1 ml-1 rounded-md "
+                className="text-secondary-200 bg-secondary-100 w-16 ml-1 border-2 border-gray-300 rounded-md hover:border-2 hover:border-solid hover:border-green-600 hover:text-green-600"
                 onClick={(e) => handleSubmitAddCategory(e)}
               >
                 Add
               </button>
             </div>
 
-            {input.categories &&
-              input.categories.map((category) => {
-                return (
-                  <div className="flex w-full hover:bg-secondary-100 bg-gray-50">
-                    <img src={check} alt="check" />
-                    <button
-                      type="button"
-                      id={category.name}
-                      onClick={(e) => handleDelete(e)}
-                    >
-                      {category.name}
-                    </button>
-                  </div>
-                );
-              })}
+            <div className="">
+              {
+                input.categories &&
+                input.categories.map((category) => {
+                  return (
+                    <div className="mt-1 flex w-full hover:bg-secondary-100 bg-gray-50 h-8 items-center lg:h-6 border border-solid shadow-sm mb-1 rounded-md lg:hover:border lg:hover:border-solid lg:hover:border-red-500 lg:hover:items-center">
+                      {/* <img src={check} alt="check" /> */}
+
+                      <button
+                        type="button"
+                        id={category.name}
+                        onClick={(e) => handleDelete(e)}
+                        className="ml-2 w-full flex justify-between lg:hover:block lg:hover:scale-125 lg:hover:text-red-500 "
+                      >
+                        {category.name}
+
+                        <AiOutlineCloseSquare id={category.name}
+                          onClick={(e) => handleDelete(e)} className="lg:hidden text-2xl
+                    "/>
+                      </button>
+                    </div>
+                  );
+                })}
+            </div>
+
           </div>
+
           <div className=" justify-center py-2 m-2 ">
             <label>Images</label>
             <div className="flex">
@@ -356,7 +368,7 @@ export default function CreateProducts() {
             disabled={errors?.disabledSubmit}
             text="Create Product"
             type="submit"
-            /* onClick={(e) => handleSubmit(e)} */
+          /* onClick={(e) => handleSubmit(e)} */
           ></ButtonCreate>
         </form>
         <div className=" w-full bg-secondary-100 dark:bg-slate-700">

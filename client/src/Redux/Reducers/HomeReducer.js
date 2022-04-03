@@ -19,6 +19,7 @@ import {
   CLEAR_PRODUCT_AND_CATEGORY,
   DELETE_ADRESS_USER,
   CLEAR_USER_EMAIL,
+  CLEAR_CARRUSEL,
   DELETE_USER_INFO
 } from '../Actions/types';
 
@@ -34,7 +35,7 @@ const initialState = {
   openFiles: '',
   answer: {},
   user: {},
-  users:{},
+  users: {},
   inWishList: [],
   inCart: [],
   finished: [],
@@ -103,11 +104,11 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
       };
-      case GET_USERS_INFO:
-        return {
-          ...state,
-          users: action.payload,
-        };
+    case GET_USERS_INFO:
+      return {
+        ...state,
+        users: action.payload,
+      };
 
     case PUT_USER_INFO:
       return {
@@ -136,26 +137,31 @@ export const HomeReducer = (state = initialState, action) => {
         userTokens: "",
         user: {}
       }
-      case POST_NEW_ADRESS_USER:
-        return {
-          ...state,
-          resNewAdress: action.payload
-        }
-      case CLEAR_PRODUCT_AND_CATEGORY:
-        return{
-          ...state,
-          products: ""
-        }
+    case POST_NEW_ADRESS_USER:
+      return {
+        ...state,
+        resNewAdress: action.payload
+      }
+    case CLEAR_PRODUCT_AND_CATEGORY:
+      return {
+        ...state,
+        products: ""
+      }
     case DELETE_ADRESS_USER:
       return {
         ...state,
         resNewAdress: action.payload
       }
-      case CLEAR_USER_EMAIL:
-        return {
-          ...state,
-          userMail: []
-        }
+    case CLEAR_USER_EMAIL:
+      return {
+        ...state,
+        userMail: []
+      }
+    case CLEAR_CARRUSEL:
+      return {
+        ...state,
+        products: []
+      }
 
     default:
       return state;

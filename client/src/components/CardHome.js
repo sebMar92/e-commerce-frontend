@@ -9,8 +9,58 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function CardHome({ id, image, title, price,onClick,onClick2, shippingCost, stock, description,images }) {
   const dispatch = useDispatch();
-  const notify = onClick;
-  const notify2 = onClick2;
+
+  const [selectedWishList, setSelectedWishList] = useState(false)
+  const [selectedCart, setSelectedCart] = useState(false)
+  const [cartLS, setCartLS] = useState(window.localStorage.getItem("inCart"))
+  const [wishListLS, setWishListLS] = useState(window.localStorage.getItem("inWishList"))
+  
+  
+  useEffect(() => {
+    if (token) {
+      const foundProductInCart = (!cartDB || cartDB.error == "couldn't find orders" || cartDB.length === 0) 
+            ? null 
+            : cartDB.find(el => el.id == id);
+      const foundProductInWishList = (!wishListDB || wishListDB.error == "couldn't find orders" || wishListDB.length === 0) 
+            ? null 
+            : wishListDB.find(el => el.id == id);
+      if(foundProductInCart) {
+        setSelectedCart(true)
+      } else {
+        setSelectedCart(false)
+      }
+      if(foundProductInWishList) {
+        setSelectedWishList(true)
+      } else {
+        setSelectedWishList(false)
+      }
+    } else {
+        setCartLS(window.localStorage.getItem("inCart"))
+        setWishListLS(window.localStorage.getItem("inWishList"))
+
+        const parsedCart = JSON.parse(cartLS)
+        const parsedWishList = JSON.parse(wishListLS)
+        
+        const foundProductInCart = (cartLS === null || cartLS.length === 0) 
+            ? null
+            : parsedCart && parsedCart.find(el => el.productId == id)
+
+        const foundProductInWishList = (wishListLS === null || wishListLS.length === 0)
+            ? null
+            : parsedWishList && parsedWishList.find(el => el.productId == id)
+        
+        if(foundProductInCart) {
+          setSelectedCart(true)
+        } else {
+          setSelectedCart(false)
+        }
+        if(foundProductInWishList) {
+          setSelectedWishList(true)
+        } else {
+          setSelectedWishList(false)
+        }
+    }
+  },[cartLS, wishListLS, deleted, postOrders, wishListDB, cartDB])
 
     
 function addCart(){
