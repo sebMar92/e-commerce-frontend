@@ -48,8 +48,8 @@ function Slider({ images }) {
       </div>
       <div className="flex gap-2 p-2">
         {imgsArray &&
-          imgsArray.map((el) => (
-            <button className="h-16 w-16 border-[1px] p-2 border-primary-300 rounded flex items-center justify-center active:border-[3px] focus:border-[3px]">
+          imgsArray.map((el,i) => (
+            <button key={i} className="h-16 w-16 border-[1px] p-2 border-primary-300 rounded flex items-center justify-center active:border-[3px] focus:border-[3px]">
               <img
                 onClick={() => handleClick(imgsArray.indexOf(el))}
                 src={el}
