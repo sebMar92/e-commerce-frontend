@@ -161,12 +161,11 @@ export default function NewsletterEdit() {
                                                 className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
                                                 type='text'
                                                 name='message'
-                                                overflow='auto'
                                                 value={input.message}
                                                 onChange={(e) => handleChangeInput(e)}
                                                 autoComplete="off"
                                             />
-                                            <strong >{error.message}</strong>
+                                            <strong>{error.message}</strong>
                                         </div>
                                     </div>
 
