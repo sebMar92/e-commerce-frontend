@@ -1,4 +1,4 @@
-import {React, useState} from "react";
+import {React,useState} from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineShoppingCart, AiOutlineHeart } from "react-icons/ai";
 import { GrFavorite } from "react-icons/gr";
@@ -25,14 +25,12 @@ export default function Card({
   postOrders,
   deleted
 }) {
+  const dispatch = useDispatch();
 
   const [selectedWishList, setSelectedWishList] = useState(false)
   const [selectedCart, setSelectedCart] = useState(false)
   const [cartLS, setCartLS] = useState(window.localStorage.getItem("inCart"))
   const [wishListLS, setWishListLS] = useState(window.localStorage.getItem("inWishList"))
-
-  
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (token) {
@@ -58,7 +56,7 @@ export default function Card({
 
         const parsedCart = JSON.parse(cartLS)
         const parsedWishList = JSON.parse(wishListLS)
-        
+
         const foundProductInCart = (cartLS === null || cartLS.length === 0) 
             ? null
             : parsedCart && parsedCart.find(el => el.productId == id)
@@ -66,7 +64,7 @@ export default function Card({
         const foundProductInWishList = (wishListLS === null || wishListLS.length === 0)
             ? null
             : parsedWishList && parsedWishList.find(el => el.productId == id)
-        
+
         if(foundProductInCart) {
           setSelectedCart(true)
         } else {
@@ -82,7 +80,7 @@ export default function Card({
 
   function addCartCategories() {
     if (!selectedCart) {
-      
+
       dispatch(
         postOrder({
           status: "inCart",
@@ -181,17 +179,17 @@ export default function Card({
                     onClick={() => addFavCategories()}
                     className={(selectedWishList ? "bg-primary-400 " : "bg-white ") + "flex items-center justify-center gap-2 rounded no-underline h-fit w-10 md:w-11 font-bold p-2 text-primary-400 bg-white border-[1px] border-primary-400 font-lora hover:border-primary-700 focus:border-primary-700 hover:text-primary-700 focus:text-primary-700 hover:shadow-md active:scale-95"}
                     >
-                    <AiOutlineHeart className="h-4 w-4 md:h-5 md:w-5 inline-block" color={selectedWishList ? "#ffffff" : "#FEBD70"} />
+                     <AiOutlineHeart className="h-4 w-4 md:h-5 md:w-5 inline-block" color={selectedWishList ? "#ffffff" : "#FEBD70"} />
                   </button>
                 </div>
 
                 <div className="h-fit p-2 flex">
                   <button
-                    onClick={() => addCartCategories()}
-                    className={(selectedCart ? "bg-primary-400 " : "bg-white ") + "flex items-center justify-center gap-2 rounded no-underline h-fit w-10 md:w-11 font-bold p-2 text-primary-400 bg-white border-[1px] border-primary-400 font-lora hover:border-primary-700 focus:border-primary-700 hover:text-primary-700 focus:text-primary-700 hover:shadow-md active:scale-95"}
+                     onClick={() => addCartCategories()}
+                     className={(selectedCart ? "bg-primary-400 " : "bg-white ") + "flex items-center justify-center gap-2 rounded no-underline h-fit w-10 md:w-11 font-bold p-2 text-primary-400 bg-white border-[1px] border-primary-400 font-lora hover:border-primary-700 focus:border-primary-700 hover:text-primary-700 focus:text-primary-700 hover:shadow-md active:scale-95"}
                     to={'/cart'}
                     >
-                    <AiOutlineShoppingCart className="h-4 w-4 md:h-5 md:w-5 inline-block" color={selectedCart ? "#ffffff" : "#FEBD70"} />
+                      <AiOutlineShoppingCart className="h-4 w-4 md:h-5 md:w-5 inline-block" color={selectedCart ? "#ffffff" : "#FEBD70"} />
                   </button>
                 </div>
               </div>

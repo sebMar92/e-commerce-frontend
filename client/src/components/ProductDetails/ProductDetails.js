@@ -112,7 +112,7 @@ export default function ProductDetails() {
   }, [cartLS, wishListLS, deleted, postOrders, wishListDB, cartDB])
 
 
-  const desc = product.description && product.description.split('. ');
+  const desc = product.description && product.description.split('.');
   const description = desc && desc.slice(0, -1);
 
   const notifyDetail3 = () => {
