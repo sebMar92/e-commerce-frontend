@@ -22,11 +22,11 @@ export default function ListOfOrders() {
             <table className="lg:table border-separate content-center font-lora text-sm  w-11/12 border-separated mx-2 hidden md:block">
               <thead>
                 <tr>
-                  <th className="p-3 rounded-lg bg-primary-200  border-2 border-primary-500  ">Order</th>
-                  <th className="p-3 rounded-lg bg-primary-200  border-2 border-primary-500 ">Product</th>
-                  <th className="p-3 rounded-lg bg-primary-200  border-2 border-primary-500 ">Estado</th>
-                  <th className="p-3 rounded-lg bg-primary-200  border-2 border-primary-500 ">Saldo</th>
-                  <th className="p-3 rounded-lg bg-primary-200  border-2 border-primary-500 ">Data</th>
+                  <th className="p-3 rounded-lg bg-primary-200  border-2 border-white  ">Order</th>
+                  <th className="p-3 rounded-lg bg-primary-200  border-2 border-white ">Product</th>
+                  <th className="p-3 rounded-lg bg-primary-200  border-2 border-white ">Estado</th>
+                  <th className="p-3 rounded-lg bg-primary-200  border-2 border-white ">Saldo</th>
+                  <th className="p-3 rounded-lg bg-primary-200  border-2 border-white ">Data</th>
                  
                
                 </tr>
@@ -34,21 +34,21 @@ export default function ListOfOrders() {
               <tbody>
                     <tr>
                         <th
-                          className="p-3  border rounded-lg bg-secondary-100 border-gray-400 "
+                          className="p-3  border rounded-lg bg-secondary-100 border-white "
                           scope="row"
                         >
                           123546
                         </th>
-                        <td className="p-3  border rounded-lg bg-secondary-100 border-gray-400 ">
+                        <td className="p-3  border rounded-lg bg-secondary-100 border-white ">
                           Producto1
                         </td>
-                        <td className="p-3  border rounded-lg bg-secondary-100 border-gray-400 ">
+                        <td className="p-3  border rounded-lg bg-secondary-100 border-white ">
                         Estado
                         </td>
-                        <td className="p-3  border rounded-lg bg-secondary-100 border-gray-400 ">
+                        <td className="p-3  border rounded-lg bg-secondary-100 border-white ">
                           $ 325.32
                         </td>
-                        <td className="p-3  border rounded-lg bg-secondary-100 border-gray-400 ">
+                        <td className="p-3  border rounded-lg bg-secondary-100 border-white ">
                           02/02/2022
                         </td>
                          
@@ -62,8 +62,8 @@ export default function ListOfOrders() {
         
               <div className="p-4 m-2 ml-8 border border-secondary-400 md:hidden rounded-lg w-11/12">
                 <p>
-                  <span className="mx-2 w-1/2">35468#. </span>
-                  <span className=" ">Productos </span>
+                  <span className="mx-2 w-1/2">35468 </span>
+                  <p className=" ">Productos </p>
                   <span className=" ">Estados </span>{" "}
                 </p>
                 <p>
