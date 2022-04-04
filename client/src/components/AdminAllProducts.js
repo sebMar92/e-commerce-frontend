@@ -7,8 +7,9 @@ import SearchBarAdmin from "./commons/SearchBarAdmin";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { getCategories, getProducts } from "../Redux/Actions/actions";
-import DropDownCategories from "./DropDownCategories";
+import DropDownCatAdmin from "./DropDownCatAdmin";
 import CardAdmin from './CardAdmin';
+import Pagination from './Pagination';
 
 export default function AdminAllProducts() {
   const dispatch = useDispatch();
@@ -33,15 +34,22 @@ export default function AdminAllProducts() {
             <div className='flex flex-col sm:flex-row' >
                 <NavbarAdmin />
                 <div className='m-auto'>
-                <DropDownCategories tittle="Categories" array={allCategories} />
+                 <div className='flex flex-row flex-wrap'>
+                 <div className='basis-1/2'>
+                <DropDownCatAdmin tittle="Categories" array={allCategories} />
+                </div>  
+                <div className='basis-1/2'>
                     <SearchBarAdmin/>
+                  </div>   
+                  </div>   
                     {/*<h1>Here admin can see all the products
                     </h1>*/}
+                    <div className='w-full sm:gap-0 sm:m-auto 2xl:grid-cols-2 2xl:gap-0'>
                      {allProducts && 
                       allProducts.map((prod) => {
                        console.log(prod)
                       return (
-                       <div>
+                       <div className='w-full'>
  
                            <CardAdmin 
                             key={prod.id}
@@ -54,9 +62,10 @@ export default function AdminAllProducts() {
                        </div>
                         );
                     })}
-
+                  </div>
                 </div>
             </div>
+            <Pagination />
             </>
         );
     }

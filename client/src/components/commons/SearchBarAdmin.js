@@ -17,19 +17,17 @@ export default function SearchBar(props) {
   const handleInputChange = (e) => {
     const { value } = e.target;
     setSearchValue(value);
-    if (value !== "") {
+    if(value.length > 3){
+      if(value !== "") {
       dispatch(getSearch(value));
+      }
     }
   };
+  
   useEffect(() => {
     dispatch(getProducts(searchValue));
   },[searchValue])
 
-  /*function handleSubmit(e){
-    e.preventDefault();
-    dispatch(getProducts(searchValue));
-    
-  }*/
   console.log('products', products)
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -43,12 +41,12 @@ export default function SearchBar(props) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex justify-center font-lora">
+    <form onSubmit={handleSubmit} className="flex w-full justify-center font-lora">
       <input
         onChange={(e) => handleInputChange(e)}
         onFocus={() => setIsOpen(false)}
         value={searchValue}
-        className="bg-secondary-100 p-2 h-8 rounded-md w-10/12 md:w-4/12 focus:outline-none"
+        className="bg-secondary-100 p-2 h-8 rounded-md w-full h-9 focus:outline-none"
         placeholder="Type to search..."
       />
       <button
@@ -62,12 +60,12 @@ export default function SearchBar(props) {
           (isOpen || searchValue === "") && "hidden"
         }`}
       >
-       {/*} {categories &&
+        {categories &&
           categories.map((category) => {
             return (
               <div className="text-black" key={category.id}>
                 <Link
-                  to={`/products?categoryId=${category.id}&offset=1`}
+                  to={`/admin/products?categoryId=${category.id}&offset=1`}
                   className="text-decoration-line: no-underline"
                 >
                   <div className="hover:bg-primary-300 flex gap-4 p-4">
@@ -86,24 +84,7 @@ export default function SearchBar(props) {
               </div>
             );
           })}
-          {products && products.products &&
-        products.products.map((prod) => {
-          console.log(prod)
-          return (
-            <div>
- 
-              <CardAdmin 
-               key={prod.id}
-               title={prod.title}
-               price={prod.price}
-               images={prod.images[0].url}
-               id={prod.id}
-                
-                
-              />
-            </div>
-          );
-        })}*/}
+          
         {products &&
           products.products &&
           products.products.map((product) => {
@@ -116,7 +97,7 @@ export default function SearchBar(props) {
                   <div className="hover:bg-primary-300 flex gap-4 p-4">
                     
                     <img
-                      src={product.images.url && product.images[0].url}
+                      src={product.images[0].url}
                       alt={product.title}
                       className="w-12 h-12 object-contain"
                     />
@@ -124,9 +105,9 @@ export default function SearchBar(props) {
                       <h3 className="text-sm font-semibold text-black">
                         {product.title}
                       </h3>
-                      <p className="text-xs text-gray-600">
+                      {/*<p className="text-xs text-gray-600">
                         Price: US $ {product.price}
-                      </p>
+            </p>*/}
                     </div>
                   </div>
                 </Link>
