@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import NavBar from '../NavBar';
 import Footer from '../Footer/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link,useNavigate } from 'react-router-dom';
-import { clearProductDetail, getProductByID, postOrder, deleteOrder, getOrder} from '../../Redux/Actions/actions';
-import { useEffect } from 'react';
+import { clearProductDetail, getProductByID, postOrder, deleteOrder, getOrder, getProducts, clearCarrusel } from '../../Redux/Actions/actions';
 import Slider from './Slider';
 import CreateComment from '../Comment/CreateComment';
 import { FaBan } from 'react-icons/fa';
@@ -17,6 +16,8 @@ import { MdLocalShipping } from 'react-icons/md';
 import { GoPrimitiveDot } from 'react-icons/go';
 import ButtonBuy from '../commons/ButtonBuy';
 import { ToastContainer, toast } from 'react-toastify';
+import RealtedCarousel from "../commons/RelatedCarousel"
+import ModalPortal from "../../components/modals/GuestModal"
 
 export default function ProductDetails() {
   const admin = useSelector((state) => state.home.admin);
@@ -36,6 +37,26 @@ export default function ProductDetails() {
   let { idProduct } = useParams();
   const navigate = useNavigate()
   
+
+  const productsCategory = useSelector((state) => state.home.products)
+
+  const [data, setData] = useState([])
+  useEffect(() => {
+    product.categories && product.categories.map(e => {
+      dispatch(getProducts(`?categoryId=${e.id}&limit=100`))
+    })
+  }, [product.categories])
+
+  useEffect(() => {
+    setData([...new Set([...data, ...productsCategory])])
+  }, [productsCategory])
+
+
+  useEffect(() => {
+    setData([])
+    dispatch(clearCarrusel())
+  }, [idProduct])
+
   useEffect(() => {
     dispatch(getOrder({ status: "inCart" }))
     dispatch(getOrder({ status: "inWishList" }))
@@ -47,49 +68,49 @@ export default function ProductDetails() {
 
   useEffect(() => {
     if (token) {
-      const foundProductInCart = (!cartDB || cartDB.error == "couldn't find orders" || cartDB.length === 0) 
-            ? null 
-            : cartDB.find(el => el.id == idProduct);
-      const foundProductInWishList = (!wishListDB || wishListDB.error == "couldn't find orders" || wishListDB.length === 0) 
-            ? null 
-            : wishListDB.find(el => el.id == idProduct);
-      if(foundProductInCart) {
+      const foundProductInCart = (!cartDB || cartDB.error == "couldn't find orders" || cartDB.length === 0)
+        ? null
+        : cartDB.find(el => el.id == idProduct);
+      const foundProductInWishList = (!wishListDB || wishListDB.error == "couldn't find orders" || wishListDB.length === 0)
+        ? null
+        : wishListDB.find(el => el.id == idProduct);
+      if (foundProductInCart) {
         setSelectedCart(true)
       } else {
         setSelectedCart(false)
       }
-      if(foundProductInWishList) {
+      if (foundProductInWishList) {
         setSelectedWishList(true)
       } else {
         setSelectedWishList(false)
       }
     } else {
-        setCartLS(window.localStorage.getItem("inCart"))
-        setWishListLS(window.localStorage.getItem("inWishList"))
+      setCartLS(window.localStorage.getItem("inCart"))
+      setWishListLS(window.localStorage.getItem("inWishList"))
 
-        const parsedCart = JSON.parse(cartLS)
-        const parsedWishList = JSON.parse(wishListLS)
-        
-        const foundProductInCart = (cartLS === null || cartLS.length === 0) 
-            ? null
-            : parsedCart && parsedCart.find(el => el.productId == idProduct)
+      const parsedCart = JSON.parse(cartLS)
+      const parsedWishList = JSON.parse(wishListLS)
 
-        const foundProductInWishList = (wishListLS === null || wishListLS.length === 0)
-            ? null
-            : parsedWishList && parsedWishList.find(el => el.productId == idProduct)
-        
-        if(foundProductInCart) {
-          setSelectedCart(true)
-        } else {
-          setSelectedCart(false)
-        }
-        if(foundProductInWishList) {
-          setSelectedWishList(true)
-        } else {
-          setSelectedWishList(false)
-        }
+      const foundProductInCart = (cartLS === null || cartLS.length === 0)
+        ? null
+        : parsedCart && parsedCart.find(el => el.productId == idProduct)
+
+      const foundProductInWishList = (wishListLS === null || wishListLS.length === 0)
+        ? null
+        : parsedWishList && parsedWishList.find(el => el.productId == idProduct)
+
+      if (foundProductInCart) {
+        setSelectedCart(true)
+      } else {
+        setSelectedCart(false)
+      }
+      if (foundProductInWishList) {
+        setSelectedWishList(true)
+      } else {
+        setSelectedWishList(false)
+      }
     }
-  },[cartLS, wishListLS, deleted, postOrders, wishListDB, cartDB])
+  }, [cartLS, wishListLS, deleted, postOrders, wishListDB, cartDB])
 
 
   const desc = product.description && product.description.split('.');
@@ -100,45 +121,52 @@ export default function ProductDetails() {
       position: toast.POSITION.BOTTOM_LEFT
     });
     navigate("/purchase")
+    const localStorageAccess = window.localStorage.getItem("access")
+    const localStorageRefresh = window.localStorage.getItem("refresh")
+    if (localStorageAccess && localStorageRefresh) {
+      toast.success("Purchase successfull !", {
+        position: toast.POSITION.BOTTOM_LEFT
+      });
+    }
   };
 
 
   function addCartDetails() {
-    if(!selectedCart) {
-          dispatch(
-            postOrder({
-              status: 'inCart',
-              amount: 1,
-              productId: idProduct,
-              title: product.title,
-              shippingCost: product.shippingCost,
-              stock: product.stock,
-              description: product.description,
-              images: product.images,
-              price: product.price,
-              id: idProduct
-            })
-            );
-            toast.success('Added to the cart !', {
-              position: toast.POSITION.BOTTOM_LEFT,
-            });
-          } else {
-              const foundProductInCart = cartDB && cartDB.find(el => el.id == idProduct);
-              const orderId = foundProductInCart && foundProductInCart.orders[0].id
-              dispatch(deleteOrder(
-              orderId,
-              idProduct,
-              "inCart"
-              ))
-              toast.error('Removed from cart !', {
-                position: toast.POSITION.BOTTOM_LEFT,
-              });
-            }
+    if (!selectedCart) {
+      dispatch(
+        postOrder({
+          status: 'inCart',
+          amount: 1,
+          productId: idProduct,
+          title: product.title,
+          shippingCost: product.shippingCost,
+          stock: product.stock,
+          description: product.description,
+          images: product.images,
+          price: product.price,
+          id: idProduct
+        })
+      );
+      toast.success('Added to the cart !', {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
+    } else {
+      const foundProductInCart = cartDB && cartDB.find(el => el.id == idProduct);
+      const orderId = foundProductInCart && foundProductInCart.orders[0].id
+      dispatch(deleteOrder(
+        orderId,
+        idProduct,
+        "inCart"
+      ))
+      toast.error('Removed from cart !', {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
+    }
     setCartLS(window.localStorage.getItem("inCart"))
   }
 
   function addFavDetails() {
-    if(!selectedWishList) {
+    if (!selectedWishList) {
       dispatch(
         postOrder({
           status: 'inWishList',
@@ -158,7 +186,7 @@ export default function ProductDetails() {
         });
       } else {
         const foundProductInWL = wishListDB && wishListDB.find(el => el.id == idProduct);
-        const orderId = foundProductInWL.orders[0].id
+        const orderId = foundProductInWL && foundProductInWL.orders[0].id
         dispatch(deleteOrder(
           orderId,
           idProduct,
@@ -274,9 +302,10 @@ export default function ProductDetails() {
             </div>
           </div>
 
-          <CreateComment id={idProduct} product={product}/>
+          <CreateComment id={idProduct} product={product} />
         </div>
       </div>
+      {data && data.length > 3 && <RealtedCarousel categories={product.categories} data={data} />}
       <Footer />
     </>
   );
