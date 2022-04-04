@@ -18,6 +18,7 @@ import { GoPrimitiveDot } from 'react-icons/go';
 import ButtonBuy from '../commons/ButtonBuy';
 import { ToastContainer, toast } from 'react-toastify';
 import RealtedCarousel from "../commons/RelatedCarousel"
+import ModalPortal from "../../components/modals/GuestModal"
 
 export default function ProductDetails() {
   const admin = useSelector((state) => state.home.admin);
@@ -38,7 +39,6 @@ export default function ProductDetails() {
 
   const productsCategory = useSelector((state) => state.home.products)
 
-
   const [data, setData] = useState([])
   useEffect(() => {
     product.categories && product.categories.map(e => {
@@ -50,11 +50,11 @@ export default function ProductDetails() {
     setData([...new Set([...data, ...productsCategory])])
   }, [productsCategory])
 
-  
+
   useEffect(() => {
     setData([])
     dispatch(clearCarrusel())
-}, [idProduct])
+  }, [idProduct])
 
   useEffect(() => {
     dispatch(getOrder({ status: "inCart" }))
@@ -116,9 +116,13 @@ export default function ProductDetails() {
   const description = desc && desc.slice(0, -1);
 
   const notifyDetail3 = () => {
-    toast.success("Purchase successfull !", {
-      position: toast.POSITION.BOTTOM_LEFT
-    });
+    const localStorageAccess = window.localStorage.getItem("access")
+    const localStorageRefresh = window.localStorage.getItem("refresh")
+    if (localStorageAccess && localStorageRefresh) {
+      toast.success("Purchase successfull !", {
+        position: toast.POSITION.BOTTOM_LEFT
+      });
+    }
   };
 
 
