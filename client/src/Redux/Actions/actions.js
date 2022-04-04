@@ -27,6 +27,7 @@ import {
   CLEAR_PRODUCT_AND_CATEGORY,
   DELETE_ADRESS_USER,
   CLEAR_USER_EMAIL,
+  CLEAR_CARRUSEL
 } from './types';
 
 requestInterceptor();
@@ -364,6 +365,16 @@ export function getUsersInfo() {
   };
 }
 
+export function deleteUserInfo() {
+  return async function (dispatch) {
+    const users = await axios.delete("/user/");
+    return dispatch({
+      type: GET_USERS_INFO,
+      payload: users.data,
+    });
+  };
+}
+
 export function putUserInfo(body) {
   return async (dispatch) => {
     try {
@@ -470,4 +481,10 @@ export function clearUserEmail() {
   return {
     type: CLEAR_USER_EMAIL,
   };
+}
+
+export function clearCarrusel() {
+  return {
+    type: CLEAR_CARRUSEL,
+  }
 }
