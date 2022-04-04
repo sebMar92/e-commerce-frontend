@@ -18,7 +18,11 @@ import {
   POST_NEW_ADRESS_USER,
   CLEAR_PRODUCT_AND_CATEGORY,
   DELETE_ADRESS_USER,
-  CLEAR_USER_EMAIL
+  CLEAR_USER_EMAIL,
+  DELETE_USER_INFO,
+  DELETE_USER_ADMIN,
+  PUT_USER_ADMIN,  
+  CLEAR_CARRUSEL
 } from '../Actions/types';
 
 const initialState = {
@@ -42,6 +46,7 @@ const initialState = {
   resPutOrder: [],
   resAmountOrder: {},
   resNewAdress: {},
+  userDelete: {},
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -102,16 +107,33 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
       };
-      case GET_USERS_INFO:
-        return {
-          ...state,
-          users: action.payload,
-        };
+    case GET_USERS_INFO:
+      return {
+        ...state,
+        users: action.payload,
+      };
+
     case PUT_USER_INFO:
       return {
         ...state,
         answer: action.payload,
       };
+      case PUT_USER_ADMIN:
+        return {
+          ...state,
+          answer: action.payload,
+        };
+      case DELETE_USER_INFO:
+        return {
+          ...state,
+          userDelete: action.payload
+        }
+        case DELETE_USER_ADMIN:
+          return {
+            ...state,
+            userDelete: action.payload
+          }
+  
 
     case PUT_ORDERS:
       return {
@@ -129,26 +151,31 @@ export const HomeReducer = (state = initialState, action) => {
         userTokens: "",
         user: {}
       }
-      case POST_NEW_ADRESS_USER:
-        return {
-          ...state,
-          resNewAdress: action.payload
-        }
-      case CLEAR_PRODUCT_AND_CATEGORY:
-        return{
-          ...state,
-          products: ""
-        }
+    case POST_NEW_ADRESS_USER:
+      return {
+        ...state,
+        resNewAdress: action.payload
+      }
+    case CLEAR_PRODUCT_AND_CATEGORY:
+      return {
+        ...state,
+        products: ""
+      }
     case DELETE_ADRESS_USER:
       return {
         ...state,
         resNewAdress: action.payload
       }
-      case CLEAR_USER_EMAIL:
-        return {
-          ...state,
-          userMail: []
-        }
+    case CLEAR_USER_EMAIL:
+      return {
+        ...state,
+        userMail: []
+      }
+    case CLEAR_CARRUSEL:
+      return {
+        ...state,
+        products: []
+      }
 
     default:
       return state;
