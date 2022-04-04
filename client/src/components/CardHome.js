@@ -7,7 +7,7 @@ import { useDispatch} from "react-redux";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function CardHome({ id, image, title, price, shippingCost, stock, description,images, wishListDB, cartDB, token, deleted, postOrders }) {
+export default function CardHome({ id, image, title, price,onClick,onClick2, shippingCost, stock, description,images, wishListDB, cartDB, token, deleted, postOrders }) {
   const dispatch = useDispatch();
 
   const [selectedWishList, setSelectedWishList] = useState(false)
@@ -63,67 +63,67 @@ export default function CardHome({ id, image, title, price, shippingCost, stock,
   },[cartLS, wishListLS, deleted, postOrders, wishListDB, cartDB])
 
     
-function addCart(){
-  if (!selectedCart) {
-    dispatch(postOrder({
-      status: "inCart",
-      amount: 1,
-      productId: id,
-      title: title,
-      shippingCost: shippingCost,
-      stock: stock,
-      description: description,
-      images: images,
-      price: price
-    }));
-    toast.success('Added to the cart !', {
-      position: toast.POSITION.BOTTOM_LEFT,
-    });
-  } else {
-    const foundProductInCart = cartDB && cartDB.find(el => el.id == id);
-    const orderId = foundProductInCart && foundProductInCart.orders[0].id
-    dispatch(deleteOrder(
-    orderId,
-    id,
-    "inCart"
-    ))
-    toast.error('Removed from cart !', {
-      position: toast.POSITION.BOTTOM_LEFT,
-    });
-  }
-setCartLS(window.localStorage.getItem("inCart"))
-  }
-
-  function addFav(){
-    if(!selectedWishList) {
-    dispatch(postOrder({
-      status: "inWishList",
-      amount: 1,
-      productId: id,
-      title: title,
-      shippingCost: shippingCost,
-      stock: stock,
-      description: description,
-      images: images,
-      price: price
-      }))
-      toast.success('Added to the wishlist !', {
+  function addCart(){
+    if (!selectedCart) {
+      dispatch(postOrder({
+        status: "inCart",
+        amount: 1,
+        productId: id,
+        title: title,
+        shippingCost: shippingCost,
+        stock: stock,
+        description: description,
+        images: images,
+        price: price
+      }));
+      toast.success('Added to the cart !', {
         position: toast.POSITION.BOTTOM_LEFT,
       });
     } else {
-      const foundProductInWL = wishListDB && wishListDB.find(el => el.id == id);
-      const orderId = foundProductInWL && foundProductInWL.orders[0].id
+      const foundProductInCart = cartDB && cartDB.find(el => el.id == id);
+      const orderId = foundProductInCart && foundProductInCart.orders[0].id
       dispatch(deleteOrder(
-        orderId,
-        id,
-        "inWishList"
+      orderId,
+      id,
+      "inCart"
       ))
-      toast.error('Removed from wishlist !', {
+      toast.error('Removed from cart !', {
         position: toast.POSITION.BOTTOM_LEFT,
       });
     }
-  setWishListLS(window.localStorage.getItem("inWishList"))
-  } 
+    setCartLS(window.localStorage.getItem("inCart"))
+    }
+
+    function addFav(){
+      if(!selectedWishList) {
+      dispatch(postOrder({
+        status: "inWishList",
+        amount: 1,
+        productId: id,
+        title: title,
+        shippingCost: shippingCost,
+        stock: stock,
+        description: description,
+        images: images,
+        price: price
+        }))
+        toast.success('Added to the wishlist !', {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      } else {
+        const foundProductInWL = wishListDB && wishListDB.find(el => el.id == id);
+        const orderId = foundProductInWL && foundProductInWL.orders[0].id
+        dispatch(deleteOrder(
+          orderId,
+          id,
+          "inWishList"
+        ))
+        toast.error('Removed from wishlist !', {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      }
+    setWishListLS(window.localStorage.getItem("inWishList"))
+    } 
 
 
 
@@ -144,7 +144,7 @@ setCartLS(window.localStorage.getItem("inCart"))
         </Link>
         <div className="pt-5">
           <span className="flex flex-row justify-around">
-                  <button
+          <button
                     onClick={() => addFav()}
                     className={(selectedWishList ? "bg-primary-400 " : "bg-white ") + "flex items-center justify-center gap-2 rounded no-underline h-fit w-10 md:w-11 font-bold p-2 text-primary-400 bg-white border-[1px] border-primary-400 font-lora hover:border-primary-700 focus:border-primary-700 hover:text-primary-700 focus:text-primary-700 hover:shadow-md active:scale-95"}
                     >

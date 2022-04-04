@@ -64,6 +64,18 @@ export default function Products() {
     }, [allProducts])
      */
 
+  const notifyCat = () => {
+    toast.success('Added to the wishlist !', {
+      position: toast.POSITION.BOTTOM_LEFT,
+    });
+  };
+
+  const notifyCat2 = () => {
+    toast.success('Added to the cart !', {
+      position: toast.POSITION.BOTTOM_LEFT,
+    });
+  };
+
   return (
     <>
       <NavBar />

@@ -89,7 +89,6 @@ const CreateComment = ({ id, product }) => {
                         </div>
                         <p>{c.content}</p>
                     </div>
-                    
                 )) : <div className='font-lora text-sm'> No reviews on this product yet. </div>
             }
         </div>

@@ -12,11 +12,14 @@ import { motion } from "framer-motion";
 import DropDownCategories from "./DropDownCategories";
 import CartModal from "./commons/CartModal";
 import FavsModal from "./commons/FavsModal";
+import ButtonAdmin from "./commons/ButtonAdmin";
 
 export default function NavBar() {
   const arrayPrueba = ["hola", "hello"];
 
   const [isOpen, setIsOpen] = useState(true);
+  const [isLog, setIsLog] = useState(false);
+  const admin = useSelector((state) => state.home.user);
   const hidden = "hidden";
   const spring = {
     type: "spring",
@@ -38,9 +41,12 @@ export default function NavBar() {
   useEffect(() => {
     dispatch(getCategories());
   }, []);
+  /* if (admin.rol === "admin") {
+    setIsLog(!isLog);
+  } */
 
   return (
-    <div className="bg-primary-800 font-medium text-lg px-4 py-2">
+    <div className="bg-primary-600 font-medium text-lg px-4 py-2">
       <div className="flex flex-row justify-between">
         <div>
           <Link to="/" className="text-decoration-line: no-underline">
@@ -54,13 +60,13 @@ export default function NavBar() {
             </div>
           </Link>
         </div>
-{/*         <motion.div layout transition={spring} data-isOn={isOn} onClick={toggleSwitch} className={`bg-primary-700 font-medium rounded-lg text-sm w-20 px-2 py-2 flex cursor-pointer ${isOn && "justify-end"}`}>
+        {/*         <motion.div layout transition={spring} data-isOn={isOn} onClick={toggleSwitch} className={`bg-primary-700 font-medium rounded-lg text-sm w-20 px-2 py-2 flex cursor-pointer ${isOn && "justify-end"}`}>
           {isOn ? "🌙" : "🌞"}
         </motion.div> */}
         <div className="flex justify-evenly gap-6">
-        <FavsModal />
-        <CartModal />
-        <LoginProfileButton />
+          <FavsModal />
+          <CartModal />
+          <LoginProfileButton />
         </div>
         <div className="block lg:hidden">
           <button
@@ -86,12 +92,18 @@ export default function NavBar() {
       </div>
       <div className="flex justify-center">
         <div
-          className={`bg-primary-800 rounded m-2 w-full sm:hidden lg:flex flex-row justify-evenly z-10 mt-4 ${
+          className={`bg-primary-500 text-center rounded m-2 w-full sm:hidden lg:flex flex-row justify-evenly z-10 mt-4 ${
             isOpen && hidden
           } `}
         >
           <DropDownCategories tittle="Categories" array={allCategories} />
-          <Link to="/historial" className="bg-primary-800 font-medium rounded-lg shadow-lg no-underline text-black text-center text-sm px-2 py-2">Historial</Link>
+          <Link
+            to="/historial"
+            className="text-decoration-line: no-underline text-black bg-primary-400 px-4 py-2 m-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-black-200/80"
+          >
+            Historial
+          </Link>
+          {admin.rol === "admin" && <ButtonAdmin />}
         </div>
       </div>
     </div>
