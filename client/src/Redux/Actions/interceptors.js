@@ -34,7 +34,7 @@ export const responseInterceptor = () => {
         error.response.data.error.name === 'TokenExpiredError'
       ) {
         try {
-          const res = await axios.post('http://localhost:3001/user/token', {
+          const res = await axios.post('/user/token', {
             token: getLocalRefresh(),
           });
           window.localStorage.setItem('access', res.data.token);
