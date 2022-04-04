@@ -41,7 +41,7 @@ function App() {
 
   return (
     <>
-      <div className="App">
+      <div>
         <Routes>
 
                 <Route exact path="/" element={<Home />} />
@@ -50,7 +50,7 @@ function App() {
                 <Route path="/purchase" element={<PurchasePage />} />
                 <Route path="/user" element={<ProtectedRouteUser><UserProfile /></ProtectedRouteUser>} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/historial" element={<ProtectedRouteUser user={fullUser}><Historial /></ProtectedRouteUser>} />
+                <Route path="/purchases" element={<ProtectedRouteUser user={fullUser}><Historial /></ProtectedRouteUser>} />
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/cart" element={<Cart />} />
 

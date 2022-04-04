@@ -23,6 +23,7 @@ export default function Home() {
 
   return (
     <>
+    <div>
       <ToastContainer autoClose={2000} />
       <NavBar />
       <CarouselPromo />
@@ -31,6 +32,7 @@ export default function Home() {
       </div>
 
       <Footer />
+      </div>
     </>
   );
 }

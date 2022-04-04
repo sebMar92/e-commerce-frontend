@@ -91,7 +91,7 @@ export default function NavBar() {
           } `}
         >
           <DropDownCategories tittle="Categories" array={allCategories} />
-          <Link to="/historial" className="bg-primary-800 font-medium rounded-lg shadow-lg no-underline text-black text-center text-sm px-2 py-2">Historial</Link>
+          <Link to="/purchases" className="bg-primary-800 font-medium rounded-lg shadow-lg no-underline text-black text-center text-sm px-2 py-2">Purchases</Link>
         </div>
       </div>
     </div>

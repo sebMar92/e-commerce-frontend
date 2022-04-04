@@ -44,19 +44,6 @@ export default function Products() {
     }, 1500);
   }, [categories]);
 
-  /*   useEffect(() => {
-    setTimeout(() => {
-      setLoaded(true)
-    }, 1500);
-  }, [categories]);
-
-  /*   useEffect(() => {
-      setTimeout(() => {
-        setNotFound(true)
-      }, 1500);
-    }, [allProducts])
-     */
-
   const notifyCat = () => {
     toast.success('Added to the wishlist !', {
       position: toast.POSITION.BOTTOM_LEFT,

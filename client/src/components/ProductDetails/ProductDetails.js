@@ -188,7 +188,7 @@ export default function ProductDetails() {
 
           <div id="slider_container" className="p-2 bg-white rounded shadow-sm my-2">
             <div className="p-2 border-b-[1px] border-b-primary-300 font-lora">
-              <h2 className="2xl:text-2xl">{product && product.title}</h2>
+              <h2 className="2xl:text-2xl text-3xl">{product && product.title}</h2>
             </div>
             <Slider images={product.images} />
           </div>
