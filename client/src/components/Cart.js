@@ -129,15 +129,6 @@ export default function Cart() {
               Buy All
             </button>
           </div>
-
-          <div className="flex justify-center">
-            <button
-              onClick={() => handleAllBuy()}
-              className="bg-[#3b82f6] text-white p-1 my-8 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition  w-24"
-            >
-              Buy All
-            </button>
-          </div>
         </>
       ) : (
         <div className="flex justify-center">
