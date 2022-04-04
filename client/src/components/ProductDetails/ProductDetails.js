@@ -3,7 +3,7 @@ import NavBar from '../NavBar';
 import Footer from '../Footer/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
-import { clearProductDetail, getProductByID, postOrder} from '../../Redux/Actions/actions';
+import { clearProductDetail, getProductByID, postOrder, deleteOrder, getOrder, getProducts, clearCarrusel } from '../../Redux/Actions/actions';
 import { useEffect } from 'react';
 import Slider from './Slider';
 import CreateComment from '../Comment/CreateComment';
@@ -17,37 +17,103 @@ import { MdLocalShipping } from 'react-icons/md';
 import { GoPrimitiveDot } from 'react-icons/go';
 import ButtonBuy from '../commons/ButtonBuy';
 import { ToastContainer, toast } from 'react-toastify';
+import RealtedCarousel from "../commons/RelatedCarousel"
 
 export default function ProductDetails() {
   const admin = useSelector((state) => state.home.admin);
   const render = useSelector((state) => state.home.resAmountOrder);
+  const product = useSelector((state) => state.productID.product);
+  const wishListDB = useSelector((state) => state.home.inWishList);
+  const cartDB = useSelector((state) => state.home.inCart)
+  const token = window.localStorage.getItem("access")
+  const [cartLS, setCartLS] = useState(window.localStorage.getItem("inCart"))
+  const [wishListLS, setWishListLS] = useState(window.localStorage.getItem("inWishList"))
+  const deleted = useSelector((state) => state.home.deleted)
+  const postOrders = useSelector((state) => state.home.postOrders)
+  const [selectedWishList, setSelectedWishList] = useState(false)
+  const [selectedCart, setSelectedCart] = useState(false)
 
-  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   let { idProduct } = useParams();
-  
-  const product = useSelector((state) => state.productID.product);
+
+  const productsCategory = useSelector((state) => state.home.products)
+
+
+  const [data, setData] = useState([])
   useEffect(() => {
+    product.categories && product.categories.map(e => {
+      dispatch(getProducts(`?categoryId=${e.id}&limit=100`))
+    })
+  }, [product.categories])
+
+  useEffect(() => {
+    setData([...new Set([...data, ...productsCategory])])
+  }, [productsCategory])
+
+  
+  useEffect(() => {
+    setData([])
+    dispatch(clearCarrusel())
+}, [idProduct])
+
+  useEffect(() => {
+    dispatch(getOrder({ status: "inCart" }))
+    dispatch(getOrder({ status: "inWishList" }))
     dispatch(getProductByID(idProduct));
     return () => {
       dispatch(clearProductDetail())
     }
   }, [dispatch, idProduct, render]);
 
-  const desc = product.description && product.description.split('.');
+  useEffect(() => {
+    if (token) {
+      const foundProductInCart = (!cartDB || cartDB.error == "couldn't find orders" || cartDB.length === 0)
+        ? null
+        : cartDB.find(el => el.id == idProduct);
+      const foundProductInWishList = (!wishListDB || wishListDB.error == "couldn't find orders" || wishListDB.length === 0)
+        ? null
+        : wishListDB.find(el => el.id == idProduct);
+      if (foundProductInCart) {
+        setSelectedCart(true)
+      } else {
+        setSelectedCart(false)
+      }
+      if (foundProductInWishList) {
+        setSelectedWishList(true)
+      } else {
+        setSelectedWishList(false)
+      }
+    } else {
+      setCartLS(window.localStorage.getItem("inCart"))
+      setWishListLS(window.localStorage.getItem("inWishList"))
+
+      const parsedCart = JSON.parse(cartLS)
+      const parsedWishList = JSON.parse(wishListLS)
+
+      const foundProductInCart = (cartLS === null || cartLS.length === 0)
+        ? null
+        : parsedCart && parsedCart.find(el => el.productId == idProduct)
+
+      const foundProductInWishList = (wishListLS === null || wishListLS.length === 0)
+        ? null
+        : parsedWishList && parsedWishList.find(el => el.productId == idProduct)
+
+      if (foundProductInCart) {
+        setSelectedCart(true)
+      } else {
+        setSelectedCart(false)
+      }
+      if (foundProductInWishList) {
+        setSelectedWishList(true)
+      } else {
+        setSelectedWishList(false)
+      }
+    }
+  }, [cartLS, wishListLS, deleted, postOrders, wishListDB, cartDB])
+
+
+  const desc = product.description && product.description.split('. ');
   const description = desc && desc.slice(0, -1);
-
-  const notifyDetail = () => {
-    toast.success('Added to the wishlist !', {
-      position: toast.POSITION.BOTTOM_LEFT,
-    });
-  };
-
-  const notifyDetail2 = () => {
-    toast.success('Added to the cart !', {
-      position: toast.POSITION.BOTTOM_LEFT,
-    });
-  };
 
   const notifyDetail3 = () => {
     toast.success("Purchase successfull !", {
@@ -55,36 +121,73 @@ export default function ProductDetails() {
     });
   };
 
+
   function addCartDetails() {
-    dispatch(
-      postOrder({
-        status: 'inCart',
-        amount: 1,
-        productId: idProduct,
-        title: product.title,
-        shippingCost: product.shippingCost,
-        stock: product.stock,
-        description: product.description,
-        images: product.images,
-        price: product.price,
-      })
-    );
+    if (!selectedCart) {
+      dispatch(
+        postOrder({
+          status: 'inCart',
+          amount: 1,
+          productId: idProduct,
+          title: product.title,
+          shippingCost: product.shippingCost,
+          stock: product.stock,
+          description: product.description,
+          images: product.images,
+          price: product.price,
+          id: idProduct
+        })
+      );
+      toast.success('Added to the cart !', {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
+    } else {
+      const foundProductInCart = cartDB && cartDB.find(el => el.id == idProduct);
+      const orderId = foundProductInCart && foundProductInCart.orders[0].id
+      dispatch(deleteOrder(
+        orderId,
+        idProduct,
+        "inCart"
+      ))
+      toast.error('Removed from cart !', {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
+    }
+    setCartLS(window.localStorage.getItem("inCart"))
   }
 
   function addFavDetails() {
-    dispatch(
-      postOrder({
-        status: 'inWishList',
-        amount: 1,
-        productId: idProduct,
-        title: product.title,
-        shippingCost: product.shippingCost,
-        stock: product.stock,
-        description: product.description,
-        images: product.images,
-        price: product.price,
-      })
-    );
+    if (!selectedWishList) {
+      dispatch(
+        postOrder({
+          status: 'inWishList',
+          amount: 1,
+          productId: idProduct,
+          title: product.title,
+          shippingCost: product.shippingCost,
+          stock: product.stock,
+          description: product.description,
+          images: product.images,
+          price: product.price,
+          id: idProduct
+        })
+        );
+        toast.success('Added to the wishlist !', {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      } else {
+        const foundProductInWL = wishListDB && wishListDB.find(el => el.id == idProduct);
+        const orderId = foundProductInWL && foundProductInWL.orders[0].id
+        dispatch(deleteOrder(
+          orderId,
+          idProduct,
+          "inWishList"
+        ))
+        toast.error('Removed from wishlist !', {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      }
+    setWishListLS(window.localStorage.getItem("inWishList"))
   }
 
   return (
@@ -141,13 +244,12 @@ export default function ProductDetails() {
               )}
               <div className="h-fit p-2 flex">
                 <button
-                  onClick={() => {
+                  onClick={(e) => {
                     addFavDetails();
-                    notifyDetail();
                   }}
-                  className="flex items-center justify-center gap-2 rounded no-underline h-fit w-12 font-bold p-2 text-primary-400 bg-white border-[1px] border-primary-400 font-lora hover:border-primary-700 focus:border-primary-700 hover:text-primary-700 focus:text-primary-700 hover:shadow-md active:scale-95"
+                  className={(selectedWishList ? "bg-primary-400 " : "bg-white ") + "flex items-center justify-center gap-2 rounded no-underline h-fit w-12 bg-white font-bold p-2 border-[1px] border-primary-400 font-lora hover:border-primary-700 hover:text-primary-700 hover:shadow-md active:scale-95"}
                 >
-                  <AiOutlineHeart className="h-6 w-6" color="#FEBD70" />
+                  <AiOutlineHeart className="h-6 w-6 inline-block" color={selectedWishList ? "#ffffff" : "#FEBD70"} />
                 </button>
               </div>
 
@@ -155,12 +257,10 @@ export default function ProductDetails() {
                 <button
                   onClick={() => {
                     addCartDetails();
-                    notifyDetail2();
                   }}
-                  className="flex items-center justify-center gap-2 rounded no-underline h-fit w-12 font-bold p-2 text-white bg-primary-400 font-lora hover:bg-primary-700 focus:bg-primary-700 hover:shadow-md active:scale-95"
-                  to={'/cart'}
+                  className={(selectedCart ? "bg-primary-400 " : "bg-white ") + "flex items-center justify-center gap-2 rounded no-underline h-fit w-12 bg-white font-bold p-2 border-[1px] border-primary-400 font-lora hover:border-primary-700 hover:text-primary-700 hover:shadow-md active:scale-95"}
                 >
-                  <AiOutlineShoppingCart className="h-6 w-6" color="#ffffff" />
+                  <AiOutlineShoppingCart className="h-6 w-6 inline-block" color={selectedCart ? "#ffffff" : "#FEBD70"} />
                 </button>
               </div>
               <div >
@@ -193,9 +293,10 @@ export default function ProductDetails() {
             </div>
           </div>
 
-          <CreateComment id={idProduct} product={product}/>
+          <CreateComment id={idProduct} product={product} />
         </div>
       </div>
+      {data && data.length > 3 && <RealtedCarousel categories={product.categories} data={data} />}
       <Footer />
     </>
   );

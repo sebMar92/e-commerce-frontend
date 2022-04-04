@@ -24,7 +24,9 @@ const CreateComment = ({ id, product }) => {
     useEffect(() => {
         const token = window.localStorage.getItem('access');
         if(token) {
-            const found = finishedOrders && (finishedOrders === null || finishedOrders.error == "couldn't find orders" || finishedOrders.length === 0) ? null : finishedOrders.find(el => el.title == product.title);
+            const found = (!finishedOrders || finishedOrders.error == "couldn't find orders" || finishedOrders.length === 0) 
+            ? null 
+            : finishedOrders.find(el => el.title == product.title);
             
             if(found) {
                 
@@ -73,7 +75,7 @@ const CreateComment = ({ id, product }) => {
         </div>
         <div className="h-fit p-2 flex flex-col gap-6 mt-2">
             {
-                commentsLeft && commentsLeft.map((c) => (
+                commentsLeft &&  (commentsLeft.length > 0 || userComment) ? commentsLeft.map((c) => (
                     <div className="h-full flex flex-col gap-2 font-lora">
                         <div className="flex gap-2">
                             {[...Array(5)].map((el, i) => {
@@ -87,7 +89,8 @@ const CreateComment = ({ id, product }) => {
                         </div>
                         <p>{c.content}</p>
                     </div>
-                ))
+                    
+                )) : <div className='font-lora text-sm'> No reviews on this product yet. </div>
             }
         </div>
     </div>

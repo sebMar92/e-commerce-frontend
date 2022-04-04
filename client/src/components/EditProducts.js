@@ -15,6 +15,7 @@ import NavBarEmpty from "./NavBarEmpty";
 import Axios from "axios";
 import { AiOutlineConsoleSql } from "react-icons/ai";
 import AdminPreview from "../components/AdminPreview";
+import { AiOutlineCloseSquare } from "react-icons/ai"
 
 export default function EditProducts() {
   const { idProduct } = useParams();
@@ -179,13 +180,13 @@ export default function EditProducts() {
     return (
       <>
         <NavBarEmpty />
-        <div className="sm:flex">
+        <div className="sm:flex dark:bg-slate-700 ">
           <NavbarAdmin />
           <form
             onSubmit={(e) => {
               handleSubmit(e);
             }}
-            className="bg-secondary-100 "
+            className="bg-secondary-100 dark:bg-slate-700 dark:text-white "
           >
             <br />
             <h2 className="text-center">Edit Product</h2>
@@ -296,29 +297,38 @@ export default function EditProducts() {
                   }}
                 />
                 <button
-                  type="button"
-                  className="text-secondary-200 bg-secondary-100 p-1 ml-1 rounded-md "
-                  onClick={(e) => handleSubmitAddCategory(e)}
-                >
-                  Add
-                </button>
+                type="button"
+                className="text-secondary-200 bg-secondary-100 w-16 ml-1 border-2 border-gray-300 rounded-md hover:border-2 hover:border-solid hover:border-green-600 hover:text-green-600"
+                onClick={(e) => handleSubmitAddCategory(e)}
+              >
+                Add
+              </button>
               </div>
 
-              {input.categories &&
+              <div className="">
+              {
+                input.categories &&
                 input.categories.map((category) => {
                   return (
-                    <div className="flex w-full hover:bg-secondary-100 bg-gray-50">
-                      <img src={check} alt="check" />
+                    <div className="mt-1 flex w-full hover:bg-secondary-100 bg-gray-50 h-8 items-center lg:h-6 border border-solid shadow-sm mb-1 rounded-md lg:hover:border lg:hover:border-solid lg:hover:border-red-500 lg:hover:items-center">
+                      {/* <img src={check} alt="check" /> */}
+
                       <button
                         type="button"
                         id={category.name}
                         onClick={(e) => handleDelete(e.target.id)}
+                        className="ml-2 w-full flex justify-between lg:hover:block lg:hover:scale-125 lg:hover:text-red-500 "
                       >
                         {category.name}
+
+                        <AiOutlineCloseSquare id={category.name}
+                          onClick={(e) => handleDelete(e.target.id)} className="lg:hidden text-2xl
+                    "/>
                       </button>
                     </div>
                   );
                 })}
+            </div>
             </div>
             <div className=" justify-center py-2 m-2 ">
               <label>Images</label>
@@ -379,7 +389,7 @@ export default function EditProducts() {
               type="submit"
             ></ButtonDiscard>
           </form>
-          <div className=" w-full bg-secondary-100">
+          <div className=" w-full bg-secondary-100 dark:bg-slate-700 dark:text-white">
             <br />
             <h2 className="text-center">Preview</h2>
             <br />

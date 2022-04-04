@@ -15,8 +15,6 @@ import EmailVerification from "./EmailVerification";
 export default function LoginComponent(boolean) {
   const message = useSelector((state) => state.home.userTokens);
   const mailRes = useSelector((state) => state.home.userMail);
-  const admin = useSelector((state) => state.home.user);
-  console.log("este es el rol de admin: " + admin.rol);
   const dispatch = useDispatch();
   let navigate = useNavigate();
   //   const [refresh,setRefresh] = useLocalStorage("refresh","")
@@ -29,7 +27,6 @@ export default function LoginComponent(boolean) {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  console.log(message);
   //Renderizo un form u otro en base al booleano que recibo por props
 
   const onSubmit = (data) => {
@@ -43,24 +40,27 @@ export default function LoginComponent(boolean) {
 
   useMemo(() => {
     if (message.hasOwnProperty("error")) {
-      console.log(message.error);
-    } else if (message && hasAccount) {
+    } else if (message.hasOwnProperty("msg") && hasAccount) {
       navigate("/");
       window.localStorage.setItem("access", message.accessToken);
       window.localStorage.setItem("refresh", message.refreshToken);
-    }
 
-    const wishList = window.localStorage.getItem("inWishList");
-    const cart = window.localStorage.getItem("inCart");
+      const wishList = window.localStorage.getItem("inWishList");
+      const cart = window.localStorage.getItem("inCart");
 
-    if (cart) {
-      var parsedCart = JSON.parse(cart);
-      parsedCart.map((el) => dispatch(postOrder(el)));
-    }
+      if (cart) {
+        var parsedCart = JSON.parse(cart);
+        parsedCart.map((el) =>
+          dispatch(postOrder({ ...el, amount: el.orders[0].amount }))
+        );
+        window.localStorage.removeItem("inCart");
+      }
 
-    if (wishList) {
-      var parsedWishList = JSON.parse(wishList);
-      parsedWishList.map((el) => dispatch(postOrder(el)));
+      if (wishList) {
+        var parsedWishList = JSON.parse(wishList);
+        parsedWishList.map((el) => dispatch(postOrder(el)));
+        window.localStorage.removeItem("inWishList");
+      }
     }
   }, [message]);
 
