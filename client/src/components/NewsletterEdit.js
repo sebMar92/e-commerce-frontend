@@ -14,6 +14,9 @@ export default function NewsletterEdit() {
     const [newEmail, setNewEmail] = useState("");
     const [error, setError] = useState({});
 
+    console.log(users)
+
+
     useEffect(() => {
         dispatch(getUsersInfo());
     }, [dispatch]);
@@ -25,6 +28,7 @@ export default function NewsletterEdit() {
             setReceiver([...new Set(receiver)])
     }, [users])
 
+    console.log(receiver)
 
     const [input, setInput] = useState({
         title: '',
@@ -44,27 +48,24 @@ export default function NewsletterEdit() {
         if(!input.message){
             error.message = "Message is required";
         }
-        /* if(input.receivers === []){
+        if(!input.receivers){
             error.receivers = "Receivers is required"
-        } */
+        }
         return error;
     }
 
     function handleSubmit(e){
         e.preventDefault();
-        if(error === {}){
+        if(Object.keys(error).length > 0){
+            alert("Please, fill in all the fields")
+        } else {
             dispatch(postEmail(input));
-            
+            alert("Email sent!")
             setInput({
                 title: '',
                 message: '',
                 receivers: []
             });
-            
-            alert("Email sent!")
-        } else {
-            console.log("sub", input)
-            alert("Please, fill in all the fields")
         }
     };
 
@@ -74,25 +75,12 @@ export default function NewsletterEdit() {
     }
 
     function handleSubmitNewEmail(e){
-        console.log("este es newemail",newEmail)
         if(newEmail !== ""){
-            if(/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/.test(newEmail)){
-                setInput({
-                    ...input,
-                    receivers: [...input.receivers, newEmail]
-                });
-                setError(
-
-                    validations({                    
-                        ...input,
-                    receivers: [...input.receivers, newEmail]
-                        
-                    })
-                );
-                setNewEmail("");
-            }
-        } else {
-            console.log("must be email")
+            setInput({
+                ...input,
+                receivers: [...input.receivers, newEmail]
+            });
+            setNewEmail("");
         }
     }
 
@@ -102,12 +90,9 @@ export default function NewsletterEdit() {
             [e.target.name]: e.target.value
             });
         setError(
-            
             validations({
-                
-                ...input, 
+                ...input,
                 [e.target.name]: e.target.value,
-                 
             })
         );
     }
@@ -175,18 +160,19 @@ export default function NewsletterEdit() {
                                                 className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
                                                 type='text'
                                                 name='message'
+                                                overflow='auto'
                                                 value={input.message}
                                                 onChange={(e) => handleChangeInput(e)}
                                                 autoComplete="off"
                                             />
-                                            <strong>{error.message}</strong>
+                                            <strong >{error.message}</strong>
                                         </div>
                                     </div>
 
                                     <div className="justify-center p-2">
                                         <label>Receivers</label>
                                         <select className='rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50'
-                                        onChange={(e) => handleSelect(e)} >
+                                        onChange={(e) => handleSelect(e)}>
                                             <option value="select">Select</option>
                                             <option value="All">All</option>
                                                 {receiver.length > 0 && receiver.map((rec) => {
@@ -208,10 +194,8 @@ export default function NewsletterEdit() {
                                             />
                                             <button 
                                                 type="button"
-                                                name="receivers"
-                                                value={newEmail}
                                                 className="text-secondary-200 bg-secondary-100 p-1 ml-1 rounded-md "
-                                                onClick={(e) => handleSubmitNewEmail(e)} onChange={(e) => handleChangeInput(e)}>
+                                                onClick={(e) => handleSubmitNewEmail(e)}>
                                                     Add
                                             </button>
                                         </div>
@@ -219,7 +203,7 @@ export default function NewsletterEdit() {
                                         {input.receivers && input.receivers.map(rec => 
                                             <div className="flex w-full hover:bg-secondary-100 bg-gray-50" key={rec} value={rec}>
                                                 <img src={check} alt="check" />
-                                                <button type='button' name="receivers" id={rec} onClick={(e) => handleDelete(e)}>{rec}</button>
+                                                <button type='button' id={rec} onClick={(e) => handleDelete(e)}>{rec}</button>
                                             </div>
                                         )}
                                         
