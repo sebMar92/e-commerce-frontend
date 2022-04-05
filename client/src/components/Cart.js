@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { MdRestaurantMenu } from "react-icons/md";
-import { getOrder, changeOrderStatus } from "../Redux/Actions/actions";
+import { getOrder, changeOrderStatus, postBulkOrder } from "../Redux/Actions/actions";
 import carrito from "./utils/carrito triste.png";
 
 export default function Cart() {
@@ -18,7 +18,8 @@ export default function Cart() {
   var finalShippingCost = [];
 
   const resPutOrder = useSelector((state) => state.home.resPutOrder);
-
+  const resPostBulk = useSelector((state) => state.home.resPostBulk);
+  console.log(resPostBulk)
   if (product && product.length > 0) {
     total = product
       .map((item) => item.price * item.orders[0].amount)
@@ -31,22 +32,25 @@ export default function Cart() {
 
   useEffect(() => {
     dispatch(getOrder({ status: "inCart" }));
-  }, [resPutOrder]);
+  }, [resPutOrder,resPostBulk]);
+
+  
 
   function handleAllBuy() {
-    product &&
-      product.forEach((e) => {
-        const id = e.orders[0].id;
+      if(product.length > 1){
+        const ids = product.map(e => e.orders[0].id)
         dispatch(
-          changeOrderStatus({
-            id: id,
-            status: "pending",
-          })
-        );
-      });
-      setTimeout(() => {
+          postBulkOrder({orderIds: ids})
+        )}
+        else{
+          dispatch(changeOrderStatus({
+            id: product[0].orders[0].id,
+            status: "pending"
+          }))
+        }
+     /*  setTimeout(() => {
         navigate("/purchase")
-      }, 3000);
+      }, 3000); */
   }
 
   return (

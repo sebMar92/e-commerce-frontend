@@ -6,41 +6,15 @@ import Preview from "./Preview";
 import axios from "axios";
 
 export default function Checkout({ products, data }) {
+  console.log(products,"soy data")
   const dispatch = useDispatch()
   const userDirection = useSelector((state) => state.home.user.directions)
-  const total = products && products.map((item) => item.price * item.orders[0].amount).reduce((prev, curr) => prev + curr, 0);
+  const product = useSelector((state) => state.home.pending);
+  const bulkOrder = useSelector((state) => state.home.bulkOrders);
   const location = useLocation()
   const [resp,setRes] = useState("")
-
-  useEffect(() =>{
-    if(location.search.length){
-    const res = axios.get("http://localhost:3001/mercadopago/feedback" + location.search)
-    .then((res) =>{
-      console.log(res)
-      setRes(res.data)
-    })
-  }
-  },[location.search])
-
-  useEffect(() => {
-    if(resp && resp.Status === "approved"){
-      products &&
-      products.forEach((e) => {
-        const id = e.orders[0].id;
-        console.log(id)
-        dispatch(
-          changeOrderStatus({
-            id: id,
-            status: "finished",
-          })
-        )
-    })
-  }
-  }, [resp])
-
-
-
-
+  console.log(product)
+  console.log(bulkOrder)
 
     useEffect(() => {
       const script = document.createElement("script");
@@ -78,11 +52,28 @@ export default function Checkout({ products, data }) {
               <select>
                 {userDirection && userDirection.map((e) => {
                     return <option key={e.id}>{e.city}</option>
-                })}
+                })}     
               </select>
             </label>
         <div>
-          <h1>Total price: {total}</h1>
+          {bulkOrder.length > 0 ?
+          <h1>Products price: {(bulkOrder[0].combinedPrice).toFixed(2)}</h1>
+          : null}
+          {bulkOrder.length > 0 ?
+          <h1>Shipping price: {(bulkOrder[0].combinedShippingCost).toFixed(2)}</h1>
+          : null}
+          {bulkOrder.length > 0 ?
+          <h1>Total: {(bulkOrder[0].combinedPrice + bulkOrder[0].combinedShippingCost).toFixed(2)}</h1>
+          : null}
+          {product.length > 0 && !Array.isArray(bulkOrder) ?
+          <h1>Product price: {(product[0].price * product[0].orders[0].amount).toFixed(2)}</h1>
+          : null}
+          {product.length > 0 && !Array.isArray(bulkOrder) ?
+          <h1>Shipping price: {(product[0].shippingCost).toFixed(2)}</h1>
+          : null}     
+          {product.length > 0 && !Array.isArray(bulkOrder) ?    
+          <h1>Total: {(product[0].price * product[0].orders[0].amount + product[0].shippingCost).toFixed(2)}</h1>
+          : null}
         </div>
         </form>
       </div>

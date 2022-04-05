@@ -31,6 +31,9 @@ import {
   DELETE_USER_ADMIN,
   CLEAR_USER_EMAIL,
   CLEAR_CARRUSEL,
+  POST_BULK_ORDER,
+  GET_BULK_ORDERS,
+  PUT_BULK_ORDERS
 } from "./types";
 
 requestInterceptor();
@@ -276,7 +279,7 @@ export function getOrder(order) {
 
 export function changeOrderStatus(order) {
   return async function (dispatch) {
-    var json = await axios.put(`/order/${order.id}?status=${order.status}`);
+    var json = await axios.put(`/order/${order.id}`,{status: order.status,date:order.date});
     return dispatch({
       type: PUT_ORDERS,
       payload: { status: order.status, data: json.data },
@@ -518,5 +521,37 @@ export function clearUserEmail() {
 export function clearCarrusel() {
   return {
     type: CLEAR_CARRUSEL,
+  };
+}
+
+export function postBulkOrder(orderIds) {
+  return async function (dispatch) {
+    const bulk = await axios.post("/order/bulk", orderIds);
+    return dispatch({
+      type: POST_BULK_ORDER,
+      payload: bulk.data,
+    });
+  };
+}
+
+export function getBulkOrders(status) {
+  console.log(status)
+  return async function (dispatch) {
+    const bulkOrders = await axios.get("/order/bulk?status=" + status.status);
+    return dispatch({
+      type: GET_BULK_ORDERS,
+      payload: bulkOrders.data,
+    });
+  };
+}
+
+
+export function putBulkOrders(body,id) {
+  return async function (dispatch) {
+    const putBulkOrders = await axios.put("/order/bulk/" + id, body);
+    return dispatch({
+      type: PUT_BULK_ORDERS,
+      payload: putBulkOrders.data,
+    });
   };
 }
