@@ -31,6 +31,7 @@ import {
   DELETE_USER_ADMIN,
   CLEAR_USER_EMAIL,
   CLEAR_CARRUSEL,
+  GET_BULK_ADMIN,
   POST_BULK_ORDER,
   GET_BULK_ORDERS,
   PUT_BULK_ORDERS,
@@ -570,6 +571,15 @@ export function clearCarrusel() {
   };
 }
 
+export function getBulkAdmin() {
+  return async function (dispatch) {
+    var json = await axios.get('/order/admin/bulk');
+    return dispatch({
+      type: GET_BULK_ADMIN,
+      payload: json.data,
+    })
+  }
+}
 export function postBulkOrder(orderIds) {
   return async function (dispatch) {
     const bulk = await axios.post('/order/bulk', orderIds);
@@ -581,7 +591,7 @@ export function postBulkOrder(orderIds) {
 }
 
 export function getBulkOrders(status) {
-  console.log(status);
+ 
   return async function (dispatch) {
     const bulkOrders = await axios.get('/order/bulk?status=' + status.status);
     return dispatch({

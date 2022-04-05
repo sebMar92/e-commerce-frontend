@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUserInfo, getOrder, deleteOrder } from '../../Redux/Actions/actions';
-import { Link } from 'react-router-dom';
-import { GrFavorite } from 'react-icons/gr';
-import { toast } from 'react-toastify';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getUserInfo,
+  getOrder,
+  deleteOrder,
+} from "../../Redux/Actions/actions";
+import { Link } from "react-router-dom";
+import { GrFavorite } from "react-icons/gr";
+import { toast } from "react-toastify";
 
 export default function FavsModal() {
   const favs = useSelector((state) => state.home.inWishList);
@@ -12,19 +16,16 @@ export default function FavsModal() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getOrder({ status: 'inWishList' }));
+    dispatch(getOrder({ status: "inWishList" }));
   }, [render, deleted]);
 
-  const deleteFavModal = (del, id) => dispatch(deleteOrder(
-    del,
-    id,
-    "inWishList"
-  ));
+  const deleteFavModal = (del, id) =>
+    dispatch(deleteOrder(del, id, "inWishList"));
 
   const notifyDelete = () => {
-    toast.error('Deleted from wishlist!', {
+    toast.error("Deleted from wishlist!", {
       position: toast.POSITION.BOTTOM_LEFT,
-      toastId: 'success1',
+      toastId: "success1",
     });
   };
 
@@ -37,12 +38,12 @@ export default function FavsModal() {
           </Link>
           <ul
             className={`absolute z-50 -translate-x-52 mt-1 text-sm invisible group-hover:visible p-4 ${
-              favs && favs.length > 0 ? 'bg-white' : ''
+              favs && favs.length > 0 ? "bg-white" : ""
             } rounded-xl`}
           >
             <p
               className={`text-xl mb-2 font-bold ${
-                favs && favs.length > 0 ? '' : 'text-transparent'
+                favs && favs.length > 0 ? "" : "text-transparent"
               }`}
             >
               Wishlist
@@ -51,15 +52,21 @@ export default function FavsModal() {
               favs.length > 0 &&
               favs.map((e, i) => {
                 const del = e.orders[0].id;
-                const id = e.productId
+                const id = e.productId;
                 if (i < 2) {
                   return (
                     <>
-                      <Link to="/wishlist" key={e.id} className="no-underline text-black">
+                      <Link
+                        to="/wishlist"
+                        key={e.id}
+                        className="no-underline text-black"
+                      >
                         <li className="grid grid-cols-2 gap-2 bg-white w-52 mb-2">
                           {e.title}
                           <img
-                            src={e.images && e.images.length > 0 && e.images[0].url}
+                            src={
+                              e.images && e.images.length > 0 && e.images[0].url
+                            }
                             alt={e.id}
                           />
                         </li>
@@ -70,13 +77,13 @@ export default function FavsModal() {
                             deleteFavModal(del, id);
                             notifyDelete();
                           }}
-                          className="text-red-600 font-bold px-2 my-1 rounded-lg active:translate-y-1"
+                          className="text-red-600 font-bold px-2 my-1 rounded-lg active:translate-y-1 hover:bg-red-600 hover:text-white"
                         >
-                          Eliminar
+                          Delete
                         </button>
                         <Link
                           to="/cart"
-                          className="no-underline text-black bg-primary-700 rounded-sm px-2 py-2 my-1 active:translate-y-1 font-medium"
+                          className="no-underline text-black bg-primary-500 rounded-md px-2 py-2 my-1 active:translate-y-1 font-medium hover:bg-slate-700 hover:text-white"
                         >
                           Go to buy
                         </Link>
@@ -86,12 +93,14 @@ export default function FavsModal() {
                 }
               })}
             {favs && favs.length > 0 ? (
-              <Link
-                to="/wishlist"
-                className="flex justify-center mt-1 underline decoration-primary-700 hover:scale-105 text-black invisible group-hover:visible w-12/12"
-              >
-                View full wishlist
-              </Link>
+              <div className="bg-primary-500 rounded">
+                <Link
+                  to="/wishlist"
+                  className="flex justify-center mt-1 text-decoration-line: no-underline hover:scale-105 text-black invisible group-hover:visible w-12/12 hover:bg-slate-700 hover:text-white hover:rounded"
+                >
+                  View full cart
+                </Link>
+              </div>
             ) : null}
           </ul>
         </button>

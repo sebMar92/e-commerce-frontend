@@ -25,6 +25,7 @@ import {
   CLEAR_CARRUSEL,
   POST_BULK_ORDER,
   GET_BULK_ORDERS,
+  GET_BULK_ADMIN,
   PUT_BULK_ORDERS
 } from '../Actions/types';
 
@@ -53,7 +54,8 @@ const initialState = {
   userDelete: {},
   resPostBulk: [],
   bulkOrders: [],
-  putBulkOrders: []
+  putBulkOrders: [],
+  bulkAdmin: [],
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -198,6 +200,11 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         putBulkOrders: action.payload
       }
+      case GET_BULK_ADMIN:
+        return {
+          ...state,
+          bulkAdmin: action.payload
+        }
 
     default:
       return state;
