@@ -10,14 +10,12 @@ export default function OptionRender() {
     const location = useLocation()
     const dispatch = useDispatch()
     const [res,setRes] = useState()
-    const [render,setRender] = useState(true)
+    const [render,setRender] = useState(false)
     const [status,setStatus] = useState(false)
     const bulkOrders = useSelector((state) => state.home.bulkOrders);
     const put = useSelector((state) => state.home.putBulkOrders);
     const product = useSelector((state) => state.home.pending);
   
-    console.log(bulkOrders)
-    console.log(product)
     useEffect(() =>{
         dispatch(getBulkOrders({status:"pending"}))
         dispatch(getOrder({status:"pending"}))
@@ -41,6 +39,7 @@ export default function OptionRender() {
                     purchaseId: res.Payment,
                     date: date,
                 },id))
+                setRender(true)
             }else if(product.length > 0){
                 console.log("entre product dis")
                 dispatch(changeOrderStatus({
@@ -49,6 +48,7 @@ export default function OptionRender() {
                     date: date,
                     purchaseId: res.Payment
                 }))
+                setRender(true)
             }
         }else{
             setRender(false)
