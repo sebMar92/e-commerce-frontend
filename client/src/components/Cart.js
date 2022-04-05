@@ -6,13 +6,19 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { MdRestaurantMenu } from "react-icons/md";
-import { getOrder, changeOrderStatus } from "../Redux/Actions/actions";
+import {
+  getOrder,
+  changeOrderStatus,
+  postEmail,
+} from "../Redux/Actions/actions";
 import carrito from "./utils/carrito triste.png";
 
 export default function Cart() {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.home.inCart);
-  const direccion = useSelector((state) => state.home.user.directions);
+  const userInfo = useSelector((state) => state.home.user);
+  const direccion = userInfo.directions;
+  const email = userInfo.email;
   var total = 0;
   var finalShippingCost = [];
 
@@ -40,6 +46,13 @@ export default function Cart() {
           changeOrderStatus({
             id: id,
             status: "finished",
+          })
+        );
+        dispatch(
+          postEmail({
+            title: "Purchase finished succesfuly",
+            message: "Purchase finished succesfuly",
+            receivers: [email],
           })
         );
       });
