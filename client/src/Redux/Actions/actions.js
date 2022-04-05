@@ -573,7 +573,7 @@ export function clearCarrusel() {
 
 export function getBulkAdmin() {
   return async function (dispatch) {
-    var json = await axios.get("/order/admin/bulk");
+    var json = await axios.get('/order/admin/bulk');
     return dispatch({
       type: GET_BULK_ADMIN,
       payload: json.data,
@@ -591,7 +591,7 @@ export function postBulkOrder(orderIds) {
 }
 
 export function getBulkOrders(status) {
-  console.log(status);
+ 
   return async function (dispatch) {
     const bulkOrders = await axios.get('/order/bulk?status=' + status.status);
     return dispatch({

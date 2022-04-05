@@ -3,14 +3,15 @@ import {
   GET_PRODUCTS_SALES,
   PUT_PRODUCT_BY_ID,
   DELETE_SALE,
-  GET_BULK_ADMIN
+  DELETE_PRODUCT,
+  POST_EMAIL
 } from '../Actions/types.js';
 
 const initialState = {
   sales: [],
   salesAllProducts: [],
   deleted: {},
-  bulkAdmin: [],
+  deletedProduct: {},
 };
 
 export const AdminReducer = (state = initialState, { type, payload }) => {
@@ -34,11 +35,16 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
       };
-      case GET_BULK_ADMIN:
-        return {
-          ...state,
-          bulkAdmin: payload.products,
-        }
+    
+        case DELETE_PRODUCT:
+          return {
+            ...state,
+            deletedProduct: payload,
+          };
+          case POST_EMAIL:
+            return {
+              ...state,
+            }
     default:
       return state;
   }
