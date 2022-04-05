@@ -6,7 +6,6 @@ import Footer from "./Footer/Footer";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { useSearchParams, useLocation } from "react-router-dom";
-import SendingEmails from "./SendingEmails";
 
 export default function Home() {
   const notify = () => {
@@ -20,7 +19,6 @@ export default function Home() {
       position: toast.POSITION.BOTTOM_LEFT,
     });
   };
-  SendingEmails();
 
   return (
     <>

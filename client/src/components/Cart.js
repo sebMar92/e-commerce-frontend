@@ -42,7 +42,6 @@ export default function Cart() {
   function handleAllBuy() {
     if (product.length > 1) {
       const ids = product.map((e) => e.orders[0].id);
-      console.log("se va a mandar el correo");
       dispatch(postBulkOrder({ orderIds: ids }));
     } else {
       dispatch(
@@ -52,9 +51,9 @@ export default function Cart() {
         })
       );
     }
-    /*  setTimeout(() => {
-        navigate("/purchase")
-      }, 3000); */
+    setTimeout(() => {
+      navigate("/purchase");
+    }, 3000);
   }
 
   return (
