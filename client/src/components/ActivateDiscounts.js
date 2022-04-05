@@ -385,12 +385,12 @@ export default function ActivateDiscounts() {
                     <div className="bg-secondary-100 p-4 items-center dark:bg-slate-700">
                       <div>Description: </div>
                       <div className="flex-col">
-                        <input
+                        <input 
                           id="description"
                           value={sale.description}
                           type="text-area"
                           onChange={(e) => handleInputChange(e)}
-                          className="ml-2 rounded-sm border border-primary-500 w-full pl-2 dark:bg-slate-400"
+                          className="ml-2 rounded-sm border border-primary-500 w-full pl-2 dark:bg-slate-700"
                         ></input>
                         <strong>{errors.description}</strong>
                       </div>
@@ -403,7 +403,7 @@ export default function ActivateDiscounts() {
                           value={sale.percentage}
                           onChange={(e) => handleInputChange(e)}
                           type="number"
-                          className="ml-2 rounded-sm border border-primary-500 flex w-full pl-2 dark:bg-slate-400"
+                          className="ml-2 rounded-sm border border-primary-500 flex w-full pl-2 dark:bg-slate-700"
                         ></input>
                         <strong>{errors.percentage}</strong>
                       </div>
@@ -434,7 +434,7 @@ export default function ActivateDiscounts() {
                           value={sale.productAmount}
                           onChange={(e) => handleInputChange(e)}
                           type="number"
-                          className="ml-2 rounded-sm border border-primary-500 w-full pl-2 dark:bg-slate-400"
+                          className="ml-2 rounded-sm border border-primary-500 w-full pl-2 dark:bg-slate-700"
                         ></input>
                       </div>
                     </div>
@@ -554,7 +554,7 @@ export default function ActivateDiscounts() {
                         placeholder="Image URL..."
                         id="image"
                         onChange={(e) => handleInputChange(e)}
-                        className="mt-7 mb-2 ml-2 mr-2 h-fit border rounded border-primary-500 w-full pl-2 dark:bg-slate-200"
+                        className="mt-7 mb-2 ml-2 mr-2 h-fit border rounded border-primary-500 w-full pl-2 dark:text-white dark:bg-slate-700"
                       />
                       <strong>{errors.image}</strong>
                     </div>

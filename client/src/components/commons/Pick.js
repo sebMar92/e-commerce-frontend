@@ -68,7 +68,7 @@ export default function Pick({ title, array, picked, callback }) {
       <input
         type="text"
         placeholder="Search..."
-        className="border border-primary-500 w-11/12 ml-1 p-1 dark:bg-slate-200"
+        className="border border-primary-500 w-11/12 ml-1 p-1 dark:bg-slate-700"
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
       />
