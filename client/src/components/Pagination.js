@@ -10,25 +10,33 @@ export default function Pagination() {
   const pages = useSelector((state) => state.home.totalPages);
   const pagesArray = pages && Array.from({ length: pages }, (value, i) => i + 1);
 
-useEffect(()=>{
-  const btnPrev = document.getElementById("btnPrev")
-  const btnNext = document.getElementById("btnNext")
-if(queryObjects.offset == 1){
- btnPrev.classList.add("hidden")
-}else{
-  btnPrev.classList.remove("hidden")
-}
-if(queryObjects.offset == pages){
-  btnNext.classList.add("hidden")
- }else{
-   btnNext.classList.remove("hidden")
- }
+  useEffect(() => {
+    const btnPrev = document.getElementById("btnPrev")
+    const btnNext = document.getElementById("btnNext")
+    if (queryObjects.offset == 1) {
+      btnPrev.classList.add("hidden")
+    } else {
+      btnPrev.classList.remove("hidden")
+    }
+    if (queryObjects.offset == pages) {
+      btnNext.classList.add("hidden")
+    } else {
+      btnNext.classList.remove("hidden")
+    }
 
-},[queryObjects])
+  }, [queryObjects])
+
+  useEffect(() => {
+    if (pagesArray === 0) {
+      document.getElementById("paginado").classList.add("hidden")
+    }else{
+      document.getElementById("paginado").classList.remove("hidden")
+    }
+  }, [pagesArray])
 
 
   return (
-    <div>
+    <div id="paginado" className="">
       <nav>
         <ul className="flex justify-evenly sm:justify-center m-2">
           <div id="btnPrev" className="">

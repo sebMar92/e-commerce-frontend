@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ModalPortal from "../components/modals/UserProfileModal"
 import { Link } from "react-router-dom"
 import axios from 'axios';
-
+import NavigatorProfile from './NavigatorProfile';
 
 
 /* nose que esta pasando */
@@ -20,7 +20,6 @@ export default function UserProfile() {
     const user = useSelector((state) => state.home.user)
     const [directionsUser, setDirectionsUser] = useState([])
     const dispatch = useDispatch()
-    console.log(user)
 
     const [stateUser, setStateUser] = useState({
         firstName: "",
@@ -191,11 +190,11 @@ export default function UserProfile() {
             {stateModal ? <ModalPortal directionsUser={user?.directions || []} onClose={(e) => handleCloseModal(e)} /> : null}
             <div>
                 <NavBar />
-                <div className='userprofile'>
+                <div className='userprofile font-lora text-xl'>
                     <div className="flex flex-col items-center justify-center">
                         <div>
 
-                            <h1 className="text-center">User Profile</h1>
+                            <h1 className="text-center text-5xl">Profile</h1>
                             <br />
 
                             <img className='w-60 h-60 object-cover border-2 border-solid border-slate-700 rounded-full shadow-xl' src={stateUser.profilePicture} />
@@ -214,7 +213,7 @@ export default function UserProfile() {
                             <div className="flex justify-center items-center">
                                 <input id="btnconfirmImg" className="hidden mb-1 mr-16 ml-16 p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 text-xs" type="button" value="Confirm image" onClick={() => handleChangeImg()} />
                             </div>
-                            <h3 className="text-center">{stateUser.firstName} {stateUser.lastName}</h3>
+                            <h3 className="text-center text-4xl font-lora font-medium">{stateUser.firstName} {stateUser.lastName}</h3>
                             <br />
 
                         </div>
@@ -223,25 +222,8 @@ export default function UserProfile() {
                         {/* Formulario del usuario */}
                         <div className="flex flex-col w-96 justify-center items-center">
 
-                            <div className="">
-                                <Link to={`/historial`} className="no-underline text-black">
-                                    <button className="p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 text-xs">Go to history</button>
-                                </Link>
-
-                                <Link to={`/wishlist`} className="no-underline text-black">
-
-                                    <button className="mb-1 mr-16 ml-16 p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 text-xs">Go to wish list</button>
-                                </Link>
-
-                                <Link to={`/cart`} className="no-underline text-black">
-
-                                    <button className="p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 text-xs">Go to cart</button>
-                                </Link>
-
-                            </div>
-
                             <div className='bg-secondary-100 rounded-md p-2 shadow-sm shadow-slate-900 mb-4'>
-                                <h5 className="text-center mb-2">Data User</h5>
+                                <h5 className="text-center text-xl mb-2">User Data</h5>
 
                                 <div className='rounded-md shadow-sm shadow-slate-400 mb-1'>
 
@@ -419,6 +401,10 @@ export default function UserProfile() {
                         </div>
                         {/* BUTTONS NewsLetter & DeleteAccount */}
 
+                    </div>
+                    <h1 className='text-center text-5xl font-medium'>Overview</h1>
+                    <div className='flex justify-center h-[60vh] my-[5rem]'>
+                    <NavigatorProfile />
                     </div>
                     <Footer />
                 </div>

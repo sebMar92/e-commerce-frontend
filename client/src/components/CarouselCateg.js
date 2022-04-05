@@ -2,7 +2,7 @@ import React from "react";
 import Slider from "react-slick";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts, getCategories } from "../Redux/Actions/actions";
+import { getProducts, getCategories, getOrder } from "../Redux/Actions/actions";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import CardHome from "./CardHome";
 import { Link } from "react-router-dom";
@@ -11,6 +11,12 @@ export default function CarouselCateg({onClick,onClick2}) {
   const dispatch = useDispatch();
   const allProducts = useSelector((state) => state.home.products);
   const allCategories = useSelector((state) => state.home.categories);
+  const wishListDB = useSelector((state) => state.home.inWishList);
+  const cartDB = useSelector((state) => state.home.inCart)
+  const token = window.localStorage.getItem("access")
+  const deleted = useSelector((state) => state.home.deleted)
+  const postOrders = useSelector((state) => state.home.postOrders)
+  
 
   let arr = [];
   for (let i = 0; i < allCategories.length; i++) {
@@ -20,6 +26,8 @@ export default function CarouselCateg({onClick,onClick2}) {
   useEffect(() => {
     dispatch(getProducts("?limit=100"));
     dispatch(getCategories());
+    dispatch(getOrder({ status: "inCart" }))
+    dispatch(getOrder({ status: "inWishList" }))
   }, []);
 
   function randomCategories(array) {
@@ -199,7 +207,7 @@ export default function CarouselCateg({onClick,onClick2}) {
     return (
       <div className="flex flex-start top-1/2 cursor-pointer">
         <button
-          className="border-2 border-solid border-primary-500 shadow-lg shadow-slate-400  mr-5 hidden lg:block absolute bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold top-1/2 cursor-pointer text-center  right-full"
+          className="mr-5 hidden lg:block absolute hover:scale-110 text-orange-400 p-1.5 rounded-full bg-opacity-30 hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold top-1/2 cursor-pointer text-center right-full active:-translate-x-1"
           onClick={onClick}
         >
           <AiOutlineLeft />
@@ -212,7 +220,7 @@ export default function CarouselCateg({onClick,onClick2}) {
     return (
       <div className="flex flex-start top-1/2 cursor-pointer">
         <button
-          className="border-2 border-solid border-primary-500 shadow-lg shadow-slate-400 ml-5 hidden lg:block absolute bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold top-1/2 cursor-pointer text-center  left-full right-4/"
+          className="ml-5 hidden lg:block absolute text-orange-400  p-1.5 rounded-full bg-opacity-30 hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold top-1/2 cursor-pointer text-center  left-full right-4 hover:scale-110 active:translate-x-1"
           onClick={onClick}
         >
           <AiOutlineRight />
@@ -262,7 +270,7 @@ export default function CarouselCateg({onClick,onClick2}) {
 
   return (
     <div className="max-w-screen-lg m-auto mt-3 sm:mt-5 h-full">
-      {randomCategories(arr).map((categ) => {
+      { randomCategories(arr)?.map((categ) => {
         return (
           <div
             key={categ.id}
@@ -278,17 +286,24 @@ export default function CarouselCateg({onClick,onClick2}) {
             </Link>
 
             <Slider {...settings}>
-              {prod(allProducts, categ).map((product) => {
+              {prod(allProducts, categ)?.map((product) => {
                 return (
                   <div key={product.id} className="p-2 h-full">
                     <CardHome
-                      onClick={onClick}
-                      onClick2={onClick2}
                       key={product.id}
                       id={product.id}
                       image={product.images[0].url}
+                      images={product.images}
                       title={product.title}
                       price={product.price}
+                      shippingCost={product.shippingCost}
+                      stock={product.stock}
+                      description={product.description}
+                      wishListDB={wishListDB}
+                      cartDB={cartDB}
+                      token={token}
+                      deleted={deleted}
+                      postOrders={postOrders}
                     />
                   </div>
                 );

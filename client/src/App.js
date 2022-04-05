@@ -1,6 +1,6 @@
 import React,{useEffect} from 'react';
 import { Route, Routes,Navigate } from 'react-router-dom';
-
+import ProtectedRouteUser from './components/ProtectedRouteUser'
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './components/Home';
 import ProductsByCategory from './components/ProductsByCategory';
@@ -24,6 +24,7 @@ import axios from 'axios';
 import {useDispatch,useSelector} from 'react-redux';
 import {getUserInfo} from './Redux/Actions/actions'
 import { full } from '@cloudinary/url-gen/qualifiers/fontHinting';
+import OptionRender from './components/Mercadopago/OptionRender'
 
 
 
@@ -37,22 +38,23 @@ function App() {
   useEffect(() => {
     dispatch(getUserInfo())
   }, []);
-  console.log(fullUser)
 
   return (
     <>
-      <div className="App">
+      <div>
         <Routes>
 
                 <Route exact path="/" element={<Home />} />
                 <Route path="/products" element={<ProductsByCategory />} />
                 <Route path="/product/:idProduct" element={<ProductDetails />} />
-                <Route path="/purchase" element={<PurchasePage />} />
-                <Route path="/user" element={<UserProfile />} />
+                <Route path="/user" element={<ProtectedRouteUser><UserProfile /></ProtectedRouteUser>} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/historial" element={<Historial />} />
+                <Route path="/purchases" element={<ProtectedRouteUser user={fullUser}><Historial /></ProtectedRouteUser>} />
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="/purchase" element={<PurchasePage />} />
+                <Route path="/purchase/success" element={<OptionRender />} />
+                <Route path="/purchase/failure" element={<OptionRender />} />
 
                 {Object.values(fullUser).length && <>
                   <Route path="/admin" element={<ProtectedRoute user={fullUser}> <AdminProfile /> </ProtectedRoute> } />

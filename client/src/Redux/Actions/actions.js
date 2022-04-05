@@ -15,6 +15,7 @@ import {
   DELETE_ORDERS,
   GET_COMMENT_BY_ID,
   PUT_USER_INFO,
+  PUT_USER_ADMIN,
   GET_USERS_INFO,
   GET_SALES,
   GET_PRODUCTS_SALES,
@@ -24,6 +25,15 @@ import {
   POST_NEW_ADRESS_USER,
   CLEAR_TOKENS_USER,
   CLEAR_PRODUCT_DETAIL,
+  CLEAR_PRODUCT_AND_CATEGORY,
+  DELETE_ADRESS_USER,
+  DELETE_USER_INFO,
+  DELETE_USER_ADMIN,
+  CLEAR_USER_EMAIL,
+  CLEAR_CARRUSEL,
+  POST_BULK_ORDER,
+  GET_BULK_ORDERS,
+  PUT_BULK_ORDERS
 } from "./types";
 
 requestInterceptor();
@@ -70,7 +80,7 @@ export function getProductByID(id) {
 export function putProductByID(id, body) {
   return async function (dispatch) {
     try {
-      var json = await axios.put("http://localhost:3001/products/" + id, body);
+      var json = await axios.put("/products/" + id, body);
 
       return dispatch({
         type: PUT_PRODUCT_BY_ID,
@@ -188,7 +198,7 @@ export function postOrder(order) {
   const token = window.localStorage.getItem("access");
   if (token) {
     return async function (dispatch) {
-      var json = await axios.post(`http://localhost:3001/order`, order);
+      var json = await axios.post(`/order`, order);
       return dispatch({
         type: POST_ORDERS,
         payload: { status: order.status, data: json.data },
@@ -199,7 +209,6 @@ export function postOrder(order) {
       if (!window.localStorage.getItem(`${order.status}`)) {
         const product = {
           status: order.status,
-          amount: order.amount,
           productId: order.productId,
           id: order.productId,
           title: order.title,
@@ -207,7 +216,7 @@ export function postOrder(order) {
           stock: order.stock,
           description: order.description,
           images: order.images,
-          orders: [{ id: 0 }],
+          orders: [{ id: 0, amount: order.amount }],
           price: order.price,
         };
         var arr = [];
@@ -217,7 +226,6 @@ export function postOrder(order) {
       } else {
         const product = {
           status: order.status,
-          amount: order.amount,
           productId: order.productId,
           id: order.productId,
           title: order.title,
@@ -225,7 +233,7 @@ export function postOrder(order) {
           stock: order.stock,
           description: order.description,
           images: order.images,
-          orders: [{ id: 0 }],
+          orders: [{ id: 0, amount: order.amount }],
           price: order.price,
         };
         var item = window.localStorage.getItem(`${order.status}`);
@@ -238,54 +246,11 @@ export function postOrder(order) {
       }
     }
     return {
-      type: "NONE",
+      type: POST_ORDERS,
+      payload: "sarasa",
     };
   }
 }
-
-/*   const token = window.localStorage.getItem('access')
-  const headers ={
-    "Authorization": `Bearer ${token}`
-  };
-
-  return (dispatch) => {
-    try {
-      
-      return axios.
-      post("/order", order, {headers: headers})
-        .then((res) => {
-          dispatch({
-            type: POST_ORDERS,
-            payload: {status: order.status, data: res.data},
-          });
-        })
-        .catch((error) => {
-          if (error.response.status === 403) {
-            let refreshToken = window.localStorage.getItem('refresh');
-            axios
-              .post('/user/token', { token: refreshToken })
-              .then((res) => {
-                window.localStorage.setItem('access', res.data.token);
-                axios
-                  .post('/order',order, {
-                    headers: {
-                      'Authorization': `Bearer ${res.data.token}`,
-                    },
-                  })
-                  .then((res) => {
-                    dispatch({
-                      type: POST_ORDERS,
-                      payload: {status: order.status, data: res.data},
-                    });
-                  });
-              });
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-} */
 
 // para llamar cart y whislist -finali -proces
 //json.data es un array de objetos
@@ -294,9 +259,7 @@ export function getOrder(order) {
 
   if (token) {
     return async function (dispatch) {
-      var json = await axios.get(
-        `http://localhost:3001/order?status=` + order.status
-      );
+      var json = await axios.get(`/order?status=` + order.status);
       return dispatch({
         type: GET_ORDERS,
         payload: { status: order.status, data: json.data },
@@ -316,7 +279,7 @@ export function getOrder(order) {
 
 export function changeOrderStatus(order) {
   return async function (dispatch) {
-    var json = await axios.put(`/order/${order.id}?status=${order.status}`);
+    var json = await axios.put(`/order/${order.id}`,{status: order.status,date:order.date});
     return dispatch({
       type: PUT_ORDERS,
       payload: { status: order.status, data: json.data },
@@ -324,79 +287,50 @@ export function changeOrderStatus(order) {
   };
 }
 
-export function changeOrderAmount(order) {
-  return async function (dispatch) {
-    var json = await axios.put(`/order/${order.id}?amount=${order.amount}`);
-    return dispatch({
-      type: PUT_ORDERS_AMOUNT,
-      payload: { status: order.status, data: json.data },
-    });
-  };
+export function changeOrderAmount(order, id, status) {
+  console.log("order", order);
+  const token = window.localStorage.getItem("access");
+  if (token) {
+    return async function (dispatch) {
+      var json = await axios.put(`/order/${order.id}?amount=${order.amount}`);
+      return dispatch({
+        type: PUT_ORDERS_AMOUNT,
+        payload: { status: order.status, data: json.data },
+      });
+    };
+  } else {
+    return function (dispatch) {
+      const item = window.localStorage.getItem(`${status}`);
+      const parsedItem = item && JSON.parse(item);
+      const itemChange =
+        parsedItem &&
+        parsedItem.map((el) => {
+          if (el.productId === id) {
+            if (Math.abs(el.orders[0].amount + order.amount) < 1) {
+              return {
+                error: "amount is less than one",
+              };
+            }
+            el.orders[0].amount = el.orders[0].amount + order.amount;
+          }
+          return el;
+        });
+      const itemsFilter =
+        itemChange &&
+        itemChange.filter((el) => {
+          if (!el.hasOwnProperty("error")) {
+            return el;
+          }
+        });
+      window.localStorage.setItem(`${status}`, JSON.stringify(itemsFilter));
+      return dispatch({
+        type: PUT_ORDERS_AMOUNT,
+        payload: { status: status, data: itemsFilter },
+      });
+    };
+  }
 }
 
-/*     const token = window.localStorage.getItem('access')
-    const headers = {
-      'Authorization': `Bearer ${token}`,
-    };
-    return (dispatch) => {
-      try {
-        return  axios.get('/order?status='+ order.status, { headers: headers })
-        .then(res=> {
-          dispatch({
-            type: GET_ORDERS,
-            payload: {status: order.status, data: res.data},
-            
-          });
-        }) 
-      .catch ((error) => {
-        if(error.response.status === 403){
-          let refreshToken = window.localStorage.getItem('refresh');
-          axios
-            .post('/order', { token: refreshToken })
-            .then((res) => {
-              window.localStorage.setItem('access', res.data.token);
-                axios
-                  .get('/order', {
-                    headers: {
-                      'Authorization': `Bearer ${res.data.token}`,
-                    },
-                  })
-                  .then((res) => {
-                    dispatch({
-                      type: GET_ORDERS,
-                      payload: {status: order.status, data: res.data},
-                    });
-                  });
-            });
-          }
-        })
-      } catch(error){
-        console.log(error);
-      }
-    };
-
-    export function deleteOrder(order){
-      return async function (dispatch) {
-        var json = await axios.delete(`http://localhost:3001/order/${order}`);
-        return dispatch({
-          type: DELETE_ORDERS,
-          payload: json.data,
-        });
-      };
-    }
-
-    export function putOrder(order){
-      return async function (dispatch) {
-        var json = await axios.put(`http://localhost:3001/order/${order}`);
-        return dispatch({
-          type: PUT_ORDERS,
-          payload: json.data,
-        });
-      };
-    }
-
-   /*    const token = window.localStorage.getItem('access')
-  } */
 export function deleteOrder(order, id, status) {
   const token = window.localStorage.getItem("access");
   if (token) {
@@ -409,13 +343,10 @@ export function deleteOrder(order, id, status) {
     };
   } else {
     return function (dispatch) {
-      console.log(id);
       const item = window.localStorage.getItem(`${status}`);
       const parsedItem = item && JSON.parse(item);
-      console.log(parsedItem);
       const itemDeleted =
         parsedItem && parsedItem.filter((el) => el.productId !== id);
-      console.log(itemDeleted);
       window.localStorage.setItem(`${status}`, JSON.stringify(itemDeleted));
       return dispatch({
         type: DELETE_ORDERS,
@@ -424,90 +355,6 @@ export function deleteOrder(order, id, status) {
     };
   }
 }
-/*    const token = window.localStorage.getItem('access')
-
-      const headers ={
-        "Authorization": `Bearer ${token}`
-      };
-      return (dispatch) => {
-        try {
-        
-          return axios
-          .delete(`/order/${order}`, {headers: headers})
-            .then((res) => {
-              dispatch({
-                type: DELETE_ORDERS,
-                payload: res.data,
-              });
-            })
-            .catch((error) => {
-              if (error.response.status === 403) {
-                let refreshToken = window.localStorage.getItem('refresh');
-                axios
-                  .post('/user/token', { token: refreshToken })
-                  .then((res) => {
-                    window.localStorage.setItem('access', res.data.token);
-                    axios
-                      .delete(`/order${order}`, {
-                        headers: {
-                          'Authorization': `Bearer ${res.data.token}`,
-                        },
-                      })
-                      .then((res) => {
-                        dispatch({
-                          type: DELETE_ORDERS,
-                          payload: res.data,
-                        });
-                      });
-                  });
-              }
-            });
-        } catch (error) {
-          console.log(error);
-        }
-      }; */
-
-/* export function getUserInfo(token) {
-  const headers = {
-    'Authorization': `Bearer ${token}`,
-  };
-  return (dispatch) => {
-    try {
-      return axios
-        .get('/user', { headers: headers })
-        .then((res) => {
-          dispatch({
-            type: GET_USER_INFO,
-            payload: res.data,
-          });
-        })
-        .catch((error) => {
-          if (error.response.status === 403) {
-            let refreshToken = window.localStorage.getItem('refresh');
-            axios
-              .post('/user/token', { token: refreshToken })
-              .then((res) => {
-                window.localStorage.setItem('access', res.data.token);
-                axios
-                  .get('/user', {
-                    headers: {
-                      'Authorization': `Bearer ${res.data.token}`,
-                    },
-                  })
-                  .then((res) => {
-                    dispatch({
-                      type: GET_USER_INFO,
-                      payload: res.data,
-                    });
-                  });
-              });
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-} */
 
 export function getUserInfo() {
   return async function (dispatch) {
@@ -520,11 +367,32 @@ export function getUserInfo() {
 }
 export function getUsersInfo() {
   return async function (dispatch) {
-    const user = await axios.get("/user/all");
-    console.log(user);
+    const users = await axios.get("/user/all");
     return dispatch({
       type: GET_USERS_INFO,
-      payload: user.data,
+      payload: users.data,
+    });
+  };
+}
+
+export function deleteUserInfo(id) {
+  return async function (dispatch) {
+    const users = await axios.delete("/user/",  {
+      data: { id: id }});
+    return dispatch({
+      type: DELETE_USER_INFO,
+      payload: users.data,
+    });
+  };
+}
+
+export function deleteUserAdmin(id) {
+  return async function (dispatch) {
+    const users = await axios.delete("/user/admin",  {
+      data: { id: id }});
+    return dispatch({
+      type: DELETE_USER_ADMIN,
+      payload: users.data,
     });
   };
 }
@@ -535,6 +403,19 @@ export function putUserInfo(body) {
       const userChangeData = await axios.put("/user", body);
       return dispatch({
         type: PUT_USER_INFO,
+        payload: userChangeData.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+export function putUserAdmin(body) {
+  return async (dispatch) => {
+    try {
+      const userChangeData = await axios.put('/user/admin', body);
+      return dispatch({
+        type: PUT_USER_ADMIN,
         payload: userChangeData.data,
       });
     } catch (error) {
@@ -557,6 +438,20 @@ export function postDirectionUser(body) {
   };
 }
 
+export function deleteAdressUser(id) {
+  return async (dispatch) => {
+    try {
+      const deleteDirection = await axios.delete(`/user/direction/${id}`);
+      return dispatch({
+        type: DELETE_ADRESS_USER,
+        payload: deleteDirection.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
 export function getSales() {
   return async function (dispatch) {
     var json = await axios.get("/sale");
@@ -572,29 +467,6 @@ export function postSale(body) {
     var json = await axios.post("/sale", body);
   };
 }
-/*   return (dispatch) => {
-    try {
-      return axios
-        .post('/sale', body)
-        .catch((error) => {
-          if (error.response.status === 403) {
-            let refreshToken = window.localStorage.getItem('refresh');
-            axios
-              .post('/user/token', { token: refreshToken })
-              .then((res) => {
-                window.localStorage.setItem('access', res.data.token);
-                axios.post('/sale', body, {
-                  headers: {
-                    'Authorization': `Bearer ${res.data.token}`,
-                  },
-                });
-              });
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  }; */
 
 export function editSale(body) {
   return async function (dispatch) {
@@ -602,29 +474,6 @@ export function editSale(body) {
   };
 }
 
-/*  return (dispatch) => {
-    try {
-      return axios
-        .put('/sale', body, { headers: headers })
-        .catch((error) => {
-          if (error.response.status === 403) {
-            let refreshToken = window.localStorage.getItem('refresh');
-            axios
-              .post('/user/token', { token: refreshToken })
-              .then((res) => {
-                window.localStorage.setItem('access', res.data.token);
-                axios.put('/sale', body, {
-                  headers: {
-                    'Authorization': `Bearer ${res.data.token}`,
-                  },
-                });
-              });
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  }; */
 export function deleteSale(id) {
   return async function (dispatch) {
     var json = await axios.delete("/sale?saleId=" + id);
@@ -634,34 +483,6 @@ export function deleteSale(id) {
     });
   };
 }
-// const token = window.localStorage.getItem('access');
-// const headers = {
-//   'Authorization': `Bearer ${token}`,
-// };
-
-// return (dispatch) => {
-//   try {
-//     return axios
-//       .delete('/sale?saleId=' + id, { headers: headers })
-//       .catch((error) => {
-//         if (error.response.status === 403) {
-//           let refreshToken = window.localStorage.getItem('refresh');
-//           axios
-//             .post('/user/token', { token: refreshToken })
-//             .then((res) => {
-//               window.localStorage.setItem('access', res.data.token);
-//               axios.delete('/sale?saleId=' + id, {
-//                 headers: {
-//                   'Authorization': `Bearer ${res.data.token}`,
-//                 },
-//               });
-//             });
-//         }
-//       });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 
 export function getAllProductsForSales() {
   return async function (dispatch) {
@@ -672,6 +493,7 @@ export function getAllProductsForSales() {
     });
   };
 }
+
 export function clearTokensUser() {
   return {
     type: CLEAR_TOKENS_USER,
@@ -681,5 +503,55 @@ export function clearTokensUser() {
 export function clearProductDetail() {
   return {
     type: CLEAR_PRODUCT_DETAIL,
+  };
+}
+
+export function clearProductAndCategory() {
+  return {
+    type: CLEAR_PRODUCT_AND_CATEGORY,
+  };
+}
+
+export function clearUserEmail() {
+  return {
+    type: CLEAR_USER_EMAIL,
+  };
+}
+
+export function clearCarrusel() {
+  return {
+    type: CLEAR_CARRUSEL,
+  };
+}
+
+export function postBulkOrder(orderIds) {
+  return async function (dispatch) {
+    const bulk = await axios.post("/order/bulk", orderIds);
+    return dispatch({
+      type: POST_BULK_ORDER,
+      payload: bulk.data,
+    });
+  };
+}
+
+export function getBulkOrders(status) {
+  console.log(status)
+  return async function (dispatch) {
+    const bulkOrders = await axios.get("/order/bulk?status=" + status.status);
+    return dispatch({
+      type: GET_BULK_ORDERS,
+      payload: bulkOrders.data,
+    });
+  };
+}
+
+
+export function putBulkOrders(body,id) {
+  return async function (dispatch) {
+    const putBulkOrders = await axios.put("/order/bulk/" + id, body);
+    return dispatch({
+      type: PUT_BULK_ORDERS,
+      payload: putBulkOrders.data,
+    });
   };
 }

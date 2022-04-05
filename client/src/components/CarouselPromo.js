@@ -55,7 +55,7 @@ export default function Carousel() {
   };
 
   return (
-    <div className="max-w-screen-sm m-auto mt-3 sm:mt-5">
+    <div className="w-[65vw] m-auto mt-3 sm:mt-5 shadow-2xl shadow-orange-300">
       <div
         ref={slideRef}
         className="w-full relative select-none shadow-md shadow-slate-600 sm:rounded"
@@ -66,19 +66,19 @@ export default function Carousel() {
             src={sales.length && sales[currentIndex].image}
             alt=""
           />
-          <span className="font-lora text-center text-lg  font-bold top-1/2 text-white bg-black bg-opacity-30 h-8">
+          <span className="font-lora text-center text-lg  font-bold top-1/2 text-white bg-black bg-opacity-70 h-8 mt-auto mb-6">
             {sales.length && sales[currentIndex].description}
           </span>
         </div>
         <div className="hidden cursor-default absolute w-full top-1/2 transform -translate-y-1/2 md:flex md:justify-between items-start px-3">
           <button
-            className="bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 cursor-pointer hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold -translate-x-28 border-2 border-solid border-primary-500 shadow-lg shadow-slate-400"
+            className="text-primary-800 p-1.5 rounded-full bg-opacity-30 cursor-pointer hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold -translate-x-28 hover:scale-110"
             onClick={handlePreviousClick}
           >
             <AiOutlineLeft />
           </button>
           <button
-            className="bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 cursor-pointer hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold translate-x-28 border-2 border-solid border-primary-500 shadow-lg shadow-slate-400"
+            className="text-primary-800 p-1.5 rounded-full bg-opacity-30 cursor-pointer hover:scale-110 hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold translate-x-28"
             onClick={handleNextClick}
           >
             <AiOutlineRight />
