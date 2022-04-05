@@ -1,10 +1,10 @@
-import React from "react";
-import { AiOutlineSearch } from "react-icons/ai";
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, createSearchParams } from "react-router-dom";
-import { getProducts, getSearch } from "../../Redux/Actions/actions";
-import CardAdmin from '../CardAdmin'
+import React from 'react';
+import { AiOutlineSearch } from 'react-icons/ai';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, createSearchParams } from 'react-router-dom';
+import { getProducts, getSearch } from '../../Redux/Actions/actions';
+import CardAdmin from '../CardAdmin';
 
 export default function SearchBar(props) {
   const [isOpen, setIsOpen] = useState(true); //controla que aparezca y desaparezca el autocomplete
@@ -12,31 +12,29 @@ export default function SearchBar(props) {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.home.search.products);
   const categories = useSelector((state) => state.home.search.categories);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
 
   const handleInputChange = (e) => {
     const { value } = e.target;
     setSearchValue(value);
-    if(value.length > 3){
-      if(value !== "") {
-      dispatch(getSearch(value));
+    if (value.length > 3) {
+      if (value !== '') {
+        dispatch(getSearch(value));
       }
     }
   };
-  
+
   useEffect(() => {
     dispatch(getProducts(searchValue));
-  },[searchValue])
+  }, [searchValue]);
 
-  console.log('products', products)
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('valor', searchValue)
-    if (searchValue !== "") {
+    if (searchValue !== '') {
       navigate({
         pathname: `/admin/products?search=${searchValue}`,
       });
-      setSearchValue("");
+      setSearchValue('');
     }
   };
 
@@ -57,7 +55,7 @@ export default function SearchBar(props) {
       </button>
       <div
         className={`absolute mt-10 bg-secondary-100 m-2 overflow-hidden rounded-lg shadow-lg z-20 w-10/12 md:w-4/12 overflow-y-auto max-h-96 overflow-x-auto  ${
-          (isOpen || searchValue === "") && "hidden"
+          (isOpen || searchValue === '') && 'hidden'
         }`}
       >
         {categories &&
@@ -84,7 +82,7 @@ export default function SearchBar(props) {
               </div>
             );
           })}
-          
+
         {products &&
           products.products &&
           products.products.map((product) => {
@@ -95,7 +93,6 @@ export default function SearchBar(props) {
                   className="text-decoration-line: no-underline"
                 >
                   <div className="hover:bg-primary-300 flex gap-4 p-4">
-                    
                     <img
                       src={product.images[0].url}
                       alt={product.title}

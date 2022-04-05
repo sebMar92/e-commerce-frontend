@@ -1,50 +1,53 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import ButtonDelete from './commons/ButtonDelete';
-import ButtonComplete from './commons/ButtonComplete';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { deleteProduct } from '../Redux/Actions/actions';
 
-export default function CardAdmin({
-  images,
-  title,
-  price,
-  id
-}) {
-   
+export default function CardAdmin({ images, title, price, id }) {
+  const dispatch = useDispatch();
+  function handleDeleteProduct() {
+    const result = window.confirm('Are you sure you want to delete this item?');
+    if (result) {
+      dispatch(deleteProduct(id));
+    }
+  }
   return (
-    <div className="flex flex-wrap justify-center">
-      <div className="bg-secondary-100 w-full m-5 rounded-md hover:scale-105 shadow-sm shadow-secondary-500">
-        <div className="flex justify-end">
-          <div className=" flex flex-col flex-wrap justify-between   rounded-lg w-full h-auto">
-            <Link
-              to={`/admin/edit/${id}`}
-              className="text-inherit no-underline"
-            >
-              <div className=" flex flex-row flex-wrap justify-around">
-                <div className=" flex justify-start w-40">
-                  <img
-                    className=" items-center max-h-28 p-2  m-3 rounded-t-lg"
-                    src={images}
-                    alt="product image"
-                  />
-                </div>
+    <div className="flex flex-row justify-between border-white">
+      <div className="flex grow w-1/2 h-24 border-t-4 border-x-4 border-white p-4 bg-secondary-100 hover:bg-primary-200 hover:font-medium">
+        <Link to={`/admin/edit/${id}`} className="text-inherit no-underline">
+          <div className=" flex flex-row flex-wrap justify-around">
+            <div className=" flex justify-start w-40">
+              <img
+                className="items-center align-center max-h-20 pb-2"
+                src={images}
+                alt="product image"
+              />
+            </div>
 
-                <div>
-                  <h5 className="text-lg text-lefth font-thin m-2 flex flex-wrap justify-end">{title}</h5>
-                </div>
-              </div>
-            </Link>
-            
-              <div className="flex flex-row-reverse flex-wrap justify-flex-end pb-2 pr-2">
-                <ButtonDelete />
-                <Link to={`/admin/edit/${id}`}>
-                  <ButtonComplete text={'Edit'} />
-                </Link>
-                <Link to={`/admin/discounts`} className="no-underline">
-                   <ButtonComplete text={'Add Discount'} />
-                </Link>
-              </div>
-            
+            <h5 className="text-lg text-left m-2 flex flex-wrap justify-center">
+              {title}
+            </h5>
           </div>
+        </Link>
+      </div>
+      <div className="flex flex-row justify-flex-end w-1/3">
+        <Link
+          to={`/admin/edit/${id}`}
+          className="no-underline text-black flex grow w-full h-24 items-center justify-center border-t-4 border-white p-4 bg-secondary-100 hover:bg-primary-200 hover:font-medium"
+        >
+          <div className="">Edit</div>
+        </Link>
+        <Link
+          to={`/admin/discounts?p=${id}`}
+          className="no-underline text-black flex grow w-full h-24 items-center justify-center border-t-4 border-x-4 border-white p-4 bg-secondary-100 hover:bg-primary-200 hover:font-medium"
+        >
+          <div className="">Add sale</div>
+        </Link>
+        <div
+          onClick={() => handleDeleteProduct()}
+          className="flex grow w-1/4 h-24 items-center justify-center border-t-4 border-white p-4 bg-secondary-100  hover:font-medium hover:bg-rose-700"
+        >
+          X
         </div>
       </div>
     </div>

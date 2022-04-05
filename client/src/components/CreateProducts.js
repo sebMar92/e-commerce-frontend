@@ -1,35 +1,35 @@
-import React, { useState, useEffect } from "react";
-import NavBar from "./NavBar";
-import { useDispatch, useSelector } from "react-redux";
-import { getCategories, postProduct } from "../Redux/Actions/actions";
-import { validation } from "./validation";
-import ButtonCreate from "./commons/ButtonCreate";
-import check from "./utils/check-shield-regular-24.png";
-import Modelo from "./utils/modelo.jpg";
-import mas from "./utils/image-add-regular-24.png";
-import Slider from "./ProductDetails/Slider";
-import Axios from "axios";
-import NavbarAdmin from "./NavbarAdmin";
-import { Cloudinary } from "@cloudinary/url-gen";
-import NavBarEmpty from "./NavBarEmpty";
-import AdminPreview from "../components/AdminPreview";
-import { AiOutlineCloseSquare } from "react-icons/ai"
+import React, { useState, useEffect } from 'react';
+import NavBar from './NavBar';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCategories, postProduct } from '../Redux/Actions/actions';
+import { validation } from './validation';
+import ButtonCreate from './commons/ButtonCreate';
+import check from './utils/check-shield-regular-24.png';
+import Modelo from './utils/modelo.jpg';
+import mas from './utils/image-add-regular-24.png';
+import Slider from './ProductDetails/Slider';
+import Axios from 'axios';
+import NavbarAdmin from './NavbarAdmin';
+import { Cloudinary } from '@cloudinary/url-gen';
+import NavBarEmpty from './NavBarEmpty';
+import AdminPreview from '../components/AdminPreview';
+import { AiOutlineCloseSquare } from 'react-icons/ai';
 
 export default function CreateProducts() {
   const dispatch = useDispatch();
   const allCategories = useSelector((e) => e.home.categories);
-  const [newCategory, setNewCategory] = useState("");
-  const [inputImages, setInputImages] = useState("");
+  const [newCategory, setNewCategory] = useState('');
+  const [inputImages, setInputImages] = useState('');
   const [errors, setErrors] = useState({});
 
   const [input, setInput] = useState({
-    title: "",
-    name: "",
-    price: "",
-    shippingCost: "",
-    description: "",
+    title: '',
+    name: '',
+    price: '',
+    shippingCost: '',
+    description: '',
     images: [],
-    stock: "",
+    stock: '',
     categories: [],
   });
 
@@ -39,22 +39,22 @@ export default function CreateProducts() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (errors === {}) {
+    if (Object.keys(errors).length === 0) {
       dispatch(postProduct(input));
       setInput({
-        title: "",
-        name: "",
-        price: "",
-        shippingCost: "",
-        description: "",
+        title: '',
+        name: '',
+        price: '',
+        shippingCost: '',
+        description: '',
         images: [],
-        stock: "",
+        stock: '',
         categories: [],
       });
 
-      alert("Product Create!!");
+      alert('Product Create!!');
     } else {
-      alert("Some fields are missing. Check again");
+      alert('Some fields are missing. Check again');
     }
   }
   function handleAddCategory(e) {
@@ -62,15 +62,12 @@ export default function CreateProducts() {
     setNewCategory(value);
   }
   function handleSubmitAddCategory(e) {
-    if (newCategory !== "") {
+    if (newCategory !== '') {
       setInput({
         ...input,
-        categories: [
-          ...input.categories,
-          { name: newCategory, id: e.target.id },
-        ],
+        categories: [...input.categories, { name: newCategory, id: e.target.id }],
       });
-      setNewCategory("");
+      setNewCategory('');
     }
   }
 
@@ -92,10 +89,7 @@ export default function CreateProducts() {
       if (!input.categories.includes(e.target.value)) {
         setInput({
           ...input,
-          categories: [
-            ...input.categories,
-            { name: e.target.value, id: e.target.id },
-          ],
+          categories: [...input.categories, { name: e.target.value, id: e.target.id }],
         });
       }
     }
@@ -105,19 +99,16 @@ export default function CreateProducts() {
   const uploadImage = (files) => {
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
-      formData.append("file", files[i]);
-      formData.append("upload_preset", "ecommerce");
+      formData.append('file', files[i]);
+      formData.append('upload_preset', 'ecommerce');
       const newAxios = Axios.create();
       newAxios
-        .post(
-          "https://api.cloudinary.com/v1_1/dmjbff5rm/image/upload",
-          formData
-        )
+        .post('https://api.cloudinary.com/v1_1/dmjbff5rm/image/upload', formData)
         .then((res) => {
           arr.push(res.data.secure_url);
           setInput({
             ...input,
-            images: [...input.images, { url: arr[0], alt: "" }],
+            images: [...input.images, { url: arr[0], alt: '' }],
           });
         });
     }
@@ -127,9 +118,9 @@ export default function CreateProducts() {
     /* console.log(e.target.value); */
     setInput({
       ...input,
-      images: [...input.images, { url: inputImages, alt: "" }],
+      images: [...input.images, { url: inputImages, alt: '' }],
     });
-    setInputImages("");
+    setInputImages('');
   }
   /* console.log(input.images);
    */
@@ -137,9 +128,7 @@ export default function CreateProducts() {
     e.preventDefault();
     setInput({
       ...input,
-      categories: input.categories.filter(
-        (category) => category.name !== e.target.id
-      ),
+      categories: input.categories.filter((category) => category.name !== e.target.id),
     });
   }
 
@@ -151,7 +140,7 @@ export default function CreateProducts() {
     });
   }
 
-  const desc = input.description && input.description.split(".");
+  const desc = input.description && input.description.split('.');
   const description2 = desc && desc.slice(0, -1);
 
   return (
@@ -290,8 +279,7 @@ export default function CreateProducts() {
             </div>
 
             <div className="">
-              {
-                input.categories &&
+              {input.categories &&
                 input.categories.map((category) => {
                   return (
                     <div className="mt-1 flex w-full hover:bg-secondary-100 bg-gray-50 h-8 items-center lg:h-6 border border-solid shadow-sm mb-1 rounded-md lg:hover:border lg:hover:border-solid lg:hover:border-red-500 lg:hover:items-center">
@@ -305,15 +293,17 @@ export default function CreateProducts() {
                       >
                         {category.name}
 
-                        <AiOutlineCloseSquare id={category.name}
-                          onClick={(e) => handleDelete(e)} className="lg:hidden text-2xl
-                    "/>
+                        <AiOutlineCloseSquare
+                          id={category.name}
+                          onClick={(e) => handleDelete(e)}
+                          className="lg:hidden text-2xl
+                    "
+                        />
                       </button>
                     </div>
                   );
                 })}
             </div>
-
           </div>
 
           <div className=" justify-center py-2 m-2 ">
@@ -347,11 +337,7 @@ export default function CreateProducts() {
                 input.images.flat().map((name) => {
                   return (
                     <div className="flex border-2 border-primary-500  rounded-lg bg-gray-50">
-                      <img
-                        className="w-10 h-10 m-0.5 "
-                        src={name.url}
-                        alt={name.url}
-                      />
+                      <img className="w-10 h-10 m-0.5 " src={name.url} alt={name.url} />
                       <button
                         className="bg-primary-500 w-6 my-0.5  rounded-lg hover:bg-primary-400"
                         name={name.url}
@@ -368,14 +354,12 @@ export default function CreateProducts() {
             disabled={errors?.disabledSubmit}
             text="Create Product"
             type="submit"
-          /* onClick={(e) => handleSubmit(e)} */
+            /* onClick={(e) => handleSubmit(e)} */
           ></ButtonCreate>
         </form>
         <div className=" w-full bg-secondary-100 dark:bg-slate-700">
           <br />
-          <h2 className="text-center dark:bg-slate-700 dark:text-white">
-            Preview
-          </h2>
+          <h2 className="text-center dark:bg-slate-700 dark:text-white">Preview</h2>
           <br />
           <hr />
           {/* previsualizacion */}
