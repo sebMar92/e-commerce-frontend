@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts, getCategories, getOrder } from "../Redux/Actions/actions";
+import { getProducts, getCategories, getOrder, carruselOne, carruselTwo, carruselThird } from "../Redux/Actions/actions";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import CardHome from "./CardHome";
 import { Link } from "react-router-dom";
 
-export default function CarouselCateg({onClick,onClick2}) {
+export default function CarouselCateg({ onClick, onClick2 }) {
   const dispatch = useDispatch();
   const allProducts = useSelector((state) => state.home.products);
   const allCategories = useSelector((state) => state.home.categories);
@@ -16,25 +16,94 @@ export default function CarouselCateg({onClick,onClick2}) {
   const token = window.localStorage.getItem("access")
   const deleted = useSelector((state) => state.home.deleted)
   const postOrders = useSelector((state) => state.home.postOrders)
-  
+
 
   let arr = [];
   for (let i = 0; i < allCategories.length; i++) {
     arr.push({ id: i + 1, name: allCategories[i].name });
   }
 
+
+  /* fix */
+  const firstCarrusel = useSelector((state) => state.home.carruselOne)
+
+  const secondCarrusel = useSelector((state) => state.home.carruselTwo)
+
+  const thirdCarrusel = useSelector((state) => state.home.carruselThird)
+
+  const categories = useSelector((state) => state.home.categories)
+
+
+  const [carrusels, setCarrusels] = useState([])
+
+
+  const categoriesIdsRandoms = [];
+  function getIdsCategoriesRandoms() {
+    const randoms = Math.round(Math.random() * (10 - 1)) + 1;
+    categoriesIdsRandoms.includes(randoms) ? getIdsCategoriesRandoms() : categoriesIdsRandoms.push(randoms);
+  }
+
+
   useEffect(() => {
     dispatch(getProducts("?limit=100"));
     dispatch(getCategories());
     dispatch(getOrder({ status: "inCart" }))
     dispatch(getOrder({ status: "inWishList" }))
-  }, []);
 
-  function randomCategories(array) {
-    var categories = [];
-    categories = [...array].sort(() => (Math.random() > 0.5 ? 1 : -1)).slice(0, 3);
-    return categories;
-  }
+    if (firstCarrusel.length < 1 && secondCarrusel.length < 1 && thirdCarrusel.length < 1) {
+
+
+      while (categoriesIdsRandoms.length < 3) {
+        getIdsCategoriesRandoms()
+      }
+
+
+      if (categoriesIdsRandoms.length === 3) {
+        console.log("Ids randoms", categoriesIdsRandoms)
+        dispatch(carruselOne(`?categoryId=${categoriesIdsRandoms[0]}&limit=100`))
+        dispatch(carruselTwo(`?categoryId=${categoriesIdsRandoms[1]}&limit=100`))
+        dispatch(carruselThird(`?categoryId=${categoriesIdsRandoms[2]}&limit=100`))
+      }
+
+      if (firstCarrusel.length < 5) {
+        dispatch(carruselOne(`?categoryId=${categoriesIdsRandoms[0]}&limit=100`))
+      }
+      if (secondCarrusel.length < 5) {
+        dispatch(carruselTwo(`?categoryId=${categoriesIdsRandoms[1]}&limit=100`))
+      }
+      if (thirdCarrusel.length < 5) {
+        dispatch(carruselThird(`?categoryId=${categoriesIdsRandoms[2]}&limit=100`))
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    var aux = []
+    if (firstCarrusel.length && secondCarrusel.length && thirdCarrusel.length) {
+      aux.push(firstCarrusel)
+      aux.push(secondCarrusel)
+      aux.push(thirdCarrusel)
+      setCarrusels(aux)
+      console.log("carruseles", carrusels)
+    }
+
+  }, [firstCarrusel, secondCarrusel, thirdCarrusel])
+
+  /* fix */
+
+  const [categoriesRandoms, setCategoriesRandoms] = useState([])
+
+  useEffect(() => {
+    function randomCategories(array) {
+      var categories = [];
+      categories = [...array].sort(() => (Math.random() > 0.5 ? 1 : -1)).slice(0, 3);
+      return categories;
+    }
+    if (allCategories && allCategories.length > 0 && categoriesRandoms.length < 1) {
+      setCategoriesRandoms(randomCategories(allCategories));
+    }
+  }, [allCategories])
+
 
   function prod(allProducts, categ) {
     if (allProducts) {
@@ -46,160 +115,9 @@ export default function CarouselCateg({onClick,onClick2}) {
           }
         }
       }
-      if (b.length === 1) {
-        var settings = {
-          dots: true,
-          infinite: false,
-          speed: 500,
-          slidesToShow: 1,
-          nextArrow: <SampleNextArrow />,
-          prevArrow: <SamplePrevArrow />,
-          responsive: [
-            {
-              breakpoint: 1024,
-              settings: {
-                slidesToShow: 1,
-                infinite: false,
-                dots: true,
-              },
-            },
-            {
-              breakpoint: 600,
-              settings: {
-                slidesToShow: 1,
-                infinite: false,
-                dots: true,
-              },
-            },
-            {
-              breakpoint: 480,
-              settings: {
-                slidesToShow: 1,
-                infinite: false,
-                dots: true,
-              },
-            },
-          ],
-        };
-      }
-      if (b.length === 2) {
-        var settings = {
-          dots: true,
-          infinite: false,
-          speed: 500,
-          slidesToShow: 2,
-          /* slidesToScroll: 1, */
-          nextArrow: <SampleNextArrow />,
-          prevArrow: <SamplePrevArrow />,
-          responsive: [
-            {
-              breakpoint: 1024,
-              settings: {
-                slidesToShow: 2,
-                infinite: false,
-                dots: true,
-              },
-            },
-            {
-              breakpoint: 600,
-              settings: {
-                slidesToShow: 2,
-                infinite: false,
-                dots: true,
-              },
-            },
-            {
-              breakpoint: 480,
-              settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                infinite: true,
-                dots: true,
-              },
-            },
-          ],
-        };
-      }
-      if (b.length === 3) {
-        var settings = {
-          dots: true,
-          infinite: false,
-          speed: 500,
-          slidesToShow: 3,
-          nextArrow: <SampleNextArrow />,
-          prevArrow: <SamplePrevArrow />,
-          responsive: [
-            {
-              breakpoint: 1024,
-              settings: {
-                slidesToShow: 3,
-                infinite: false,
-                dots: true,
-              },
-            },
-            {
-              breakpoint: 600,
-              settings: {
-                slidesToShow: 2,
-                slidesToScroll: 1,
-                infinite: true,
-                dots: true,
-              },
-            },
-            {
-              breakpoint: 480,
-              settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                infinite: true,
-                dots: true,
-              },
-            },
-          ],
-        };
-      }
-      if (b.length >= 4) {
-        var settings = {
-          dots: true,
-          infinite: true,
-          speed: 500,
-          slidesToShow: 4,
-          slidesToScroll: 4,
-          nextArrow: <SampleNextArrow />,
-          prevArrow: <SamplePrevArrow />,
-          responsive: [
-            {
-              breakpoint: 1024,
-              settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3,
-                infinite: true,
-                dots: true,
-              },
-            },
-            {
-              breakpoint: 600,
-              settings: {
-                slidesToShow: 2,
-                slidesToScroll: 2,
-                infinite: true,
-                dots: true,
-              },
-            },
-            {
-              breakpoint: 480,
-              settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                infinite: true,
-                dots: true,
-              },
-            },
-          ],
-        };
-      }
     }
     return b;
+
   }
 
   function SamplePrevArrow(props) {
@@ -270,7 +188,7 @@ export default function CarouselCateg({onClick,onClick2}) {
 
   return (
     <div className="max-w-screen-lg m-auto mt-3 sm:mt-5 h-full">
-      { randomCategories(arr)?.map((categ) => {
+      {categoriesRandoms && categoriesRandoms.length > 0 && categoriesRandoms.map((categ) => {
         return (
           <div
             key={categ.id}

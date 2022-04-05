@@ -21,8 +21,11 @@ import {
   CLEAR_USER_EMAIL,
   DELETE_USER_INFO,
   DELETE_USER_ADMIN,
-  PUT_USER_ADMIN,  
-  CLEAR_CARRUSEL
+  PUT_USER_ADMIN,
+  CLEAR_CARRUSEL,
+  GET_CARRUSELTWO,
+  GET_CARRUSELONE,
+  GET_CARRUSELTHIRD,
 } from '../Actions/types';
 
 const initialState = {
@@ -47,6 +50,9 @@ const initialState = {
   resAmountOrder: {},
   resNewAdress: {},
   userDelete: {},
+  carruselTwo: [],
+  carruselOne: [],
+  carruselThird: []
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -118,22 +124,22 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         answer: action.payload,
       };
-      case PUT_USER_ADMIN:
-        return {
-          ...state,
-          answer: action.payload,
-        };
-      case DELETE_USER_INFO:
-        return {
-          ...state,
-          userDelete: action.payload
-        }
-        case DELETE_USER_ADMIN:
-          return {
-            ...state,
-            userDelete: action.payload
-          }
-  
+    case PUT_USER_ADMIN:
+      return {
+        ...state,
+        answer: action.payload,
+      };
+    case DELETE_USER_INFO:
+      return {
+        ...state,
+        userDelete: action.payload
+      }
+    case DELETE_USER_ADMIN:
+      return {
+        ...state,
+        userDelete: action.payload
+      }
+
 
     case PUT_ORDERS:
       return {
@@ -174,7 +180,25 @@ export const HomeReducer = (state = initialState, action) => {
     case CLEAR_CARRUSEL:
       return {
         ...state,
-        products: []
+        products: [],
+        carruselOne: [],
+        carruselTwo: [],
+        carruselThird: []
+      }
+    case GET_CARRUSELTWO:
+      return {
+        ...state,
+        carruselTwo: action.payload.products
+      }
+    case GET_CARRUSELONE:
+      return {
+        ...state,
+        carruselOne: action.payload.products
+      }
+    case GET_CARRUSELTHIRD:
+      return {
+        ...state,
+        carruselThird: action.payload.products
       }
 
     default:

@@ -31,6 +31,9 @@ import {
   DELETE_USER_ADMIN,
   CLEAR_USER_EMAIL,
   CLEAR_CARRUSEL,
+  GET_CARRUSELONE,
+  GET_CARRUSELTWO,
+  GET_CARRUSELTHIRD
 } from "./types";
 
 requestInterceptor();
@@ -374,8 +377,9 @@ export function getUsersInfo() {
 
 export function deleteUserInfo(id) {
   return async function (dispatch) {
-    const users = await axios.delete("/user/",  {
-      data: { id: id }});
+    const users = await axios.delete("/user/", {
+      data: { id: id }
+    });
     return dispatch({
       type: DELETE_USER_INFO,
       payload: users.data,
@@ -385,8 +389,9 @@ export function deleteUserInfo(id) {
 
 export function deleteUserAdmin(id) {
   return async function (dispatch) {
-    const users = await axios.delete("/user/admin",  {
-      data: { id: id }});
+    const users = await axios.delete("/user/admin", {
+      data: { id: id }
+    });
     return dispatch({
       type: DELETE_USER_ADMIN,
       payload: users.data,
@@ -520,3 +525,37 @@ export function clearCarrusel() {
     type: CLEAR_CARRUSEL,
   };
 }
+
+export function carruselOne(search) {
+  return async function (dispatch) {
+    var json = await axios.get(`/products${search}`);
+
+    return dispatch({
+      type: GET_CARRUSELONE,
+      payload: json.data,
+    });
+  };
+}
+
+export function carruselTwo(search) {
+  return async function (dispatch) {
+    var json = await axios.get(`/products${search}`);
+
+    return dispatch({
+      type: GET_CARRUSELTWO,
+      payload: json.data,
+    });
+  };
+}
+
+export function carruselThird(search) {
+  return async function (dispatch) {
+    var json = await axios.get(`/products${search}`);
+
+    return dispatch({
+      type: GET_CARRUSELTHIRD,
+      payload: json.data,
+    });
+  };
+}
+
