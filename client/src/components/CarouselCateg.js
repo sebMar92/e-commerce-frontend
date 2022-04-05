@@ -207,7 +207,7 @@ export default function CarouselCateg({onClick,onClick2}) {
     return (
       <div className="flex flex-start top-1/2 cursor-pointer">
         <button
-          className="border-2 border-solid border-primary-500 shadow-lg shadow-slate-400  mr-5 hidden lg:block absolute bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold top-1/2 cursor-pointer text-center  right-full"
+          className="mr-5 hidden lg:block absolute hover:scale-110 text-orange-400 p-1.5 rounded-full bg-opacity-30 hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold top-1/2 cursor-pointer text-center right-full active:-translate-x-1"
           onClick={onClick}
         >
           <AiOutlineLeft />
@@ -220,7 +220,7 @@ export default function CarouselCateg({onClick,onClick2}) {
     return (
       <div className="flex flex-start top-1/2 cursor-pointer">
         <button
-          className="border-2 border-solid border-primary-500 shadow-lg shadow-slate-400 ml-5 hidden lg:block absolute bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold top-1/2 cursor-pointer text-center  left-full right-4/"
+          className="ml-5 hidden lg:block absolute text-orange-400  p-1.5 rounded-full bg-opacity-30 hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold top-1/2 cursor-pointer text-center  left-full right-4 hover:scale-110 active:translate-x-1"
           onClick={onClick}
         >
           <AiOutlineRight />

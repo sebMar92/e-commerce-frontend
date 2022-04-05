@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "./NavBar";
 import CarouselPromo from "./CarouselPromo";
 import CarouselCateg from "./CarouselCateg";
 import Footer from "./Footer/Footer";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
+import { useSearchParams, useLocation } from "react-router-dom";
+import SendingEmails from "./SendingEmails";
 
 export default function Home() {
   const notify = () => {
@@ -17,17 +20,20 @@ export default function Home() {
       position: toast.POSITION.BOTTOM_LEFT,
     });
   };
+  SendingEmails();
 
   return (
     <>
-      <ToastContainer autoClose={2000} />
-      <NavBar />
-      <CarouselPromo />
-      <div className="md:my-32">
-        <CarouselCateg onClick={notify} onClick2={notify2} />
-      </div>
+      <div>
+        <ToastContainer autoClose={2000} />
+        <NavBar />
+        <CarouselPromo />
+        <div className="md:my-32">
+          <CarouselCateg onClick={notify} onClick2={notify2} />
+        </div>
 
-      <Footer />
+        <Footer />
+      </div>
     </>
   );
 }

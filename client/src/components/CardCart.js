@@ -98,7 +98,7 @@ export default function CardCart({
                   <p className="text-sm text-blue-900 m-3">
                     ShippingCost: ${shippingCost}
                   </p>
-                  <ButtonBuyChange id={idOrder} status={"finished"} />
+                  <ButtonBuyChange id={idOrder} status={"pending"} />
                 </div>
               )}
             </div>

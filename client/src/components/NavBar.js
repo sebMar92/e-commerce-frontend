@@ -98,10 +98,10 @@ export default function NavBar() {
         >
           <DropDownCategories tittle="Categories" array={allCategories} />
           <Link
-            to="/historial"
+            to="/purchases"
             className="text-decoration-line: no-underline text-black bg-primary-400 px-4 py-2 m-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-black-200/80"
           >
-            Historial
+            Purchases
           </Link>
           {admin.rol === "admin" && <ButtonAdmin />}
         </div>
