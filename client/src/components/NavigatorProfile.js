@@ -39,10 +39,11 @@ export default function NavigatorProfile() {
   useEffect(() => {
     if(selectedTab.label === "Cart"){
       if(cart && !cart.hasOwnProperty("error")){
-        setCategory(cart.map(e => {return <SelectProfileUser title={e.title} img={e.images[0].url} price={e.price} id={e.id}/>}))}
-    }else{
-      setCategory(<h1 className="text-center">{selectedTab.label} Empty</h1>)
-    }
+        setCategory(cart.map(e => {return <SelectProfileUser title={e.title} img={e.images[0].url} price={e.price} id={e.id}/>}))
+      }else{
+        setCategory(<h1 className="text-center">{selectedTab.label} Empty</h1>)
+      }
+  }
     if(selectedTab.label === "Wishlist"){
       if(wishlist && !wishlist.hasOwnProperty("error")){
         setCategory(wishlist.map(e => {return <SelectProfileUser title={e.title} img={e.images[0].url} price={e.price} id={e.id}/>}))

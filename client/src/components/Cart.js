@@ -48,9 +48,9 @@ export default function Cart() {
             status: "pending"
           }))
         }
-     /*  setTimeout(() => {
+      setTimeout(() => {
         navigate("/purchase")
-      }, 3000); */
+      }, 3000);
   }
 
   return (
