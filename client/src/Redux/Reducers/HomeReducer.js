@@ -40,7 +40,7 @@ const initialState = {
   openFiles: '',
   answer: {},
   user: {},
-  users: {},
+  users: [],
   inWishList: [],
   inCart: [],
   pending: [],

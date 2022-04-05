@@ -32,8 +32,8 @@ export default function AdminPreview({ input }) {
         <div className=" p-2 mx-6 my-2 ">
           {/* IMAGEN */}
 
-          <div className="bg-white rounded shadow-sm ">
-            <div className="p-2 border-b-[1px] border-b-primary-300 font-lora">
+          <div className="bg-white rounded shadow-sm dark:text-white dark:bg-slate-800">
+            <div className="p-2 border-b-[1px] border-b-primary-300 font-lora ">
               <h2 className="2xl:text-2xl">{input.title}</h2>
             </div>
             <div className="w-full lg:flex z-10">

@@ -4,6 +4,7 @@ import {
   PUT_PRODUCT_BY_ID,
   DELETE_SALE,
   DELETE_PRODUCT,
+  POST_EMAIL
 } from '../Actions/types.js';
 
 const initialState = {
@@ -34,11 +35,18 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
       };
+<<<<<<< HEAD
     case DELETE_PRODUCT:
       return {
         ...state,
         deletedProduct: payload,
       };
+=======
+      case POST_EMAIL:
+        return {
+          ...state,
+        }
+>>>>>>> c1beff254a9b3a7fc05b3a3ce2c5fc0357c1c796
     default:
       return state;
   }

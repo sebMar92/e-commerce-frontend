@@ -484,6 +484,36 @@ export function postSale(body) {
   };
 }
 
+export function postEmail(data) {
+  return async function (){
+    var json = await axios.post("/emails", data);
+    return json;
+  }
+}
+/*   return (dispatch) => {
+    try {
+      return axios
+        .post('/sale', body)
+        .catch((error) => {
+          if (error.response.status === 403) {
+            let refreshToken = window.localStorage.getItem('refresh');
+            axios
+              .post('/user/token', { token: refreshToken })
+              .then((res) => {
+                window.localStorage.setItem('access', res.data.token);
+                axios.post('/sale', body, {
+                  headers: {
+                    'Authorization': `Bearer ${res.data.token}`,
+                  },
+                });
+              });
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }; */
+
 export function editSale(body) {
   return async function (dispatch) {
     var json = await axios.put('/sale', body);
