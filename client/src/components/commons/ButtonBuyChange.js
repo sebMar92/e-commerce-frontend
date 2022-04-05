@@ -1,20 +1,20 @@
 import React from 'react'
 import { useDispatch } from 'react-redux';
 import {changeOrderStatus} from '../../Redux/Actions/actions';
-
+import { useNavigate } from 'react-router-dom';
 
 //Componente que recibe props , si no recibe ninguna se inicializa con el valor predeterminado seteado en el parametro
 
 export default function ButtonBuyChange({ text = "Buy now", id, status, onClick }) {
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
  /*    console.log(id, status) */
     function handleBuyProduct() {
         dispatch(changeOrderStatus({
             status: status,
             id: id
         }))
-
     }
     return (
         <div>

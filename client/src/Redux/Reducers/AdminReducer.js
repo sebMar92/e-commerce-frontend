@@ -37,7 +37,7 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
       case GET_BULK_ADMIN:
         return {
           ...state,
-          bulkAdmin: payload,
+          bulkAdmin: payload.products,
         }
     default:
       return state;
