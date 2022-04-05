@@ -20,8 +20,7 @@ export default function PurchasePage() {
   const location = useLocation()
   const [data,setData] = useState("")
 
-  console.log(bulkOrders)
-  console.log(product)
+  
   
   useEffect(() => {
     dispatch(getOrder({ status: "pending" }));
@@ -33,11 +32,13 @@ export default function PurchasePage() {
 useEffect(() => {
     let item;
     if(bulkOrders.length > 0 ){
+      console.log("bulk",bulkOrders)
       item =bulkOrders[0].products.map(e => ({title:e.title,amount: 1,price: e.price}))
       let shippingCost ={title: "shippingCost",amount:1,price:bulkOrders[0].combinedShippingCost}
       item.push(shippingCost)
     }
     else if(product.length > 0){
+      console.log("product",product)
         item = product.map(e => ({title:e.title,amount: 1,price: e.price}));
         let res = 0;
         for (const it of product){
