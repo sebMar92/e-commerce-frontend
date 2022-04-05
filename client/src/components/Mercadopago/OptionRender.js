@@ -63,7 +63,7 @@ export default function OptionRender() {
                   message: "Purchase finished successfully",
                   receivers: email,
                   name: name,
-                  type: "purchase",
+                  types: "purchase",
                   products: product,
                   link: "https://e-commerce-git-homeadmin-sebmar92.vercel.app/",
                 })
@@ -86,7 +86,7 @@ export default function OptionRender() {
                   message: "Purchase finished successfully",
                   receivers: email,
                   name: name,
-                  type: "purchase",
+                  types: "purchase",
                   products: product,
                   link: "https://e-commerce-git-homeadmin-sebmar92.vercel.app/",
                 })
