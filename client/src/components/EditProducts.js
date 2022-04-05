@@ -197,7 +197,7 @@ export default function EditProducts() {
                 <label>Title</label>
                 <br />
                 <input
-                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
+                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
                   type="text"
                   name="title"
                   value={input.title}
@@ -209,7 +209,7 @@ export default function EditProducts() {
               <div className=" justify-center p-2 ">
                 <label>Name</label>
                 <input
-                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
+                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
                   type="text"
                   name="name"
                   value={input.name}
@@ -221,7 +221,7 @@ export default function EditProducts() {
               <div className=" justify-center p-2 ">
                 <label>Price </label>
                 <input
-                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
+                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
                   type="text"
                   name="price"
                   placeholder="$ 000.00"
@@ -234,7 +234,7 @@ export default function EditProducts() {
               <div className=" justify-center p-2 ">
                 <label>Shipping Cost</label>
                 <input
-                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
+                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
                   type="text"
                   name="shippingCost"
                   placeholder="$ 000.00"
@@ -247,7 +247,7 @@ export default function EditProducts() {
               <div className=" justify-center p-2 ">
                 <label>Description</label>
                 <textarea
-                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
+                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
                   type="text"
                   name="description"
                   overflow="auto"
@@ -260,7 +260,7 @@ export default function EditProducts() {
               <div className=" justify-center p-2 ">
                 <label>Stock</label>
                 <input
-                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
+                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
                   type="number"
                   name="stock"
                   value={input.stock}
@@ -272,7 +272,7 @@ export default function EditProducts() {
             <div className=" justify-center p-2 ">
               <label>Categories</label>
               <select
-                className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
+                className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
                 onChange={(e) => handleSelectCategories(e)}
               >
                 <option>Select</option>
@@ -287,7 +287,7 @@ export default function EditProducts() {
 
               <div className="flex">
                 <input
-                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50"
+                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
                   type="text"
                   placeholder="Add Cartegory... "
                   name="categories"
@@ -298,7 +298,7 @@ export default function EditProducts() {
                 />
                 <button
                 type="button"
-                className="text-secondary-200 bg-secondary-100 w-16 ml-1 border-2 border-gray-300 rounded-md hover:border-2 hover:border-solid hover:border-green-600 hover:text-green-600"
+                className="text-secondary-200 bg-secondary-100 w-16 ml-1 border-2 border-gray-300 rounded-md hover:border-2 hover:border-solid hover:border-green-600 hover:text-green-600 dark:hover:text-white dark:hover:bg-slate-900 dark:hover:shadow-slate-600 dark:bg-slate-400 dark:text-slate-900 dark:shadow-slate-900"
                 onClick={(e) => handleSubmitAddCategory(e)}
               >
                 Add
@@ -334,7 +334,7 @@ export default function EditProducts() {
               <label>Images</label>
               <div className="flex">
                 <input
-                  className="rounded-md h-9 w-full hover:[bg-secundary-200] border-2 border-gray-300 bg-gray-50"
+                  className="rounded-md h-9 w-full hover:[bg-secundary-200] border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
                   type="text"
                   placeholder="URL..."
                   value={inputImages}
