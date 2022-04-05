@@ -22,7 +22,10 @@ import {
   DELETE_USER_INFO,
   DELETE_USER_ADMIN,
   PUT_USER_ADMIN,  
-  CLEAR_CARRUSEL
+  CLEAR_CARRUSEL,
+  POST_BULK_ORDER,
+  GET_BULK_ORDERS,
+  PUT_BULK_ORDERS
 } from '../Actions/types';
 
 const initialState = {
@@ -40,6 +43,7 @@ const initialState = {
   users: {},
   inWishList: [],
   inCart: [],
+  pending: [],
   finished: [],
   postOrders: [],
   deleted: [],
@@ -47,6 +51,9 @@ const initialState = {
   resAmountOrder: {},
   resNewAdress: {},
   userDelete: {},
+  resPostBulk: [],
+  bulkOrders: [],
+  putBulkOrders: []
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -175,6 +182,21 @@ export const HomeReducer = (state = initialState, action) => {
       return {
         ...state,
         products: []
+      }
+    case POST_BULK_ORDER:
+      return {
+        ...state,
+        resPostBulk: action.payload
+      }
+    case GET_BULK_ORDERS:
+      return {
+        ...state,
+        bulkOrders: action.payload
+      }
+    case PUT_BULK_ORDERS:
+      return{
+        ...state,
+        putBulkOrders: action.payload
       }
 
     default:

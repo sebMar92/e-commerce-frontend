@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import NavBar from '../NavBar';
 import Footer from '../Footer/Footer';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link,useNavigate } from 'react-router-dom';
 import { clearProductDetail, getProductByID, postOrder, deleteOrder, getOrder, getProducts, clearCarrusel } from '../../Redux/Actions/actions';
-import { useEffect } from 'react';
 import Slider from './Slider';
 import CreateComment from '../Comment/CreateComment';
 import { FaBan } from 'react-icons/fa';
@@ -36,6 +35,8 @@ export default function ProductDetails() {
 
   const dispatch = useDispatch();
   let { idProduct } = useParams();
+  const navigate = useNavigate()
+  
 
   const productsCategory = useSelector((state) => state.home.products)
 
@@ -116,6 +117,10 @@ export default function ProductDetails() {
   const description = desc && desc.slice(0, -1);
 
   const notifyDetail3 = () => {
+    toast.success("Purchase successfull !", {
+      position: toast.POSITION.BOTTOM_LEFT
+    });
+    navigate("/purchase")
     const localStorageAccess = window.localStorage.getItem("access")
     const localStorageRefresh = window.localStorage.getItem("refresh")
     if (localStorageAccess && localStorageRefresh) {
@@ -211,7 +216,7 @@ export default function ProductDetails() {
 
           <div id="slider_container" className="p-2 bg-white rounded shadow-sm my-2">
             <div className="p-2 border-b-[1px] border-b-primary-300 font-lora">
-              <h2 className="2xl:text-2xl">{product && product.title}</h2>
+              <h2 className="2xl:text-2xl text-3xl">{product && product.title}</h2>
             </div>
             <Slider images={product.images} />
           </div>
@@ -270,7 +275,7 @@ export default function ProductDetails() {
               <div >
                 <ButtonBuy
                   id={idProduct}
-                  status={'finished'}
+                  status={'pending'}
                   amount={1}
                   text={'Buy'}
                   onClick={notifyDetail3}
