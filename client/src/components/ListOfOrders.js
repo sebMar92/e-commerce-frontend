@@ -1,12 +1,14 @@
 import React from 'react';
 import NavbarAdmin from './NavbarAdmin';
 import NavBarEmpty from './NavBarEmpty';
+import { useDispatch, useSelector } from "react-redux";
 
 
 
 export default function ListOfOrders() {
-
-
+  const dispatch = useDispatch();
+ const allOrdersBulk =useSelector((state)=> state.admin.bulkAdmin)
+console.log(allOrdersBulk)
     return (
         <>
         <NavBarEmpty/>

@@ -31,6 +31,7 @@ import {
   DELETE_USER_ADMIN,
   CLEAR_USER_EMAIL,
   CLEAR_CARRUSEL,
+  GET_BULK_ADMIN,
 } from "./types";
 
 requestInterceptor();
@@ -518,5 +519,15 @@ export function clearUserEmail() {
 export function clearCarrusel() {
   return {
     type: CLEAR_CARRUSEL,
+  };
+}
+
+export function getBulkAdmin() {
+  return async function (dispatch) {
+    var json = await axios.get("/orders/admin/bulk");
+    return dispatch({
+      type: GET_BULK_ADMIN,
+      payload: json.data,
+    });
   };
 }
