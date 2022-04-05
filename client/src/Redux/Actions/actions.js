@@ -486,10 +486,10 @@ export function postSale(body) {
 }
 
 export function postEmail(data) {
-  return async function (){
-    var json = await axios.post("/emails", data);
+  return async function () {
+    var json = await axios.post('/emails', data);
     return json;
-  }
+  };
 }
 /*   return (dispatch) => {
     try {
@@ -571,14 +571,6 @@ export function clearCarrusel() {
   };
 }
 
-<<<<<<< HEAD
-export function getBulkAdmin() {
-  return async function (dispatch) {
-    var json = await axios.get("/orders/admin/bulk");
-    return dispatch({
-      type: GET_BULK_ADMIN,
-      payload: json.data,
-=======
 export function postBulkOrder(orderIds) {
   return async function (dispatch) {
     const bulk = await axios.post('/order/bulk', orderIds);
@@ -606,7 +598,16 @@ export function putBulkOrders(body, id) {
     return dispatch({
       type: PUT_BULK_ORDERS,
       payload: putBulkOrders.data,
->>>>>>> 6237d7e14518146f7ae0d435a27d5c36de6af289
+    });
+  };
+}
+
+export function getBulkAdmin() {
+  return async function (dispatch) {
+    var json = await axios.get('/orders/admin/bulk');
+    return dispatch({
+      type: GET_BULK_ADMIN,
+      payload: json.data,
     });
   };
 }
