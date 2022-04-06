@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   getOrder,
+  getBulkAdmin,
   getUsersInfo,
   getCategories,
 } from "../Redux/Actions/actions";
@@ -39,11 +40,17 @@ ChartJS.register(
 
 export default function AdminProfile() {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.home.finished);
+  const products = useSelector((state) => state.home.bulkAdmin);
   const user = useSelector((state) => state.home.users);
- 
+  
 
   console.log(products)
+  useEffect(()=> {
+
+    dispatch (getBulkAdmin({ status:"finished"}))
+  
+  },[])
+
   const data = {
     labels: ["1/Mar", "2/Mar", "3/Mar", "4/Mar", "5/Mar", "6/Mar", "7/Mar"],
     datasets: [
@@ -154,23 +161,20 @@ export default function AdminProfile() {
                   <Bar className="w-full" data={data2} />
                 </div>
               
-                  <div className="m-5 w-2/3 h-40 bg-secondary-100 rounded-lg text-center  overflow-auto">
+                  <div className="m-5 w-2/3 h-40 bg-secondary-100 rounded-lg text-center hover:bg-primary-300 overflow-auto">
                   <Link to="/admin/users" className="no-underline text-black">
                     <h3 className="bg-secondary-200 ">Usuarios</h3>
                     {user &&
                       user.length > 0 &&
                       user.map((us) => {
                         if (us.rol === "user") {
-                          return <p>{us.firstName + " " + us.lastName}</p>;
+                          return <p className="border border-secondary-200 overflo  w-auto  ">{us.firstName + " " + us.lastName}</p>;
                         
                         }
                       })}
-                      <p>otro...</p>
-                      <p>otro...</p>
-                      <p>otro...</p>
-                      <p>otro...</p>
-                      <p>otro...</p>
-                      <p>otro...</p>
+                      <p className="border border-secondary-200 overflow-auto  ">otro...</p>
+                      <p className="border border-secondary-200 overflow-auto  ">otro...</p>
+                     
 
                       </Link>
                   </div>
