@@ -24,7 +24,7 @@ export default function NavbarAdmin({ name, idUser }) {
       <div>
         <div className="dark:bg-slate-800 bg-primary-500 text-decoration-line: no-underline font-medium text-lg px-25 py-5 text-slate-900 flex justify-center rounded">
           <p className="font-semibold tracking-tight text-center text-gray-900 dark:text-white text-base m-3">
-            Welcome, Cosme Fulanito{name}!
+            Welcome!
           </p>
         </div>
         <div className="text-center bg-white sm:hidden dark:bg-slate-400">
@@ -77,8 +77,8 @@ export default function NavbarAdmin({ name, idUser }) {
           </Link>
           <Link to={`/admin/newsletter`} className="no-underline">
             <div className="m-0.5 bg-primary-300 text-decoration-line: no-underline font-medium text-lg px-1 py-1 text-slate-900 flex justify-center rounded hover:bg-primary-400 dark:text-white dark:hover:bg-slate-400 dark:hover:shadow-slate-600 dark:bg-slate-800 dark:hover:text-slate-900 dark:shadow-slate-900">
-              <p className="font-semibold tracking-tight text-gray-900 dark:text-white text-base">
-                Newsletter
+              <p className="justify-center font-semibold tracking-tight text-gray-900 dark:text-white text-base">
+                Networks & Newsletter
               </p>
             </div>
           </Link>
