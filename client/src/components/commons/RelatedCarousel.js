@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import CardHome from "../CardHome"
 import { GrNext, GrPrevious } from "react-icons/gr"
 
 export default function RelatedCarousel({ data }) {
+
+    const wishListDB = useSelector((state) => state.home.inWishList);
+    const cartDB = useSelector((state) => state.home.inCart)
+    const token = window.localStorage.getItem("access")
+    const deleted = useSelector((state) => state.home.deleted)
+    const postOrders = useSelector((state) => state.home.postOrders)
 
     const [paginaActual, setPaginaActual] = useState(1)
     const [productosPorCarrusel, setProductosPorCarrusel] = useState()
@@ -13,8 +20,6 @@ export default function RelatedCarousel({ data }) {
 
     const [width, setWidth] = useState(window.innerWidth);
     const [height, setHeight] = useState(window.innerHeight);
-    console.log("ancho", width)
-    console.log("alto", height)
 
     useEffect(() => {
         window.addEventListener("resize", handleResize);
@@ -49,21 +54,17 @@ export default function RelatedCarousel({ data }) {
 
     useEffect(() => {
         if (width > 300 && width < 768) {
-            console.log("entre")
             setProductosPorCarrusel(2)
         }
         if (width > 768 && width < 830) {
-            console.log("entreIPAD")
             setProductosPorCarrusel(3)
         }
         if (width > 830 && width < 1450) {
-            console.log("entrePC")
             setProductosPorCarrusel(4)
         }
-         if(width > 1450 && width < 10000){
-             console.log("entreTV")
-             setProductosPorCarrusel(5)
-         }
+        if (width > 1450 && width < 10000) {
+            setProductosPorCarrusel(5)
+        }
     }, [width, height])
 
     useEffect(() => {
@@ -91,7 +92,21 @@ export default function RelatedCarousel({ data }) {
                         <div className="text-sm pt-2 pl-3 flex flex-col sm:flex-row gap-2 pb-4 max-w-auto justify-center ">
                             {productos && productos.map((el) => (
                                 <div id={el.id} className="w-full xl:w-60">
-                                    <CardHome id={el.id} title={el.title} price={el.price} shipping={el.shipping} stock={el.stock} description={el.description} images={el.images} image={el.images[0].url} className="ir-arriba" />
+                                    <CardHome
+                                        key={el.id}
+                                        id={el.id}
+                                        title={el.title}
+                                        price={el.price}
+                                        shipping={el.shipping}
+                                        stock={el.stock}
+                                        description={el.description}
+                                        images={el.images}
+                                        image={el.images[0].url}
+                                        wishListDB={wishListDB}
+                                        cartDB={cartDB}
+                                        token={token}
+                                        deleted={deleted}
+                                        postOrders={postOrders} className="ir-arriba" />
                                 </div>
                             ))}
                         </div>

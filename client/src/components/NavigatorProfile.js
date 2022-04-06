@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
     { icon: "🛒", label: "Cart" },
     { icon: "👜", label: "Purchases" }
   ];
-  
+
   const [tomato, lettuce, cheese] = allCategories;
   export const tabs = [tomato, lettuce, cheese];
 
@@ -69,10 +69,12 @@ export default function NavigatorProfile() {
           {tabs.map((item) => (
             <li
               key={item.label}
-              className="rounded rounded-bl-none rounded-br-none text-xl w-full relative bg-white cursor-pointer h-6 flex justify-between items-center min-w-0 select-none border-indigo-500/100"
+              className="text-lg rounded rounded-bl-none rounded-br-none sm:text-xl w-full relative bg-white cursor-pointer h-6 flex justify-between items-center min-w-0 select-none border-indigo-500/100"
               onClick={() => setSelectedTab(item)}
             >
+              <div className="ml-auto mr-auto mt-2">
               {`${item.icon} ${item.label}`}
+              </div>
               {item === selectedTab ? (
                 <motion.div className="absolute left-0 right-0 top-7 h-px bg-blue-700" layoutId="underline" />
               ) : null}

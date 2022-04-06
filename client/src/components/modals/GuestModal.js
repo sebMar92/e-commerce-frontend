@@ -18,7 +18,7 @@ function GuestModal({ onClose }) {
                 </div>
 
                 <div className="flex flex-col text-center items-center">
-                    <h1 className="p-2 border-b-[1px] border-primary-600">You must be logged in to make your purchase!</h1>
+                    <h1 className="p-2 border-b-[1px] border-primary-600">You must be logged in to perform this action!</h1>
                     <span className="mt-6 text-8xl"><BiError /></span>
                 </div>
 

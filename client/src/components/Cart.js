@@ -1,17 +1,14 @@
-import React from "react";
-import NavBar from "./NavBar";
-import Footer from "./Footer/Footer";
-import CardCart from "./CardCart";
-import { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { MdRestaurantMenu } from "react-icons/md";
-import {
-  getOrder,
-  changeOrderStatus,
-  postBulkOrder,
-} from "../Redux/Actions/actions";
-import carrito from "./utils/carrito triste.png";
+import React from 'react';
+import NavBar from './NavBar';
+import Footer from './Footer/Footer';
+import CardCart from './CardCart';
+import { useEffect, useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { MdRestaurantMenu } from 'react-icons/md';
+import { getOrder, changeOrderStatus, postBulkOrder } from '../Redux/Actions/actions';
+import carrito from './utils/carrito triste.png';
+import ModalPortal from "../components/modals/GuestModal"
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -36,30 +33,49 @@ export default function Cart() {
   }
 
   useEffect(() => {
-    dispatch(getOrder({ status: "inCart" }));
+    dispatch(getOrder({ status: 'inCart' }));
   }, [resPutOrder, resPostBulk]);
 
-  function handleAllBuy() {
-    if (product.length > 1) {
-      const ids = product.map((e) => e.orders[0].id);
-      dispatch(postBulkOrder({ orderIds: ids }));
-    } else {
-      dispatch(
-        changeOrderStatus({
-          id: product[0].orders[0].id,
-          status: "pending",
-        })
-      );
-    }
-    setTimeout(() => {
-      navigate("/purchase");
-    }, 3000);
+  const [stateModal, setStateModal] = useState(false)
+  function handleCloseModal(e) {
+    e.preventDefault()
+    setStateModal(!stateModal)
   }
+
+  function handleAllBuy(e) {
+
+    const localStorageAccess = window.localStorage.getItem("access")
+    const localStorageRefresh = window.localStorage.getItem("refresh")
+    if (!localStorageAccess && !localStorageRefresh) {
+      handleCloseModal(e)
+    }
+
+    if (localStorageAccess && localStorageRefresh) {
+
+      if (product.length > 1) {
+        const ids = product.map((e) => e.orders[0].id);
+        dispatch(postBulkOrder({ orderIds: ids }));
+      } else {
+        dispatch(
+          changeOrderStatus({
+            id: product[0].orders[0].id,
+            status: 'pending',
+          })
+        );
+      }
+      setTimeout(() => {
+        navigate('/purchase');
+      }, 1000);
+    }
+  }
+
+
+
 
   return (
     <div>
+      {stateModal ? <ModalPortal onClose={(e) => handleCloseModal(e)} /> : null}
       <NavBar />
-
       {product && product.length > 0 ? (
         product.map((prod) => {
           return (
@@ -97,10 +113,8 @@ export default function Cart() {
                 <div className="flex justify-end mx-8 my-2">
                   {product && product.length > 0 ? (
                     <div>
-                      {" "}
-                      <h1 className="text-1xl  text-gray-900">
-                        Total ${total}
-                      </h1>
+                      {' '}
+                      <h1 className="text-1xl  text-gray-900">Total ${total}</h1>
                     </div>
                   ) : (
                     <div></div>
@@ -118,11 +132,7 @@ export default function Cart() {
                       direccion.map((dir) => {
                         return (
                           <option>
-                            {dir.city +
-                              ", " +
-                              dir.street +
-                              " " +
-                              dir.streetNumber}
+                            {dir.city + ', ' + dir.street + ' ' + dir.streetNumber}
                           </option>
                         );
                       })}
@@ -134,7 +144,7 @@ export default function Cart() {
 
           <div className="flex justify-center">
             <button
-              onClick={() => handleAllBuy()}
+              onClick={(e) => handleAllBuy(e)}
               className="bg-[#3b82f6] text-white p-1 my-8 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition  w-24"
             >
               Buy All
@@ -143,12 +153,8 @@ export default function Cart() {
         </>
       ) : (
         <div className="flex justify-center">
-          {" "}
-          <img
-            className="w-36 mx-10 m-10 animate-bounce"
-            src={carrito}
-            alt=""
-          />{" "}
+          {' '}
+          <img className="w-36 mx-10 m-10" src={carrito} alt="" />{' '}
         </div>
       )}
       <Footer />

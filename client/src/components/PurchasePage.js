@@ -1,71 +1,155 @@
-import React,{useState,useEffect} from 'react';
-import {useDispatch,useSelector} from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import NavBar from './NavBar';
 import Footer from './Footer/Footer';
 import Checkout from './Mercadopago/Checkout';
 import axios from 'axios';
-import { getBulkOrders, getOrder } from '../Redux/Actions/actions';
-import NavBarEmpty from './NavBarEmpty'
+import { getBulkOrders, getOrder, getProducts } from '../Redux/Actions/actions';
+import NavBarEmpty from './NavBarEmpty';
 import { useLocation } from 'react-router-dom';
 
-
-
 export default function PurchasePage() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const product = useSelector((state) => state.home.pending);
+  const globalSales = useSelector((state) => state.home.globalSales);
   const bulkOrders = useSelector((state) => state.home.bulkOrders);
-  const direccion = useSelector((state) => state.home.user.directions); 
+  const direccion = useSelector((state) => state.home.user.directions);
   const resPutOrder = useSelector((state) => state.home.resPutOrder);
-  const resDelete = useSelector((state) => state.home.deleted)
-  const location = useLocation()
-  const [data,setData] = useState("")
-
-  
-  
+  const resDelete = useSelector((state) => state.home.deleted);
+  const location = useLocation();
+  const [data, setData] = useState('');
+  const [productsWithSales, setProductsWithSales] = useState([]);
   useEffect(() => {
-    dispatch(getOrder({ status: "pending" }));
-    dispatch(getBulkOrders({ status: "pending" }));
-  }, [resDelete,location.search]);
+    dispatch(getProducts('?limit=1'));
+    dispatch(getOrder({ status: 'pending' }));
+    dispatch(getBulkOrders({ status: 'pending' }));
+  }, [resDelete, location.search]);
 
+  useEffect(() => {
+    let item = [];
+    // if (bulkOrders && bulkOrders.length > 0) {
+    //   console.log('BULKS EN PURCHASE: ', bulkOrders);
+    //   item =
+    //     bulkOrders && bulkOrders[0].products
+    //       ? bulkOrders[0].products.map((e) => ({
+    //           title: e.title,
+    //           amount: 1,
+    //           price: e.price,
+    //         }))
+    //       : [];
+    //   let shippingCost = {
+    //     title: 'shippingCost',
+    //     amount: 1,
+    //     price: bulkOrders[0].combinedShippingCost,
+    //   };
+    //   item.push(shippingCost);
+    // } else
 
-
-useEffect(() => {
-    let item;
-    if(bulkOrders.length > 0 ){
-      console.log("bulk",bulkOrders)
-      item =bulkOrders[0].products.map(e => ({title:e.title,amount: 1,price: e.price}))
-      let shippingCost ={title: "shippingCost",amount:1,price:bulkOrders[0].combinedShippingCost}
-      item.push(shippingCost)
-    }
-    else if(product.length > 0){
-      console.log("product",product)
-        item = product.map(e => ({title:e.title,amount: 1,price: e.price}));
-        let res = 0;
-        for (const it of product){
-          console.log(it)
-          res = res + it.shippingCost
-        }
-        let shippingCost= {title:"shippingCost",amount:1,price:res}
-        item.push(shippingCost)
-      }
-        if(product.length || bulkOrders.length){
-        const idToken = axios.post("/mercadopago/pay", item)
-          .then((data) => {
-            //id
-            setData(data.data);
+    if (product && product.length > 0) {
+      let productsDiscounted = product
+        ? product
+            .map((e) => {
+              const productSales = e.sales;
+              var categorySales = [];
+              if (e.categories && e.categories.length) {
+                for (const category of e.categories) {
+                  if (category.sales && category.sales.length > 0) {
+                    categorySales.push(category.sales);
+                  }
+                }
+                categorySales = categorySales.flat();
+              }
+              const date = Date();
+              const days = [];
+              if (productSales && productSales.length > 0) {
+                for (const sale of productSales) {
+                  if (
+                    sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() ||
+                    sale.day == 'all'
+                  ) {
+                    days.push(sale);
+                  }
+                }
+              }
+              if (categorySales.length > 0) {
+                for (const sale of categorySales) {
+                  if (
+                    sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() ||
+                    sale.day == 'all'
+                  ) {
+                    days.push(sale);
+                  }
+                }
+              }
+              if (globalSales.length > 0) {
+                for (const sale of globalSales) {
+                  if (
+                    sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() ||
+                    sale.day == 'all'
+                  ) {
+                    days.push(sale);
+                  }
+                }
+              }
+              if (days.length > 0) {
+                const sortedDays = days.sort((a, b) => b.percentage - a.percentage);
+                var filteredSales = sortedDays.filter((sale) =>
+                  e.orders.amount ? e.orders.amount : 1 > sale.productAmount
+                );
+              }
+              if (filteredSales && filteredSales.length > 0) {
+                if (filteredSales[0].amount > 0) {
+                  const lastProduct = e;
+                  lastProduct.shippingCost = 0;
+                  lastProduct.price =
+                    e.price - e.price * (filteredSales[0].percentage / 100);
+                  e.amount = e.amount - 1;
+                  return [e, lastProduct];
+                } else {
+                  let discountPrice =
+                    e.price - e.price * (filteredSales[0].percentage / 100);
+                  e.price = discountPrice;
+                  return e;
+                }
+              } else {
+                return e;
+              }
+            })
+            .flat()
+        : [];
+      setProductsWithSales(productsDiscounted);
+      item = productsWithSales
+        ? productsWithSales.map((e) => {
+            return {
+              title: e.title,
+              amount: e.orders.amount || 1,
+              price: e.price,
+            };
           })
-          .catch((err) => console.error(err));
-        }
-      
-}, [product,bulkOrders])
+        : [];
+      let res = 0;
+      for (const it of productsWithSales) {
+        res = res + it.shippingCost;
+      }
+      let shippingCost = { title: 'shippingCost', amount: 1, price: res };
+      item.push(shippingCost);
+    }
+    if ((product && product.length) || (bulkOrders && bulkOrders.length)) {
+      const idToken = axios
+        .post('/mercadopago/pay', item)
+        .then((data) => {
+          //id
+          setData(data.data);
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [product, bulkOrders]);
 
-
-    return (
-        <>
-        <NavBarEmpty />
-        {data &&
-        <Checkout data={data} products={product}/>}
-        <Footer/>
-        </>
-    );
+  return (
+    <>
+      <NavBarEmpty />
+      {data && <Checkout data={data} products={productsWithSales} />}
+      <Footer />
+    </>
+  );
 }

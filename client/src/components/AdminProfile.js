@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   getOrder,
+  getBulkAdmin,
   getUsersInfo,
   getCategories,
 } from "../Redux/Actions/actions";
@@ -39,11 +40,17 @@ ChartJS.register(
 
 export default function AdminProfile() {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.home.finished);
+  const products = useSelector((state) => state.home.bulkAdmin);
   const user = useSelector((state) => state.home.users);
- 
+  
 
   console.log(products)
+  useEffect(()=> {
+
+    dispatch (getBulkAdmin({ status:"finished"}))
+  
+  },[])
+
   const data = {
     labels: ["1/Mar", "2/Mar", "3/Mar", "4/Mar", "5/Mar", "6/Mar", "7/Mar"],
     datasets: [
@@ -135,14 +142,13 @@ export default function AdminProfile() {
   return (
     <>
       <NavBarEmpty />
-      <div className="flex flex-col sm:flex-row">
-        <NavbarAdmin className="w-1/5" />
-
-        <div className="mx-auto w-4/5">
-          <h1 className="mx-auto text-center"> Admin's profile </h1>
-          <div className=" w-full h-2/4">
+      <div className="flex flex-col sm:flex-row font-lora">
+        <NavbarAdmin />
+        <div className="mx-auto w-full xl:w-[85rem] h-screen">
+          <h1 className="mx-auto text-center"> Admin profile </h1>
+          <div className="w-full h-[18rem]">
             <Line
-              className=" w-full h-full "
+              className="w-full h-full "
               data={data}
               options={options}
               height="60"
@@ -154,30 +160,27 @@ export default function AdminProfile() {
                   <Bar className="w-full" data={data2} />
                 </div>
               
-                  <div className="m-5 w-2/3 h-40 bg-secondary-100 rounded-lg text-center  overflow-auto">
+                  <div className="m-5 w-2/3 h-40 bg-secondary-100 rounded-lg text-center hover:bg-primary-300 overflow-auto">
                   <Link to="/admin/users" className="no-underline text-black">
                     <h3 className="bg-secondary-200 ">Usuarios</h3>
                     {user &&
                       user.length > 0 &&
                       user.map((us) => {
                         if (us.rol === "user") {
-                          return <p>{us.firstName + " " + us.lastName}</p>;
+                          return <p className="border border-secondary-200 overflo  w-auto  ">{us.firstName + " " + us.lastName}</p>;
                         
                         }
                       })}
-                      <p>otro...</p>
-                      <p>otro...</p>
-                      <p>otro...</p>
-                      <p>otro...</p>
-                      <p>otro...</p>
-                      <p>otro...</p>
+                      <p className="border border-secondary-200 overflow-auto  ">otro...</p>
+                      <p className="border border-secondary-200 overflow-auto  ">otro...</p>
+                     
 
-                      </Link>
+                          </Link>
                   </div>
               
-            <div className="w-full h-38">
-              <Doughnut className="  w-full " data={data3} />
-            </div>
+                    <div className="w-[20rem]">
+                      <Doughnut data={data3} />
+                    </div>
           </div>
         </div>
       </div>
