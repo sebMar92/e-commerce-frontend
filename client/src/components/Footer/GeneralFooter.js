@@ -33,12 +33,7 @@ export default function GeneralFooter() {
                   >
                     <h5 className="flex ml-8 m-2 text-lg md:text-sm">
                       <CgMail />
-                      <Link
-                        to="/profiles"
-                        className="text-decoration-line: no-underline text-black"
-                      >
-                        Contact us
-                      </Link>
+                      Contact us
                     </h5>
                   </a>
                 </div>
@@ -71,10 +66,16 @@ export default function GeneralFooter() {
 
               <div className="flex sm:flex-row flex-col">
                 <div className="m-2 lg:mr-20 sm:mr-8 xl:mr-60">
-                  <h3 className="flex justify-center text-2xl md:text-3xl">
-                    About us
-                  </h3>
-                  <a
+                  <Link
+                    to="/profiles"
+                    className="text-decoration-line: no-underline text-black"
+                  >
+                    <h3 className="flex justify-center text-2xl md:text-3xl">
+                      About us
+                    </h3>
+                  </Link>
+
+                  {/* <a
                     href="https://github.com/"
                     className="no-underline text-black"
                   >
@@ -91,7 +92,7 @@ export default function GeneralFooter() {
                       <AiOutlineLinkedin />
                       Linkedin
                     </h6>
-                  </a>
+                  </a> */}
                 </div>
                 <div className="m-2">
                   <h3 className="flex justify-center text-2xl md:text-3xl">
