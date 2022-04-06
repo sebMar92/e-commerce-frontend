@@ -29,6 +29,7 @@ export const responseInterceptor = () => {
     },
     async (error) => {
       if (
+        error.response.status &&
         error.response.status === 403 &&
         error.response.data.error &&
         error.response.data.error.name === 'TokenExpiredError'

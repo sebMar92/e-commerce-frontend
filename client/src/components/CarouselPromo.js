@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getSales } from "../Redux/Actions/actions.js";
-import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import { datos } from "./dataFake";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getSales } from '../Redux/Actions/actions.js';
+import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
+import { datos } from './dataFake';
+import { Link } from 'react-router-dom';
 
 const data = datos;
 
@@ -13,15 +13,14 @@ let slideInterval;
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const sales = useSelector((state) => state.admin.sales);
-  /* sales && console.log("sales: " + sales[1].categories[0].id); */
-  sales.length && console.log("products: " + sales[0].products[0].id);
+
   const dispatch = useDispatch();
   const slideRef = useRef();
   useEffect(() => {
     slider();
-    slideRef.current.addEventListener("animationend", removeAnimation);
-    slideRef.current.addEventListener("mouseenter", pauseSlider);
-    slideRef.current.addEventListener("mouseleave", slider);
+    slideRef.current.addEventListener('animationend', removeAnimation);
+    slideRef.current.addEventListener('mouseenter', pauseSlider);
+    slideRef.current.addEventListener('mouseleave', slider);
     dispatch(getSales());
     return () => {
       clearInterval(slideInterval);
@@ -42,19 +41,15 @@ export default function Carousel() {
     const productsLength = data.length;
     count = (currentIndex + productsLength - 1) % productsLength;
     setCurrentIndex(count);
-    console.log("sales: " + sales);
-    console.log(count);
-    // slideRef.current.classList.add('fade-anim');
   };
 
   const handleNextClick = (e) => {
     count = (count + 1) % data.length;
     setCurrentIndex(count);
-    // slideRef.current.classList.add('fade-anim');
   };
 
   const removeAnimation = () => {
-    slideRef.current.classList.remove("fade-anim");
+    slideRef.current.classList.remove('fade-anim');
   };
   function aleatorio(inferior, superior) {
     var numPosibilidades = superior - inferior;
