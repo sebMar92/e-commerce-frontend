@@ -5,6 +5,7 @@ import CarouselCateg from "./CarouselCateg";
 import Footer from "./Footer/Footer";
 import { ToastContainer, toast } from "react-toastify";
 
+
 export default function Home() {
 
   const notify = () => {
@@ -18,19 +19,18 @@ export default function Home() {
       position: toast.POSITION.BOTTOM_LEFT,
     });
   };
-  
 
   return (
     <>
-    <div>
-      <ToastContainer autoClose={2000} />
-      <NavBar />
-      <CarouselPromo />
-      <div className="md:my-32">
-        <CarouselCateg onClick={notify} onClick2={notify2} />
-      </div>
+      <div>
+        <ToastContainer autoClose={2000} />
+        <NavBar />
+        <CarouselPromo />
+        <div className="md:my-32">
+          <CarouselCateg onClick={notify} onClick2={notify2} />
+        </div>
 
-      <Footer />
+        <Footer />
       </div>
     </>
   );

@@ -39,3 +39,4 @@ export const GET_BULK_ORDERS = 'GET_BULK_ORDERS';
 export const PUT_BULK_ORDERS = 'PUT_BULK_ORDERS';
 export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const POST_EMAIL = "POST_EMAIL"
+export const GET_BULK_ADMIN = "GET_BULK_ADMIN";

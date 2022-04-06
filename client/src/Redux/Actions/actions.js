@@ -34,6 +34,7 @@ import {
   GET_CARRUSELONE,
   GET_CARRUSELTWO,
   GET_CARRUSELTHIRD,
+  GET_BULK_ADMIN,
   POST_BULK_ORDER,
   GET_BULK_ORDERS,
   PUT_BULK_ORDERS,
@@ -580,6 +581,15 @@ export function carruselOne(search) {
 
     return dispatch({
       type: GET_CARRUSELONE,
+    })
+  }
+}
+
+export function getBulkAdmin() {
+  return async function (dispatch) {
+    var json = await axios.get('/order/admin/bulk');
+    return dispatch({
+      type: GET_BULK_ADMIN,
       payload: json.data,
     })
   }
@@ -607,7 +617,7 @@ export function carruselTwo(search) {
 }
 
 export function getBulkOrders(status) {
-  console.log(status);
+
   return async function (dispatch) {
     const bulkOrders = await axios.get('/order/bulk?status=' + status.status);
     return dispatch({
