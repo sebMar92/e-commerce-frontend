@@ -154,7 +154,7 @@ export default function Cart() {
       ) : (
         <div className="flex justify-center">
           {' '}
-          <img className="w-36 mx-10 m-10 animate-bounce" src={carrito} alt="" />{' '}
+          <img className="w-36 mx-10 m-10" src={carrito} alt="" />{' '}
         </div>
       )}
       <Footer />
