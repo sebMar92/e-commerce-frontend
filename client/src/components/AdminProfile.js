@@ -44,7 +44,7 @@ export default function AdminProfile() {
   const user = useSelector((state) => state.home.users);
   
 
-  console.log(products)
+  console.log("trae"+ products)
   useEffect(()=> {
 
     dispatch (getBulkAdmin({ status:"finished"}))
@@ -160,14 +160,17 @@ export default function AdminProfile() {
                   <Bar className="w-full" data={data2} />
                 </div>
               
-                  <div className="m-5 w-2/3 h-40 bg-secondary-100 rounded-lg text-center hover:bg-primary-300 overflow-auto">
+                  <div className="m-5 w-3/4 h-40 bg-secondary-100 rounded-lg text-center hover:bg-primary-300 overflow-auto">
                   <Link to="/admin/users" className="no-underline text-black">
-                    <h3 className="bg-secondary-200 ">Usuarios</h3>
+                    <h3 className="bg-secondary-200">Usuarios</h3>
                     {user &&
                       user.length > 0 &&
                       user.map((us) => {
                         if (us.rol === "user") {
-                          return <p className="border border-secondary-200 overflo  w-auto  ">{us.firstName + " " + us.lastName}</p>;
+                          var name= us.firstName.split(" ")[0].toLowerCase()
+                          var apellido= us.lastName.split(" ")[0].toLowerCase()
+                         
+                          return <p className="border border-secondary-200 overflo  w-auto  ">{name.charAt(0).toUpperCase()+ name.slice(1) + " " + apellido.charAt(0).toUpperCase()+ apellido.slice(1)}</p>;
                         
                         }
                       })}

@@ -651,7 +651,9 @@ export function deleteToken(token) {
 }
 
 export function getBulkAdmin(conditions) {
+  console.log("llega axios", conditions)
   return async function (dispatch) {
+    
     var queries = '';
     if (conditions) {
       if (conditions.hasOwnProperty('userId') && conditions.hasOwnProperty('status')) {
@@ -661,8 +663,9 @@ export function getBulkAdmin(conditions) {
       } else if (conditions.hasOwnProperty('status')) {
         queries = '?status=' + conditions.status;
       }
-    }
-    var json = await axios.get('/orders/admin/bulk' + queries);
+    }console.log(queries)
+    var json = await axios.get('/order/admin/bulk' + queries);
+    console.log("json",json.data)
     return dispatch({
       type: GET_BULK_ADMIN,
       payload: json.data,
