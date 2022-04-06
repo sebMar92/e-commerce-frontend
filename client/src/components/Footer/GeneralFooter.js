@@ -1,35 +1,33 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   AiFillGithub,
   AiOutlineLinkedin,
   AiOutlineFacebook,
   AiOutlineTwitter,
   AiOutlineInstagram,
-  AiOutlineShoppingCart
-} from "react-icons/ai";
-import { BiArrowToLeft } from "react-icons/bi"
-import { MdOutlineArrowDropDownCircle } from "react-icons/md";
-import { CgMail, CgProfile } from "react-icons/cg";
-import { MdFavorite, MdOutlineShoppingBag } from "react-icons/md";
+  AiOutlineShoppingCart,
+} from 'react-icons/ai';
+import { BiArrowToLeft } from 'react-icons/bi';
+import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { CgMail, CgProfile } from 'react-icons/cg';
+import { MdFavorite, MdOutlineShoppingBag } from 'react-icons/md';
 
 export default function GeneralFooter() {
-
-  const localStorageAccess = window.localStorage.getItem("access")
-  const localStorageRefresh = window.localStorage.getItem("refresh")
+  const localStorageAccess = window.localStorage.getItem('access');
+  const localStorageRefresh = window.localStorage.getItem('refresh');
 
   function handleClickFooterG() {
-    document.getElementById("footerGeneral").classList.toggle("hidden");
+    document.getElementById('footerGeneral').classList.toggle('hidden');
   }
 
   function handleAlert(arg) {
-    if (arg === "profile") {
-      alert("You must be logged in to see your profile.")
+    if (arg === 'profile') {
+      alert('You must be logged in to see your profile.');
     }
-    if (arg === "shopps") {
-      alert("You must be logged in to see your purchases.")
+    if (arg === 'shopps') {
+      alert('You must be logged in to see your purchases.');
     }
-
   }
 
   return (
@@ -39,12 +37,8 @@ export default function GeneralFooter() {
           <div id="footerGeneral" className="sm:block">
             <div className="bg-gray-300 flex flex-nowrap m-auto sm:justify-center justify-around p-4 content-center font-lora font-semibold">
               <div className="flex sm:flex-row flex-col justify-between">
-
-
                 <div className="m-2 lg:mr-20 sm:mr-8 xl:mr-60">
-                  <h3 className="flex justify-center text-2xl md:text-3xl">
-                    About us
-                  </h3>
+                  <h3 className="flex justify-center text-2xl md:text-3xl">About us</h3>
                   <Link
                     to="/profiles"
                     className="text-decoration-line: no-underline text-black"
@@ -57,9 +51,7 @@ export default function GeneralFooter() {
                 </div>
 
                 <div className="m-2 lg:mr-20 sm:mr-8 xl:mr-60">
-                  <h3 className="flex justify-center text-2xl md:text-3xl">
-                    Follow us
-                  </h3>
+                  <h3 className="flex justify-center text-2xl md:text-3xl">Follow us</h3>
 
                   <a href="" className="no-underline text-black">
                     <h5 className="flex ml-8 m-2 text-lg md:text-sm">
@@ -83,11 +75,8 @@ export default function GeneralFooter() {
               </div>
 
               <div className="flex sm:flex-row flex-col">
-
                 <div className="m-2 lg:mr-20 sm:mr-8 xl:mr-60">
-                  <h3 className="flex justify-center text-2xl md:text-3xl">
-                    Need help?
-                  </h3>
+                  <h3 className="flex justify-center text-2xl md:text-3xl">Need help?</h3>
                   <a
                     href="https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox?compose=DmwnWsLPtkNmvlMqVnDjlPPRxjmPzjBJnXlZqFVwPjHtQNJJcsVgxbtxnXfQBwGtGTzpnCWrmxLQ"
                     className="no-underline text-black"
@@ -100,37 +89,23 @@ export default function GeneralFooter() {
                 </div>
 
                 <div className="m-2">
-                  <h3 className="flex justify-center text-2xl md:text-3xl">
-                    My account
-                  </h3>
-                  {!localStorageAccess && !localStorageRefresh ?
-                    <h5 onClick={() => handleAlert("profile")} className="cursor-pointer flex ml-8 m-2 text-lg md:text-sm">
+                  <h3 className="flex justify-center text-2xl md:text-3xl">My account</h3>
+                  {!localStorageAccess && !localStorageRefresh ? (
+                    <h5
+                      onClick={() => handleAlert('profile')}
+                      className="cursor-pointer flex ml-8 m-2 text-lg md:text-sm"
+                    >
                       <CgProfile />
                       Profile
                     </h5>
-                    :
+                  ) : (
                     <Link to={`/user`} className="no-underline text-black">
                       <h5 className="flex ml-8 m-2 text-lg md:text-sm">
                         <CgProfile />
                         Profile
                       </h5>
                     </Link>
-                  }
-                  {!localStorageAccess && !localStorageRefresh ?
-                    <h5 onClick={() => handleAlert("shopps")} className="cursor-pointer flex ml-8 m-2 text-lg md:text-sm">
-                      <MdOutlineShoppingBag />
-                      Shopps
-                    </h5>
-                    :
-                    <Link to={`/historial`} className="no-underline text-black">
-                      <h5 className="flex ml-8 m-2 text-lg md:text-sm">
-                        <MdOutlineShoppingBag />
-                        Shopps
-                      </h5>
-                    </Link>
-                  }
-
-
+                  )}
                   <Link to={`/wishlist`} className="no-underline text-black">
                     <h5 className="flex ml-8 m-2 text-lg md:text-sm">
                       <MdFavorite />
@@ -144,6 +119,22 @@ export default function GeneralFooter() {
                       Shopping cart
                     </h5>
                   </Link>
+                  {!localStorageAccess && !localStorageRefresh ? (
+                    <h5
+                      onClick={() => handleAlert('shopps')}
+                      className="cursor-pointer flex ml-8 m-2 text-lg md:text-sm"
+                    >
+                      <MdOutlineShoppingBag />
+                      Purchases
+                    </h5>
+                  ) : (
+                    <Link to={`/purchases`} className="no-underline text-black">
+                      <h5 className="flex ml-8 m-2 text-lg md:text-sm">
+                        <MdOutlineShoppingBag />
+                        Purchases
+                      </h5>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
