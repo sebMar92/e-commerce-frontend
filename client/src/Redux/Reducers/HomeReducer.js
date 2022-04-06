@@ -62,6 +62,7 @@ const initialState = {
   bulkOrders: [],
   putBulkOrders: [],
   bulkAdmin: [],
+  globalSales:[]
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -71,6 +72,7 @@ export const HomeReducer = (state = initialState, action) => {
         products: action.payload.products,
         currentPage: action.payload.page,
         totalPages: action.payload.pages,
+        globalSales:action.payload.globalSales
       };
     case GET_CATEGORIES:
       return {
