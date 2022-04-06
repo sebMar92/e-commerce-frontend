@@ -41,7 +41,7 @@ export default function FavsModal() {
           </Link>
           {favs && favs.length > 0 && (
             <ul
-              className={`absolute absolute top-0 right-0 translate-y-12 mt-1 text-sm invisible shadow-md group-hover:visible p-4 rounded-xl ${
+              className={` absolute top-0 right-0 translate-y-12 mt-1 text-sm invisible shadow-md group-hover:visible p-4 rounded-xl ${
                 favs && favs.length > 0 ? "bg-white" : ""
               } rounded-xl`}
             >
