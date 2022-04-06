@@ -25,25 +25,30 @@ export default function PurchasePage() {
 
   useEffect(() => {
     let item = [];
-    if (bulkOrders && bulkOrders.length > 0) {
-      console.log('BULKS EN PURCHASE: ', bulkOrders);
-      item =
-        bulkOrders && bulkOrders[0].products
-          ? bulkOrders[0].products.map((e) => ({
-              title: e.title,
-              amount: 1,
-              price: e.price,
-            }))
-          : [];
-      let shippingCost = {
-        title: 'shippingCost',
-        amount: 1,
-        price: bulkOrders[0].combinedShippingCost,
-      };
-      item.push(shippingCost);
-    } else if (product && product.length > 0) {
+    // if (bulkOrders && bulkOrders.length > 0) {
+    //   console.log('BULKS EN PURCHASE: ', bulkOrders);
+    //   item =
+    //     bulkOrders && bulkOrders[0].products
+    //       ? bulkOrders[0].products.map((e) => ({
+    //           title: e.title,
+    //           amount: 1,
+    //           price: e.price,
+    //         }))
+    //       : [];
+    //   let shippingCost = {
+    //     title: 'shippingCost',
+    //     amount: 1,
+    //     price: bulkOrders[0].combinedShippingCost,
+    //   };
+    //   item.push(shippingCost);
+    // } else
+    if (product && product.length > 0) {
       item = product
-        ? product.map((e) => ({ title: e.title, amount: 1, price: e.price }))
+        ? product.map((e) => ({
+            title: e.title,
+            amount: e.orders.amount || 1,
+            price: e.price,
+          }))
         : [];
       let res = 0;
       for (const it of product) {
