@@ -20,8 +20,6 @@ export default function RelatedCarousel({ data }) {
 
     const [width, setWidth] = useState(window.innerWidth);
     const [height, setHeight] = useState(window.innerHeight);
-    console.log("ancho", width)
-    console.log("alto", height)
 
     useEffect(() => {
         window.addEventListener("resize", handleResize);
@@ -56,19 +54,15 @@ export default function RelatedCarousel({ data }) {
 
     useEffect(() => {
         if (width > 300 && width < 768) {
-            console.log("entre")
             setProductosPorCarrusel(2)
         }
         if (width > 768 && width < 830) {
-            console.log("entreIPAD")
             setProductosPorCarrusel(3)
         }
         if (width > 830 && width < 1450) {
-            console.log("entrePC")
             setProductosPorCarrusel(4)
         }
         if (width > 1450 && width < 10000) {
-            console.log("entreTV")
             setProductosPorCarrusel(5)
         }
     }, [width, height])

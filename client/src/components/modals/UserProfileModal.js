@@ -260,126 +260,129 @@ function UserProfileModal({ onClose, directionsUser }) {
                     {/* Aca mostrar ciudad y calle */}
                     <form onSubmit={(e) => handleSubmitChangeAdressExist(e)}>
                         <div>
-                            {directionsUser && directionsUser.map((data) => {
-                                return (
-                                    <div key={data.id}>
-                                        <div className='rounded-md shadow-sm shadow-slate-400 mb-1 pb-1 border border-solid border-slate-900'>
+                            {directionsUser && directionsUser.length ?
+                                directionsUser && directionsUser.map((data) => {
+                                    return (
+                                        <div key={data.id}>
+                                            <div className='rounded-md shadow-sm shadow-slate-400 mb-1 pb-1 border border-solid border-slate-900'>
 
-                                            <div className=" flex justify-between" >
-                                                <div className="cursor-pointer" onClick={() => handleClickSelectAdrees(data)}>
-                                                    <span>{data.city}, {data.street} {data.streetNumber}</span>
-                                                </div>
-                                                <div>
-                                                    <button type="button" className="pl-1 pr-1 h-6 text-xs mr-1 p-0 cursor-pointer bg-secondary-100 rounded-md shadow-sm shadow-slate-900 border border-solid border-primary-500 hover:shadow-md hover:bg-red-600 hover:border-black hover:text-white" onClick={(e) => handleClickDeleteAdress(e, data.id)}>DeleteAdress</button>
-                                                </div>
-                                            </div>
-
-                                            <div id={data.id} className='hidden'>
-                                                <div className='rounded-md shadow-sm shadow-slate-400 m-1'>
-                                                    <span>City:</span>
+                                                <div className=" flex justify-between" >
+                                                    <div className="cursor-pointer" onClick={() => handleClickSelectAdrees(data)}>
+                                                        <span>{data.city}, {data.street} {data.streetNumber}</span>
+                                                    </div>
                                                     <div>
-                                                        <input
-                                                            id={data.id}
-                                                            type="text"
-                                                            value={stateDirections.city}
-                                                            name="city"
-                                                            onChange={(e) => handleChange(e)}
-                                                            className="w-auto m-1 rounded-md"
-                                                        />
-
+                                                        <button type="button" className="pl-1 pr-1 h-6 text-xs mr-1 p-0 cursor-pointer bg-secondary-100 rounded-md shadow-sm shadow-slate-900 border border-solid border-primary-500 hover:shadow-md hover:bg-red-600 hover:border-black hover:text-white" onClick={(e) => handleClickDeleteAdress(e, data.id)}>DeleteAdress</button>
                                                     </div>
                                                 </div>
 
-                                                <div className='rounded-md flex justify-start max-w-full'>
-                                                    <div className='rounded-md shadow-sm shadow-slate-400 m-1 w-44'>
-                                                        <span>Street:</span>
+                                                <div id={data.id} className='hidden'>
+                                                    <div className='rounded-md shadow-sm shadow-slate-400 m-1'>
+                                                        <span>City:</span>
                                                         <div>
                                                             <input
                                                                 id={data.id}
                                                                 type="text"
-                                                                value={stateDirections.street}
-                                                                name="street"
+                                                                value={stateDirections.city}
+                                                                name="city"
                                                                 onChange={(e) => handleChange(e)}
-                                                                className="w-40 m-1 rounded-md"
+                                                                className="w-auto m-1 rounded-md"
                                                             />
 
                                                         </div>
                                                     </div>
 
-                                                    <div className='rounded-md shadow-sm shadow-slate-400 m-1 w-44'>
-                                                        <span>Street number:</span>
-                                                        <div>
-                                                            <input
-                                                                id={data.id}
-                                                                type="number"
-                                                                value={stateDirections.streetNumber}
-                                                                name="streetNumber"
-                                                                onChange={(e) => handleChangeStreetNumber(e)}
-                                                                className="w-40 m-1 rounded-md"
-                                                            />
+                                                    <div className='rounded-md flex justify-start max-w-full'>
+                                                        <div className='rounded-md shadow-sm shadow-slate-400 m-1 w-44'>
+                                                            <span>Street:</span>
+                                                            <div>
+                                                                <input
+                                                                    id={data.id}
+                                                                    type="text"
+                                                                    value={stateDirections.street}
+                                                                    name="street"
+                                                                    onChange={(e) => handleChange(e)}
+                                                                    className="w-40 m-1 rounded-md"
+                                                                />
 
+                                                            </div>
                                                         </div>
+
+                                                        <div className='rounded-md shadow-sm shadow-slate-400 m-1 w-44'>
+                                                            <span>Street number:</span>
+                                                            <div>
+                                                                <input
+                                                                    id={data.id}
+                                                                    type="number"
+                                                                    value={stateDirections.streetNumber}
+                                                                    name="streetNumber"
+                                                                    onChange={(e) => handleChangeStreetNumber(e)}
+                                                                    className="w-40 m-1 rounded-md"
+                                                                />
+
+                                                            </div>
+                                                        </div>
+
                                                     </div>
 
-                                                </div>
 
 
+                                                    <div className='max-w-full rounded-md flex justify-start'>
+                                                        <div className='rounded-md shadow-sm shadow-slate-400 m-1 w-44'>
+                                                            <span>Floor:</span>
+                                                            <div>
+                                                                <input
+                                                                    id={data.id}
+                                                                    type="text"
+                                                                    value={stateDirections.floor}
+                                                                    name="floor"
+                                                                    onChange={(e) => handleChange(e)}
+                                                                    className="w-40 m-1 rounded-md"
+                                                                />
 
-                                                <div className='max-w-full rounded-md flex justify-start'>
-                                                    <div className='rounded-md shadow-sm shadow-slate-400 m-1 w-44'>
-                                                        <span>Floor:</span>
-                                                        <div>
-                                                            <input
-                                                                id={data.id}
-                                                                type="text"
-                                                                value={stateDirections.floor}
-                                                                name="floor"
-                                                                onChange={(e) => handleChange(e)}
-                                                                className="w-40 m-1 rounded-md"
-                                                            />
-
+                                                            </div>
                                                         </div>
+
+                                                        <div className='rounded-md shadow-sm shadow-slate-400 m-1 w-44'>
+                                                            <span>Unit:</span>
+                                                            <div>
+                                                                <input
+                                                                    id={data.id}
+                                                                    type="text"
+                                                                    value={stateDirections.unit}
+                                                                    name="unit"
+                                                                    onChange={(e) => handleChange(e)}
+                                                                    className="w-40 m-1 rounded-md"
+                                                                />
+
+                                                            </div>
+                                                        </div>
+
                                                     </div>
 
-                                                    <div className='rounded-md shadow-sm shadow-slate-400 m-1 w-44'>
-                                                        <span>Unit:</span>
-                                                        <div>
-                                                            <input
-                                                                id={data.id}
-                                                                type="text"
-                                                                value={stateDirections.unit}
-                                                                name="unit"
-                                                                onChange={(e) => handleChange(e)}
-                                                                className="w-40 m-1 rounded-md"
-                                                            />
+                                                    <div className='max-w-full rounded-md flex justify-start'>
 
+                                                        <div className='w-44 rounded-md shadow-sm shadow-slate-400 m-1'>
+                                                            <span>Postal Code:</span>
+                                                            <div>
+                                                                <input
+                                                                    id={data.id}
+                                                                    type="text"
+                                                                    value={stateDirections.postalCode}
+                                                                    name="postalCode"
+                                                                    onChange={(e) => handleChange(e)}
+                                                                    className="w-40 m-1 rounded-md"
+                                                                />
+
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                </div>
-
-                                                <div className='max-w-full rounded-md flex justify-start'>
-
-                                                    <div className='w-44 rounded-md shadow-sm shadow-slate-400 m-1'>
-                                                        <span>Postal Code:</span>
-                                                        <div>
-                                                            <input
-                                                                id={data.id}
-                                                                type="text"
-                                                                value={stateDirections.postalCode}
-                                                                name="postalCode"
-                                                                onChange={(e) => handleChange(e)}
-                                                                className="w-40 m-1 rounded-md"
-                                                            />
-
+                                                        <div id="submitChanges" className="">
+                                                            <button type="submit" onSubmit={(e) => handleSubmitChangeAdressExist(e)}
+                                                                className='text-md items-center flex rounded-md shadow-sm shadow-slate-400 m-1 w-44 justify-center'>
+                                                                Submit Changes   <AiOutlineSend />
+                                                            </button>
                                                         </div>
-                                                    </div>
 
-                                                    <div id="submitChanges" className="">
-                                                        <button type="submit" onSubmit={(e) => handleSubmitChangeAdressExist(e)}
-                                                            className='text-md items-center flex rounded-md shadow-sm shadow-slate-400 m-1 w-44 justify-center'>
-                                                            Submit Changes   <AiOutlineSend />
-                                                        </button>
                                                     </div>
 
                                                 </div>
@@ -387,10 +390,10 @@ function UserProfileModal({ onClose, directionsUser }) {
                                             </div>
 
                                         </div>
-
-                                    </div>
-                                )
-                            })}
+                                    )
+                                })
+                                : <span>No addresses registered</span>
+                            }
                         </div>
                     </form>
 
