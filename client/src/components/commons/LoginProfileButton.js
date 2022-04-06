@@ -40,7 +40,7 @@ export default function LoginProfileButton() {
             <div></div>
             <img
               src={user.profilePicture}
-              className="relative object-cover w-11 h-11 border-4 rounded-full border-white "
+              className="relative object-cover w-11 h-11 border-4 rounded-full border-white"
             ></img>
             <ul className="absolute -ml-2 mt-1 rounded-lg text-sm z-20 font-lora">
               <Link to="/user" className="no-underline text-black">
