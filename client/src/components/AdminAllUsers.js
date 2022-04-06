@@ -1,37 +1,33 @@
-import React, { useEffect, useState } from "react";
-import NavbarAdmin from "./NavbarAdmin";
-import NavBarEmpty from "./NavBarEmpty";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getUsersInfo,
-  deleteUserAdmin,
-  putUserAdmin,
-} from "../Redux/Actions/actions";
-import { AiFillDelete } from "react-icons/ai";
-import { AiOutlineUser } from "react-icons/ai";
-import { FaUsersCog } from "react-icons/fa";
-import ModalConfirm from "./commons/ModalConfirm";
+import React, { useEffect, useState } from 'react';
+import NavbarAdmin from './NavbarAdmin';
+import NavBarEmpty from './NavBarEmpty';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUsersInfo, deleteUserAdmin, putUserAdmin } from '../Redux/Actions/actions';
+import { AiFillDelete } from 'react-icons/ai';
+import { AiOutlineUser } from 'react-icons/ai';
+import { FaUsersCog } from 'react-icons/fa';
+import ModalConfirm from './commons/ModalConfirm';
 
 export default function AdminAllUsers() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.home.users);
   const res = useSelector((state) => state.home.userDelete);
   const [estadoModal, setEstadoModal] = useState(false);
-  const [userEliminar, setUserEliminar] = useState("");
+  const [userEliminar, setUserEliminar] = useState('');
   useEffect(() => {
     dispatch(getUsersInfo());
   }, [res, user]);
 
   function editRol(e, idUser) {
-    if (e === "user") {
-      dispatch(putUserAdmin({ rol: "admin", id: idUser }));
+    if (e === 'user') {
+      dispatch(putUserAdmin({ rol: 'admin', id: idUser }));
     }
-    if (e === "admin") {
-      if(idUser !== 1 ){
-      dispatch(putUserAdmin({ rol: "user", id: idUser }));
+    if (e === 'admin') {
+      if (idUser !== 1) {
+        dispatch(putUserAdmin({ rol: 'user', id: idUser }));
+      }
     }
-    }
-  } 
+  }
 
   return (
     <>
@@ -44,7 +40,7 @@ export default function AdminAllUsers() {
           cambiarEstado={setEstadoModal}
           id={userEliminar}
         />
-        <div className="justify-center w-11/12 font-lora h-screen">
+        <div className="justify-center w-full font-lora h-screen">
           <h1 className="text-center font-lora m-5">Users </h1>
           <div className="flex justify-center rounded-lg overflow-auto shadow ">
             <table className="md:table border-separate content-center font-lora text-sm  w-11/12 border-separated mx-2 hidden ">
@@ -74,17 +70,21 @@ export default function AdminAllUsers() {
                 {user &&
                   user.length > 0 &&
                   user.map((u) => {
+                    var name = u.firstName.split(' ')[0].toLowerCase();
+                    var apellido = u.lastName.split(' ')[0].toLowerCase();
                     return (
                       <tr>
                         <th
-                          className="p-3  border-2 bg-secondary-100 rounded-lg border-white "scope="row" >
+                          className="p-3  border-2 bg-secondary-100 rounded-lg border-white "
+                          scope="row"
+                        >
                           {u.id}
                         </th>
                         <td className="p-3  border-2 bg-secondary-100 rounded-lg border-white ">
-                          {u.firstName}
+                          {name.charAt(0).toUpperCase() + name.slice(1)}
                         </td>
                         <td className="p-3  border-2 bg-secondary-100 rounded-lg border-white ">
-                          {u.lastName}
+                          {apellido.charAt(0).toUpperCase() + apellido.slice(1)}
                         </td>
                         <td className="p-3  border-2 bg-secondary-100 rounded-lg border-white ">
                           {u.email}
@@ -93,7 +93,7 @@ export default function AdminAllUsers() {
                         <td className="p-3  border-2 bg-secondary-100 rounded-lg hover:bg-primary-200 border-white ">
                           <button value={u.rol} className="flex">
                             {u.rol}
-                            {u.rol === "admin" ? (
+                            {u.rol === 'admin' ? (
                               <FaUsersCog
                                 className="ml-2 cursor-pointer h-5 w-5 "
                                 color="#FEBD70"
@@ -114,10 +114,7 @@ export default function AdminAllUsers() {
                             id={u.id}
                             value={u.id}
                             onClick={() =>
-                              setEstadoModal(
-                                !estadoModal,
-                                setUserEliminar(u.id)
-                              )
+                              setEstadoModal(!estadoModal, setUserEliminar(u.id))
                             }
                           >
                             <AiFillDelete
@@ -139,32 +136,32 @@ export default function AdminAllUsers() {
             return (
               <div className="p-4 m-2 border font-lora  border-secondary-400 bg-secondary-100 md:hidden rounded-lg w-11/12">
                 <p>
-                  {" "}
+                  {' '}
                   <span className="mx-2 w-1/2">{u.id}. </span>
                   <span className=" ">{u.firstName} </span>
-                  <span className=" ">{u.lastName} </span>{" "}
+                  <span className=" ">{u.lastName} </span>{' '}
                 </p>
                 <p>
-                  <span className=" ">Email: {u.email} </span>{" "}
+                  <span className=" ">Email: {u.email} </span>{' '}
                 </p>
 
                 <p>
-                  {" "}
+                  {' '}
                   <button value={u.rol} className="flex ">
                     {u.rol}
-                    {u.rol === "admin" ? (
-                              <FaUsersCog
-                                className="ml-2 cursor-pointer h-5 w-5 "
-                                color="#FEBD70"
-                                onClick={() => editRol(u.rol, u.id)}
-                              />
-                            ) : (
-                              <AiOutlineUser
-                                className="ml-2 cursor-pointer h-5 w-5 "
-                                color="#FEBD70"
-                                onClick={() => editRol(u.rol, u.id)}
-                              />
-                            )}
+                    {u.rol === 'admin' ? (
+                      <FaUsersCog
+                        className="ml-2 cursor-pointer h-5 w-5 "
+                        color="#FEBD70"
+                        onClick={() => editRol(u.rol, u.id)}
+                      />
+                    ) : (
+                      <AiOutlineUser
+                        className="ml-2 cursor-pointer h-5 w-5 "
+                        color="#FEBD70"
+                        onClick={() => editRol(u.rol, u.id)}
+                      />
+                    )}
                   </button>
                 </p>
                 <p className="flex  ">
@@ -172,9 +169,7 @@ export default function AdminAllUsers() {
                     key={u.id}
                     id={u.id}
                     value={u.id}
-                    onClick={() =>
-                      setEstadoModal(!estadoModal, setUserEliminar(u.id))
-                    }
+                    onClick={() => setEstadoModal(!estadoModal, setUserEliminar(u.id))}
                   >
                     <AiFillDelete
                       className="m-1 cursor-pointer h-6 w-6 md:h-5 md:w-5"
