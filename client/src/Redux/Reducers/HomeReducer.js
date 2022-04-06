@@ -26,6 +26,10 @@ import {
   POST_BULK_ORDER,
   GET_BULK_ORDERS,
   PUT_BULK_ORDERS,
+  GET_CARRUSELTWO,
+  GET_CARRUSELONE,
+  GET_CARRUSELTHIRD,
+  GET_BULK_ADMIN,
 } from '../Actions/types';
 
 const initialState = {
@@ -51,6 +55,9 @@ const initialState = {
   resAmountOrder: {},
   resNewAdress: {},
   userDelete: {},
+  carruselTwo: [],
+  carruselOne: [],
+  carruselThird: [],
   resPostBulk: [],
   bulkOrders: [],
   putBulkOrders: [],
@@ -182,7 +189,25 @@ export const HomeReducer = (state = initialState, action) => {
       return {
         ...state,
         products: [],
-      };
+        carruselOne: [],
+        carruselTwo: [],
+        carruselThird: []
+      }
+    case GET_CARRUSELTWO:
+      return {
+        ...state,
+        carruselTwo: action.payload.products
+      }
+    case GET_CARRUSELONE:
+      return {
+        ...state,
+        carruselOne: action.payload.products
+      }
+    case GET_CARRUSELTHIRD:
+      return {
+        ...state,
+        carruselThird: action.payload.products
+      }
     case POST_BULK_ORDER:
       return {
         ...state,
