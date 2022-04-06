@@ -44,12 +44,13 @@ export default function LoginProfileButton() {
                   Profile
                 </li>
               </Link>
-              {admin.rol === admin && 
-              <Link to="/admin" className="no-underline text-black">
-                <li className=" bg-white shadow-md p-1.5 z-10 translate-y-10  invisible group-hover:translate-x-0 group-hover:translate-y-0 group-hover:visible  duration-100 ease-in hover:bg-primary-300 ">
-                  Panel
-                </li>
-              </Link>}
+              {admin.rol === admin && (
+                <Link to="/admin" className="no-underline text-black">
+                  <li className=" bg-white shadow-md p-1.5 z-10 translate-y-10  invisible group-hover:translate-x-0 group-hover:translate-y-0 group-hover:visible  duration-100 ease-in hover:bg-primary-300 ">
+                    Panel
+                  </li>
+                </Link>
+              )}
               <Link
                 to="/"
                 onClick={(e) => handleLogOut()}
