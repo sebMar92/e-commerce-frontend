@@ -33,7 +33,7 @@ export default function AdminAllProducts() {
       <NavBarEmpty />
       <div className="flex flex-col sm:flex-row font-lora">
         <NavbarAdmin />
-        <div className="m-auto w-[85rem] h-full">
+        <div className="m-auto w-full h-full">
           <div className="flex flex-row flex-wrap">
             <div className="basis-1/2">
               <DropDownCatAdmin tittle="Categories" array={allCategories} />

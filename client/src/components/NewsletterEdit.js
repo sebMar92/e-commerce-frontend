@@ -1,17 +1,17 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import NavbarAdmin from "./NavbarAdmin";
-import NavBarEmpty from "./NavBarEmpty";
-import check from "./utils/check-shield-regular-24.png";
-import { postEmail, getUsersInfo } from "../Redux/Actions/actions";
-import ButtonCreate from "./commons/ButtonCreate";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import NavbarAdmin from './NavbarAdmin';
+import NavBarEmpty from './NavBarEmpty';
+import check from './utils/check-shield-regular-24.png';
+import { postEmail, getUsersInfo } from '../Redux/Actions/actions';
+import ButtonCreate from './commons/ButtonCreate';
 
 export default function NewsletterEdit() {
   const dispatch = useDispatch();
   const usersAll = useSelector((state) => state.home.users);
   const [receiver, setReceiver] = useState([]);
-  const [newEmail, setNewEmail] = useState("");
+  const [newEmail, setNewEmail] = useState('');
   const [error, setError] = useState({});
 
   useEffect(() => {
@@ -19,18 +19,18 @@ export default function NewsletterEdit() {
   }, [dispatch]);
 
   useEffect(() => {
-    let users = usersAll.filter(user => user.newsletterSubscription === true);
+    let users = usersAll.filter((user) => user.newsletterSubscription === true);
     users.length && users.map((user) => receiver.push(user.email));
     setReceiver([...new Set(receiver)]);
   }, [usersAll]);
 
   const [input, setInput] = useState({
-    title: "",
-    message: "",
+    title: '',
+    message: '',
     receivers: [],
   });
 
-  const mess = input.message && input.message.split(".");
+  const mess = input.message && input.message.split('.');
 
   function handleNewEmail(e) {
     const { value } = e.target;
@@ -38,7 +38,7 @@ export default function NewsletterEdit() {
   }
 
   function handleSubmitNewEmail(e) {
-    if (newEmail !== "") {
+    if (newEmail !== '') {
       if (
         /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/.test(
           newEmail
@@ -48,17 +48,17 @@ export default function NewsletterEdit() {
           ...input,
           receivers: [...input.receivers, newEmail],
         });
-        setNewEmail("");
+        setNewEmail('');
       } else {
-        console.log("must be email");
+        console.log('must be email');
       }
     } else {
-      console.log("Email required");
+      console.log('Email required');
     }
   }
 
   function handleChangeInput(e) {
-    if (e.target.name === "title") {
+    if (e.target.name === 'title') {
       setInput({
         ...input,
         title: e.target.value,
@@ -69,7 +69,7 @@ export default function NewsletterEdit() {
           title: e.target.value,
         })
       );
-    } else if (e.target.name === "message") {
+    } else if (e.target.name === 'message') {
       setInput({
         ...input,
         message: e.target.value,
@@ -85,7 +85,7 @@ export default function NewsletterEdit() {
 
   function handleSelect(e) {
     var selectAll = true;
-    if (e.target.value === "All") {
+    if (e.target.value === 'All') {
       if (selectAll) {
         setInput({
           ...input,
@@ -116,10 +116,10 @@ export default function NewsletterEdit() {
     let error = {};
 
     if (!input.title) {
-      error.title = "Subject is required";
+      error.title = 'Subject is required';
     }
     if (!input.message) {
-      error.message = "Message is required";
+      error.message = 'Message is required';
     }
     return error;
   }
@@ -127,28 +127,28 @@ export default function NewsletterEdit() {
   function handleSubmit(e) {
     e.preventDefault();
     if (Object.keys(error).length > 0) {
-      alert("Please, fill in all the fields");
+      alert('Please, fill in all the fields');
     } else {
       dispatch(postEmail(input));
 
       setInput({
-        title: "",
-        message: "",
+        title: '',
+        message: '',
         receivers: [],
       });
 
-      alert("Email sent!");
+      alert('Email sent!');
     }
   }
 
   return (
     <>
       <NavBarEmpty />
-      <div className="flex flex-col sm:flex-row font-lora">
+      <div className="flex flex-col w-full sm:flex-row font-lora">
         <NavbarAdmin className="dark:text-black" />
         <form
           onSubmit={(e) => handleSubmit(e)}
-          className="bg-secondary-100 dark:bg-slate-700 dark:text-white h-screen w-30"
+          className=" bg-secondary-100 dark:bg-slate-700 dark:text-white h-screen w-30"
         >
           <br />
           <h2 className="text-center">Edit Newsletter</h2>
@@ -228,11 +228,7 @@ export default function NewsletterEdit() {
                   value={rec}
                 >
                   <img src={check} alt="check" />
-                  <button
-                    type="button"
-                    id={rec}
-                    onClick={(e) => handleDelete(e)}
-                  >
+                  <button type="button" id={rec} onClick={(e) => handleDelete(e)}>
                     {rec}
                   </button>
                 </div>
@@ -253,9 +249,7 @@ export default function NewsletterEdit() {
         </form>
         <div className="w-[70rem] bg-secondary-100 dark:bg-slate-700">
           <br />
-          <h2 className="text-center dark:bg-slate-700 dark:text-white">
-            Preview
-          </h2>
+          <h2 className="text-center dark:bg-slate-700 dark:text-white">Preview</h2>
           <br />
           <hr />
           <div className=" mx-6 my-2 p-2 full bg-white dark:bg-slate-800 dark:text-white rounded flex flex-col">
