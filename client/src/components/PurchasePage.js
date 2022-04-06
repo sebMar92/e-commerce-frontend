@@ -61,7 +61,7 @@ export default function PurchasePage() {
               }
               const date = Date();
               const days = [];
-              if (productSales.length > 0) {
+              if (productSales && productSales.length > 0) {
                 for (const sale of productSales) {
                   if (
                     sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() ||

@@ -1,8 +1,8 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import NavBar from '../NavBar';
 import Footer from '../Footer/Footer';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, Link,useNavigate } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { clearProductDetail, getProductByID, postOrder, deleteOrder, getOrder, getProducts, clearCarrusel } from '../../Redux/Actions/actions';
 import Slider from './Slider';
 import CreateComment from '../Comment/CreateComment';
@@ -36,7 +36,7 @@ export default function ProductDetails() {
   const dispatch = useDispatch();
   let { idProduct } = useParams();
   const navigate = useNavigate()
-  
+
 
   const productsCategory = useSelector((state) => state.home.products)
 
@@ -116,13 +116,24 @@ export default function ProductDetails() {
   const desc = product.description && product.description.split('. ');
   const description = desc && desc.slice(0, -1);
 
-  const notifyDetail3 = () => {
+
+  const [stateModal, setStateModal] = useState(false)
+  function handleCloseModal(e) {
+    e.preventDefault()
+    setStateModal(!stateModal)
+  }
+
+  const notifyDetail3 = (e) => {
+    const localStorageAccess = window.localStorage.getItem("access")
+    const localStorageRefresh = window.localStorage.getItem("refresh")
+    if (!localStorageAccess && !localStorageRefresh) {
+      handleCloseModal(e)
+    }
+
     toast.success("Purchase successfull !", {
       position: toast.POSITION.BOTTOM_LEFT
     });
     navigate("/purchase")
-    const localStorageAccess = window.localStorage.getItem("access")
-    const localStorageRefresh = window.localStorage.getItem("refresh")
     if (localStorageAccess && localStorageRefresh) {
       toast.success("Purchase successfull !", {
         position: toast.POSITION.BOTTOM_LEFT
@@ -180,27 +191,28 @@ export default function ProductDetails() {
           price: product.price,
           id: idProduct
         })
-        );
-        toast.success('Added to the wishlist !', {
-          position: toast.POSITION.BOTTOM_LEFT,
-        });
-      } else {
-        const foundProductInWL = wishListDB && wishListDB.find(el => el.id == idProduct);
-        const orderId = foundProductInWL && foundProductInWL.orders[0].id
-        dispatch(deleteOrder(
-          orderId,
-          idProduct,
-          "inWishList"
-        ))
-        toast.error('Removed from wishlist !', {
-          position: toast.POSITION.BOTTOM_LEFT,
-        });
-      }
+      );
+      toast.success('Added to the wishlist !', {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
+    } else {
+      const foundProductInWL = wishListDB && wishListDB.find(el => el.id == idProduct);
+      const orderId = foundProductInWL && foundProductInWL.orders[0].id
+      dispatch(deleteOrder(
+        orderId,
+        idProduct,
+        "inWishList"
+      ))
+      toast.error('Removed from wishlist !', {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
+    }
     setWishListLS(window.localStorage.getItem("inWishList"))
   }
 
   return (
     <>
+      {stateModal ? <ModalPortal onClose={(e) => handleCloseModal(e)} /> : null}
       <NavBar />
       <ToastContainer autoClose={2000} />
       <div className="bg-secondary-100">
@@ -228,8 +240,8 @@ export default function ProductDetails() {
             <div
               id="add_to_cart_container"
               className="w-full bg-white rounded p-2 flex flex-col gap-3 items-center justify-center lg:flex-row "
-              >
-              
+            >
+
               <div className="flex gap-2 text-4xl items-center w-4/5 justify-center text-bold text-primary-700">
                 <span className="pb-2 border-b-[1px] border-primary-400">
                   U$S {product.price}
@@ -237,47 +249,47 @@ export default function ProductDetails() {
               </div>
 
               <div className="flex justify-evenly w-full">
-              <div className="flex gap-2 text-xl items-center w-full justify-center">
-                <MdLocalShipping className="h-6 w-6" color="#FEBD70" />
-                <span>u$s {product.shippingCost}</span>
-              </div>
-              
+                <div className="flex gap-2 text-xl items-center w-full justify-center">
+                  <MdLocalShipping className="h-6 w-6" color="#FEBD70" />
+                  <span>u$s {product.shippingCost}</span>
+                </div>
 
-              {product && product.stock > 1 ? (
-                <div className="flex gap-2 text-xl items-center w-full justify-center">
-                  <AiOutlineCheckCircle className="h-6 w-6" color="#FEBD70" />
-                  <span>Stock: {product.stock}</span>
-                </div>
-              ) : (
-                <div className="flex gap-2 text-xl items-center w-full justify-center">
-                  <FaBan className="h-6 w-6 " color="red" />
-                  <span>No stock available</span>
-                </div>
-              )}
+
+                {product && product.stock > 1 ? (
+                  <div className="flex gap-2 text-xl items-center w-full justify-center">
+                    <AiOutlineCheckCircle className="h-6 w-6" color="#FEBD70" />
+                    <span>Stock: {product.stock}</span>
+                  </div>
+                ) : (
+                  <div className="flex gap-2 text-xl items-center w-full justify-center">
+                    <FaBan className="h-6 w-6 " color="red" />
+                    <span>No stock available</span>
+                  </div>
+                )}
               </div>
-              
+
               <div className="flex justify-evenly w-full">
-              <div className="h-fit p-2 flex">
-                <button
-                  onClick={(e) => {
-                    addFavDetails();
-                  }}
-                  className={(selectedWishList ? "bg-primary-400 " : "bg-white ") + "flex items-center justify-center gap-2 rounded no-underline h-fit w-12 bg-white font-bold p-2 border-[1px] border-primary-400 font-lora hover:border-primary-700 hover:text-primary-700 hover:shadow-md active:scale-95"}
-                >
-                  <AiOutlineHeart className="h-6 w-6 inline-block" color={selectedWishList ? "#ffffff" : "#FEBD70"} />
-                </button>
-              </div>
+                <div className="h-fit p-2 flex">
+                  <button
+                    onClick={(e) => {
+                      addFavDetails();
+                    }}
+                    className={(selectedWishList ? "bg-primary-400 " : "bg-white ") + "flex items-center justify-center gap-2 rounded no-underline h-fit w-12 bg-white font-bold p-2 border-[1px] border-primary-400 font-lora hover:border-primary-700 hover:text-primary-700 hover:shadow-md active:scale-95"}
+                  >
+                    <AiOutlineHeart className="h-6 w-6 inline-block" color={selectedWishList ? "#ffffff" : "#FEBD70"} />
+                  </button>
+                </div>
 
-              <div className="h-fit p-2 flex">
-                <button
-                  onClick={() => {
-                    addCartDetails();
-                  }}
-                  className={(selectedCart ? "bg-primary-400 " : "bg-white ") + "flex items-center justify-center gap-2 rounded no-underline h-fit w-12 bg-white font-bold p-2 border-[1px] border-primary-400 font-lora hover:border-primary-700 hover:text-primary-700 hover:shadow-md active:scale-95"}
-                >
-                  <AiOutlineShoppingCart className="h-6 w-6 inline-block" color={selectedCart ? "#ffffff" : "#FEBD70"} />
-                </button>
-              </div>
+                <div className="h-fit p-2 flex">
+                  <button
+                    onClick={() => {
+                      addCartDetails();
+                    }}
+                    className={(selectedCart ? "bg-primary-400 " : "bg-white ") + "flex items-center justify-center gap-2 rounded no-underline h-fit w-12 bg-white font-bold p-2 border-[1px] border-primary-400 font-lora hover:border-primary-700 hover:text-primary-700 hover:shadow-md active:scale-95"}
+                  >
+                    <AiOutlineShoppingCart className="h-6 w-6 inline-block" color={selectedCart ? "#ffffff" : "#FEBD70"} />
+                  </button>
+                </div>
               </div>
 
               <div >
@@ -286,7 +298,7 @@ export default function ProductDetails() {
                   status={'pending'}
                   amount={1}
                   text={'Buy'}
-                  onClick={notifyDetail3}
+                  onClick={(e) => notifyDetail3(e)}
                 />
               </div>
             </div>
