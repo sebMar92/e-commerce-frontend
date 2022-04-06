@@ -27,10 +27,8 @@ export default function OptionRender() {
 
     useEffect(() => {
         if(res){
-            console.log("entre res")
             let date = Date()
         if(res.Status === "approved"){
-            console.log("entre aproved")
             if(bulkOrders.length > 0){
                 console.log("entre bulk if")
             let id = bulkOrders[0].id
@@ -41,7 +39,6 @@ export default function OptionRender() {
                 },id))
                 setRender(true)
             }else if(product.length > 0){
-                console.log("entre product dis")
                 dispatch(changeOrderStatus({
                     id: product[0].orders[0].id,
                     status: "finished",

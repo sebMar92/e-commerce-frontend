@@ -143,11 +143,11 @@ export default function NewsletterEdit() {
   return (
     <>
       <NavBarEmpty />
-      <div className="sm:flex">
+      <div className="flex flex-col sm:flex-row font-lora">
         <NavbarAdmin className="dark:text-black" />
         <form
           onSubmit={(e) => handleSubmit(e)}
-          className="bg-secondary-100 dark:bg-slate-700 dark:text-white"
+          className="bg-secondary-100 dark:bg-slate-700 dark:text-white h-screen w-30"
         >
           <br />
           <h2 className="text-center">Edit Newsletter</h2>
@@ -179,7 +179,7 @@ export default function NewsletterEdit() {
                 onChange={(e) => handleChangeInput(e)}
                 autoComplete="off"
               />
-              <strong>{error.message}</strong>
+              <p className="font-bold">{error.message}</p>
             </div>
           </div>
 
@@ -250,7 +250,7 @@ export default function NewsletterEdit() {
             <br />
           )}
         </form>
-        <div className="w-full bg-secondary-100 dark:bg-slate-700">
+        <div className="w-[70rem] bg-secondary-100 dark:bg-slate-700">
           <br />
           <h2 className="text-center dark:bg-slate-700 dark:text-white">
             Preview

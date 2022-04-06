@@ -329,9 +329,9 @@ export default function ActivateDiscounts() {
   return (
     <>
       <NavBarEmpty />
-      <div className="sm:flex dark:bg-slate-700 dark:text-white">
+      <div className="sm:flex dark:bg-slate-700 dark:text-white font-lora">
         <NavbarAdmin />
-        <div className="w-full h-full dark:text-white">
+        <div className="w-full xl:w-[85rem] h-screen dark:text-white">
           <div className="flex flex-row w-full justify-center bg-primary-500 rounded-t-lg dark:text-white ">
             <div
               id="activeTab"
