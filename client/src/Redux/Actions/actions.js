@@ -581,6 +581,7 @@ export function carruselOne(search) {
 
     return dispatch({
       type: GET_CARRUSELONE,
+      payload: json.data,
     })
   }
 }
