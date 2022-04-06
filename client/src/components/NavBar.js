@@ -4,7 +4,7 @@ import SearchBar from "./commons/SearchBar";
 import DropDown from "./DropDown";
 import NightModeButton from "./commons/NightModeButton";
 import LoginProfileButton from "./commons/LoginProfileButton";
-import {AiOutlineMenu, AiOutlineShopping} from "react-icons/ai"
+import { AiOutlineMenu, AiOutlineShopping } from "react-icons/ai";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../Redux/Actions/actions";
@@ -28,7 +28,7 @@ export default function NavBar() {
     damping: 30,
   };
 
-  const token = window.localStorage.getItem("access")
+  const token = window.localStorage.getItem("access");
 
   const [isOn, setIsOn] = useState(false);
   const [dark, setDark] = useState(false);
@@ -52,16 +52,16 @@ export default function NavBar() {
     // <div className="bg-primary-700 font-medium text-lg p-4 sticky top-0 shadow-lg">
     //   <div className="flex flex-row justify-between">
     //     <div>
-          //  <Link to="/" className="text-decoration-line: no-underline">
-          //    <div className="flex space-x-2 ">
-          //      <img
-          //        src="https://img.icons8.com/external-filled-outline-icons-maxicons/344/external-tech-future-of-technology-filled-outline-icons-maxicons.png"
-          //        alt="company icon"
-          //       className="flex-none h-10 w-10"
-          //      ></img>
-          //      <h3 className=" text-black no-underline">TechStore</h3>
-          //    </div>
-          //  </Link>
+    //  <Link to="/" className="text-decoration-line: no-underline">
+    //    <div className="flex space-x-2 ">
+    //      <img
+    //        src="https://img.icons8.com/external-filled-outline-icons-maxicons/344/external-tech-future-of-technology-filled-outline-icons-maxicons.png"
+    //        alt="company icon"
+    //       className="flex-none h-10 w-10"
+    //      ></img>
+    //      <h3 className=" text-black no-underline">TechStore</h3>
+    //    </div>
+    //  </Link>
     //     </div>
 
     //     <div className="flex justify-evenly gap-6">
@@ -107,76 +107,111 @@ export default function NavBar() {
     //   </div>
     // </div>
     <div id="main container" className="sticky top-0 z-10">
-
-      <div id="main search" className="flex shadow-md p-2 gap-2 items-center justify-between bg-primary-700 border-b-[1px] border-primary-700">
-        
+      <div
+        id="main search"
+        className="flex shadow-md p-2 gap-2 items-center justify-between bg-primary-700 border-b-[1px] border-primary-700"
+      >
         <div className="hidden md:flex items-center justify-between w-[70%]">
-        <div id="logo" className="w-[15%] md:w-[25%] flex justify-between items-center">
-          <Link to="/" className="text-decoration-line: no-underline">
-             <div className="flex items-center gap-2">
-               <img
-                 src="https://img.icons8.com/external-filled-outline-icons-maxicons/344/external-tech-future-of-technology-filled-outline-icons-maxicons.png"
-                 alt="company icon"
-                className="h-10 w-10"
-               ></img>
-               <h3 className="text-black font-bold no-underline font-lora hidden md:inline-block">TechStore</h3>
-             </div>
-           </Link>
-        </div>
+          <div
+            id="logo"
+            className="w-[15%] md:w-[25%] flex justify-between items-center"
+          >
+            <Link to="/" className="text-decoration-line: no-underline">
+              <div className="flex items-center gap-2">
+                <img
+                  src="https://img.icons8.com/external-filled-outline-icons-maxicons/344/external-tech-future-of-technology-filled-outline-icons-maxicons.png"
+                  alt="company icon"
+                  className="h-10 w-10"
+                ></img>
+                <h3 className="text-black font-bold no-underline font-lora hidden md:inline-block">
+                  TechStore
+                </h3>
+              </div>
+            </Link>
+          </div>
           <div className="hidden md:flex w-[25%]">
             <DropDownCategories tittle="Categories" array={allCategories} />
-           </div>
-        <SearchBar />
+          </div>
+          <SearchBar />
         </div>
-        <div id="logo" className="w-[15%] md:w-[25%] flex justify-between items-center md:hidden">
+        <div
+          id="logo"
+          className="w-[15%] md:w-[25%] flex justify-between items-center md:hidden"
+        >
           <Link to="/" className="text-decoration-line: no-underline">
-             <div className="flex items-center gap-2">
-               <img
-                 src="https://img.icons8.com/external-filled-outline-icons-maxicons/344/external-tech-future-of-technology-filled-outline-icons-maxicons.png"
-                 alt="company icon"
+            <div className="flex items-center gap-2">
+              <img
+                src="https://img.icons8.com/external-filled-outline-icons-maxicons/344/external-tech-future-of-technology-filled-outline-icons-maxicons.png"
+                alt="company icon"
                 className="h-10 w-10"
-               ></img>
-               <h3 className="text-black no-underline font-lora hidden md:inline-block">TechStore</h3>
-             </div>
-           </Link>
+              ></img>
+              <h3 className="text-black no-underline font-lora hidden md:inline-block">
+                TechStore
+              </h3>
+            </div>
+          </Link>
         </div>
         <div className="md:hidden w-full">
           <SearchBar />
         </div>
         <div className="hidden md:flex w-[30%] justify-end items-center gap-3">
-        {admin.rol != "admin" && <FavsModal/>}
-        {admin.rol != "admin" && <CartModal/>}
-        {
-          token && admin.rol != "admin" && <div className="flex items-center justify-center rounded bg-primary-700">
-            <Link to="/purchases" className="text-decoration-line: no-underline p-2">  
-              <AiOutlineShopping className="md:text-4xl text-2xl" color="#ffffff"/>
-            </Link>
-          </div>
-        }
-        {admin.rol === "admin" && <ButtonAdmin />}
-        <LoginProfileButton/>
+          {admin.rol != "admin" && <FavsModal />}
+          {admin.rol != "admin" && <CartModal />}
+          {token && admin.rol != "admin" && (
+            <div className="flex items-center justify-center rounded bg-primary-700">
+              <Link
+                to="/purchases"
+                className="text-decoration-line: no-underline p-2"
+              >
+                <AiOutlineShopping
+                  className="md:text-4xl text-2xl"
+                  color="#ffffff"
+                />
+              </Link>
+            </div>
+          )}
+          {admin.rol === "admin" && <ButtonAdmin />}
+          <LoginProfileButton />
         </div>
-        <div id="boton desplegable" className="w-[15%] flex items-center justify-center md:hidden">
-          <button onClick={() => setIsOpen(!isOpen)} className={(isOpen ? "shadow-md " : "") + "rounded p-2 bg-white"}>
-            <AiOutlineMenu color="#FFA438"/>
+        <div
+          id="boton desplegable"
+          className="w-[15%] flex items-center justify-center md:hidden"
+        >
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className={(isOpen ? "shadow-md " : "") + "rounded p-2 bg-white"}
+          >
+            <AiOutlineMenu color="#FFA438" />
           </button>
         </div>
       </div>
 
-      <div id="desplegable" className={(isOpen ? "" : "hidden ") + "bg-white flex flex-col items-center justify-center"}>
+      <div
+        id="desplegable"
+        className={
+          (isOpen ? "" : "hidden ") +
+          "bg-slate-100 flex flex-col items-center justify-center"
+        }
+      >
         <div className="flex justify-around items-center w-full p-2">
-          {admin.rol != "admin" && <FavsModal/>}
-          {admin.rol != "admin" && <CartModal/>}
-          {
-            token && admin.rol != "admin" && <div className="flex bg-primary-700 items-center justify-center rounded bg-white">
-              <Link to="/purchases" className="text-decoration-line: no-underline p-2">  
-                <AiOutlineShopping className="md:text-4xl text-2xl" color="#ffffff"/>
+          {admin.rol != "admin" && <FavsModal />}
+          {admin.rol != "admin" && <CartModal />}
+          {token && admin.rol != "admin" && (
+            <div className="flex bg-primary-700 items-center justify-center rounded bg-white">
+              <Link
+                to="/purchases"
+                className="text-decoration-line: no-underline p-2"
+              >
+                <AiOutlineShopping
+                  className="md:text-4xl text-2xl"
+                  color="#ffffff"
+                />
               </Link>
             </div>
-          }
+          )}
           <DropDownCategories tittle="Categories" array={allCategories} />
           {admin.rol === "admin" && <ButtonAdmin />}
-          <LoginProfileButton/>
+          <LoginProfileButton />
         </div>
       </div>
     </div>
