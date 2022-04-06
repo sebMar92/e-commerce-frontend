@@ -1,17 +1,13 @@
-import React from "react";
-import NavBar from "./NavBar";
-import Footer from "./Footer/Footer";
-import CardCart from "./CardCart";
-import { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { MdRestaurantMenu } from "react-icons/md";
-import {
-  getOrder,
-  changeOrderStatus,
-  postBulkOrder,
-} from "../Redux/Actions/actions";
-import carrito from "./utils/carrito triste.png";
+import React from 'react';
+import NavBar from './NavBar';
+import Footer from './Footer/Footer';
+import CardCart from './CardCart';
+import { useEffect, useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { MdRestaurantMenu } from 'react-icons/md';
+import { getOrder, changeOrderStatus, postBulkOrder } from '../Redux/Actions/actions';
+import carrito from './utils/carrito triste.png';
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -36,7 +32,7 @@ export default function Cart() {
   }
 
   useEffect(() => {
-    dispatch(getOrder({ status: "inCart" }));
+    dispatch(getOrder({ status: 'inCart' }));
   }, [resPutOrder, resPostBulk]);
 
   function handleAllBuy() {
@@ -47,13 +43,13 @@ export default function Cart() {
       dispatch(
         changeOrderStatus({
           id: product[0].orders[0].id,
-          status: "pending",
+          status: 'pending',
         })
       );
     }
     setTimeout(() => {
-      navigate("/purchase");
-    }, 3000);
+      navigate('/purchase');
+    }, 1000);
   }
 
   return (
@@ -97,10 +93,8 @@ export default function Cart() {
                 <div className="flex justify-end mx-8 my-2">
                   {product && product.length > 0 ? (
                     <div>
-                      {" "}
-                      <h1 className="text-1xl  text-gray-900">
-                        Total ${total}
-                      </h1>
+                      {' '}
+                      <h1 className="text-1xl  text-gray-900">Total ${total}</h1>
                     </div>
                   ) : (
                     <div></div>
@@ -118,11 +112,7 @@ export default function Cart() {
                       direccion.map((dir) => {
                         return (
                           <option>
-                            {dir.city +
-                              ", " +
-                              dir.street +
-                              " " +
-                              dir.streetNumber}
+                            {dir.city + ', ' + dir.street + ' ' + dir.streetNumber}
                           </option>
                         );
                       })}
@@ -143,12 +133,8 @@ export default function Cart() {
         </>
       ) : (
         <div className="flex justify-center">
-          {" "}
-          <img
-            className="w-36 mx-10 m-10 animate-bounce"
-            src={carrito}
-            alt=""
-          />{" "}
+          {' '}
+          <img className="w-36 mx-10 m-10 animate-bounce" src={carrito} alt="" />{' '}
         </div>
       )}
       <Footer />
