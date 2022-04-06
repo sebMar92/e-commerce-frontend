@@ -23,17 +23,17 @@ export default function NavBarEmpty() {
   };
 
   return (
-    <div className="bg-primary-500 font-medium text-lg px-4 py-2 dark:bg-slate-900">
+    <div className="bg-primary-700 font-medium text-lg px-4 py-2 dark:bg-slate-900">
       <div className="flex flex-row justify-between">
         <div className="select-none">
           <Link to="/" className="no-underline">
-            <div className="flex space-x-2">
+            <div className="flex space-x-2 items-center">
               <img
                 src="https://img.icons8.com/external-filled-outline-icons-maxicons/344/external-tech-future-of-technology-filled-outline-icons-maxicons.png"
                 alt="company icon"
                 className="flex-none h-10 w-10"
               ></img>
-              <h3 className=" text-black no-underline dark:text-white">
+              <h3 className=" text-black font-lora font-bold no-underline dark:text-white">
                 TechStore
               </h3>
             </div>
