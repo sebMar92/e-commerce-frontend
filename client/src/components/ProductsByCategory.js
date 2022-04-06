@@ -105,7 +105,7 @@ export default function Products() {
                       path={item.id}
                       name={item.title}
                       price={item.price}
-                      image={item && item.images && item.images[1].url}
+                      image={item && item.images && item.images[0].url}
                       images={item.images}
                       description={item.description}
                       shippingCost={item.shippingCost}

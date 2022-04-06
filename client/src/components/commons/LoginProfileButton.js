@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { clearTokensUser, deleteToken, getUserInfo } from '../../Redux/Actions/actions';
-import { Link, useNavigate } from 'react-router-dom';
-import ButtonAdmin from './ButtonAdmin';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  clearTokensUser,
+  deleteToken,
+  getUserInfo,
+} from "../../Redux/Actions/actions";
+import { Link, useNavigate } from "react-router-dom";
+import ButtonAdmin from "./ButtonAdmin";
 
 export default function LoginProfileButton() {
   const [logedIn, setLogedIn] = useState(false);
-  const token = window.localStorage.getItem('access');
+  const token = window.localStorage.getItem("access");
   const user = useSelector((state) => state.home.user);
   const admin = useSelector((state) => state.home.user);
   const [reRender, setReRender] = useState({});
@@ -21,12 +25,12 @@ export default function LoginProfileButton() {
     }
   }, [token]);
   const handleLogOut = () => {
-    const refresh = window.localStorage.getItem('refresh');
+    const refresh = window.localStorage.getItem("refresh");
     dispatch(clearTokensUser());
     dispatch(deleteToken(refresh));
     window.localStorage.clear();
     setReRender({});
-    navigate('/');
+    navigate("/");
   };
   return (
     <div>
@@ -36,7 +40,7 @@ export default function LoginProfileButton() {
             <div></div>
             <img
               src={user.profilePicture}
-              className="relative object-cover w-11 h-11 border-4 rounded-full border-white "
+              className="relative object-cover w-11 h-11 border-4 rounded-full border-white"
             ></img>
             <ul className="absolute -ml-2 mt-1 rounded-lg text-sm z-20 font-lora">
               <Link to="/user" className="no-underline text-black">
@@ -65,7 +69,7 @@ export default function LoginProfileButton() {
         </div>
       ) : (
         <Link to="/login" className="no-underline text-black font-lora ">
-          <button className="bg-white border-[1px] shadow-md border-primary-500 rounded font-semibold text-sm w-12/14 px-2 py-2 ">
+          <button className="bg-white border-[1px] shadow-md border-primary-500 rounded font-semibold text-sm w-12/14 px-2 py-2 hover:translate-y-1 hover:rounded-md">
             Log in / Sign up
           </button>
         </Link>

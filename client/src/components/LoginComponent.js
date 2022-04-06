@@ -9,7 +9,6 @@ import {
   validateMail,
   postOrder,
 } from "../Redux/Actions/actions";
-import LoggedModal from "./modals/LoggedModal";
 import EmailVerification from "./EmailVerification";
 import { border } from "@cloudinary/url-gen/qualifiers/background";
 

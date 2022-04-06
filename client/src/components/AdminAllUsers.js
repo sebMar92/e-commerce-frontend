@@ -27,14 +27,16 @@ export default function AdminAllUsers() {
       dispatch(putUserAdmin({ rol: "admin", id: idUser }));
     }
     if (e === "admin") {
+      if(idUser !== 1 ){
       dispatch(putUserAdmin({ rol: "user", id: idUser }));
     }
-  }
+    }
+  } 
 
   return (
     <>
       <NavBarEmpty />
-      <div className="flex relative flex-col sm:flex-row ">
+      <div className="flex relative flex-col sm:flex-row font-lora">
         <NavbarAdmin />
         <ModalConfirm
           className="absolute"
@@ -42,8 +44,8 @@ export default function AdminAllUsers() {
           cambiarEstado={setEstadoModal}
           id={userEliminar}
         />
-        <div className="justify-center w-11/12 font-lora ">
-          <h1 className="text-center  font-lora  m-5">User </h1>
+        <div className="justify-center w-11/12 font-lora h-screen">
+          <h1 className="text-center font-lora m-5">Users </h1>
           <div className="flex justify-center rounded-lg overflow-auto shadow ">
             <table className="md:table border-separate content-center font-lora text-sm  w-11/12 border-separated mx-2 hidden ">
               <thead>
@@ -92,13 +94,13 @@ export default function AdminAllUsers() {
                           <button value={u.rol} className="flex">
                             {u.rol}
                             {u.rol === "admin" ? (
-                              <AiOutlineUser
+                              <FaUsersCog
                                 className="ml-2 cursor-pointer h-5 w-5 "
                                 color="#FEBD70"
                                 onClick={() => editRol(u.rol, u.id)}
                               />
                             ) : (
-                              <FaUsersCog
+                              <AiOutlineUser
                                 className="ml-2 cursor-pointer h-5 w-5 "
                                 color="#FEBD70"
                                 onClick={() => editRol(u.rol, u.id)}
@@ -150,11 +152,19 @@ export default function AdminAllUsers() {
                   {" "}
                   <button value={u.rol} className="flex ">
                     {u.rol}
-                    <AiOutlineUser
-                      className="ml-2 cursor-pointer h-5 w-5  "
-                      color="#FEBD70"
-                      onClick={() => editRol(u.rol, u.id)}
-                    />
+                    {u.rol === "admin" ? (
+                              <FaUsersCog
+                                className="ml-2 cursor-pointer h-5 w-5 "
+                                color="#FEBD70"
+                                onClick={() => editRol(u.rol, u.id)}
+                              />
+                            ) : (
+                              <AiOutlineUser
+                                className="ml-2 cursor-pointer h-5 w-5 "
+                                color="#FEBD70"
+                                onClick={() => editRol(u.rol, u.id)}
+                              />
+                            )}
                   </button>
                 </p>
                 <p className="flex  ">
