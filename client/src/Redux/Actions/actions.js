@@ -619,3 +619,11 @@ export function getBulkAdmin(conditions) {
     });
   };
 }
+
+export function deleteToken(token) {
+  return async function (dispatch) {
+    var json = await axios.delete('/user/token', {
+      data: { token: token },
+    });
+  };
+}
