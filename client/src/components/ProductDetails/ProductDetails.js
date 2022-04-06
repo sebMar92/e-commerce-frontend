@@ -113,7 +113,7 @@ export default function ProductDetails() {
   }, [cartLS, wishListLS, deleted, postOrders, wishListDB, cartDB])
 
 
-  const desc = product.description && product.description.split('.');
+  const desc = product.description && product.description.split('. ');
   const description = desc && desc.slice(0, -1);
 
   const notifyDetail3 = () => {
@@ -228,17 +228,20 @@ export default function ProductDetails() {
             <div
               id="add_to_cart_container"
               className="w-full bg-white rounded p-2 flex flex-col gap-3 items-center justify-center lg:flex-row "
-            >
+              >
+              
               <div className="flex gap-2 text-4xl items-center w-4/5 justify-center text-bold text-primary-700">
                 <span className="pb-2 border-b-[1px] border-primary-400">
                   U$S {product.price}
                 </span>
               </div>
 
+              <div className="flex justify-evenly w-full">
               <div className="flex gap-2 text-xl items-center w-full justify-center">
                 <MdLocalShipping className="h-6 w-6" color="#FEBD70" />
                 <span>u$s {product.shippingCost}</span>
               </div>
+              
 
               {product && product.stock > 1 ? (
                 <div className="flex gap-2 text-xl items-center w-full justify-center">
@@ -251,6 +254,9 @@ export default function ProductDetails() {
                   <span>No stock available</span>
                 </div>
               )}
+              </div>
+              
+              <div className="flex justify-evenly w-full">
               <div className="h-fit p-2 flex">
                 <button
                   onClick={(e) => {
@@ -272,6 +278,8 @@ export default function ProductDetails() {
                   <AiOutlineShoppingCart className="h-6 w-6 inline-block" color={selectedCart ? "#ffffff" : "#FEBD70"} />
                 </button>
               </div>
+              </div>
+
               <div >
                 <ButtonBuy
                   id={idProduct}
@@ -290,12 +298,16 @@ export default function ProductDetails() {
               <div className="p-2 border-b-[1px] border-primary-300">
                 <h2 className="font-lora">Description</h2>
               </div>
-              <div className="text-sm pt-2 pl-3 flex flex-col gap-2 pb-4 marker:primary-300">
+              <div className="text-sm pt-2 pl-2 pr-2 flex flex-col gap-2 pb-4 marker:primary-300">
                 {description &&
                   description.map((el) => (
-                    <div className="flex gap-2 items-center text-base">
-                      <GoPrimitiveDot color="#FEBD70" />
-                      <span>{el}</span>
+                    <div className="flex gap-2 items-start text-base">
+                      <div>
+                        <GoPrimitiveDot className="w-5 h-5" color="#FEBD70" />
+                      </div>
+                      <div>
+                        <span>{el}</span>
+                      </div>
                     </div>
                   ))}
               </div>

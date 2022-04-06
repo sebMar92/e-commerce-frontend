@@ -229,7 +229,6 @@ export default function ActivateDiscounts() {
   function handleSubmit(e) {
     e.preventDefault();
     if (Object.keys(errors).length === 0) {
-      console.log('Entra');
       if (tab) {
         if (sale.id !== 0) {
           console.log('Editing sale: ', sale);
