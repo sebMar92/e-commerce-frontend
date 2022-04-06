@@ -649,3 +649,23 @@ export function deleteToken(token) {
     });
   };
 }
+
+export function getBulkAdmin(conditions) {
+  return async function (dispatch) {
+    var queries = '';
+    if (conditions) {
+      if (conditions.hasOwnProperty('userId') && conditions.hasOwnProperty('status')) {
+        queries = '?status=' + conditions.status + '&userId=' + conditions.userId;
+      } else if (conditions.hasOwnProperty('userId')) {
+        queries = '?userId=' + conditions.userId;
+      } else if (conditions.hasOwnProperty('status')) {
+        queries = '?status=' + conditions.status;
+      }
+    }
+    var json = await axios.get('/orders/admin/bulk' + queries);
+    return dispatch({
+      type: GET_BULK_ADMIN,
+      payload: json.data,
+    });
+  };
+}
