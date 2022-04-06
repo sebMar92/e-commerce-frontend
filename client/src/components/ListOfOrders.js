@@ -50,9 +50,9 @@ export default function ListOfOrders() {
     dispatch(putBulkOrders({ status: e.target.value }, idOrder));
   }
 
-  function CambiarStatusOrder(e, idOrder) {
+   function CambiarStatusOrder(e, idOrder) {
     dispatch(changeOrderStatus({ status: e.target.value, id: idOrder }));
-  }
+  } 
   return (
     <>
       <NavBarEmpty />
@@ -118,9 +118,9 @@ export default function ListOfOrders() {
                         <div className="w-20 m-2 text-center">
                           <select
                             className="form-select form-select-lg mb-3"
-                            onChange={(e) =>
+                             onChange={(e) =>
                               CambiarStatusOrder(e, b.orders[0].id)
-                            }
+                            } 
                             arial-label=".form-select-lg example"
                           >
                             <option>{b.orders[0].status} </option>
