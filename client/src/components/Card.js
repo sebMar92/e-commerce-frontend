@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AiOutlineShoppingCart, AiOutlineHeart } from "react-icons/ai";
 import { GrFavorite } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
-import { postOrder, deleteOrder } from "../Redux/Actions/actions";
+import { postOrder, deleteOrder, getAllProductsForSales } from "../Redux/Actions/actions";
 import { MdLocalShipping } from "react-icons/md";
 import { ToastContainer, toast } from 'react-toastify';
 import { useEffect } from "react";
@@ -23,7 +23,10 @@ export default function Card({
   wishListDB,
   token,
   postOrders,
-  deleted
+  deleted,
+  productSales,
+  categorySales,
+  globalSales
 }) {
   const dispatch = useDispatch();
 
@@ -31,6 +34,9 @@ export default function Card({
   const [selectedCart, setSelectedCart] = useState(false)
   const [cartLS, setCartLS] = useState(window.localStorage.getItem("inCart"))
   const [wishListLS, setWishListLS] = useState(window.localStorage.getItem("inWishList"))
+  const [sale, setSale] = useState(undefined)
+  const [saleON, setSaleON] = useState(false)
+  const [saleSelected, setSaleSelected] = useState(undefined)
 
   useEffect(() => {
     if (token) {
@@ -76,7 +82,54 @@ export default function Card({
           setSelectedWishList(false)
         }
     }
-  },[cartLS, wishListLS, deleted, postOrders, wishListDB, cartDB])
+
+    const percentages = []
+    if(productSales.length > 0) {
+      percentages.push(productSales[0].percentage)
+    }
+    if(categorySales.length > 0) {
+      percentages.push(categorySales[0].percentage)
+    }
+    if(globalSales.length > 0) {
+      percentages.push(globalSales[0].percentage)
+    }
+    const percentagesSorted = percentages.sort(function(a, b) {
+      return a - b;
+    });
+    const aux = percentagesSorted.reverse()
+    setSale(aux[0])
+
+    const sales = []
+    if(productSales.length > 0) {
+      sales.push(productSales[0])
+    }
+    if(categorySales.length > 0) {
+      sales.push(categorySales[0])
+    }
+    if(globalSales.length > 0) {
+      sales.push(globalSales[0])
+    }
+    const aux2 = sales.find(s => s.percentage == aux[0])
+    setSaleSelected(aux2)
+
+    const date = Date()
+    const days = []
+    if(productSales.length > 0) {
+      days.push(productSales[0].day)
+    }
+    if(categorySales.length > 0) {
+      days.push(categorySales[0].day)
+    }
+    if(globalSales.length > 0) {
+      days.push(globalSales[0].day)
+    }
+    const found = days.find(d => (d.slice(0, 3) == date.slice(0, 3).toLowerCase() || d == "all"))
+
+    if (found) {
+      setSaleON(true)
+    }
+
+  },[cartLS, wishListLS, deleted, postOrders, wishListDB, cartDB, productSales])
 
   function addCartCategories() {
     if (!selectedCart) {
@@ -148,9 +201,9 @@ export default function Card({
 
   return (
     <>
-     <div id="card" className="flex rounded shadow-sm w-full bg-white lg:w-[48%] lg:justify-center">
+     <div id="card" className={((saleON && sale) ? "border-t-[2px] border-orange-600 " : "") + "flex rounded shadow-sm w-full bg-white lg:w-[48%] lg:justify-center"}>
           
-          <div className="w-1/4 h-[170px] p-2 lg:h-[210px] lg:w-[35%]">
+          <div className="w-[30%] h-[170px] p-2 lg:h-[210px] lg:w-[35%]">
             <Link to={"/product/" + path} className="no-underline text-black">
               <div className="h-full w-full p-2 rounded hover:shadow-lg border-[1px] border-primary-300 hover:border-primary-700">
                 <img
@@ -161,12 +214,36 @@ export default function Card({
               </div>
             </Link>
           </div>
-            <div className="w-3/4 flex flex-col gap-2 justify-between p-2 lg:w-[65%]">
-                <div className="border-b-[1px] border-primary-300 p-2 flex items-center justify-center text-center">
+            <div className="w-[70%] flex flex-col gap-2 justify-between p-2 lg:w-[65%] relative">
+              {
+                (saleON && (productSales.length > 0 || sale)) && 
+                <div className="absolute inset-x-0 mx-auto -translate-y-6 border-[2px] border-orange-600 h-fit w-fit p-1 rounded text-base bg-white font-lora font-extrabold	 text-orange-600">
+                 <p>{saleON && ((productSales.length > 0 && productSales[0].percentage) || sale)}% OFF {productSales.length > 0 ?
+                                                                                                        productSales[0].productAmount > 0 ? `on ${productSales[0].productAmount + 1}º unit` : ""
+                                                                                                        : saleSelected.productAmount > 0 ? `on ${saleSelected.productAmount + 1}º unit` : ""}</p>
+                </div>
+              }
+                <div className="border-b-[1px] mt-2 border-primary-300 p-2 flex items-center justify-center text-center">
                   <h3 className="text-sm font-lora font-bold md:text-base">{name}</h3>
                 </div>
                 <div className="flex justify-evenly items-center font-lora ">
-                  <p className="font-bold text-primary-700 text-xl xl:text-2xl xl:border-b-[1px] xl:border-primary-300 2xl:text-3xl 2xl:font-black">${price}</p>
+                  
+                    {
+                      productSales.length > 0 ?
+                      productSales[0].productAmount === 0 ? 
+                      <div className="flex flex-col justify-center items-center">
+                        <p className={((saleON && sale) ? "text-sm text-primary-400 line-through	xl:text-xl " : "text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black") + "font-bold xl:border-b-[1px] xl:border-primary-300"}>${price}</p>
+                        {(saleON && sale) ? <p className="font-bold text-primary-700 text-xl xl:text-2xl xl:border-b-[1px] xl:border-primary-300 2xl:text-3xl 2xl:font-black">${(price - (price * ((productSales.length > 0 &&  productSales[0].percentage/100) || (sale/100)))).toFixed(2)}</p> : null}
+                      </div>
+                      : <p className="text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black font-bold xl:border-b-[1px] xl:border-primary-300">${price}</p>
+                      : saleSelected && saleSelected.productAmount === 0 ?
+                      <div className="flex flex-col justify-center items-center">
+                        <p className={((saleON && sale) ? "text-sm text-primary-400 line-through	xl:text-xl " : "text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black") + "font-bold xl:border-b-[1px] xl:border-primary-300"}>${price}</p>
+                        {(saleON && sale) ? <p className="font-bold text-primary-700 text-xl xl:text-2xl xl:border-b-[1px] xl:border-primary-300 2xl:text-3xl 2xl:font-black">${(price - (price * ((productSales.length > 0 &&  productSales[0].percentage/100) || (sale/100)))).toFixed(2)}</p> : null}
+                      </div>
+                      : <p className="text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black font-bold xl:border-b-[1px] xl:border-primary-300">${price}</p>
+                    }
+                  
                   <div className="flex items-center gap-2">
                     <MdLocalShipping className="h-6 w-6" color="#FEBD70" />
                     <p className="flex gap-2 items-center md:text-base font-medium">${shippingCost}</p>
