@@ -40,10 +40,11 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
         ...state,
         deletedProduct: payload,
       };
-    case POST_EMAIL:
-      return {
-        ...state,
-      };
+      case POST_EMAIL:
+        return {
+          ...state,
+        };
+
     default:
       return state;
   }
