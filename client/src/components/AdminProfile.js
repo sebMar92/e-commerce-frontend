@@ -135,49 +135,46 @@ export default function AdminProfile() {
   return (
     <>
       <NavBarEmpty />
-      <div className="flex flex-col sm:flex-row">
-        <NavbarAdmin className="w-1/5" />
-
-        <div className="mx-auto w-4/5">
-          <h1 className="mx-auto text-center"> Admin's profile </h1>
-          <div className=" w-full h-2/4">
+      <div className="flex flex-col sm:flex-row font-lora">
+        <NavbarAdmin />
+        <div className="mx-auto w-full xl:w-[85rem] h-screen">
+          <h1 className="mx-auto text-center"> Admin profile </h1>
+          <div className="w-full h-[18rem]">
             <Line
-              className=" w-full h-full "
+              className="w-full h-full "
               data={data}
               options={options}
               height="60"
             />
           </div>
-          <div className="flex justify-evelyn m-auto w-2/3 ">
-             
-                <div className="w-full  h-200 ">
-                  <Bar className="w-full" data={data2} />
-                </div>
-              
-                  <div className="m-5 w-2/3 h-40 bg-secondary-100 rounded-lg text-center  overflow-auto">
-                  <Link to="/admin/users" className="no-underline text-black">
-                    <h3 className="bg-secondary-200 ">Usuarios</h3>
-                    {user &&
-                      user.length > 0 &&
-                      user.map((us) => {
-                        if (us.rol === "user") {
-                          return <p>{us.firstName + " " + us.lastName}</p>;
-                        
-                        }
-                      })}
-                      <p>otro...</p>
-                      <p>otro...</p>
-                      <p>otro...</p>
-                      <p>otro...</p>
-                      <p>otro...</p>
-                      <p>otro...</p>
+          <div className="grid grid-cols-3 gap-12">
+                  <div>
+                      <Bar data={data2} />
+                  </div>
+                  <div className="m-3 h-40 bg-secondary-100 rounded-lg text-center overflow-auto">
+                      <Link to="/admin/users" className="no-underline text-black">
+                        <h3 className="bg-secondary-200 ">Usuarios</h3>
+                        {user &&
+                          user.length > 0 &&
+                          user.map((us) => {
+                            if (us.rol === "user") {
+                              return <p>{us.firstName + " " + us.lastName}</p>;
+                            
+                            }
+                          })}
+                          <p>otro...</p>
+                          <p>otro...</p>
+                          <p>otro...</p>
+                          <p>otro...</p>
+                          <p>otro...</p>
+                          <p>otro...</p>
 
-                      </Link>
+                          </Link>
                   </div>
               
-            <div className="w-full h-38">
-              <Doughnut className="  w-full " data={data3} />
-            </div>
+                    <div className="w-[20rem]">
+                      <Doughnut data={data3} />
+                    </div>
           </div>
         </div>
       </div>
