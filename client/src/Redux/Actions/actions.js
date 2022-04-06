@@ -31,6 +31,9 @@ import {
   DELETE_USER_ADMIN,
   CLEAR_USER_EMAIL,
   CLEAR_CARRUSEL,
+  GET_CARRUSELONE,
+  GET_CARRUSELTWO,
+  GET_CARRUSELTHIRD,
   GET_BULK_ADMIN,
   POST_BULK_ORDER,
   GET_BULK_ORDERS,
@@ -563,6 +566,18 @@ export function clearCarrusel() {
   };
 }
 
+export function carruselOne(search) {
+  console.log(search);
+  return async function (dispatch) {
+    var json = await axios.get(`/products${search}`);
+
+    return dispatch({
+      type: GET_CARRUSELONE,
+      payload: json.data,
+    })
+  }
+}
+
 export function postBulkOrder(orderIds) {
   return async function (dispatch) {
     const bulk = await axios.post('/order/bulk', orderIds);
@@ -571,6 +586,17 @@ export function postBulkOrder(orderIds) {
       payload: bulk.data,
     });
   };
+}
+
+export function carruselTwo(search) {
+  return async function (dispatch) {
+    var json = await axios.get(`/products${search}`);
+
+    return dispatch({
+      type: GET_CARRUSELTWO,
+      payload: json.data,
+    })
+  }
 }
 
 export function getBulkOrders(status) {
@@ -586,6 +612,17 @@ export function getBulkOrders(status) {
     return dispatch({
       type: GET_BULK_ORDERS,
       payload: bulkOrders.data,
+    });
+  };
+}
+
+export function carruselThird(search) {
+  return async function (dispatch) {
+    var json = await axios.get(`/products${search}`);
+
+    return dispatch({
+      type: GET_CARRUSELTHIRD,
+      payload: json.data,
     });
   };
 }
