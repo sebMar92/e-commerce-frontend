@@ -6,6 +6,8 @@ import {
   GET_BULK_ADMIN,
   DELETE_PRODUCT,
   POST_EMAIL,
+  POST_SALE,
+  EDIT_SALE,
 } from '../Actions/types.js';
 
 const initialState = {
@@ -14,6 +16,7 @@ const initialState = {
   deleted: {},
   bulkAdmin: [],
   deletedProduct: {},
+  saleChange: {},
 };
 
 export const AdminReducer = (state = initialState, { type, payload }) => {
@@ -50,6 +53,16 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
     case POST_EMAIL:
       return {
         ...state,
+      };
+    case EDIT_SALE:
+      return {
+        ...state,
+        saleChange: { change: payload },
+      };
+    case POST_SALE:
+      return {
+        ...state,
+        saleChange: { change: payload },
       };
     default:
       return state;
