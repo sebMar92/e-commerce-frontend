@@ -1,10 +1,10 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { AiOutlineCaretDown } from "react-icons/ai";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { AiOutlineCaretDown } from 'react-icons/ai';
 
 export default function NavbarAdmin({ name, idUser }) {
   function onClickitems() {
-    document.getElementById("items").classList.toggle("hidden");
+    document.getElementById('items').classList.toggle('hidden');
   }
 
   return (
@@ -16,10 +16,7 @@ export default function NavbarAdmin({ name, idUser }) {
           </p>
         </div>
         <div className="text-center bg-white sm:hidden dark:bg-slate-400">
-          <button
-            className="text-primary-600 dark:text-slate-800"
-            onClick={onClickitems}
-          >
+          <button className="text-primary-600 dark:text-slate-800" onClick={onClickitems}>
             <AiOutlineCaretDown className="h-2em w-2em" />
           </button>
         </div>
@@ -31,10 +28,10 @@ export default function NavbarAdmin({ name, idUser }) {
               </p>
             </div>
           </Link>
-          <Link to={`/admin/products`} className="no-underline">
+          <Link to={`/admin/products?limit=8&offset=1`} className="no-underline">
             <div className="m-0.5 bg-primary-300 text-decoration-line: no-underline font-medium text-lg px-1 py-1 text-slate-900 flex justify-center rounded hover:bg-primary-400 dark:text-white dark:hover:bg-slate-400 dark:hover:shadow-slate-600 dark:bg-slate-800 dark:hover:text-slate-900 dark:shadow-slate-900">
               <p className="font-semibold tracking-tight text-gray-900 dark:text-white text-base">
-                List of products
+                Manage products
               </p>
             </div>
           </Link>
@@ -45,17 +42,10 @@ export default function NavbarAdmin({ name, idUser }) {
               </p>
             </div>
           </Link>
-          <Link to={`/admin/edit/:idProduct`} className="no-underline">
-            <div className="m-0.5 bg-primary-300 text-decoration-line: no-underline font-medium text-lg px-1 py-1 text-slate-900 flex justify-center rounded hover:bg-primary-400 dark:text-white dark:hover:bg-slate-400 dark:hover:shadow-slate-600 dark:bg-slate-800 dark:hover:text-slate-900 dark:shadow-slate-900">
-              <p className="font-semibold tracking-tight text-gray-900 dark:text-white text-base">
-                Edit products
-              </p>
-            </div>
-          </Link>
           <Link to={`/admin/orders`} className="no-underline">
             <div className="m-0.5 bg-primary-300 text-decoration-line: no-underline font-medium text-lg px-1 py-1 text-slate-900 flex justify-center rounded hover:bg-primary-400 dark:text-white dark:hover:bg-slate-400 dark:hover:shadow-slate-600 dark:bg-slate-800 dark:hover:text-slate-900 dark:shadow-slate-900">
               <p className="font-semibold tracking-tight text-gray-900 dark:text-white text-base">
-                List of orders
+                Manage orders
               </p>
             </div>
           </Link>
@@ -69,7 +59,7 @@ export default function NavbarAdmin({ name, idUser }) {
           <Link to={`/admin/discounts`} className="no-underline">
             <div className="m-0.5 bg-primary-300 text-decoration-line: no-underline font-medium text-lg px-1 py-1 text-slate-900 flex justify-center rounded hover:bg-primary-400 dark:text-white dark:hover:bg-slate-400 dark:hover:shadow-slate-600 dark:bg-slate-800 dark:hover:text-slate-900 dark:shadow-slate-900">
               <p className="font-semibold tracking-tight text-gray-900 dark:text-white text-base">
-                Sale managment
+                Manage sales
               </p>
             </div>
           </Link>

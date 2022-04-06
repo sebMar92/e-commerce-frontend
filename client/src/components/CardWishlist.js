@@ -62,7 +62,7 @@ export default function CardWishlist({
               <div>
                 <br />
                 <div>
-                  <ButtonBuyChange id={idOrder} status={'finished'} />
+                  <ButtonBuyChange text={"Add to cart"} id={idOrder} status={'inCart'} />
 
                   <span className="text-1xl font-bold text-gray-900 mx-5">$ {price}</span>
                 </div>

@@ -23,9 +23,12 @@ import {
   DELETE_USER_ADMIN,
   PUT_USER_ADMIN,
   CLEAR_CARRUSEL,
+  POST_BULK_ORDER,
+  GET_BULK_ORDERS,
+  PUT_BULK_ORDERS,
   GET_CARRUSELTWO,
   GET_CARRUSELONE,
-  GET_CARRUSELTHIRD,
+  GET_CARRUSELTHIRD
 } from '../Actions/types';
 
 const initialState = {
@@ -40,9 +43,10 @@ const initialState = {
   openFiles: '',
   answer: {},
   user: {},
-  users: {},
+  users: [],
   inWishList: [],
   inCart: [],
+  pending: [],
   finished: [],
   postOrders: [],
   deleted: [],
@@ -52,7 +56,10 @@ const initialState = {
   userDelete: {},
   carruselTwo: [],
   carruselOne: [],
-  carruselThird: []
+  carruselThird: [],
+  resPostBulk: [],
+  bulkOrders: [],
+  putBulkOrders: []
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -199,6 +206,21 @@ export const HomeReducer = (state = initialState, action) => {
       return {
         ...state,
         carruselThird: action.payload.products
+      }
+    case POST_BULK_ORDER:
+      return {
+        ...state,
+        resPostBulk: action.payload
+      }
+    case GET_BULK_ORDERS:
+      return {
+        ...state,
+        bulkOrders: action.payload
+      }
+    case PUT_BULK_ORDERS:
+      return {
+        ...state,
+        putBulkOrders: action.payload
       }
 
     default:

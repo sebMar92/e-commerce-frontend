@@ -9,20 +9,11 @@ import { Link } from "react-router-dom";
 
 export default function CarouselCateg({ onClick, onClick2 }) {
   const dispatch = useDispatch();
-  const allProducts = useSelector((state) => state.home.products);
-  const allCategories = useSelector((state) => state.home.categories);
   const wishListDB = useSelector((state) => state.home.inWishList);
   const cartDB = useSelector((state) => state.home.inCart)
   const token = window.localStorage.getItem("access")
   const deleted = useSelector((state) => state.home.deleted)
   const postOrders = useSelector((state) => state.home.postOrders)
-
-
-  let arr = [];
-  for (let i = 0; i < allCategories.length; i++) {
-    arr.push({ id: i + 1, name: allCategories[i].name });
-  }
-
 
   /* fix */
   const firstCarrusel = useSelector((state) => state.home.carruselOne)
@@ -32,17 +23,22 @@ export default function CarouselCateg({ onClick, onClick2 }) {
   const thirdCarrusel = useSelector((state) => state.home.carruselThird)
 
   const categories = useSelector((state) => state.home.categories)
-
+  console.log(categories)
 
   const [carrusels, setCarrusels] = useState([])
+  console.log(carrusels)
 
-
-  const categoriesIdsRandoms = [];
-  function getIdsCategoriesRandoms() {
-    const randoms = Math.round(Math.random() * (10 - 1)) + 1;
-    categoriesIdsRandoms.includes(randoms) ? getIdsCategoriesRandoms() : categoriesIdsRandoms.push(randoms);
+  function getIdsCategoriesRandoms(array) {
+    const categoryLength = categories.length ? categories.length : 16
+    let random = Math.round(Math.random() * (categoryLength - 1)) + 1;
+    while (array.includes(random)) {
+      random = Math.round(Math.random() * (categoryLength - 1)) + 1;
+    }
+    return random
   }
 
+
+  let categoriesIdsRandoms = []
 
   useEffect(() => {
     dispatch(getProducts("?limit=100"));
@@ -52,11 +48,10 @@ export default function CarouselCateg({ onClick, onClick2 }) {
 
     if (firstCarrusel.length < 1 && secondCarrusel.length < 1 && thirdCarrusel.length < 1) {
 
-
       while (categoriesIdsRandoms.length < 3) {
-        getIdsCategoriesRandoms()
+        const random = getIdsCategoriesRandoms(categoriesIdsRandoms)
+        categoriesIdsRandoms.push(random)
       }
-
 
       if (categoriesIdsRandoms.length === 3) {
         console.log("Ids randoms", categoriesIdsRandoms)
@@ -64,68 +59,40 @@ export default function CarouselCateg({ onClick, onClick2 }) {
         dispatch(carruselTwo(`?categoryId=${categoriesIdsRandoms[1]}&limit=100`))
         dispatch(carruselThird(`?categoryId=${categoriesIdsRandoms[2]}&limit=100`))
       }
-
-      if (firstCarrusel.length < 5) {
-        dispatch(carruselOne(`?categoryId=${categoriesIdsRandoms[0]}&limit=100`))
-      }
-      if (secondCarrusel.length < 5) {
-        dispatch(carruselTwo(`?categoryId=${categoriesIdsRandoms[1]}&limit=100`))
-      }
-      if (thirdCarrusel.length < 5) {
-        dispatch(carruselThird(`?categoryId=${categoriesIdsRandoms[2]}&limit=100`))
-      }
     }
   }, [])
 
   useEffect(() => {
+    if (firstCarrusel && firstCarrusel.length > 1 && firstCarrusel.length < 5) {
+      categoriesIdsRandoms[0] = getIdsCategoriesRandoms(categoriesIdsRandoms)
+      dispatch(carruselOne(`?categoryId=${categoriesIdsRandoms[0]}&limit=100`))
+    }
+    if (secondCarrusel && secondCarrusel.length > 1 && secondCarrusel.length < 5) {
+      categoriesIdsRandoms[1] = getIdsCategoriesRandoms(categoriesIdsRandoms)
+      dispatch(carruselTwo(`?categoryId=${categoriesIdsRandoms[1]}&limit=100`))
+    }
+    if (thirdCarrusel && thirdCarrusel.length > 1 && thirdCarrusel.length < 5) {
+      categoriesIdsRandoms[2] = getIdsCategoriesRandoms(categoriesIdsRandoms)
+      dispatch(carruselThird(`?categoryId=${categoriesIdsRandoms[2]}&limit=100`))
+    }
+
     var aux = []
-    if (firstCarrusel.length && secondCarrusel.length && thirdCarrusel.length) {
+    if (firstCarrusel && firstCarrusel.length && secondCarrusel && secondCarrusel.length && thirdCarrusel && thirdCarrusel.length) {
       aux.push(firstCarrusel)
       aux.push(secondCarrusel)
       aux.push(thirdCarrusel)
       setCarrusels(aux)
-      console.log("carruseles", carrusels)
     }
-
   }, [firstCarrusel, secondCarrusel, thirdCarrusel])
 
   /* fix */
-
-  const [categoriesRandoms, setCategoriesRandoms] = useState([])
-
-  useEffect(() => {
-    function randomCategories(array) {
-      var categories = [];
-      categories = [...array].sort(() => (Math.random() > 0.5 ? 1 : -1)).slice(0, 3);
-      return categories;
-    }
-    if (allCategories && allCategories.length > 0 && categoriesRandoms.length < 1) {
-      setCategoriesRandoms(randomCategories(allCategories));
-    }
-  }, [allCategories])
-
-
-  function prod(allProducts, categ) {
-    if (allProducts) {
-      var b = [];
-      for (let i = 0; i < allProducts.length; i++) {
-        for (let j = 0; j < allProducts[i].categories.length; j++) {
-          if (allProducts[i].categories[j].id === categ.id) {
-            b.push(allProducts[i]);
-          }
-        }
-      }
-    }
-    return b;
-
-  }
 
   function SamplePrevArrow(props) {
     const { className, style, onClick } = props;
     return (
       <div className="flex flex-start top-1/2 cursor-pointer">
         <button
-          className="border-2 border-solid border-primary-500 shadow-lg shadow-slate-400  mr-5 hidden lg:block absolute bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold top-1/2 cursor-pointer text-center  right-full"
+          className="mr-5 hidden lg:block absolute hover:scale-110 text-orange-400 p-1.5 rounded-full bg-opacity-30 hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold top-1/2 cursor-pointer text-center right-full active:-translate-x-1"
           onClick={onClick}
         >
           <AiOutlineLeft />
@@ -138,7 +105,7 @@ export default function CarouselCateg({ onClick, onClick2 }) {
     return (
       <div className="flex flex-start top-1/2 cursor-pointer">
         <button
-          className="border-2 border-solid border-primary-500 shadow-lg shadow-slate-400 ml-5 hidden lg:block absolute bg-orange-500 text-white p-1.5 rounded-full bg-opacity-30 hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold top-1/2 cursor-pointer text-center  left-full right-4/"
+          className="ml-5 hidden lg:block absolute text-orange-400  p-1.5 rounded-full bg-opacity-30 hover:bg-opacity-60 transition sm:p-5 text-lg md:p-7 md:text-xl lg:p-7 lg:text-3xl lg:font-bold top-1/2 cursor-pointer text-center  left-full right-4 hover:scale-110 active:translate-x-1"
           onClick={onClick}
         >
           <AiOutlineRight />
@@ -188,23 +155,23 @@ export default function CarouselCateg({ onClick, onClick2 }) {
 
   return (
     <div className="max-w-screen-lg m-auto mt-3 sm:mt-5 h-full">
-      {categoriesRandoms && categoriesRandoms.length > 0 && categoriesRandoms.map((categ) => {
+      {carrusels && carrusels.length > 0 && carrusels.map((carr) => {
         return (
           <div
-            key={categ.id}
+            key={carr[0].categories[0].name}
             className="m-20 mt-40 font-lora text-xs sm:text-lg md:text-xl lg:text-2xl font-bold"
           >
             <Link
-              to={`/products?categoryId=${categ.id}`}
+              to={`/products?categoryId=${carr[0].categories[0].id}`}
               className="no-underline text-slate-700   "
             >
               <div className="text-center bg-primary-700 rounded-lg p-2 hover:bg-primary-500">
-                <h1>{categ.name} </h1>
+                <h1>{carr[0].categories[0].name} </h1>
               </div>
             </Link>
 
             <Slider {...settings}>
-              {prod(allProducts, categ)?.map((product) => {
+              {carr.map((product) => {
                 return (
                   <div key={product.id} className="p-2 h-full">
                     <CardHome
