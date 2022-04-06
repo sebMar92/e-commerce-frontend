@@ -6,20 +6,25 @@ import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { MdRestaurantMenu } from "react-icons/md";
-import { getOrder, changeOrderStatus, postBulkOrder } from "../Redux/Actions/actions";
+import {
+  getOrder,
+  changeOrderStatus,
+  postBulkOrder,
+} from "../Redux/Actions/actions";
 import carrito from "./utils/carrito triste.png";
 
 export default function Cart() {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const product = useSelector((state) => state.home.inCart);
-  const direccion = useSelector((state) => state.home.user.directions);
+  const userInfo = useSelector((state) => state.home.user);
+  const direccion = userInfo.directions;
   var total = 0;
   var finalShippingCost = [];
 
   const resPutOrder = useSelector((state) => state.home.resPutOrder);
   const resPostBulk = useSelector((state) => state.home.resPostBulk);
-  console.log(resPostBulk)
+  console.log(resPostBulk);
   if (product && product.length > 0) {
     total = product
       .map((item) => item.price * item.orders[0].amount)
@@ -32,25 +37,23 @@ export default function Cart() {
 
   useEffect(() => {
     dispatch(getOrder({ status: "inCart" }));
-  }, [resPutOrder,resPostBulk]);
-
-  
+  }, [resPutOrder, resPostBulk]);
 
   function handleAllBuy() {
-      if(product.length > 1){
-        const ids = product.map(e => e.orders[0].id)
-        dispatch(
-          postBulkOrder({orderIds: ids})
-        )}
-        else{
-          dispatch(changeOrderStatus({
-            id: product[0].orders[0].id,
-            status: "pending"
-          }))
-        }
-     /*  setTimeout(() => {
-        navigate("/purchase")
-      }, 3000); */
+    if (product.length > 1) {
+      const ids = product.map((e) => e.orders[0].id);
+      dispatch(postBulkOrder({ orderIds: ids }));
+    } else {
+      dispatch(
+        changeOrderStatus({
+          id: product[0].orders[0].id,
+          status: "pending",
+        })
+      );
+    }
+    setTimeout(() => {
+      navigate("/purchase");
+    }, 3000);
   }
 
   return (
@@ -137,7 +140,7 @@ export default function Cart() {
               Buy All
             </button>
           </div>
-      </>
+        </>
       ) : (
         <div className="flex justify-center">
           {" "}
