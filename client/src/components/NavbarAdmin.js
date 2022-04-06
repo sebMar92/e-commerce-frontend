@@ -11,9 +11,10 @@ export default function NavbarAdmin({ name, idUser }) {
     document.getElementById('items').classList.toggle('hidden');
   }
   const handleLogOut = () => {
-    window.localStorage.clear();
+    const refresh = window.localStorage.getItem('refresh');
     dispatch(clearTokensUser());
-    dispatch(deleteToken());
+    dispatch(deleteToken(refresh));
+    window.localStorage.clear();
     navigate('/');
   };
   return (

@@ -574,8 +574,8 @@ export function carruselOne(search) {
     return dispatch({
       type: GET_CARRUSELONE,
       payload: json.data,
-    })
-  }
+    });
+  };
 }
 
 export function postBulkOrder(orderIds) {
@@ -595,8 +595,8 @@ export function carruselTwo(search) {
     return dispatch({
       type: GET_CARRUSELTWO,
       payload: json.data,
-    })
-  }
+    });
+  };
 }
 
 export function getBulkOrders(status) {

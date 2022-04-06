@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearTokensUser, deleteToken, getUserInfo } from '../../Redux/Actions/actions';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ButtonAdmin from './ButtonAdmin';
 
 export default function LoginProfileButton() {
@@ -11,7 +11,7 @@ export default function LoginProfileButton() {
   const admin = useSelector((state) => state.home.user);
   const [reRender, setReRender] = useState({});
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (token) {
       dispatch(getUserInfo(token));
@@ -21,10 +21,12 @@ export default function LoginProfileButton() {
     }
   }, [token]);
   const handleLogOut = () => {
-    window.localStorage.clear();
+    const refresh = window.localStorage.getItem('refresh');
     dispatch(clearTokensUser());
-    dispatch(deleteToken());
+    dispatch(deleteToken(refresh));
+    window.localStorage.clear();
     setReRender({});
+    navigate('/');
   };
   return (
     <div>
