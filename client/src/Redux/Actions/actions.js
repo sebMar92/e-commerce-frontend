@@ -49,7 +49,7 @@ responseInterceptor();
 // action para traer los productos
 export function getProducts(search) {
   return async function (dispatch) {
-    var json = await axios.get(`/products${search}`);
+    var json = await axios.get(`/products${search || ''}`);
 
     return dispatch({
       type: GET_PRODUCTS,
@@ -566,10 +566,7 @@ export function clearCarrusel() {
   };
 }
 
-
-
 export function carruselOne(search) {
-  console.log(search);
   return async function (dispatch) {
     var json = await axios.get(`/products${search}`);
 
@@ -579,7 +576,6 @@ export function carruselOne(search) {
     });
   };
 }
-
 
 export function postBulkOrder(orderIds) {
   return async function (dispatch) {
@@ -631,7 +627,7 @@ export function carruselThird(search) {
 }
 
 export function putBulkOrders(body, id) {
- console.log("axios", body, id)
+  console.log('axios', body, id);
   return async function (dispatch) {
     const putBulkOrders = await axios.put('/order/bulk/' + id, body);
     return dispatch({
@@ -640,7 +636,6 @@ export function putBulkOrders(body, id) {
     });
   };
 }
-
 
 export function deleteToken(token) {
   return async function (dispatch) {
@@ -651,9 +646,7 @@ export function deleteToken(token) {
 }
 
 export function getBulkAdmin(conditions) {
-  
   return async function (dispatch) {
-    
     var queries = '';
     if (conditions) {
       if (conditions.hasOwnProperty('userId') && conditions.hasOwnProperty('status')) {
@@ -665,7 +658,7 @@ export function getBulkAdmin(conditions) {
       }
     }
     var json = await axios.get('/order/admin/bulk' + queries);
-    
+
     return dispatch({
       type: GET_BULK_ADMIN,
       payload: json.data,

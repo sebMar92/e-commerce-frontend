@@ -61,7 +61,6 @@ export default function CarouselCateg({ onClick, onClick2 }) {
       }
 
       if (categoriesIdsRandoms.length === 3) {
-        console.log('Ids randoms', categoriesIdsRandoms);
         dispatch(carruselOne(`?categoryId=${categoriesIdsRandoms[0]}&limit=100`));
         dispatch(carruselTwo(`?categoryId=${categoriesIdsRandoms[1]}&limit=100`));
         dispatch(carruselThird(`?categoryId=${categoriesIdsRandoms[2]}&limit=100`));
