@@ -8,6 +8,8 @@ import {
   POST_EMAIL,
   POST_SALE,
   EDIT_SALE,
+  DELETE_PRODUCT,
+  POST_EMAIL,
 } from '../Actions/types.js';
 
 const initialState = {
@@ -17,6 +19,7 @@ const initialState = {
   bulkAdmin: [],
   deletedProduct: {},
   saleChange: {},
+  deletedProduct: {},
 };
 
 export const AdminReducer = (state = initialState, { type, payload }) => {

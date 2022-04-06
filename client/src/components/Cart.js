@@ -13,7 +13,8 @@ export default function Cart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const product = useSelector((state) => state.home.inCart);
-  const direccion = useSelector((state) => state.home.user.directions);
+  const userInfo = useSelector((state) => state.home.user);
+  const direccion = userInfo.directions;
   var total = 0;
   var finalShippingCost = [];
 
