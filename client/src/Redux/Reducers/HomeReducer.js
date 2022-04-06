@@ -21,11 +21,15 @@ import {
   CLEAR_USER_EMAIL,
   DELETE_USER_INFO,
   DELETE_USER_ADMIN,
-  PUT_USER_ADMIN,  
+  PUT_USER_ADMIN,
   CLEAR_CARRUSEL,
   POST_BULK_ORDER,
   GET_BULK_ORDERS,
-  PUT_BULK_ORDERS
+  PUT_BULK_ORDERS,
+  GET_CARRUSELTWO,
+  GET_CARRUSELONE,
+  GET_CARRUSELTHIRD,
+  GET_BULK_ADMIN,
 } from '../Actions/types';
 
 const initialState = {
@@ -51,9 +55,13 @@ const initialState = {
   resAmountOrder: {},
   resNewAdress: {},
   userDelete: {},
+  carruselTwo: [],
+  carruselOne: [],
+  carruselThird: [],
   resPostBulk: [],
   bulkOrders: [],
-  putBulkOrders: []
+  putBulkOrders: [],
+  bulkAdmin: [],
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -125,22 +133,21 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         answer: action.payload,
       };
-      case PUT_USER_ADMIN:
-        return {
-          ...state,
-          answer: action.payload,
-        };
-      case DELETE_USER_INFO:
-        return {
-          ...state,
-          userDelete: action.payload
-        }
-        case DELETE_USER_ADMIN:
-          return {
-            ...state,
-            userDelete: action.payload
-          }
-  
+    case PUT_USER_ADMIN:
+      return {
+        ...state,
+        answer: action.payload,
+      };
+    case DELETE_USER_INFO:
+      return {
+        ...state,
+        userDelete: action.payload,
+      };
+    case DELETE_USER_ADMIN:
+      return {
+        ...state,
+        userDelete: action.payload,
+      };
 
     case PUT_ORDERS:
       return {
@@ -155,49 +162,67 @@ export const HomeReducer = (state = initialState, action) => {
     case CLEAR_TOKENS_USER:
       return {
         ...state,
-        userTokens: "",
-        user: {}
-      }
+        userTokens: '',
+        user: {},
+      };
     case POST_NEW_ADRESS_USER:
       return {
         ...state,
-        resNewAdress: action.payload
-      }
+        resNewAdress: action.payload,
+      };
     case CLEAR_PRODUCT_AND_CATEGORY:
       return {
         ...state,
-        products: ""
-      }
+        products: '',
+      };
     case DELETE_ADRESS_USER:
       return {
         ...state,
-        resNewAdress: action.payload
-      }
+        resNewAdress: action.payload,
+      };
     case CLEAR_USER_EMAIL:
       return {
         ...state,
-        userMail: []
-      }
+        userMail: [],
+      };
     case CLEAR_CARRUSEL:
       return {
         ...state,
-        products: []
+        products: [],
+        carruselOne: [],
+        carruselTwo: [],
+        carruselThird: []
+      }
+    case GET_CARRUSELTWO:
+      return {
+        ...state,
+        carruselTwo: action.payload.products
+      }
+    case GET_CARRUSELONE:
+      return {
+        ...state,
+        carruselOne: action.payload.products
+      }
+    case GET_CARRUSELTHIRD:
+      return {
+        ...state,
+        carruselThird: action.payload.products
       }
     case POST_BULK_ORDER:
       return {
         ...state,
-        resPostBulk: action.payload
-      }
+        resPostBulk: action.payload,
+      };
     case GET_BULK_ORDERS:
       return {
         ...state,
-        bulkOrders: action.payload
-      }
+        bulkOrders: action.payload,
+      };
     case PUT_BULK_ORDERS:
-      return{
+      return {
         ...state,
-        putBulkOrders: action.payload
-      }
+        putBulkOrders: action.payload,
+      };
 
     default:
       return state;

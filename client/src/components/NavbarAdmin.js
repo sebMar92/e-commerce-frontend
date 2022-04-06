@@ -1,22 +1,24 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineCaretDown } from 'react-icons/ai';
-import {useDispatch} from 'react-redux'
-import {clearTokensUser} from '../Redux/Actions/actions'
+import { useDispatch } from 'react-redux';
+import { clearTokensUser, deleteToken } from '../Redux/Actions/actions';
 
 export default function NavbarAdmin({ name, idUser }) {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   function onClickitems() {
     document.getElementById('items').classList.toggle('hidden');
   }
-
+  
   const handleLogOut = () => {
-    window.localStorage.clear();
+    const refresh = window.localStorage.getItem('refresh');
     dispatch(clearTokensUser());
-    navigate("/")
+    dispatch(deleteToken(refresh));
+    window.localStorage.clear();
+    navigate('/');
   }
-
+  
   return (
     <>
       <div className="sm:w-[13rem] bg-primary-700 dark:bg-slate-800">
@@ -80,13 +82,13 @@ export default function NavbarAdmin({ name, idUser }) {
               </p>
             </div>
           </Link>
-          <button onClick={() => handleLogOut()} className="no-underline">
-            <div className="p-1 xl:w-[12rem] bg-primary-300 no-underline font-medium text-lg px-1 py-1 text-slate-900 flex justify-center rounded hover:bg-primary-400 dark:text-white dark:hover:bg-slate-400 dark:hover:shadow-slate-600 dark:bg-slate-800 dark:hover:text-slate-900 dark:shadow-slate-900">
+          <div onClick={() => handleLogOut()}>
+            <div className="m-0.5 bg-primary-300 text-decoration-line: no-underline font-medium text-lg px-1 py-1 text-slate-900 flex justify-center rounded hover:bg-primary-400 dark:text-white dark:hover:bg-slate-400 dark:hover:shadow-slate-600 dark:bg-slate-800 dark:hover:text-slate-900 dark:shadow-slate-900">
               <p className="font-semibold tracking-tight text-gray-900 dark:text-white text-base">
                 Logout
               </p>
             </div>
-          </button>
+          </div>
         </div>
       </div>
     </>

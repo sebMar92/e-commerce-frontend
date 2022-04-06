@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from "react";
+import React from "react";
 import NavBar from "./NavBar";
 import CarouselPromo from "./CarouselPromo";
 import CarouselCateg from "./CarouselCateg";
@@ -9,6 +9,8 @@ import {useSearchParams,useLocation} from 'react-router-dom'
 import SkeletonCarrousel from "./Skeletons/SkeletonCarrousel";
 import { useDispatch,useSelector } from "react-redux";
 import { getOrder,getProducts,getCategories,clearProductAndCategory } from "../Redux/Actions/actions";
+
+
 export default function Home() {
 
   const dispatch = useDispatch()
@@ -25,7 +27,6 @@ export default function Home() {
       position: toast.POSITION.BOTTOM_LEFT,
     });
   };
-  
 
 /*   useEffect(() => {
     dispatch(getProducts());

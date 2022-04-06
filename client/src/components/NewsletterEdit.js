@@ -9,7 +9,7 @@ import ButtonCreate from "./commons/ButtonCreate";
 
 export default function NewsletterEdit() {
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.home.users);
+  const usersAll = useSelector((state) => state.home.users);
   const [receiver, setReceiver] = useState([]);
   const [newEmail, setNewEmail] = useState("");
   const [error, setError] = useState({});
@@ -19,9 +19,10 @@ export default function NewsletterEdit() {
   }, [dispatch]);
 
   useEffect(() => {
+    let users = usersAll.filter(user => user.newsletterSubscription === true);
     users.length && users.map((user) => receiver.push(user.email));
     setReceiver([...new Set(receiver)]);
-  }, [users]);
+  }, [usersAll]);
 
   const [input, setInput] = useState({
     title: "",
