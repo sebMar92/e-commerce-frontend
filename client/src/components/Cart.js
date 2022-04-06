@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MdRestaurantMenu } from 'react-icons/md';
 import { getOrder, changeOrderStatus, postBulkOrder } from '../Redux/Actions/actions';
 import carrito from './utils/carrito triste.png';
+import ModalPortal from "../components/modals/GuestModal"
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -35,27 +36,46 @@ export default function Cart() {
     dispatch(getOrder({ status: 'inCart' }));
   }, [resPutOrder, resPostBulk]);
 
-  function handleAllBuy() {
-    if (product.length > 1) {
-      const ids = product.map((e) => e.orders[0].id);
-      dispatch(postBulkOrder({ orderIds: ids }));
-    } else {
-      dispatch(
-        changeOrderStatus({
-          id: product[0].orders[0].id,
-          status: 'pending',
-        })
-      );
-    }
-    setTimeout(() => {
-      navigate('/purchase');
-    }, 1000);
+  const [stateModal, setStateModal] = useState(false)
+  function handleCloseModal(e) {
+    e.preventDefault()
+    setStateModal(!stateModal)
   }
+
+  function handleAllBuy(e) {
+
+    const localStorageAccess = window.localStorage.getItem("access")
+    const localStorageRefresh = window.localStorage.getItem("refresh")
+    if (!localStorageAccess && !localStorageRefresh) {
+      handleCloseModal(e)
+    }
+
+    if (localStorageAccess && localStorageRefresh) {
+
+      if (product.length > 1) {
+        const ids = product.map((e) => e.orders[0].id);
+        dispatch(postBulkOrder({ orderIds: ids }));
+      } else {
+        dispatch(
+          changeOrderStatus({
+            id: product[0].orders[0].id,
+            status: 'pending',
+          })
+        );
+      }
+      setTimeout(() => {
+        navigate('/purchase');
+      }, 1000);
+    }
+  }
+
+
+
 
   return (
     <div>
+      {stateModal ? <ModalPortal onClose={(e) => handleCloseModal(e)} /> : null}
       <NavBar />
-
       {product && product.length > 0 ? (
         product.map((prod) => {
           return (
@@ -124,7 +144,7 @@ export default function Cart() {
 
           <div className="flex justify-center">
             <button
-              onClick={() => handleAllBuy()}
+              onClick={(e) => handleAllBuy(e)}
               className="bg-[#3b82f6] text-white p-1 my-8 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition  w-24"
             >
               Buy All
