@@ -154,7 +154,6 @@ export default function AdminProfile() {
               height="60"
             />
           </div>
-<<<<<<< HEAD
           <div className="flex justify-evelyn m-auto w-2/3 ">
              
                 <div className="w-full  h-200 ">
@@ -175,29 +174,6 @@ export default function AdminProfile() {
                       <p className="border border-secondary-200 overflow-auto  ">otro...</p>
                       <p className="border border-secondary-200 overflow-auto  ">otro...</p>
                      
-=======
-          <div className="grid grid-cols-3 gap-12">
-                  <div>
-                      <Bar data={data2} />
-                  </div>
-                  <div className="m-3 h-40 bg-secondary-100 rounded-lg text-center overflow-auto">
-                      <Link to="/admin/users" className="no-underline text-black">
-                        <h3 className="bg-secondary-200 ">Usuarios</h3>
-                        {user &&
-                          user.length > 0 &&
-                          user.map((us) => {
-                            if (us.rol === "user") {
-                              return <p>{us.firstName + " " + us.lastName}</p>;
-                            
-                            }
-                          })}
-                          <p>otro...</p>
-                          <p>otro...</p>
-                          <p>otro...</p>
-                          <p>otro...</p>
-                          <p>otro...</p>
-                          <p>otro...</p>
->>>>>>> feb0e5c5189423a0b8985edced0cab2aadeca861
 
                           </Link>
                   </div>
