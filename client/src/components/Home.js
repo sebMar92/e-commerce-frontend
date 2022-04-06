@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import NavBar from "./NavBar";
 import CarouselPromo from "./CarouselPromo";
 import CarouselCateg from "./CarouselCateg";
@@ -15,7 +15,7 @@ export default function Home() {
 
   const dispatch = useDispatch()
   const categories = useSelector((state) => state.home.categories);
- /*  const [loaded,setLoaded] = useState(false) */
+  const [loaded,setLoaded] = useState(false)
   const notify = () => {
     toast.success("Added to the wishlist !", {
       position: toast.POSITION.BOTTOM_LEFT,
@@ -28,7 +28,7 @@ export default function Home() {
     });
   };
 
-/*   useEffect(() => {
+  useEffect(() => {
     dispatch(getProducts());
     dispatch(getCategories());
     dispatch(getOrder({ status: "inCart" }))
@@ -42,10 +42,10 @@ export default function Home() {
   useEffect(() => {
     setTimeout(() => {
       setLoaded(true);
-    }, 5500);
+    }, 2000);
   }, [categories]);
 
- */
+
 
   return (
     <>
@@ -53,9 +53,16 @@ export default function Home() {
       <ToastContainer autoClose={2000} />
       <NavBar />
       <CarouselPromo />
+      {loaded ?
       <div className="md:my-32">
         <CarouselCateg onClick={notify} onClick2={notify2} />
       </div>
+      :
+      <>
+      <SkeletonCarrousel/>
+      <SkeletonCarrousel/>
+      <SkeletonCarrousel/>
+      </>  }
       <Footer />
       </div>
     </>
