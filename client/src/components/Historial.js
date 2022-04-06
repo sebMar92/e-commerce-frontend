@@ -30,7 +30,6 @@ export default function Historial() {
               return (
                 <div>
                   <h1>
-                    {' '}
                     Purchase date:{' '}
                     {prod && prod.orders
                       ? prettyDate(prod.orders[0].localPurchaseDate)
@@ -51,7 +50,6 @@ export default function Historial() {
               return (
                 <div>
                   <h1>
-                    {' '}
                     Purchase date:{' '}
                     {prod ? prettyDate(prod.localPurchaseDate) : 'trying to remember'}
                   </h1>
