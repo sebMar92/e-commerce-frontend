@@ -180,7 +180,7 @@ export default function EditProducts() {
     return (
       <>
         <NavBarEmpty />
-        <div className="sm:flex dark:bg-slate-700 ">
+        <div className="sm:flex dark:bg-slate-700 font-lora">
           <NavbarAdmin />
           <form
             onSubmit={(e) => {

@@ -32,20 +32,26 @@ export default function SearchBar(props) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex justify-center font-lora">
+    <form onSubmit={handleSubmit} className="flex justify-center font-lora w-full md:w-[50%]">
+      <div className='relative w-full'>
+
       <input
         onChange={(e) => handleInputChange(e)}
         onFocus={() => setIsOpen(false)}
         value={searchValue}
-        className="bg-secondary-100 p-2 h-8 rounded-md w-10/12 md:w-4/12 focus:outline-none"
+        className="outline-none  bg-white rounded p-2 border-[1px] border-white w-full"
         placeholder="Type to search..."
-      />
-      <button
-        type="submit"
-        className="text-secondary-200 bg-secondary-100 p-1 ml-1 rounded-md active:translate-y-1"
-      >
-        <AiOutlineSearch />
-      </button>
+        />
+        <div className="absolute p-1 top-0 md:p-0 md:text-2xl right-0">
+
+          <button
+            type="submit"
+            className="p-2 rounded bg-white"
+            >
+            <AiOutlineSearch color="#FFA438"/>
+          </button>
+        </div>
+        </div>
       <div
         className={`absolute mt-10 bg-secondary-100 m-2 overflow-hidden rounded-lg shadow-lg z-20 w-10/12 md:w-4/12 overflow-y-auto max-h-96 overflow-x-auto  ${
           (isOpen || searchValue === '') && 'hidden'

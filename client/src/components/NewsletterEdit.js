@@ -9,7 +9,7 @@ import ButtonCreate from "./commons/ButtonCreate";
 
 export default function NewsletterEdit() {
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.home.users);
+  const usersAll = useSelector((state) => state.home.users);
   const [receiver, setReceiver] = useState([]);
   const [newEmail, setNewEmail] = useState("");
   const [error, setError] = useState({});
@@ -19,9 +19,10 @@ export default function NewsletterEdit() {
   }, [dispatch]);
 
   useEffect(() => {
+    let users = usersAll.filter(user => user.newsletterSubscription === true);
     users.length && users.map((user) => receiver.push(user.email));
     setReceiver([...new Set(receiver)]);
-  }, [users]);
+  }, [usersAll]);
 
   const [input, setInput] = useState({
     title: "",
@@ -143,11 +144,11 @@ export default function NewsletterEdit() {
   return (
     <>
       <NavBarEmpty />
-      <div className="sm:flex">
+      <div className="flex flex-col sm:flex-row font-lora">
         <NavbarAdmin className="dark:text-black" />
         <form
           onSubmit={(e) => handleSubmit(e)}
-          className="bg-secondary-100 dark:bg-slate-700 dark:text-white"
+          className="bg-secondary-100 dark:bg-slate-700 dark:text-white h-screen w-30"
         >
           <br />
           <h2 className="text-center">Edit Newsletter</h2>
@@ -179,7 +180,7 @@ export default function NewsletterEdit() {
                 onChange={(e) => handleChangeInput(e)}
                 autoComplete="off"
               />
-              <strong>{error.message}</strong>
+              <p className="font-bold">{error.message}</p>
             </div>
           </div>
 
@@ -250,7 +251,7 @@ export default function NewsletterEdit() {
             <br />
           )}
         </form>
-        <div className="w-full bg-secondary-100 dark:bg-slate-700">
+        <div className="w-[70rem] bg-secondary-100 dark:bg-slate-700">
           <br />
           <h2 className="text-center dark:bg-slate-700 dark:text-white">
             Preview

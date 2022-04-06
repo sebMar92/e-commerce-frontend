@@ -24,6 +24,7 @@ export default function Products() {
   const location = useLocation();
   const search = location.search;
   const allProducts = useSelector((state) => state.home.products);
+  const globalSales = useSelector((state) => state.home.globalSales)
   const categories = useSelector((state) => state.home.categories);
   const wishListDB = useSelector((state) => state.home.inWishList);
   const cartDB = useSelector((state) => state.home.inCart)
@@ -63,6 +64,23 @@ export default function Products() {
     });
   };
 
+  // product {
+  //   sales {
+  //     productSales [{
+  //       porcentage,
+  //       day,
+  //       productAmount,
+  //       id
+  //     }]
+  //     categorySales [{
+  //       porcentage,
+  //       day,
+  //       productAmount,
+  //       id
+  //     }]
+  //   }
+  // }
+
   return (
     <>
       <NavBar />
@@ -79,6 +97,7 @@ export default function Products() {
             <div className="flex flex-col lg:w-[90%] gap-5 lg:mx-auto mt-4 lg:flex-wrap lg:flex-row justify-center">
               {allProducts.length > 0 ?
                 allProducts.map((item) => {
+                  console.log(globalSales)
                   return (
                     <Card
                       id={item.id}
@@ -97,6 +116,9 @@ export default function Products() {
                       token={token}
                       deleted={deleted}
                       postOrders={postOrders}
+                      categorySales={item.sales.categorySales}
+                      productSales={item.sales.productSales}
+                      globalSales={globalSales}
                     />
                   );
                 })
