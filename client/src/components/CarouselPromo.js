@@ -62,7 +62,22 @@ export default function Carousel() {
         ref={slideRef}
         className="w-full relative select-none shadow-md shadow-slate-600 sm:rounded"
       >
-        {sales.length && sales[currentIndex].categories.length ? (
+        {sales.length ? (
+          sales[currentIndex].products[0].id && (
+            <Link to={`/products/${sales[currentIndex].products[0].id}`}>
+              <div className="aspect-w-9 aspect-h-4">
+                <img
+                  className="sm:rounded"
+                  src={sales.length && sales[currentIndex].image}
+                  alt=""
+                />
+                <span className="font-lora text-center text-lg  font-bold top-1/2 text-white bg-black bg-opacity-70 h-8 mt-auto mb-6">
+                  {sales.length && sales[currentIndex].description}
+                </span>
+              </div>
+            </Link>
+          )
+        ) : sales[currentIndex].categories.length ? (
           sales[currentIndex].categories[0].id !== 0 ? (
             <Link
               to={`/products?categoryId=${sales[currentIndex].categories[0].id}&offset=1`}
