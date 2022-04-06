@@ -15,7 +15,7 @@ import NavBarEmpty from "./NavBarEmpty";
 import Axios from "axios";
 import { AiOutlineConsoleSql } from "react-icons/ai";
 import AdminPreview from "../components/AdminPreview";
-import { AiOutlineCloseSquare } from "react-icons/ai"
+import { AiOutlineCloseSquare } from "react-icons/ai";
 
 export default function EditProducts() {
   const { idProduct } = useParams();
@@ -58,26 +58,19 @@ export default function EditProducts() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const { value } = e.target;
-    if (value === "changes") {
-      dispatch(putProductByID(idProduct, input));
-      setInput({
-        title: "",
-        name: "",
-        price: "",
-        shippingCost: "",
-        description: "",
-        images: [],
-        stock: "",
-        categories: [],
-      });
+    dispatch(putProductByID(idProduct, input));
+    setInput({
+      title: "",
+      name: "",
+      price: "",
+      shippingCost: "",
+      description: "",
+      images: [],
+      stock: "",
+      categories: [],
+    });
 
-      alert("Product Modified!!");
-    } else {
-      e.preventDefault();
-      alert("Discarded Changes !!");
-      window.location.reload();
-    }
+    alert("Product Modified!!");
   }
 
   function handleAddCategory(e) {
@@ -172,6 +165,11 @@ export default function EditProducts() {
       images: input.images.flat().filter((name) => name.url !== e.target.name),
     });
   }
+  function reload(e) {
+    e.preventDefault();
+    alert("Discard changes!!");
+    window.location.reload();
+  }
 
   const desc = input.description && input.description.split(".");
   const description2 = desc && desc.slice(0, -1);
@@ -182,213 +180,219 @@ export default function EditProducts() {
         <NavBarEmpty />
         <div className="sm:flex dark:bg-slate-700 font-lora">
           <NavbarAdmin />
-          <form
-            onSubmit={(e) => {
-              handleSubmit(e);
-            }}
-            className="bg-secondary-100 dark:bg-slate-700 dark:text-white "
-          >
-            <br />
-            <h2 className="text-center">Edit Product</h2>
-            <br />
-            <hr />
-            <div>
-              <div className=" justify-center p-2 ">
-                <label>Title</label>
-                <br />
-                <input
-                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
-                  type="text"
-                  name="title"
-                  value={input.title}
-                  onChange={(e) => handelChange(e)}
-                />
-                <strong>{errors.title}</strong>
-              </div>
-
-              <div className=" justify-center p-2 ">
-                <label>Name</label>
-                <input
-                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
-                  type="text"
-                  name="name"
-                  value={input.name}
-                  onChange={(e) => handelChange(e)}
-                />
-                <strong>{errors.name}</strong>
-              </div>
-
-              <div className=" justify-center p-2 ">
-                <label>Price </label>
-                <input
-                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
-                  type="text"
-                  name="price"
-                  placeholder="$ 000.00"
-                  value={input.price}
-                  onChange={(e) => handelChange(e)}
-                />
-                <strong>{errors.price}</strong>
-              </div>
-
-              <div className=" justify-center p-2 ">
-                <label>Shipping Cost</label>
-                <input
-                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
-                  type="text"
-                  name="shippingCost"
-                  placeholder="$ 000.00"
-                  value={input.shippingCost}
-                  onChange={(e) => handelChange(e)}
-                />
-                <strong>{errors.shippingCost}</strong>
-              </div>
-
-              <div className=" justify-center p-2 ">
-                <label>Description</label>
-                <textarea
-                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
-                  type="text"
-                  name="description"
-                  overflow="auto"
-                  value={input.description}
-                  onChange={(e) => handelChange(e)}
-                />
-                <strong>{errors.description}</strong>
-              </div>
-
-              <div className=" justify-center p-2 ">
-                <label>Stock</label>
-                <input
-                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
-                  type="number"
-                  name="stock"
-                  value={input.stock}
-                  onChange={(e) => handelChange(e)}
-                />
-              </div>
-            </div>
-
-            <div className=" justify-center p-2 ">
-              <label>Categories</label>
-              <select
-                className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
-                onChange={(e) => handleSelectCategories(e)}
-              >
-                <option>Select</option>
-                {allCategories &&
-                  allCategories.length > 0 &&
-                  allCategories.map((e) => (
-                    <option id={e.id} key={e.name}>
-                      {e.name}
-                    </option>
-                  ))}
-              </select>
-
-              <div className="flex">
-                <input
-                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
-                  type="text"
-                  placeholder="Add Cartegory... "
-                  name="categories"
-                  value={newCategory}
-                  onChange={(e) => {
-                    handleAddCategory(e);
-                  }}
-                />
-                <button
-                type="button"
-                className="text-secondary-200 bg-secondary-100 w-16 ml-1 border-2 border-gray-300 rounded-md hover:border-2 hover:border-solid hover:border-green-600 hover:text-green-600 dark:hover:text-white dark:hover:bg-slate-900 dark:hover:shadow-slate-600 dark:bg-slate-400 dark:text-slate-900 dark:shadow-slate-900"
-                onClick={(e) => handleSubmitAddCategory(e)}
-              >
-                Add
-              </button>
-              </div>
-
-              <div className="">
-              {
-                input.categories &&
-                input.categories.map((category) => {
-                  return (
-                    <div className="mt-1 flex w-full hover:bg-secondary-100 bg-gray-50 h-8 items-center lg:h-6 border border-solid shadow-sm mb-1 rounded-md lg:hover:border lg:hover:border-solid lg:hover:border-red-500 lg:hover:items-center">
-                      {/* <img src={check} alt="check" /> */}
-
-                      <button
-                        type="button"
-                        id={category.name}
-                        onClick={(e) => handleDelete(e.target.id)}
-                        className="ml-2 w-full flex justify-between lg:hover:block lg:hover:scale-125 lg:hover:text-red-500 "
-                      >
-                        {category.name}
-
-                        <AiOutlineCloseSquare id={category.name}
-                          onClick={(e) => handleDelete(e.target.id)} className="lg:hidden text-2xl
-                    "/>
-                      </button>
-                    </div>
-                  );
-                })}
-            </div>
-            </div>
-            <div className=" justify-center py-2 m-2 ">
-              <label>Images</label>
-              <div className="flex">
-                <input
-                  className="rounded-md h-9 w-full hover:[bg-secundary-200] border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
-                  type="text"
-                  placeholder="URL..."
-                  value={inputImages}
-                  onChange={(e) => setInputImages(e.target.value)}
-                />
-                <img
-                  className="cursor-pointer"
-                  onClick={(e) => addImage(e)}
-                  src={mas}
-                  alt=""
-                />
-              </div>
+          <div className="bg-secondary-100 dark:bg-slate-700 dark:text-white ">
+            <form
+              onSubmit={(e) => {
+                handleSubmit(e);
+              }}
+            >
+              <br />
+              <h2 className="text-center">Edit Product</h2>
+              <br />
+              <hr />
               <div>
-                <input
-                  type="file"
-                  multiple
-                  onChange={(e) => {
-                    uploadImage(e.target.files);
-                  }}
-                ></input>
+                <div className=" justify-center p-2 ">
+                  <label>Title</label>
+                  <br />
+                  <input
+                    className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
+                    type="text"
+                    name="title"
+                    value={input.title}
+                    onChange={(e) => handelChange(e)}
+                  />
+                  <strong>{errors.title}</strong>
+                </div>
+
+                <div className=" justify-center p-2 ">
+                  <label>Name</label>
+                  <input
+                    className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
+                    type="text"
+                    name="name"
+                    value={input.name}
+                    onChange={(e) => handelChange(e)}
+                  />
+                  <strong>{errors.name}</strong>
+                </div>
+
+                <div className=" justify-center p-2 ">
+                  <label>Price </label>
+                  <input
+                    className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
+                    type="text"
+                    name="price"
+                    placeholder="$ 000.00"
+                    value={input.price}
+                    onChange={(e) => handelChange(e)}
+                  />
+                  <strong>{errors.price}</strong>
+                </div>
+
+                <div className=" justify-center p-2 ">
+                  <label>Shipping Cost</label>
+                  <input
+                    className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
+                    type="text"
+                    name="shippingCost"
+                    placeholder="$ 000.00"
+                    value={input.shippingCost}
+                    onChange={(e) => handelChange(e)}
+                  />
+                  <strong>{errors.shippingCost}</strong>
+                </div>
+
+                <div className=" justify-center p-2 ">
+                  <label>Description</label>
+                  <textarea
+                    className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
+                    type="text"
+                    name="description"
+                    overflow="auto"
+                    value={input.description}
+                    onChange={(e) => handelChange(e)}
+                  />
+                  <strong>{errors.description}</strong>
+                </div>
+
+                <div className=" justify-center p-2 ">
+                  <label>Stock</label>
+                  <input
+                    className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
+                    type="number"
+                    name="stock"
+                    value={input.stock}
+                    onChange={(e) => handelChange(e)}
+                  />
+                </div>
               </div>
-              <div className="flex">
-                {input.images &&
-                  input.images.flat().map((name) => {
-                    return (
-                      <div className="flex border-2 border-primary-500  rounded-lg bg-gray-50">
-                        <img
-                          className="w-10 h-10 m-0.5 "
-                          src={name.url}
-                          alt={name.url}
-                        />
-                        <button
-                          className="bg-primary-500 w-6 my-0.5  rounded-lg hover:bg-primary-400"
-                          name={name.url}
-                          onClick={(name) => handleDeleteImage(name)}
-                        >
-                          X
-                        </button>
-                      </div>
-                    );
-                  })}
+
+              <div className=" justify-center p-2 ">
+                <label>Categories</label>
+                <select
+                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
+                  onChange={(e) => handleSelectCategories(e)}
+                >
+                  <option>Select</option>
+                  {allCategories &&
+                    allCategories.length > 0 &&
+                    allCategories.map((e) => (
+                      <option id={e.id} key={e.name}>
+                        {e.name}
+                      </option>
+                    ))}
+                </select>
+
+                <div className="flex">
+                  <input
+                    className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
+                    type="text"
+                    placeholder="Add Cartegory... "
+                    name="categories"
+                    value={newCategory}
+                    onChange={(e) => {
+                      handleAddCategory(e);
+                    }}
+                  />
+                  <button
+                    type="button"
+                    className="text-secondary-200 bg-secondary-100 w-16 ml-1 border-2 border-gray-300 rounded-md hover:border-2 hover:border-solid hover:border-green-600 hover:text-green-600 dark:hover:text-white dark:hover:bg-slate-900 dark:hover:shadow-slate-600 dark:bg-slate-400 dark:text-slate-900 dark:shadow-slate-900"
+                    onClick={(e) => handleSubmitAddCategory(e)}
+                  >
+                    Add
+                  </button>
+                </div>
+
+                <div className="">
+                  {input.categories &&
+                    input.categories.map((category) => {
+                      return (
+                        <div className="mt-1 flex w-full hover:bg-secondary-100 bg-gray-50 h-8 items-center lg:h-6 border border-solid shadow-sm mb-1 rounded-md lg:hover:border lg:hover:border-solid lg:hover:border-red-500 lg:hover:items-center">
+                          {/* <img src={check} alt="check" /> */}
+
+                          <button
+                            type="button"
+                            id={category.name}
+                            onClick={(e) => handleDelete(e.target.id)}
+                            className="ml-2 w-full flex justify-between lg:hover:block lg:hover:scale-125 lg:hover:text-red-500 "
+                          >
+                            {category.name}
+
+                            <AiOutlineCloseSquare
+                              id={category.name}
+                              onClick={(e) => handleDelete(e.target.id)}
+                              className="lg:hidden text-2xl
+                    "
+                            />
+                          </button>
+                        </div>
+                      );
+                    })}
+                </div>
               </div>
-            </div>
-            <ButtonCreate
-              text="Save Changes"
-              type="submit"
-              value="changes"
-            ></ButtonCreate>
-            <ButtonDiscard
-              text="Discard Changes"
-              value="discard"
-              type="submit"
-            ></ButtonDiscard>
-          </form>
+              <div className=" justify-center py-2 m-2 ">
+                <label>Images</label>
+                <div className="flex">
+                  <input
+                    className="rounded-md h-9 w-full hover:[bg-secundary-200] border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
+                    type="text"
+                    placeholder="URL..."
+                    value={inputImages}
+                    onChange={(e) => setInputImages(e.target.value)}
+                  />
+                  <img
+                    className="cursor-pointer"
+                    onClick={(e) => addImage(e)}
+                    src={mas}
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <input
+                    type="file"
+                    multiple
+                    onChange={(e) => {
+                      uploadImage(e.target.files);
+                    }}
+                  ></input>
+                </div>
+                <div className="flex">
+                  {input.images &&
+                    input.images.flat().map((name) => {
+                      return (
+                        <div className="flex border-2 border-primary-500  rounded-lg bg-gray-50">
+                          <img
+                            className="w-10 h-10 m-0.5 "
+                            src={name.url}
+                            alt={name.url}
+                          />
+                          <button
+                            className="bg-primary-500 w-6 my-0.5  rounded-lg hover:bg-primary-400"
+                            name={name.url}
+                            onClick={(name) => handleDeleteImage(name)}
+                          >
+                            X
+                          </button>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+              <ButtonCreate
+                disable={errors?.disableSubmit}
+                text="Save Changes"
+                type="submit"
+                onClick={(e) => handleSubmit(e)}
+              ></ButtonCreate>
+            </form>
+            <button
+              onClick={(e) => reload(e)}
+              className="bg-[#3b82f6] text-white px-6 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-[#3491fc] shadow-lg shadow-primary-200/80 m-3 dark:hover:text-white dark:hover:bg-slate-900 dark:hover:shadow-slate-600 dark:bg-slate-400 dark:text-slate-900 dark:shadow-slate-900"
+            >
+              Discard Changes
+            </button>
+          </div>
+
           <div className=" w-full bg-secondary-100 dark:bg-slate-700 dark:text-white">
             <br />
             <h2 className="text-center">Preview</h2>

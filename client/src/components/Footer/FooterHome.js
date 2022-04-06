@@ -2,7 +2,6 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { putUserInfo, getUserInfo } from '../../Redux/Actions/actions';
-import ButtonCreate from '../commons/ButtonCreate';
 export default function FooterHome() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.home.user);
