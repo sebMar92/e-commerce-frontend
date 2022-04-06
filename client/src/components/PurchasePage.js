@@ -111,6 +111,8 @@ export default function PurchasePage() {
                   e.price = discountPrice;
                   return e;
                 }
+              } else {
+                return e;
               }
             })
             .flat()
