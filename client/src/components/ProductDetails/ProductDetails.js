@@ -3,7 +3,7 @@ import NavBar from '../NavBar';
 import Footer from '../Footer/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { clearProductDetail, getProductByID, postOrder, deleteOrder, getOrder, getProducts, clearCarrusel } from '../../Redux/Actions/actions';
+import { clearProductDetail, getProductByID, postOrder, deleteOrder, getOrder, getProducts, clearCarrusel, getUserInfo } from '../../Redux/Actions/actions';
 import Slider from './Slider';
 import CreateComment from '../Comment/CreateComment';
 import { FaBan } from 'react-icons/fa';
@@ -30,6 +30,7 @@ export default function ProductDetails() {
   const [wishListLS, setWishListLS] = useState(window.localStorage.getItem("inWishList"))
   const deleted = useSelector((state) => state.home.deleted)
   const postOrders = useSelector((state) => state.home.postOrders)
+  const user = useSelector((state) => state.home.user)
   const [selectedWishList, setSelectedWishList] = useState(false)
   const [selectedCart, setSelectedCart] = useState(false)
 
@@ -45,6 +46,7 @@ export default function ProductDetails() {
     product.categories && product.categories.map(e => {
       dispatch(getProducts(`?categoryId=${e.id}&limit=100`))
     })
+    dispatch(getUserInfo())
   }, [product.categories])
 
   useEffect(() => {
@@ -291,16 +293,26 @@ export default function ProductDetails() {
                   </button>
                 </div>
               </div>
-
-              <div >
-                <ButtonBuy
-                  id={idProduct}
-                  status={'pending'}
-                  amount={1}
-                  text={'Buy'}
-                  onClick={(e) => notifyDetail3(e)}
-                />
-              </div>
+              {user && user.rol !== "admin"?
+              product.stock && product.stock !== 0 ?
+                <div >
+                  <ButtonBuy
+                    id={idProduct}
+                    status={'pending'}
+                    amount={1}
+                    text={'Buy'}
+                    onClick={(e) => notifyDetail3(e)}
+                  />
+                </div>
+                :
+                <div>
+                  <button className="bg-primary-400 px-6 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 shadow-lg shadow-primary-200/80 dark:hover:text-white dark:hover:bg-slate-900 dark:hover:shadow-slate-600 dark:bg-slate-400 dark:text-slate-900 dark:shadow-slate-900 w-32">No Stock</button>
+                </div>
+            :
+            <div>
+            <button className="bg-primary-300 px-6 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 shadow-lg shadow-primary-200/80 dark:hover:text-white dark:hover:bg-slate-900 dark:hover:shadow-slate-600 dark:bg-slate-400 dark:text-slate-900 dark:shadow-slate-900 ">Buy</button>
+          </div>
+            }
             </div>
 
             <div
