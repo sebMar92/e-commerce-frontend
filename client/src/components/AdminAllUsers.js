@@ -74,17 +74,21 @@ export default function AdminAllUsers() {
                 {user &&
                   user.length > 0 &&
                   user.map((u) => {
+                    var name = u.firstName.split(" ")[0].toLowerCase();
+                    var apellido= u.lastName.split(" ")[0].toLowerCase();
                     return (
+                      
                       <tr>
                         <th
                           className="p-3  border-2 bg-secondary-100 rounded-lg border-white "scope="row" >
                           {u.id}
                         </th>
                         <td className="p-3  border-2 bg-secondary-100 rounded-lg border-white ">
-                          {u.firstName}
+                        
+                          {name.charAt(0).toUpperCase()+ name.slice(1)}
                         </td>
                         <td className="p-3  border-2 bg-secondary-100 rounded-lg border-white ">
-                          {u.lastName}
+                          { apellido.charAt(0).toUpperCase()+ apellido.slice(1)}
                         </td>
                         <td className="p-3  border-2 bg-secondary-100 rounded-lg border-white ">
                           {u.email}

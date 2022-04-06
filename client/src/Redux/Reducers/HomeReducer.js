@@ -226,6 +226,12 @@ export const HomeReducer = (state = initialState, action) => {
         putBulkOrders: action.payload,
       };
 
+      case GET_BULK_ADMIN:
+        return {
+          ...state,
+          bulkAdmin :action.payload,
+        }
+
     default:
       return state;
   }

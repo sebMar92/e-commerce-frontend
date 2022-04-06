@@ -651,7 +651,9 @@ export function deleteToken(token) {
 }
 
 export function getBulkAdmin(conditions) {
+  
   return async function (dispatch) {
+    
     var queries = '';
     if (conditions) {
       if (conditions.hasOwnProperty('userId') && conditions.hasOwnProperty('status')) {
@@ -662,7 +664,8 @@ export function getBulkAdmin(conditions) {
         queries = '?status=' + conditions.status;
       }
     }
-    var json = await axios.get('/orders/admin/bulk' + queries);
+    var json = await axios.get('/order/admin/bulk' + queries);
+    
     return dispatch({
       type: GET_BULK_ADMIN,
       payload: json.data,

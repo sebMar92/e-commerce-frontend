@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "./Footer/Footer";
 import NavbarAdmin from "./NavbarAdmin";
 import NavBarEmpty from "./NavBarEmpty";
@@ -24,6 +24,7 @@ import {
   Legend,
   Filler,
 } from "chart.js";
+var dayjs = require("dayjs");
 
 ChartJS.register(
   CategoryScale,
@@ -42,21 +43,74 @@ export default function AdminProfile() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.home.bulkAdmin);
   const user = useSelector((state) => state.home.users);
-  
+  const fecha = [];
+  const prices =[];
+  const product = [];
+  const priceCu = [];
 
-  console.log(products)
-  useEffect(()=> {
+  if (products) {
+    products.map((f) => {
+      if (f.orders) {
+        fecha.push(dayjs(f.orders[0].serverPurchaseDate).format("MMMM D, YYYY")
+        );
+      } else {
+        fecha.push(dayjs(f.updatedAt).format("MMMM D, YYYY"));
+      }
+    });
+  }
 
-    dispatch (getBulkAdmin({ status:"finished"}))
+  if(products){
+    products.map((p)=>{
+      console.log(p)
+      if(p.orders){
+        prices.push(p.price)
+      }else {
+        prices.push(p.combinedPrice)
+      }
+
+    })
+  }
+
+  if(products){
+    products.map((pr)=> {
+      if(pr.orders){
+         product.push(pr.id)
+      }else{
+        pr.products.map(gPr=>{
+          
+          product.push(gPr.id)
+        })
+      }
+    })
+  }
+
   
-  },[])
+  if(products){
+    products.map((p)=>{
+      
+      if(p.orders){
+        priceCu.push(p.price)
+      }else {
+        p.products.map(pr=>{
+          
+          priceCu.push(pr.price)
+         })
+      }
+    })
+  }
+
+  console.log("prod", products);
+
+  useEffect(() => {
+    dispatch(getBulkAdmin({ status: "finished" }));
+  }, []);
 
   const data = {
-    labels: ["1/Mar", "2/Mar", "3/Mar", "4/Mar", "5/Mar", "6/Mar", "7/Mar"],
+    labels: fecha,
     datasets: [
       {
         label: "ventas",
-        data: [10, 19, 3, 5, 2, 3, 10],
+        data: prices ,
         fill: true,
         backgroundColor: "rgb(255,209,138)",
         borderColor: "rgb(255,170,40, 0.4)",
@@ -68,20 +122,20 @@ export default function AdminProfile() {
   const options = {
     responsive: true,
     plugins: {
-      legend:{
-        font:{
-          size:7
-        }
-      }
-    }
+      legend: {
+        font: {
+          size: 7,
+        },
+      },
+    },
   };
 
   const data2 = {
-    labels: [1,2,3,4],
+    labels: product,
     datasets: [
       {
         label: "Products",
-        data: [10, 19, 3, 5, 2, 3, 2],
+        data: priceCu,
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",
@@ -99,13 +153,12 @@ export default function AdminProfile() {
           "rgba(255, 159, 64, 1)",
         ],
         pointBackgroundColor: "rgb(255,162,21)",
-      
       },
     ],
   };
 
-  const data3 = {
-    labels: [3,5,3,6],
+  /* const data3 = {
+    labels: [3, 5, 3, 6],
     datasets: [
       {
         label: "Category",
@@ -128,7 +181,6 @@ export default function AdminProfile() {
           "rgba(255, 159, 64, 1)",
         ],
         borderWidth: 1,
-
       },
     ],
   };
@@ -137,7 +189,7 @@ export default function AdminProfile() {
     dispatch(getCategories());
     dispatch(getOrder({ status: "finished" }));
     dispatch(getUsersInfo());
-  }, []);
+  }, []); */
 
   return (
     <>
@@ -146,7 +198,7 @@ export default function AdminProfile() {
         <NavbarAdmin />
         <div className="mx-auto w-full xl:w-[85rem] h-screen">
           <h1 className="mx-auto text-center"> Admin profile </h1>
-          <div className="w-full h-[18rem]">
+          <div className="w-full h-[18rem] md:table hidden">
             <Line
               className="w-full h-full "
               data={data}
@@ -154,34 +206,88 @@ export default function AdminProfile() {
               height="60"
             />
           </div>
-          <div className="flex justify-evelyn m-auto w-2/3 ">
-             
-                <div className="w-full  h-200 ">
-                  <Bar className="w-full" data={data2} />
-                </div>
-              
-                  <div className="m-5 w-2/3 h-40 bg-secondary-100 rounded-lg text-center hover:bg-primary-300 overflow-auto">
-                  <Link to="/admin/users" className="no-underline text-black">
-                    <h3 className="bg-secondary-200 ">Usuarios</h3>
-                    {user &&
-                      user.length > 0 &&
-                      user.map((us) => {
-                        if (us.rol === "user") {
-                          return <p className="border border-secondary-200 overflo  w-auto  ">{us.firstName + " " + us.lastName}</p>;
-                        
-                        }
-                      })}
-                      <p className="border border-secondary-200 overflow-auto  ">otro...</p>
-                      <p className="border border-secondary-200 overflow-auto  ">otro...</p>
-                     
+          <div className="flex justify-between  w-full ">
+            <div className="w-full md:table hidden h-200 ">
+              <Bar className="w-full  " data={data2} />
+            </div>
 
-                          </Link>
-                  </div>
-              
-                    <div className="w-[20rem]">
-                      <Doughnut data={data3} />
-                    </div>
+            <div className="md:table hidden justify-center m-5 w-3/4 h-40 bg-secondary-100 rounded-lg text-center hover:bg-primary-300 overflow-auto">
+              <Link to="/admin/users" className="no-underline text-black">
+                <h3 className="bg-secondary-200">Usuarios</h3>
+                {user &&
+                  user.length > 0 &&
+                  user.map((us) => {
+                    if (us.rol === "user") {
+                      var name = us.firstName.split(" ")[0].toLowerCase();
+                      var apellido = us.lastName.split(" ")[0].toLowerCase();
+
+                      return (
+                        <p className="border border-secondary-200 overflo  w-auto  ">
+                          {name.charAt(0).toUpperCase() +
+                            name.slice(1) +
+                            " " +
+                            apellido.charAt(0).toUpperCase() +
+                            apellido.slice(1)}
+                        </p>
+                      );
+                    }
+                  })}
+                <p className="border border-secondary-200 overflow-auto  ">
+                  otro...
+                </p>
+                <p className="border border-secondary-200 overflow-auto  ">
+                  otro...
+                </p>
+              </Link>
+            </div>
+
+            {/* <div className="w-[20rem] md:table hidden">
+              <Doughnut data={data3} />
+            </div> */}
           </div>
+        <div className= "w-full md:hidden ">
+        <div className="w-full h-40 ">
+            <Line
+              className="w-full h-full "
+              data={data}
+              options={options}
+              height="60"
+            />
+          </div>
+            <div className="w-full h-200 ">
+              <Bar className="w-full  " data={data2} />
+            </div>
+            <div className=" m-5 w-3/4 h-40 justify-center bg-secondary-100 rounded-lg text-center hover:bg-primary-300 overflow-auto">
+              <Link to="/admin/users" className="no-underline text-black">
+                <h3 className="bg-secondary-200">Usuarios</h3>
+                {user &&
+                  user.length > 0 &&
+                  user.map((us) => {
+                    if (us.rol === "user") {
+                      var name = us.firstName.split(" ")[0].toLowerCase();
+                      var apellido = us.lastName.split(" ")[0].toLowerCase();
+
+                      return (
+                        <p className="border border-secondary-200 overflo  w-auto  ">
+                          {name.charAt(0).toUpperCase() +
+                            name.slice(1) +
+                            " " +
+                            apellido.charAt(0).toUpperCase() +
+                            apellido.slice(1)}
+                        </p>
+                      );
+                    }
+                  })}
+                <p className="border border-secondary-200 overflow-auto  ">
+                  otro...
+                </p>
+                <p className="border border-secondary-200 overflow-auto  ">
+                  otro...
+                </p>
+              </Link>
+            </div>
+          </div>
+
         </div>
       </div>
     </>
