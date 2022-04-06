@@ -580,26 +580,6 @@ export function carruselOne(search) {
   };
 }
 
-export function getBulkAdmin(conditions) {
-  return async function (dispatch) {
-    if (conditions) {
-      var queries = '';
-      if (conditions.hasOwnProperty('userId') && conditions.hasOwnProperty('status')) {
-        queries = '?status=' + conditions.status + '&userId=' + conditions.userId;
-      } else if (conditions.hasOwnProperty('userId')) {
-        queries = '?userId=' + conditions.userId;
-      } else if (conditions.hasOwnProperty('status')) {
-        queries = '?status=' + conditions.status;
-      }
-    }
-    var json = await axios.get('/order/admin/bulk' + queries);
-    return dispatch({
-      type: GET_BULK_ADMIN,
-      payload: json.data,
-    });
-  };
-}
-
 
 export function postBulkOrder(orderIds) {
   return async function (dispatch) {
