@@ -20,10 +20,10 @@ useEffect(()=> {
     return (
         <>
         <NavBarEmpty/>
-        <div className='flex flex-col sm:flex-row' >
+        <div className='flex flex-col sm:flex-row font-lora'>
             <NavbarAdmin />
-            <div className='justify-center w-11/12'>
-                <h1 className="text-center text-white bg-primary-500 font-lora  m-5">All Orders
+            <div className='justify-center w-11/12 h-screen'>
+                <h1 className="text-center text-white bg-primary-500 font-lora m-5">All Orders
                 </h1>
 <div>
 {allOrdersBulk && allOrdersBulk.length>0 && allOrdersBulk.map((b)=> {
