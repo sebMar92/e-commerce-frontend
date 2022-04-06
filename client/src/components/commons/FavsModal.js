@@ -79,7 +79,7 @@ export default function FavsModal() {
                               />
                             </li>
                           </Link>
-                          <div className="flex justify-evenly p-2 bg-slate-100">
+                          <div className="flex justify-evenly p-2">
                             <button
                               onClick={() => {
                                 deleteFavModal(del, id);
@@ -91,7 +91,7 @@ export default function FavsModal() {
                             </button>
                             <Link
                               to="/cart"
-                              className="no-underline text-black bg-primary-700 rounded-sm px-2 py-2 my-1 active:translate-y-1 font-medium hover:bg-slate-700 hover:text-white"
+                              className="no-underline text-black bg-primary-700 rounded-md px-2 py-2 my-1 active:translate-y-1 font-medium hover:bg-slate-700 hover:text-white"
                             >
                               Go to buy
                             </Link>

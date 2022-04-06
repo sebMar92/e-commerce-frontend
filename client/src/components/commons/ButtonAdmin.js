@@ -10,7 +10,7 @@ export default function ButtonAdmin() {
         to="/admin"
         className="text-decoration-line: no-underline text-black"
       >
-        <button className="font-semibold border-[1px] border-primary-700 bg-white rounded p-2 font-lora">
+        <button className="font-semibold border-[1px] border-primary-700 bg-white rounded p-2 font-lora ">
           Panel
         </button>
       </Link>

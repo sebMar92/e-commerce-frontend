@@ -80,7 +80,7 @@ export default function CartModal() {
                             />
                           </li>
                         </Link>
-                        <div className="flex justify-evenly p-2 bg-slate-100">
+                        <div className="flex justify-evenly p-2 ">
                           <button
                             onClick={() => {
                               deleteCartModal(del, id, "inCart");
