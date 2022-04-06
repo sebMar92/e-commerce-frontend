@@ -10,18 +10,18 @@ export default function NavbarAdmin({ name, idUser }) {
   function onClickitems() {
     document.getElementById('items').classList.toggle('hidden');
   }
-  
+
   const handleLogOut = () => {
     const refresh = window.localStorage.getItem('refresh');
     dispatch(clearTokensUser());
     dispatch(deleteToken(refresh));
     window.localStorage.clear();
     navigate('/');
-  }
-  
+  };
+
   return (
-    <>
-      <div className="sm:w-[13rem] bg-primary-700 dark:bg-slate-800">
+    <div className="sm:w-[13rem] bg-primary-700 dark:bg-slate-800">
+      <div>
         <div className="dark:bg-slate-800 bg-primary-500 text-decoration-line: no-underline font-medium text-lg px-25 py-5 text-slate-900 flex justify-center rounded">
           <p className="font-semibold tracking-tight text-center text-gray-900 dark:text-white text-base m-3">
             Welcome, Cosme Fulanito{name}!
@@ -91,6 +91,6 @@ export default function NavbarAdmin({ name, idUser }) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
