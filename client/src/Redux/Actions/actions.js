@@ -36,7 +36,6 @@ import {
   GET_BULK_ORDERS,
   PUT_BULK_ORDERS,
   DELETE_PRODUCT,
-  GET_BULK_ADMIN,
   POST_SALE,
   EDIT_SALE,
 } from './types';
@@ -564,18 +563,6 @@ export function clearCarrusel() {
   };
 }
 
-<<<<<<< HEAD
-=======
-export function getBulkAdmin() {
-  return async function (dispatch) {
-    var json = await axios.get('/order/admin/bulk');
-    return dispatch({
-      type: GET_BULK_ADMIN,
-      payload: json.data,
-    })
-  }
-}
->>>>>>> 8c231c509fb33b456f4945146de09ede78d13a95
 export function postBulkOrder(orderIds) {
   return async function (dispatch) {
     const bulk = await axios.post('/order/bulk', orderIds);
@@ -587,7 +574,6 @@ export function postBulkOrder(orderIds) {
 }
 
 export function getBulkOrders(status) {
-<<<<<<< HEAD
   if (status) {
     var queries = '';
     if (status.hasOwnProperty('status')) {
@@ -595,9 +581,6 @@ export function getBulkOrders(status) {
     }
   }
   console.log('Entra aca');
-=======
- 
->>>>>>> 8c231c509fb33b456f4945146de09ede78d13a95
   return async function (dispatch) {
     const bulkOrders = await axios.get('/order/bulk' + (queries ? queries : ''));
     return dispatch({
@@ -613,15 +596,14 @@ export function putBulkOrders(body, id) {
     return dispatch({
       type: PUT_BULK_ORDERS,
       payload: putBulkOrders.data,
-<<<<<<< HEAD
     });
   };
 }
 
 export function getBulkAdmin(conditions) {
   return async function (dispatch) {
+    var queries = '';
     if (conditions) {
-      var queries = '';
       if (conditions.hasOwnProperty('userId') && conditions.hasOwnProperty('status')) {
         queries = '?status=' + conditions.status + '&userId=' + conditions.userId;
       } else if (conditions.hasOwnProperty('userId')) {
@@ -634,8 +616,6 @@ export function getBulkAdmin(conditions) {
     return dispatch({
       type: GET_BULK_ADMIN,
       payload: json.data,
-=======
->>>>>>> 8c231c509fb33b456f4945146de09ede78d13a95
     });
   };
 }
