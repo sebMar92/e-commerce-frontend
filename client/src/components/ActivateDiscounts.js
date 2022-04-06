@@ -19,6 +19,7 @@ export default function ActivateDiscounts() {
   const categories = useSelector((state) => state.home.categories);
   const products = useSelector((state) => state.admin.salesAllProducts);
   const deleteUpdate = useSelector((state) => state.admin.deleted);
+  const postAndEditUpdate = useSelector((state) => state.admin.saleChange);
   const queryObjects = useURLqueries();
   const [reRender, setReRender] = useState({});
   const [tab, setTab] = useState(true);
@@ -48,7 +49,7 @@ export default function ActivateDiscounts() {
     dispatch(getCategories());
     dispatch(getAllProductsForSales());
     dispatch(getSales());
-  }, [reRender, deleteUpdate]);
+  }, [reRender, deleteUpdate, postAndEditUpdate]);
 
   const validate = (input) => {
     let errors = {};
@@ -227,9 +228,10 @@ export default function ActivateDiscounts() {
   }
   function handleSubmit(e) {
     e.preventDefault();
-    if (errors === {}) {
+    if (Object.keys(errors).length === 0) {
       if (tab) {
         if (sale.id !== 0) {
+          console.log('Editing sale: ', sale);
           dispatch(editSale({ ...sale, id: Number(sale.id.replace('sale ', '')) }));
           setSale({
             description: '',
@@ -244,6 +246,8 @@ export default function ActivateDiscounts() {
           });
         }
       } else {
+        console.log('Posting sale: ', sale);
+
         dispatch(
           postSale({
             description: sale.description,
@@ -332,11 +336,11 @@ export default function ActivateDiscounts() {
       <div className="sm:flex dark:bg-slate-700 dark:text-white">
         <NavbarAdmin />
         <div className="w-full h-full dark:text-white">
-          <div className="flex flex-row w-full justify-center bg-primary-500 rounded-t-lg dark:text-white ">
+          <div className="flex flex-row w-full justify-center bg-primary-500 dark:text-white ">
             <div
               id="activeTab"
               onClick={(e) => handleTab(e)}
-              className={`select-none rounded-tl-lg grow font-medium text-lg px-1 py-1 text-slate-900 flex justify-center hover:bg-primary-400 dark:bg-slate-700 dark:text-white dark:text-white dark:hover:bg-slate-900 ${
+              className={`select-none grow font-medium text-lg px-1 py-1 text-slate-900 flex justify-center hover:bg-primary-400 dark:bg-slate-700 dark:text-white dark:text-white dark:hover:bg-slate-900 ${
                 !tab &&
                 'bg-primary-300 border-b-2 border-primary-500 dark:bg-slate-700 dark:text-white'
               }`}
@@ -346,7 +350,7 @@ export default function ActivateDiscounts() {
             <div
               id="createTab"
               onClick={(e) => handleTab(e)}
-              className={`select-none rounded-tr-lg grow font-medium text-lg px-1 py-1 text-slate-900 flex justify-center hover:bg-primary-400 dark:bg-slate-700 dark:text-white dark:hover:bg-slate-900 ${
+              className={`select-none grow font-medium text-lg px-1 py-1 text-slate-900 flex justify-center hover:bg-primary-400 dark:bg-slate-700 dark:text-white dark:hover:bg-slate-900 ${
                 tab &&
                 'bg-primary-300 border-b-2 border-primary-500 dark:bg-slate-700 dark:text-white'
               }`}
@@ -400,7 +404,7 @@ export default function ActivateDiscounts() {
                     <div className="bg-secondary-100 p-4 items-center dark:bg-slate-700">
                       <div>Description: </div>
                       <div className="flex-col">
-                        <input 
+                        <input
                           id="description"
                           value={sale.description}
                           type="text-area"

@@ -6,7 +6,7 @@ export default function DropDownCategories({ tittle, array }) {
 
   return (
     <div className="group ">
-      <button className="text-decoration-line: no-underline text-black bg-primary-400 px-4 py-2 m-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-black-200/80">
+      <button className="bg-white font-medium rounded text-center text-sm w-11/12 p-2">
         <div className="flex justify-between text-center">
           <div>
             <h4></h4>
@@ -29,7 +29,7 @@ export default function DropDownCategories({ tittle, array }) {
         </div>
       </button>
       <div
-        className={`bg-secondary-100 flex-col overflow-y-auto max-h-56 overflow-x-auto rounded absolute hidden group-hover:block  `}
+        className={`bg-white shadow-md font-lora flex-col overflow-y-auto max-h-56 overflow-x-auto rounded absolute hidden group-hover:block z-10 `}
       >
         {array.map((cat) => {
           return (
