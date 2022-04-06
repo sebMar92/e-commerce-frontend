@@ -574,8 +574,8 @@ export function carruselOne(search) {
     return dispatch({
       type: GET_CARRUSELONE,
       payload: json.data,
-    })
-  }
+    });
+  };
 }
 
 export function postBulkOrder(orderIds) {
@@ -595,8 +595,8 @@ export function carruselTwo(search) {
     return dispatch({
       type: GET_CARRUSELTWO,
       payload: json.data,
-    })
-  }
+    });
+  };
 }
 
 export function getBulkOrders(status) {
@@ -653,6 +653,14 @@ export function getBulkAdmin(conditions) {
     return dispatch({
       type: GET_BULK_ADMIN,
       payload: json.data,
+    });
+  };
+}
+
+export function deleteToken(token) {
+  return async function (dispatch) {
+    var json = await axios.delete('/user/token', {
+      data: { token: token },
     });
   };
 }
