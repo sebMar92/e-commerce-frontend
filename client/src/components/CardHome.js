@@ -19,10 +19,10 @@ export default function CardHome({ id, image, title, price,onClick,onClick2, shi
   useEffect(() => {
     if (token) {
       const foundProductInCart = (!cartDB || cartDB.error == "couldn't find orders" || cartDB.length === 0) 
-            ? null 
+            ? null
             : cartDB.find(el => el.id == id);
       const foundProductInWishList = (!wishListDB || wishListDB.error == "couldn't find orders" || wishListDB.length === 0) 
-            ? null 
+            ? null
             : wishListDB.find(el => el.id == id);
       if(foundProductInCart) {
         setSelectedCart(true)
