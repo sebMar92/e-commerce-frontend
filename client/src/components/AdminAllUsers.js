@@ -27,9 +27,11 @@ export default function AdminAllUsers() {
       dispatch(putUserAdmin({ rol: "admin", id: idUser }));
     }
     if (e === "admin") {
+      if(idUser !== 1 ){
       dispatch(putUserAdmin({ rol: "user", id: idUser }));
     }
-  }
+    }
+  } 
 
   return (
     <>
@@ -92,13 +94,13 @@ export default function AdminAllUsers() {
                           <button value={u.rol} className="flex">
                             {u.rol}
                             {u.rol === "admin" ? (
-                              <AiOutlineUser
+                              <FaUsersCog
                                 className="ml-2 cursor-pointer h-5 w-5 "
                                 color="#FEBD70"
                                 onClick={() => editRol(u.rol, u.id)}
                               />
                             ) : (
-                              <FaUsersCog
+                              <AiOutlineUser
                                 className="ml-2 cursor-pointer h-5 w-5 "
                                 color="#FEBD70"
                                 onClick={() => editRol(u.rol, u.id)}
@@ -150,11 +152,19 @@ export default function AdminAllUsers() {
                   {" "}
                   <button value={u.rol} className="flex ">
                     {u.rol}
-                    <AiOutlineUser
-                      className="ml-2 cursor-pointer h-5 w-5  "
-                      color="#FEBD70"
-                      onClick={() => editRol(u.rol, u.id)}
-                    />
+                    {u.rol === "admin" ? (
+                              <FaUsersCog
+                                className="ml-2 cursor-pointer h-5 w-5 "
+                                color="#FEBD70"
+                                onClick={() => editRol(u.rol, u.id)}
+                              />
+                            ) : (
+                              <AiOutlineUser
+                                className="ml-2 cursor-pointer h-5 w-5 "
+                                color="#FEBD70"
+                                onClick={() => editRol(u.rol, u.id)}
+                              />
+                            )}
                   </button>
                 </p>
                 <p className="flex  ">
