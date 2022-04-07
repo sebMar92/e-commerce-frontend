@@ -9,6 +9,7 @@ import { MdRestaurantMenu } from 'react-icons/md';
 import { getOrder, changeOrderStatus, postBulkOrder, getProducts } from '../Redux/Actions/actions';
 import carrito from './utils/carrito triste.png';
 import ModalPortal from "../components/modals/GuestModal"
+import ModalPortalDirections from '../components/modals/DirectionsModal'
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -42,9 +43,16 @@ export default function Cart() {
   }, [resPutOrder, resPostBulk]);
 
   const [stateModal, setStateModal] = useState(false)
+  const [stateDirectionsModal, setStateDirectionsModal] = useState(false)
+
   function handleCloseModal(e) {
     e.preventDefault()
     setStateModal(!stateModal)
+  }
+
+  function handleCloseDirectionsModal(e) {
+    e.preventDefault()
+    setStateDirectionsModal(!stateDirectionsModal)
   }
 
   function handleAllBuy(e) {
@@ -56,21 +64,24 @@ export default function Cart() {
     }
 
     if (localStorageAccess && localStorageRefresh) {
-
-      if (product.length > 1) {
-        const ids = product.map((e) => e.orders[0].id);
-        dispatch(postBulkOrder({ orderIds: ids }));
+      if (direccion && direccion.length) {
+        if (product.length > 1) {
+          const ids = product.map((e) => e.orders[0].id);
+          dispatch(postBulkOrder({ orderIds: ids }));
+        } else {
+          dispatch(
+            changeOrderStatus({
+              id: product[0].orders[0].id,
+              status: 'pending',
+            })
+          );
+        }
+        setTimeout(() => {
+          navigate('/purchase');
+        }, 1000);
       } else {
-        dispatch(
-          changeOrderStatus({
-            id: product[0].orders[0].id,
-            status: 'pending',
-          })
-        );
+        handleCloseDirectionsModal(e)
       }
-      setTimeout(() => {
-        navigate('/purchase');
-      }, 1000);
     }
   }
 
@@ -79,6 +90,7 @@ export default function Cart() {
 
   return (
     <div>
+      {stateDirectionsModal ? <ModalPortalDirections onClose={(e) => handleCloseDirectionsModal(e)} /> : null}
       {stateModal ? <ModalPortal onClose={(e) => handleCloseModal(e)} /> : null}
       <NavBar />
       {product && product.length > 0 ? (
@@ -95,8 +107,8 @@ export default function Cart() {
                 shippingCost={prod.shippingCost}
                 stock={prod.stock}
                 amount={prod.orders && prod.orders[0].amount}
-                categorySales={prod.sales.categorySales}
-                productSales={prod.sales.productSales}
+                categorySales={prod.sales && prod.sales.categorySales}
+                productSales={prod.sales && prod.sales.productSales}
                 globalSales={globalSales}
               />
             </div>
