@@ -97,7 +97,6 @@ export default function Products() {
             <div className="flex flex-col lg:w-[90%] gap-5 lg:mx-auto mt-4 lg:flex-wrap lg:flex-row justify-center">
               {allProducts.length > 0 ?
                 allProducts.map((item) => {
-                  console.log(globalSales)
                   return (
                     <Card
                       id={item.id}
