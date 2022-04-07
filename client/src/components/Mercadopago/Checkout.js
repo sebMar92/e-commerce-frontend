@@ -6,7 +6,6 @@ import Preview from './Preview';
 import axios from 'axios';
 
 export default function Checkout({ products, data }) {
-  console.log(products)
   const dispatch = useDispatch();
   const userDirection = useSelector((state) => state.home.user.directions);
   const product = useSelector((state) => state.home.pending);
@@ -19,7 +18,7 @@ export default function Checkout({ products, data }) {
   useEffect(() => {
     setProductPrices(products.reduce((a,b) =>({price: a.price * (a.orders && a.orders.length > 0 ? a.orders[0].amount : 1) + b.price * (b.orders && b.orders.length > 0 ? b.orders[0].amount : 1)})).price.toFixed(2))
     setProductShipping(products.reduce((a,b) =>({shippingCost: a.shippingCost + b.shippingCost})).shippingCost.toFixed(2))
-  }, [])
+  }, [products])
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -64,24 +63,6 @@ export default function Checkout({ products, data }) {
           </select>
         </label>
         <div className="font-lora flex justify-evenly my-12">
-{/*           {bulkOrder && bulkOrder.length > 0 ? (
-            <h1 className="text-2xl">
-              Products price: {bulkOrder[0].combinedPrice.toFixed(2)}
-            </h1>
-          ) : null}
-          {bulkOrder.length > 0 ? (
-            <h1 className="text-2xl">
-              Shipping price: {bulkOrder && bulkOrder[0].combinedShippingCost.toFixed(2)}
-            </h1>
-          ) : null}
-          {bulkOrder.length > 0 ? (
-            <h1 className="underline decoration-primary-800">
-              Total:{' '}
-              {(bulkOrder[0].combinedPrice + bulkOrder && bulkOrder[0].combinedShippingCost).toFixed(
-                2
-              )}
-            </h1>
-          ) : null} */}
           {products && products.length > 0 && 
           <h1 className="text-2xl">
               Products price: {productPrices}

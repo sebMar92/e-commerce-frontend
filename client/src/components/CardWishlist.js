@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Product from './utils/Notebook-Odyssey-2.jpg';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,15 +14,66 @@ export default function CardWishlist({
   price,
   shippingCost,
   description,
+  categorySales,
+  productSales,
+  globalSales
 }) {
   const dispatch = useDispatch();
   const deleteWishList = (e) => dispatch(deleteOrder(idOrder, id, 'inWishList'));
+  const [saleON, setSaleON] = useState(false);
+  const [saleSelected, setSaleSelected] = useState(undefined);
     
-  
+  useEffect(() => {
+    const date = Date();
+    const days = [];
+    if (productSales && productSales.length > 0) {
+      for (const sale of productSales) {
+        if (sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() || sale.day == 'all') {
+          days.push(sale);
+        }
+      }
+    }
+    if (categorySales && categorySales.length > 0) {
+      for (const sale of categorySales) {
+        if (sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() || sale.day == 'all') {
+          days.push(sale);
+        }
+      }
+    }
+    if (globalSales && globalSales.length > 0) {
+      for (const sale of globalSales) {
+        if (sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() || sale.day == 'all') {
+          days.push(sale);
+        }
+      }
+    }
+    if (days.length > 0) {
+      const sortedDays = days.sort((a, b) => b.percentage - a.percentage);
+      setSaleSelected(sortedDays[0]);
+      setSaleON(true);
+    }
+  }, [productSales])
 
   return (
-    <div className="flex flex-wrap justify-center">
-      <div className="bg-secondary-100 w-9/12 m-5 rounded-md">
+    <div className="flex flex-wrap justify-center mt-5 relative">
+      <div className="bg-secondary-100 w-9/12 m-5 rounded-md relative">
+      {saleON && (productSales && productSales.length > 0 || saleSelected.percentage) && (
+            <div className="absolute inset-x-0 mx-auto -translate-y-6 border-[2px] border-orange-600 h-fit w-fit p-1 rounded text-base bg-white font-lora font-extrabold	 text-orange-600">
+              <p>
+                {saleON &&
+                  ((productSales && productSales.length > 0 && productSales[0].percentage) ||
+                    saleSelected.percentage)}
+                % OFF{' '}
+                {productSales && productSales.length > 0
+                  ? productSales[0].productAmount > 0
+                    ? `on ${productSales[0].productAmount + 1}º unit`
+                    : ''
+                  : saleSelected.productAmount > 0
+                  ? `on ${saleSelected.productAmount + 1}º unit`
+                  : ''}
+              </p>
+            </div>
+          )}
         <div className="flex flex-row-reverse">
           <button
             onClick={(e) => deleteWishList(e)}
@@ -65,9 +116,68 @@ export default function CardWishlist({
               <div>
                 <br />
                 <div>
-                  <ButtonAddToCart text={"Add to cart"} id={id} status={'inCart'}/>
 
-                  <span className="text-1xl font-bold text-gray-900 mx-5">$ {price}</span>
+                  {productSales && productSales.length > 0 ? (
+              productSales[0].productAmount === 0 ? (
+                <div className="flex flex-col justify-center items-center font-lora">
+                  <p
+                    className={
+                      (saleON && saleSelected.percentage
+                        ? 'text-sm text-primary-400 line-through	xl:text-xl '
+                        : 'text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black') +
+                      'font-bold xl:border-b-[1px] xl:border-primary-300'
+                    }
+                  >
+                    ${price}
+                  </p>
+                  {saleON && saleSelected.percentage ? (
+                    <p className="font-bold text-primary-700 text-xl xl:text-2xl xl:border-b-[1px] xl:border-primary-300 2xl:text-3xl 2xl:font-black">
+                      $
+                      {(
+                        price -
+                        price *
+                          ((productSales && productSales.length > 0 &&
+                            productSales[0].percentage / 100) ||
+                            saleSelected.percentage / 100)
+                      ).toFixed(2)}
+                    </p>
+                  ) : null}
+                </div>
+              ) : (
+                <p className="text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black font-bold xl:border-b-[1px] xl:border-primary-300">
+                  ${price}
+                </p>
+              )
+            ) : saleSelected && saleSelected.productAmount === 0 ? (
+              <div className="flex flex-col justify-center items-center font-lora">
+                <p
+                  className={
+                    (saleON && saleSelected.percentage
+                      ? 'text-sm text-primary-400 line-through	xl:text-xl '
+                      : 'text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black') +
+                    'font-bold xl:border-b-[1px] xl:border-primary-300'
+                  }
+                >
+                  ${price}
+                </p>
+                {saleON && saleSelected.percentage ? (
+                  <p className="font-bold text-primary-700 text-xl xl:text-2xl xl:border-b-[1px] xl:border-primary-300 2xl:text-3xl 2xl:font-black">
+                    $
+                    {(
+                      price -
+                      price *
+                        ((productSales && productSales.length > 0 && productSales[0].percentage / 100) ||
+                          saleSelected.percentage / 100)
+                    ).toFixed(2)}
+                  </p>
+                ) : null}
+              </div>
+            ) : (
+              <p className="text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black font-bold xl:border-b-[1px] xl:border-primary-300 font-lora">
+                ${price}
+              </p>
+            )}
+            <ButtonAddToCart text={"Add to cart"} id={id} status={'inCart'}/>
                 </div>
               </div>
             </div>

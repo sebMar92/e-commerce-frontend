@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdRestaurantMenu } from 'react-icons/md';
-import { getOrder, changeOrderStatus, postBulkOrder } from '../Redux/Actions/actions';
+import { getOrder, changeOrderStatus, postBulkOrder, getProducts } from '../Redux/Actions/actions';
 import carrito from './utils/carrito triste.png';
 import ModalPortal from "../components/modals/GuestModal"
 import ModalPortalDirections from '../components/modals/DirectionsModal'
@@ -16,6 +16,7 @@ export default function Cart() {
   const navigate = useNavigate();
   const product = useSelector((state) => state.home.inCart);
   const userInfo = useSelector((state) => state.home.user);
+  const globalSales = useSelector((state) => state.home.globalSales)
   const direccion = userInfo.directions;
   var total = 0;
   var finalShippingCost = [];
@@ -38,6 +39,7 @@ export default function Cart() {
 
   useEffect(() => {
     dispatch(getOrder({ status: 'inCart' }));
+    dispatch(getProducts())
   }, [resPutOrder, resPostBulk]);
 
   const [stateModal, setStateModal] = useState(false)
@@ -105,6 +107,9 @@ export default function Cart() {
                 shippingCost={prod.shippingCost}
                 stock={prod.stock}
                 amount={prod.orders && prod.orders[0].amount}
+                categorySales={prod.sales.categorySales}
+                productSales={prod.sales.productSales}
+                globalSales={globalSales}
               />
             </div>
           );
