@@ -46,14 +46,8 @@ export default function AdminProfile() {
   const fecha = []; // fecha de la compra
   const cantidad = [];// cantidad por orden
   const product = []; 
-  const priceCu = [];
-  const ventas =[];
+  const priceCu = []; 
   const cantidadProduct = [];
-  console.log(cantidad)
-
-
-  
-
 
   if (products) {
     products.map((f) => {
@@ -80,7 +74,6 @@ export default function AdminProfile() {
       if (p.orders) {
         cantidadProduct.push(p.orders[0].amount);
       } else {
-        console.log(p.products)
         p.products.map((und)=>{
           cantidadProduct.push(und.length);
         })
@@ -230,7 +223,7 @@ export default function AdminProfile() {
                     if (us.rol === 'user') {
                       var name = us.firstName.split(' ')[0].toLowerCase();
                       var apellido = us.lastName.split(' ')[0].toLowerCase();
-
+                      
                       return (
                         <p className="border border-secondary-200 overflo  w-auto  ">
                           {name.charAt(0).toUpperCase() +
