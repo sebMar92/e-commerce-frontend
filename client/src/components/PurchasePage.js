@@ -132,7 +132,7 @@ export default function PurchasePage() {
         })
         .catch((err) => console.error(err));
     }
-  }, [product, bulkOrders]);
+  }, [product, bulkOrders, resPutOrder, resDelete]);
 
   return (
     <>
