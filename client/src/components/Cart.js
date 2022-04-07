@@ -107,8 +107,8 @@ export default function Cart() {
                 shippingCost={prod.shippingCost}
                 stock={prod.stock}
                 amount={prod.orders && prod.orders[0].amount}
-                categorySales={prod.sales.categorySales}
-                productSales={prod.sales.productSales}
+                categorySales={prod.sales && prod.sales.categorySales}
+                productSales={prod.sales && prod.sales.productSales}
                 globalSales={globalSales}
               />
             </div>
