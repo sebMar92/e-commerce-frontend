@@ -13,6 +13,8 @@ export default function NewsletterEdit() {
   const usersAll = useSelector((state) => state.home.users);
   const [receiver, setReceiver] = useState([]);
   const [newEmail, setNewEmail] = useState("");
+  const [aprove, setAprove] = useState(false);
+  const [denied, setDenied] = useState(false);
   const [error, setError] = useState({});
 
   useEffect(() => {
@@ -128,8 +130,10 @@ export default function NewsletterEdit() {
   function handleSubmit(e) {
     e.preventDefault();
     if (Object.keys(error).length > 0) {
-      alert("Please, fill in all the fields");
+      setDenied(true);
+      /* alert("Please, fill in all the fields"); */
     } else {
+      setAprove(true);
       dispatch(postEmail(input));
 
       setInput({
@@ -137,8 +141,7 @@ export default function NewsletterEdit() {
         message: "",
         receivers: [],
       });
-
-      alert("Email sent!");
+      /* alert("Email sent!"); */
     }
   }
 
@@ -147,6 +150,7 @@ export default function NewsletterEdit() {
       <NavBarEmpty />
       <div className="bg-secondary-100 dark:bg-slate-700 dark:text-white flex flex-col sm:flex-row font-lora">
         <NavbarAdmin className="dark:text-black" />
+
         <form
           onSubmit={(e) => handleSubmit(e)}
           className="mx-5 bg-secondary-100 dark:bg-slate-700 dark:text-white grid grid-flow-col w-[85 rem]"
@@ -218,7 +222,7 @@ export default function NewsletterEdit() {
                   className="text-secondary-200 bg-secondary-100 w-16 ml-1 border-2 border-gray-300 rounded-md hover:border-2 hover:border-solid hover:border-green-600 hover:text-green-600 dark:hover:text-white dark:hover:bg-slate-900 dark:hover:shadow-slate-600 dark:bg-slate-400 dark:text-slate-900 dark:shadow-slate-900"
                   onClick={(e) => handleSubmitNewEmail(e)}
                 >
-                  Add
+                Add
                 </button>
               </div>
 
@@ -229,32 +233,87 @@ export default function NewsletterEdit() {
                     key={rec}
                     value={rec}
                   >
-                    <img src={check} alt="check" />
-                    <button
-                      type="button"
-                      id={rec}
-                      onClick={(e) => handleDelete(e)}
-                    >
-                      {rec}
-                    </button>
-                  </div>
-                ))
-              ) : (
-                <br />
-              )}
-            </div>
-            {input.receivers.length ? (
-              <ButtonCreate
-                disabled={Object.keys(error).length > 0 ? true : false}
-                text="Send Email"
-                type="submit"
-              />
+                  <img src={check} alt="check" />
+                  <button
+                    type="button"
+                    id={rec}
+                    onClick={(e) => handleDelete(e)}
+                  >
+                    {rec}
+                  </button>
+                </div>
+              ))
             ) : (
               <br />
             )}
           </div>
+          {input.receivers.length ? (
+            <ButtonCreate
+              disabled={error?.disabledSubmit}
+              text="Send Email"
+              type="submit"
+            />
+          ) : (
+            <br />
+          )}
+          {aprove && (
+            <div className="absolute ml-4 justify-center items-center font-lora ">
+              <div className="p-2  w-60 h-50 bg-white rounded-lg ring-1 ">
+                <div className=" mx-3 flex justify-between border-b border-gray-200 p-2">
+                  <h3>Confirmation</h3>
+                  <button
+                    onClick={() => setAprove(false)}
+                    className=" text-gray-500 px-1 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-[#f84d4dd1] hover:text-white shadow-lg shadow-primary-200/80"
+                  >
+                    x
+                  </button>
+                </div>
+                <br />
+                <span className="m-8"> Email sent ! </span>
+                <br />
+                <br />
+                <div className="flex justify-evenly m-3">
+                  <button
+                    onClick={() => setAprove(false)}
+                    className="bg-primary-600 px-4 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-primary-200/80"
+                  >
+                    Accept
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+          {denied && (
+            <div className="absolute ml-4 justify-center items-center font-lora ">
+              <div className="p-2  w-60 h-50 bg-white rounded-lg ring-1 ">
+                <div className=" mx-3 flex justify-between border-b border-gray-200 p-2">
+                  <h3>Denied</h3>
+                  <button
+                    onClick={() => setDenied(false)}
+                    className=" text-gray-500 px-1 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-[#f84d4dd1] hover:text-white shadow-lg shadow-primary-200/80"
+                  >
+                    x
+                  </button>
+                </div>
+                <br />
+                <span className="m-8"> Please, fill in all the fields </span>
+                <br />
+                <br />
+                <div className="flex justify-evenly m-3">
+                  <button
+                    onClick={() => setDenied(false)}
+                    className="bg-primary-600 px-4 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-primary-200/80"
+                  >
+                    Accept
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+          </div>
         </form>
-        <div className="bg-secondary-100 dark:bg-slate-700">
+
+        <div className="w-[70rem] bg-secondary-100 dark:bg-slate-700">
           <br />
           <h2 className="text-center dark:bg-slate-700 dark:text-white">
             Preview

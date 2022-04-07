@@ -12,6 +12,13 @@ export default function Checkout({ products, data }) {
   const bulkOrder = useSelector((state) => state.home.bulkOrders);
   const location = useLocation();
   const [resp, setRes] = useState('');
+  const [productPrices,setProductPrices] = useState(0)
+  const [productShipping,setProductShipping] = useState(0)
+  
+  useEffect(() => {
+    setProductPrices(products.reduce((a,b) =>({price: a.price * (a.orders && a.orders.length > 0 ? a.orders[0].amount : 1) + b.price * (b.orders && b.orders.length > 0 ? b.orders[0].amount : 1)})).price.toFixed(2))
+    setProductShipping(products.reduce((a,b) =>({shippingCost: a.shippingCost + b.shippingCost})).shippingCost.toFixed(2))
+  }, [products])
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -56,43 +63,18 @@ export default function Checkout({ products, data }) {
           </select>
         </label>
         <div className="font-lora flex justify-evenly my-12">
-          {bulkOrder.length > 0 ? (
-            <h1 className="text-2xl">
-              Products price: {bulkOrder[0].combinedPrice.toFixed(2)}
-            </h1>
-          ) : null}
-          {bulkOrder.length > 0 ? (
-            <h1 className="text-2xl">
-              Shipping price: {bulkOrder[0].combinedShippingCost.toFixed(2)}
-            </h1>
-          ) : null}
-          {bulkOrder.length > 0 ? (
-            <h1 className="underline decoration-primary-800">
-              Total:{' '}
-              {(bulkOrder[0].combinedPrice + bulkOrder[0].combinedShippingCost).toFixed(
-                2
-              )}
-            </h1>
-          ) : null}
-          {product.length > 0 && !Array.isArray(bulkOrder) ? (
-            <h1 className="text-2xl">
-              Product price: {(product[0].price * product[0].orders[0].amount).toFixed(2)}
-            </h1>
-          ) : null}
-          {product.length > 0 && !Array.isArray(bulkOrder) ? (
-            <h1 className="text-2xl">
-              Shipping price: {product[0].shippingCost.toFixed(2)}
-            </h1>
-          ) : null}
-          {product.length > 0 && !Array.isArray(bulkOrder) ? (
-            <h1 className="underline decoration-primary-800">
-              Total:{' '}
-              {(
-                product[0].price * product[0].orders[0].amount +
-                product[0].shippingCost
-              ).toFixed(2)}
-            </h1>
-          ) : null}
+          {products && products.length > 0 && 
+          <h1 className="text-2xl">
+              Products price: {productPrices}
+            </h1>}
+            {products && products.length > 0 && 
+          <h1 className="text-2xl">
+              Shipping cost: {productShipping}
+            </h1>}
+            {products && products.length > 0 && 
+          <h1 className="text-2xl">
+              Products price: {Math.round((Number(productPrices) + Number(productShipping)) * 100) / 100}
+            </h1>}
         </div>
         <form id="form1" className="flex justify-center my-10">
           <div></div>

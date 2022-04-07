@@ -21,10 +21,14 @@ export default function CardCart({
   shippingCost,
   stock,
   amount,
+  categorySales,
+  globalSales,
+  productSales
 }) {
   const navigate = useNavigate()
   const resAmountOrder = useSelector((state) => state.home.resAmountOrder);
-
+  const [saleON, setSaleON] = useState(false);
+  const [saleSelected, setSaleSelected] = useState(undefined);
 
 
   useEffect(() => {
@@ -32,8 +36,38 @@ export default function CardCart({
   }, [resAmountOrder]);
 
   useEffect(() => {
-    console.log(price);
-    console.log(amount);
+    const date = Date();
+    const days = [];
+    if (productSales && productSales.length > 0) {
+      for (const sale of productSales) {
+        if (sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() || sale.day == 'all') {
+          days.push(sale);
+        }
+      }
+    }
+    if (categorySales && categorySales.length > 0) {
+      for (const sale of categorySales) {
+        if (sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() || sale.day == 'all') {
+          days.push(sale);
+        }
+      }
+    }
+    if (globalSales && globalSales.length > 0) {
+      for (const sale of globalSales) {
+        if (sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() || sale.day == 'all') {
+          days.push(sale);
+        }
+      }
+    }
+    if (days.length > 0) {
+      const sortedDays = days.sort((a, b) => b.percentage - a.percentage);
+      setSaleSelected(sortedDays[0]);
+      setSaleON(true);
+    }
+  }, [productSales])
+
+  useEffect(() => {
+
   }, [price]);
 
   const dispatch = useDispatch();
@@ -48,9 +82,8 @@ export default function CardCart({
         {
           id: idOrder,
           amount: -1,
-        },
-        id,
-        "inCart"
+          status: "inCart",
+        }
       )
     );
   }
@@ -61,17 +94,33 @@ export default function CardCart({
         {
           id: idOrder,
           amount: +1,
+          status: "inCart"
         },
-        id,
-        "inCart"
       )
     );
   }
 
   return (
     <>
-      <div className=" flex flex-wrap  justify-center">
-        <div className=" bg-secondary-100  w-9/12 m-5 rounded-md ">
+      <div className=" flex flex-wrap  justify-center relative mt-5">
+        <div className=" bg-secondary-100  w-9/12 m-5 rounded-md relative ">
+        {saleON && (productSales && productSales.length > 0 || saleSelected.percentage) && (
+            <div className="absolute inset-x-0 mx-auto -translate-y-6 border-[2px] border-orange-600 h-fit w-fit p-1 rounded text-base bg-white font-lora font-extrabold	 text-orange-600">
+              <p>
+                {saleON &&
+                  ((productSales && productSales.length > 0 && productSales[0].percentage) ||
+                    saleSelected.percentage)}
+                % OFF{' '}
+                {productSales && productSales.length > 0
+                  ? productSales[0].productAmount > 0
+                    ? `on ${productSales[0].productAmount + 1}º unit`
+                    : ''
+                  : saleSelected.productAmount > 0
+                  ? `on ${saleSelected.productAmount + 1}º unit`
+                  : ''}
+              </p>
+            </div>
+          )}
           <div className=" flex justify-end">
             <button
               onClick={(e) => deleteCart(e)}
@@ -104,9 +153,9 @@ export default function CardCart({
                     <p className="text-sm text-blue-900 m-3">
                       ShippingCost: ${shippingCost}
                     </p>
-                    <ButtonBuyChange id={idOrder} status={"pending"} />
                   </div>
                 )}
+                <ButtonBuyChange id={idOrder} status={"pending"} />
               </div>
             </div>
             <div className=" w-48">

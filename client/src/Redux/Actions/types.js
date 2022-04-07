@@ -43,4 +43,6 @@ export const POST_NETWORKS = "POST_NETWORKS";
 export const GET_BULK_ADMIN = "GET_BULK_ADMIN";
 export const POST_SALE = 'POST_SALE';
 export const EDIT_SALE = 'EDIT_SALE';
+export const GET_ORDERS_HIS = "GET_ORDERS"
+export const CATEGORY = "CATEGORY";
 export const GET_NETWORKS = "GET_NETWORKS";

@@ -43,12 +43,13 @@ export default function AdminProfile() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.home.bulkAdmin);
   const user = useSelector((state) => state.home.users);
-  const fecha = [];
-  const prices = [];
+  const fecha = []; // fecha de la compra
+  const cantidad = []; // cantidad por orden
   const product = [];
   const priceCu = [];
+  const cantidadProduct = [];
 
-  if (products) {
+  if (products && products.length) {
     products.map((f) => {
       if (f.orders) {
         fecha.push(dayjs(f.orders[0].serverPurchaseDate).format('MMMM D, YYYY'));
@@ -58,30 +59,41 @@ export default function AdminProfile() {
     });
   }
 
-  if (products) {
+  if (products && products.length) {
     products.map((p) => {
-      console.log(p);
       if (p.orders) {
-        prices.push(p.price);
+        cantidad.push(p.orders[0].amount);
       } else {
-        prices.push(p.combinedPrice);
+        cantidad.push(p.products.length);
       }
     });
   }
 
-  if (products) {
-    products.map((pr) => {
-      if (pr.orders) {
-        product.push(pr.id);
+  if (products && products.length) {
+    products.map((p) => {
+      if (p.orders) {
+        cantidadProduct.push(p.orders[0].amount);
       } else {
-        pr.products.map((gPr) => {
-          product.push(gPr.id);
+        p.products.map((und) => {
+          cantidadProduct.push(und.length);
         });
       }
     });
   }
 
-  if (products) {
+  if (products && products.length) {
+    products.map((pr) => {
+      if (pr.orders) {
+        product.push(pr.title.substring(0, 15));
+      } else {
+        pr.products.map((gPr) => {
+          product.push(gPr.title.substring(0, 15));
+        });
+      }
+    });
+  }
+
+  if (products && products.length) {
     products.map((p) => {
       if (p.orders) {
         priceCu.push(p.price);
@@ -93,10 +105,9 @@ export default function AdminProfile() {
     });
   }
 
-  console.log('prod', products);
-
   useEffect(() => {
     dispatch(getBulkAdmin({ status: 'finished' }));
+    dispatch(getUsersInfo());
   }, []);
 
   const data = {
@@ -104,7 +115,7 @@ export default function AdminProfile() {
     datasets: [
       {
         label: 'ventas',
-        data: prices,
+        data: cantidad,
         fill: true,
         backgroundColor: 'rgb(255,209,138)',
         borderColor: 'rgb(255,170,40, 0.4)',
@@ -193,16 +204,16 @@ export default function AdminProfile() {
         <div className="mx-auto w-full xl:w-full h-screen">
           <h1 className="mx-auto text-center"> Admin profile </h1>
           <div className="w-full h-[18rem] md:table hidden">
-            <Line className="w-full h-full " data={data} options={options} height="60" />
+            <Line className="w-full h-full " data={data} options={options} height="70" />
           </div>
           <div className="flex justify-between  w-full ">
             <div className="w-full md:table hidden h-200 ">
               <Bar className="w-full  " data={data2} />
             </div>
 
-            <div className="md:table hidden justify-center m-5 w-3/4 h-40 bg-secondary-100 rounded-lg text-center hover:bg-primary-300 overflow-auto">
+            <div className="md:table hidden justify-center my-auto m-5 w-3/4 h-40 bg-secondary-100 rounded-lg text-center hover:bg-primary-300 overflow-auto">
               <Link to="/admin/users" className="no-underline text-black">
-                <h3 className="bg-secondary-200">Usuarios</h3>
+                <h3 className="bg-secondary-200">Latest users</h3>
                 {user &&
                   user.length > 0 &&
                   user.map((us) => {
@@ -244,7 +255,7 @@ export default function AdminProfile() {
             </div>
             <div className=" m-5 w-3/4 h-40 justify-center bg-secondary-100 rounded-lg text-center hover:bg-primary-300 overflow-auto">
               <Link to="/admin/users" className="no-underline text-black">
-                <h3 className="bg-secondary-200">Usuarios</h3>
+                <h3 className="bg-secondary-200">Latest users</h3>
                 {user &&
                   user.length > 0 &&
                   user.map((us) => {

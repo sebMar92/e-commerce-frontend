@@ -1,41 +1,41 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { getOrder } from "../Redux/Actions/actions";
-import { useDispatch, useSelector } from "react-redux";
-import SelectProfileUser from "./SelectProfileUser";
-import { Link } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { getOrder } from '../Redux/Actions/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import SelectProfileUser from './SelectProfileUser';
+import { Link } from 'react-router-dom';
 
 export const allCategories = [
-  { icon: "♥", label: "Wishlist" },
-  { icon: "🛒", label: "Cart" },
-  { icon: "👜", label: "Purchases" },
+  { icon: '♥', label: 'Wishlist' },
+  { icon: '🛒', label: 'Cart' },
+  { icon: '👜', label: 'Purchases' },
 ];
 
-const [tomato, lettuce, cheese] = allCategories;
-export const tabs = [tomato, lettuce, cheese];
+const [wishlist,carts,purchases] = allCategories;
+export const tabs = [wishlist,carts,purchases];
 
 export default function NavigatorProfile() {
   const dispatch = useDispatch();
   const ordersF = useSelector((state) => state.home.finished);
-  const finished = ordersF.length > 0 && ordersF.slice(0, 4);
+  const finished = ordersF && ordersF.length > 0 && ordersF.slice(0, 4);
   const ordersC = useSelector((state) => state.home.inCart);
   const cart = ordersC.length > 0 && ordersC.slice(0, 4);
   const ordersW = useSelector((state) => state.home.inWishList);
   const wishlist = ordersW.length > 0 && ordersW.slice(0, 4);
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState('');
   const resPut = useSelector((state) => state.home.resPutOrder);
 
   useEffect(() => {
-    dispatch(getOrder({ status: "inCart" }));
-    dispatch(getOrder({ status: "inWishList" }));
-    dispatch(getOrder({ status: "finished" }));
-  }, [resPut, ordersC, ordersW, ordersF]);
+    dispatch(getOrder({ status: 'inCart' }));
+    dispatch(getOrder({ status: 'inWishList' }));
+    dispatch(getOrder({ status: 'finished' }));
+  }, []);
 
   useEffect(() => {
-    if (selectedTab.label === "Cart") {
-      if (cart && !cart.hasOwnProperty("error")) {
+    if (selectedTab.label === 'Cart') {
+      if (cart && !cart.hasOwnProperty('error')) {
         setCategory(
           cart.map((e) => {
             return (
@@ -52,8 +52,8 @@ export default function NavigatorProfile() {
         setCategory(<h1 className="text-center">{selectedTab.label} Empty</h1>);
       }
     }
-    if (selectedTab.label === "Wishlist") {
-      if (wishlist && !wishlist.hasOwnProperty("error")) {
+    if (selectedTab.label === 'Wishlist') {
+      if (wishlist && !wishlist.hasOwnProperty('error')) {
         setCategory(
           wishlist.map((e) => {
             return (
@@ -70,8 +70,8 @@ export default function NavigatorProfile() {
         setCategory(<h1 className="text-center">{selectedTab.label} Empty</h1>);
       }
     }
-    if (selectedTab.label === "Purchases") {
-      if (finished && !finished.hasOwnProperty("error")) {
+    if (selectedTab.label === 'Purchases') {
+      if (finished && !finished.hasOwnProperty('error')) {
         setCategory(
           finished.map((e) => {
             return (
@@ -101,9 +101,7 @@ export default function NavigatorProfile() {
                 className="text-lg rounded rounded-bl-none rounded-br-none sm:text-xl w-full relative bg-white cursor-pointer h-6 flex justify-between items-center min-w-0 select-none border-indigo-500/100"
                 onClick={() => setSelectedTab(item)}
               >
-                <div className="ml-auto mr-auto mt-2">
-                  {`${item.icon} ${item.label}`}
-                </div>
+                <div className="ml-auto mr-auto mt-2">{`${item.icon} ${item.label}`}</div>
                 {item === selectedTab ? (
                   <motion.div
                     className="absolute left-0 right-0 top-7 h-px bg-blue-700"
@@ -117,7 +115,7 @@ export default function NavigatorProfile() {
         <main>
           <AnimatePresence exitBeforeEnter>
             <motion.div
-              key={selectedTab ? selectedTab.title : "empty"}
+              key={selectedTab ? selectedTab.title : 'empty'}
               animate={{ opacity: 1, y: 0 }}
               initial={{ opacity: 0, y: 20 }}
               exit={{ opacity: 0, y: -20 }}
