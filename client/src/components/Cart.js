@@ -13,7 +13,12 @@ import {
   getProducts,
 } from '../Redux/Actions/actions';
 import carrito from './utils/carrito triste.png';
+<<<<<<< HEAD
 import ModalPortal from '../components/modals/GuestModal';
+=======
+import ModalPortal from "../components/modals/GuestModal"
+import ModalPortalDirections from '../components/modals/DirectionsModal'
+>>>>>>> c62ae0b0156c05dc5a2311a43641d34a0dcade10
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -45,10 +50,17 @@ export default function Cart() {
     dispatch(getProducts());
   }, [resPutOrder, resPostBulk]);
 
-  const [stateModal, setStateModal] = useState(false);
+  const [stateModal, setStateModal] = useState(false)
+  const [stateDirectionsModal, setStateDirectionsModal] = useState(false)
+
   function handleCloseModal(e) {
     e.preventDefault();
     setStateModal(!stateModal);
+  }
+
+  function handleCloseDirectionsModal(e) {
+    e.preventDefault()
+    setStateDirectionsModal(!stateDirectionsModal)
   }
 
   function handleAllBuy(e) {
@@ -59,25 +71,30 @@ export default function Cart() {
     }
 
     if (localStorageAccess && localStorageRefresh) {
-      if (product.length > 1) {
-        const ids = product.map((e) => e.orders[0].id);
-        dispatch(postBulkOrder({ orderIds: ids }));
+      if (direccion && direccion.length) {
+        if (product.length > 1) {
+          const ids = product.map((e) => e.orders[0].id);
+          dispatch(postBulkOrder({ orderIds: ids }));
+        } else {
+          dispatch(
+            changeOrderStatus({
+              id: product[0].orders[0].id,
+              status: 'pending',
+            })
+          );
+        }
+        setTimeout(() => {
+          navigate('/purchase');
+        }, 1000);
       } else {
-        dispatch(
-          changeOrderStatus({
-            id: product[0].orders[0].id,
-            status: 'pending',
-          })
-        );
+        handleCloseDirectionsModal(e)
       }
-      setTimeout(() => {
-        navigate('/purchase');
-      }, 1000);
     }
   }
 
   return (
     <div>
+      {stateDirectionsModal ? <ModalPortalDirections onClose={(e) => handleCloseDirectionsModal(e)} /> : null}
       {stateModal ? <ModalPortal onClose={(e) => handleCloseModal(e)} /> : null}
       <NavBar />
       {product && product.length > 0 ? (
