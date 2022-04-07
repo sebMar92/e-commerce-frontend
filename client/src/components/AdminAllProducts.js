@@ -1,15 +1,15 @@
-import React from 'react';
-import Footer from './Footer/Footer';
-import NavbarAdmin from './NavbarAdmin';
-import NavBarEmpty from './NavBarEmpty';
-import { useLocation } from 'react-router-dom';
-import SearchBarAdmin from './commons/SearchBarAdmin';
-import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
-import { getCategories, getProducts } from '../Redux/Actions/actions';
-import DropDownCatAdmin from './DropDownCatAdmin';
-import CardAdmin from './CardAdmin';
-import Pagination from './Pagination';
+import React from "react";
+import Footer from "./Footer/Footer";
+import NavbarAdmin from "./NavbarAdmin";
+import NavBarEmpty from "./NavBarEmpty";
+import { useLocation } from "react-router-dom";
+import SearchBarAdmin from "./commons/SearchBarAdmin";
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { getCategories, getProducts } from "../Redux/Actions/actions";
+import DropDownCatAdmin from "./DropDownCatAdmin";
+import CardAdmin from "./CardAdmin";
+import Pagination from "./Pagination";
 
 export default function AdminAllProducts() {
   const dispatch = useDispatch();
@@ -17,7 +17,9 @@ export default function AdminAllProducts() {
   const search = location.search;
   const allProducts = useSelector((state) => state.home.products);
   const allCategories = useSelector((state) => state.home.categories);
-  const deletedProductConfirm = useSelector((state) => state.admin.deletedProduct);
+  const deletedProductConfirm = useSelector(
+    (state) => state.admin.deletedProduct
+  );
   useEffect(() => {
     dispatch(getProducts(search));
     dispatch(getCategories());
@@ -25,7 +27,7 @@ export default function AdminAllProducts() {
 
   useEffect(() => {
     dispatch(getCategories());
-    dispatch(getProducts('limit=8&offset=1'));
+    dispatch(getProducts("limit=8&offset=1"));
   }, []);
 
   return (
@@ -35,10 +37,10 @@ export default function AdminAllProducts() {
         <NavbarAdmin />
         <div className="m-auto w-full h-full">
           <div className="flex flex-row flex-wrap">
-            <div className="basis-1/2">
+            <div className="basis-1/5">
               <DropDownCatAdmin tittle="Categories" array={allCategories} />
             </div>
-            <div className="basis-1/2">
+            <div className="basis-4/5">
               <SearchBarAdmin />
             </div>
           </div>

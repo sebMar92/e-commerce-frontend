@@ -20,6 +20,8 @@ export default function CreateProducts() {
   const allCategories = useSelector((e) => e.home.categories);
   const [newCategory, setNewCategory] = useState("");
   const [inputImages, setInputImages] = useState("");
+  const [aprove, setAprove] = useState(false);
+  const [denied, setDenied] = useState(false);
   const [errors, setErrors] = useState({});
 
   const [input, setInput] = useState({
@@ -43,6 +45,7 @@ export default function CreateProducts() {
   function handleSubmit(e) {
     e.preventDefault();
     if (Object.keys(errors).length === 0) {
+      setAprove(true);
       dispatch(postProduct(input));
       setInput({
         title: "",
@@ -55,9 +58,10 @@ export default function CreateProducts() {
         categories: [],
       });
 
-      alert("Product Create!!");
+      /* alert("Product Create!!"); */
     } else {
-      alert("Some fields are missing. Check again");
+      setDenied(true);
+      /* alert("Some fields are missing. Check again"); */
     }
   }
   function handleAddCategory(e) {
@@ -262,6 +266,63 @@ export default function CreateProducts() {
                   />
                 </div>
               </div>
+              {aprove && (
+                <div className="absolute ml-4 justify-center items-center font-lora ">
+                  <div className="p-2  w-80 h-50 bg-white rounded-lg ring-1 ">
+                    <div className=" mx-3 flex justify-between border-b border-gray-200 p-2">
+                      <h3>Confirmation</h3>
+                      <button
+                        onClick={() => setAprove(false)}
+                        className=" text-gray-500 px-1 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-[#f84d4dd1] hover:text-white shadow-lg shadow-primary-200/80"
+                      >
+                        x
+                      </button>
+                    </div>
+                    <br />
+                    <span className="m-8"> Product Create !! </span>
+                    <br />
+                    <br />
+                    <div className="flex justify-evenly m-3">
+                      <button
+                        onClick={() => setAprove(false)}
+                        className="bg-primary-600 px-4 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-primary-200/80"
+                      >
+                        Accept
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {denied && (
+                <div className="absolute ml-4 justify-center items-center font-lora ">
+                  <div className="p-2  w-80 h-50 bg-white rounded-lg ring-1 ">
+                    <div className=" mx-3 flex justify-between border-b border-gray-200 p-2">
+                      <h3>Denied</h3>
+                      <button
+                        onClick={() => setDenied(false)}
+                        className=" text-gray-500 px-1 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-[#f84d4dd1] hover:text-white shadow-lg shadow-primary-200/80"
+                      >
+                        x
+                      </button>
+                    </div>
+                    <br />
+                    <span className="m-8">
+                      {" "}
+                      Please, fill in all the fields{" "}
+                    </span>
+                    <br />
+                    <br />
+                    <div className="flex justify-evenly m-3">
+                      <button
+                        onClick={() => setDenied(false)}
+                        className="bg-primary-600 px-4 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-primary-200/80"
+                      >
+                        Accept
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className=" justify-center p-2 ">
                 <label>Categories</label>
@@ -371,12 +432,16 @@ export default function CreateProducts() {
                     })}
                 </div>
               </div>
-              <ButtonCreate
-                disabled={errors?.disabledSubmit}
-                text="Create Product"
-                type="button"
-                onClick={(e) => handleSubmit(e)}
-              ></ButtonCreate>
+              {input.title.length && input.categories.length ? (
+                <ButtonCreate
+                  disabled={errors?.disabledSubmit}
+                  text="Create Product"
+                  type="button"
+                  onClick={(e) => handleSubmit(e)}
+                ></ButtonCreate>
+              ) : (
+                <br />
+              )}
             </div>
           </form>
           <div className="bg-secondary-100 dark:bg-slate-700">

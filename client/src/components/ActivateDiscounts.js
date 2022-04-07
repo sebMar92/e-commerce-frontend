@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import NavbarAdmin from './NavbarAdmin';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import NavbarAdmin from "./NavbarAdmin";
+import { useDispatch, useSelector } from "react-redux";
 import {
   deleteSale,
   editSale,
@@ -8,11 +8,11 @@ import {
   getCategories,
   getSales,
   postSale,
-} from '../Redux/Actions/actions';
-import Pick from './commons/Pick.js';
-import NavBarEmpty from './NavBarEmpty';
-import Axios from 'axios';
-import useURLqueries from './hooks/useURLqueries';
+} from "../Redux/Actions/actions";
+import Pick from "./commons/Pick.js";
+import NavBarEmpty from "./NavBarEmpty";
+import Axios from "axios";
+import useURLqueries from "./hooks/useURLqueries";
 
 export default function ActivateDiscounts() {
   var allSales = useSelector((state) => state.admin.sales);
@@ -20,16 +20,19 @@ export default function ActivateDiscounts() {
   const products = useSelector((state) => state.admin.salesAllProducts);
   const deleteUpdate = useSelector((state) => state.admin.deleted);
   const postAndEditUpdate = useSelector((state) => state.admin.saleChange);
+  const [on, setOn] = useState(false);
+  const [prop, setProp] = useState();
   const queryObjects = useURLqueries();
   const [reRender, setReRender] = useState({});
   const [tab, setTab] = useState(true);
   const [errors, setErrors] = useState({});
   const [sale, setSale] = useState({
-    description: '',
-    percentage: '',
-    day: '',
+    description: "",
+    percentage: "",
+    day: "",
     productAmount: 0,
-    image: 'https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg',
+    image:
+      "https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg",
     categories: [],
     products: [],
     id: 0,
@@ -38,7 +41,7 @@ export default function ActivateDiscounts() {
   const dispatch = useDispatch();
   useEffect(() => {
     if (
-      queryObjects.hasOwnProperty('p') &&
+      queryObjects.hasOwnProperty("p") &&
       products.length > 0 &&
       sale.products.length === 0
     ) {
@@ -53,15 +56,15 @@ export default function ActivateDiscounts() {
 
   const validate = (input) => {
     let errors = {};
-    if (input.description === '') {
-      errors.description = 'Description required';
+    if (input.description === "") {
+      errors.description = "Description required";
     } else if (!/^[a-zA-Z0-9_: &()]+$/.test(input.description)) {
-      errors.description = 'Invalid description';
+      errors.description = "Invalid description";
     }
-    if (input.percentage === '') {
-      errors.percentage = 'Percentage required';
+    if (input.percentage === "") {
+      errors.percentage = "Percentage required";
     } else if (!/^\d+$/.test(input.percentage)) {
-      errors.percentage = 'Invalid percentage';
+      errors.percentage = "Invalid percentage";
     }
     if (!input.image) {
     } else if (
@@ -69,7 +72,7 @@ export default function ActivateDiscounts() {
         input.image
       )
     ) {
-      errors.image = 'Invalid link image';
+      errors.image = "Invalid link image";
     }
     return errors;
   };
@@ -78,37 +81,40 @@ export default function ActivateDiscounts() {
     setTab(!tab);
   }
   useEffect(() => {
-    const items = document.getElementsByClassName('saleItem');
-    const dropdown = document.getElementById('dropdown');
+    const items = document.getElementsByClassName("saleItem");
+    const dropdown = document.getElementById("dropdown");
     if (tab) {
       if (items) {
         for (const item of items) {
-          item.classList.remove('hidden');
-          item.classList.remove('bg-primary-300');
-          item.classList.add('bg-secondary-100');
+          item.classList.remove("hidden");
+          item.classList.remove("bg-primary-300");
+          item.classList.add("bg-secondary-100");
         }
       }
       if (dropdown) {
-        dropdown.classList.add('hidden');
+        dropdown.classList.add("hidden");
       }
     } else {
       if (items) {
         for (const item of items) {
-          item.classList.add('hidden');
-          item.classList.remove('bg-primary-300');
-          item.classList.add('bg-secondary-100');
+          item.classList.add("hidden");
+          item.classList.remove("bg-primary-300");
+          item.classList.add("bg-secondary-100");
         }
       }
       if (dropdown) {
-        dropdown.classList.remove('hidden');
+        dropdown.classList.remove("hidden");
       }
-      if (queryObjects.hasOwnProperty('p')) {
-        const productInUrl = products.find((product) => product.id == queryObjects.p);
+      if (queryObjects.hasOwnProperty("p")) {
+        const productInUrl = products.find(
+          (product) => product.id == queryObjects.p
+        );
         setSale({
-          description: '',
-          percentage: '',
-          day: '',
-          image: 'https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg',
+          description: "",
+          percentage: "",
+          day: "",
+          image:
+            "https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg",
           productAmount: 0,
           categories: [],
           products: [productInUrl],
@@ -116,10 +122,11 @@ export default function ActivateDiscounts() {
         });
       } else {
         setSale({
-          description: '',
-          percentage: '',
-          day: '',
-          image: 'https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg',
+          description: "",
+          percentage: "",
+          day: "",
+          image:
+            "https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg",
           productAmount: 0,
           categories: [],
           products: [],
@@ -133,20 +140,21 @@ export default function ActivateDiscounts() {
       setSale({
         ...sale,
         id: e.target.id,
-        description: e.target.getAttribute('description'),
-        percentage: e.target.getAttribute('percentage'),
-        day: e.target.getAttribute('day'),
-        image: e.target.getAttribute('image'),
-        productAmount: e.target.getAttribute('amount'),
-        categories: allSales[e.target.getAttribute('index')].categories,
-        products: allSales[e.target.getAttribute('index')].products,
+        description: e.target.getAttribute("description"),
+        percentage: e.target.getAttribute("percentage"),
+        day: e.target.getAttribute("day"),
+        image: e.target.getAttribute("image"),
+        productAmount: e.target.getAttribute("amount"),
+        categories: allSales[e.target.getAttribute("index")].categories,
+        products: allSales[e.target.getAttribute("index")].products,
       });
     } else {
       setSale({
-        description: '',
-        percentage: '',
-        day: '',
-        image: 'https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg',
+        description: "",
+        percentage: "",
+        day: "",
+        image:
+          "https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg",
         productAmount: 0,
         categories: [],
         products: [],
@@ -155,30 +163,30 @@ export default function ActivateDiscounts() {
     }
   }
   useEffect(() => {
-    const items = document.getElementsByClassName('saleItem');
-    const dropdown = document.getElementById('dropdown');
+    const items = document.getElementsByClassName("saleItem");
+    const dropdown = document.getElementById("dropdown");
     if (sale.id !== 0) {
       const selectedItem = document.getElementById(sale.id);
 
       for (const item of items) {
-        item.classList.add('hidden');
-        item.classList.remove('bg-primary-300');
-        item.classList.add('bg-secondary-100');
+        item.classList.add("hidden");
+        item.classList.remove("bg-primary-300");
+        item.classList.add("bg-secondary-100");
       }
-      dropdown.classList.remove('hidden');
-      selectedItem.classList.toggle('hidden');
-      selectedItem.classList.toggle('bg-secondary-100');
-      selectedItem.classList.toggle('bg-primary-300');
+      dropdown.classList.remove("hidden");
+      selectedItem.classList.toggle("hidden");
+      selectedItem.classList.toggle("bg-secondary-100");
+      selectedItem.classList.toggle("bg-primary-300");
     } else {
       if (tab) {
         if (items) {
           for (const item of items) {
-            item.classList.remove('hidden');
-            item.classList.remove('bg-primary-300');
-            item.classList.add('bg-secondary-100');
+            item.classList.remove("hidden");
+            item.classList.remove("bg-primary-300");
+            item.classList.add("bg-secondary-100");
           }
           if (dropdown) {
-            dropdown.classList.add('hidden');
+            dropdown.classList.add("hidden");
           }
         }
       }
@@ -188,7 +196,7 @@ export default function ActivateDiscounts() {
     if (sale.day !== e.target.id) {
       setSale({ ...sale, day: e.target.id });
     } else {
-      setSale({ ...sale, day: '' });
+      setSale({ ...sale, day: "" });
     }
   }
   function handleAmountUnlock() {
@@ -197,22 +205,22 @@ export default function ActivateDiscounts() {
       : setSale({ ...sale, productAmount: 1 });
   }
   useEffect(() => {
-    const yes = document.getElementById('yes');
-    const no = document.getElementById('no');
-    const howmany = document.getElementById('howmany');
+    const yes = document.getElementById("yes");
+    const no = document.getElementById("no");
+    const howmany = document.getElementById("howmany");
     if (yes && no) {
       if (sale.productAmount > 0) {
-        yes.classList.remove('bg-white');
-        yes.classList.add('bg-primary-500');
-        howmany.classList.remove('hidden');
-        no.classList.remove('bg-primary-500');
-        no.classList.add('bg-white');
+        yes.classList.remove("bg-white");
+        yes.classList.add("bg-primary-500");
+        howmany.classList.remove("hidden");
+        no.classList.remove("bg-primary-500");
+        no.classList.add("bg-white");
       } else {
-        no.classList.remove('bg-white');
-        no.classList.add('bg-primary-500');
-        yes.classList.remove('bg-primary-500');
-        yes.classList.add('bg-white');
-        howmany.classList.add('hidden');
+        no.classList.remove("bg-white");
+        no.classList.add("bg-primary-500");
+        yes.classList.remove("bg-primary-500");
+        yes.classList.add("bg-white");
+        howmany.classList.add("hidden");
       }
     }
   }, [sale.productAmount]);
@@ -231,14 +239,16 @@ export default function ActivateDiscounts() {
     if (Object.keys(errors).length === 0) {
       if (tab) {
         if (sale.id !== 0) {
-          console.log('Editing sale: ', sale);
-          dispatch(editSale({ ...sale, id: Number(sale.id.replace('sale ', '')) }));
+          console.log("Editing sale: ", sale);
+          dispatch(
+            editSale({ ...sale, id: Number(sale.id.replace("sale ", "")) })
+          );
           setSale({
-            description: '',
-            percentage: '',
-            day: '',
+            description: "",
+            percentage: "",
+            day: "",
             image:
-              'https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg',
+              "https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg",
             productAmount: 0,
             categories: [],
             products: [],
@@ -246,7 +256,7 @@ export default function ActivateDiscounts() {
           });
         }
       } else {
-        console.log('Posting sale: ', sale);
+        console.log("Posting sale: ", sale);
 
         dispatch(
           postSale({
@@ -260,10 +270,11 @@ export default function ActivateDiscounts() {
           })
         );
         setSale({
-          description: '',
-          percentage: '',
-          day: '',
-          image: 'https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg',
+          description: "",
+          percentage: "",
+          day: "",
+          image:
+            "https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg",
           productAmount: 0,
           categories: [],
           products: [],
@@ -272,49 +283,50 @@ export default function ActivateDiscounts() {
       }
       setReRender({});
     } else {
-      alert('Some fields are missing. Check again');
+      alert("Some fields are missing. Check again");
     }
   }
   function handleDelete(e) {
+    setOn(false);
     dispatch(deleteSale(e.target.id));
-    const items = document.getElementsByClassName('saleItem');
-    const dropdown = document.getElementById('dropdown');
+    const items = document.getElementsByClassName("saleItem");
+    const dropdown = document.getElementById("dropdown");
     if (tab) {
       if (items) {
         for (const item of items) {
-          item.classList.remove('hidden');
-          item.classList.remove('bg-primary-300');
-          item.classList.add('bg-secondary-100');
+          item.classList.remove("hidden");
+          item.classList.remove("bg-primary-300");
+          item.classList.add("bg-secondary-100");
         }
       }
       if (dropdown) {
-        dropdown.classList.add('hidden');
+        dropdown.classList.add("hidden");
       }
     }
     setReRender({});
   }
   useEffect(() => {
     const selected = document.getElementById(sale.day);
-    const others = document.getElementsByClassName('dayItem');
+    const others = document.getElementsByClassName("dayItem");
     if (others) {
       for (const other of others) {
-        other.classList.remove('bg-primary-500');
-        other.classList.add('bg-white');
+        other.classList.remove("bg-primary-500");
+        other.classList.add("bg-white");
       }
     }
     if (selected) {
-      selected.classList.add('bg-primary-500');
-      selected.classList.remove('bg-white');
+      selected.classList.add("bg-primary-500");
+      selected.classList.remove("bg-white");
     }
   }, [sale.day]);
 
   const uploadImage = (file) => {
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', 'ecommerce');
+    formData.append("file", file);
+    formData.append("upload_preset", "ecommerce");
     const newAxios = Axios.create();
     newAxios
-      .post('https://api.cloudinary.com/v1_1/dmjbff5rm/image/upload', formData)
+      .post("https://api.cloudinary.com/v1_1/dmjbff5rm/image/upload", formData)
       .then((res) => {
         setSale({
           ...sale,
@@ -342,7 +354,7 @@ export default function ActivateDiscounts() {
               onClick={(e) => handleTab(e)}
               className={`select-none grow font-medium text-lg px-1 py-1 text-slate-900 flex justify-center hover:bg-primary-400 dark:bg-slate-700 dark:text-white dark:text-white dark:hover:bg-slate-900 ${
                 !tab &&
-                'bg-primary-300 border-b-2 border-primary-500 dark:bg-slate-700 dark:text-white'
+                "bg-primary-300 border-b-2 border-primary-500 dark:bg-slate-700 dark:text-white"
               }`}
             >
               Active sales
@@ -352,21 +364,63 @@ export default function ActivateDiscounts() {
               onClick={(e) => handleTab(e)}
               className={`select-none grow font-medium text-lg px-1 py-1 text-slate-900 flex justify-center hover:bg-primary-400 dark:bg-slate-700 dark:text-white dark:hover:bg-slate-900 ${
                 tab &&
-                'bg-primary-300 border-b-2 border-primary-500 dark:bg-slate-700 dark:text-white'
+                "bg-primary-300 border-b-2 border-primary-500 dark:bg-slate-700 dark:text-white"
               }`}
             >
               Create sales
             </div>
+
+            {on && (
+              <div className="absolute mt-10 justify-center items-center font-lora ">
+                <div className="p-2  w-80 h-50 bg-white rounded-lg ring-1 ">
+                  <div className=" mx-3 flex justify-between border-b border-gray-200 p-2">
+                    <h3>Confirmation</h3>
+                    <button
+                      onClick={() => setOn(false)}
+                      className=" text-gray-500 px-1 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-[#f84d4dd1] hover:text-white shadow-lg shadow-primary-200/80"
+                    >
+                      x
+                    </button>
+                  </div>
+                  <br />
+                  <span className="m-8">
+                    {" "}
+                    Are you sure you want to delete it ?{" "}
+                  </span>
+                  <br />
+                  <br />
+                  <div className="flex justify-evenly m-3">
+                    <button
+                      onClick={() => handleDelete(prop)}
+                      className="bg-primary-600 px-4 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-primary-200/80"
+                    >
+                      Accept
+                    </button>
+                    <button
+                      onClick={() => setOn(false)}
+                      className="bg-primary-600 px-4 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-primary-200/80"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
+
           <div className="border-x-2 border-b-2 border-primary-500 h-fit dark:bg-slate-900 dark:text-white dark:border-slate-400">
             {allSales &&
               allSales
                 .sort((a, b) => a.id - b.id)
                 .map((sale, index) => {
                   return (
-                    <div id={'sale ' + sale.id} key={sale.id} className="saleItem ">
+                    <div
+                      id={"sale " + sale.id}
+                      key={sale.id}
+                      className="saleItem "
+                    >
                       <div
-                        id={'sale ' + sale.id}
+                        id={"sale " + sale.id}
                         className="flex flex-row justify-between border-white dark:bg-slate-900 dark:text-white"
                       >
                         <div
@@ -376,26 +430,29 @@ export default function ActivateDiscounts() {
                           amount={sale.productAmount}
                           index={index}
                           image={sale.image}
-                          id={'sale ' + sale.id}
+                          id={"sale " + sale.id}
                           onClick={(e) => handleItem(e)}
                           className="flex grow w-full border-t-4 border-x-4 border-white p-4 bg-secondary-100 hover:bg-primary-200 hover:font-medium dark:bg-slate-800 dark:text-white dark:border-slate-900 dark:hover:bg-slate-400"
                         >
                           {sale.description}
                         </div>
-                        <div
+                        <button
                           id={sale.id}
-                          onClick={(e) => handleDelete(e)}
+                          onClick={(e) => {
+                            setOn(true);
+                            setProp(e);
+                          }}
                           className="grow-0 pl-5 justify-center w-14 border-t-4 border-r-4 border-white p-4 bg-secondary-100 hover:bg-rose-700 hover:font-medium dark:bg-slate-800 dark:text-white dark:border-slate-900 dark:hover:bg-rose-400"
                         >
                           X
-                        </div>
+                        </button>
                       </div>
                     </div>
                   );
                 })}
             <form
               onSubmit={(e) => handleSubmit(e)}
-              id={'dropdown'}
+              id={"dropdown"}
               className=" w-full border-4 border-white bg-secondary-100 flex-col dark:bg-slate-700 dark:border-slate-900"
             >
               <div className="">
@@ -428,7 +485,9 @@ export default function ActivateDiscounts() {
                       </div>
                     </div>
                     <div className="flex-col sm:bg-secondary-100 flex p-4 items-center dark:bg-slate-700">
-                      <div className="text-center">Requires more than one? </div>
+                      <div className="text-center">
+                        Requires more than one?{" "}
+                      </div>
                       <div className="flex">
                         <span
                           id="yes"
@@ -527,13 +586,13 @@ export default function ActivateDiscounts() {
                     <div className="h-64 flex justify-evenly row-span-2 col-span-2 lg:h-96">
                       <Pick
                         array={categories}
-                        title={'Bind to categories?'}
+                        title={"Bind to categories?"}
                         callback={setCategories}
                         picked={sale.categories}
                       />
                       <Pick
                         array={products}
-                        title={'Bind to products?'}
+                        title={"Bind to products?"}
                         callback={setProducts}
                         picked={sale.products}
                       />
@@ -593,7 +652,7 @@ export default function ActivateDiscounts() {
                 onSubmit={(e) => handleSubmit(e)}
                 className="bg-primary-500 p-3 rounded hover:bg-primary-700 w-full col-span-5 dark:hover:text-white dark:hover:bg-slate-900 dark:hover:shadow-slate-600 dark:bg-slate-400 dark:text-slate-900 dark:shadow-slate-900"
               >
-                {(tab && 'Save changes') || 'Create new sale'}
+                {(tab && "Save changes") || "Create new sale"}
               </button>
             </form>
           </div>
