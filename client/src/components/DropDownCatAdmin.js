@@ -48,6 +48,7 @@ export default function DropDownCategories({ tittle, array }) {
                     offset: "1",
                   }).toString(),
                 });
+                dispatch(category(cat));
               }}
               className="px-2 py-1 hover:bg-primary-300 rounded no-underline text-black cursor-pointer"
             >
