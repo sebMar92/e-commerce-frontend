@@ -49,7 +49,7 @@ export default function AdminProfile() {
   const priceCu = []; 
   const cantidadProduct = [];
 
-  if (products) {
+  if (products && products.length > 0) {
     products.map((f) => {
       if (f.orders) {
         fecha.push(dayjs(f.orders[0].serverPurchaseDate).format('MMMM D, YYYY'));
@@ -59,7 +59,7 @@ export default function AdminProfile() {
     });
   }
 
-  if (products) {
+  if (products && products.length > 0) {
     products.map((p) => {
       if (p.orders) {
         cantidad.push(p.orders[0].amount);
@@ -69,7 +69,7 @@ export default function AdminProfile() {
     });
   }
 
-  if (products) {
+  if (products && products.length > 0) {
     products.map((p) => {
       if (p.orders) {
         cantidadProduct.push(p.orders[0].amount);
@@ -82,7 +82,7 @@ export default function AdminProfile() {
     });
   }
 
-  if (products) {
+  if (products && products.length > 0) {
     products.map((pr) => {
       if (pr.orders) {
         product.push(pr.title.substring(0, 15));
@@ -94,7 +94,7 @@ export default function AdminProfile() {
     });
   }
 
-  if (products) {
+  if (products && products.length > 0) {
     products.map((p) => {
       if (p.orders) {
         priceCu.push(p.price);
