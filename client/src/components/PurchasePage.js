@@ -77,7 +77,7 @@ export default function PurchasePage() {
               if (days.length > 0) {
                 const sortedDays = days.sort((a, b) => b.percentage - a.percentage);
                 var filteredSales = sortedDays.filter((sale) =>
-                  e.orders.amount ? e.orders.amount : 1 > sale.productAmount
+                  e.orders[0].amount ? e.orders[0].amount : 1 > sale.productAmount
                 );
               }
               if (filteredSales && filteredSales.length > 0) {
@@ -105,7 +105,7 @@ export default function PurchasePage() {
         ? productsWithSales.map((e) => {
             return {
               title: e.title,
-              amount: e.orders.amount || 1,
+              amount: e.orders[0].amount || 1,
               price: e.price,
             };
           })
@@ -137,7 +137,7 @@ export default function PurchasePage() {
   return (
     <>
       <NavBarEmpty />
-      {productsWithSales && productsWithSales.length > 0 ? <Checkout data={data} products={productsWithSales}/> : <><h1>Loading</h1></>}
+      {data && <Checkout data={data} products={productsWithSales} />}
       <Footer />
     </>
   );
