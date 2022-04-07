@@ -12,13 +12,25 @@ export default function Checkout({ products, data }) {
   const bulkOrder = useSelector((state) => state.home.bulkOrders);
   const location = useLocation();
   const [resp, setRes] = useState('');
-  const [productPrices,setProductPrices] = useState(0)
-  const [productShipping,setProductShipping] = useState(0)
-  
+  const [productPrices, setProductPrices] = useState(0);
+  const [productShipping, setProductShipping] = useState(0);
+
   useEffect(() => {
-    setProductPrices(products.reduce((a,b) =>({price: a.price * (a.orders && a.orders.length > 0 ? a.orders[0].amount : 1) + b.price * (b.orders && b.orders.length > 0 ? b.orders[0].amount : 1)})).price.toFixed(2))
-    setProductShipping(products.reduce((a,b) =>({shippingCost: a.shippingCost + b.shippingCost})).shippingCost.toFixed(2))
-  }, [products])
+    setProductPrices(
+      products
+        .reduce((a, b) => ({
+          price:
+            a.price * (a.orders && a.orders[0].length > 0 ? a.orders[0].amount : 1) +
+            b.price * (b.orders && b.orders[0].length > 0 ? b.orders[0].amount : 1),
+        }))
+        .price.toFixed(2)
+    );
+    setProductShipping(
+      products
+        .reduce((a, b) => ({ shippingCost: a.shippingCost + b.shippingCost }))
+        .shippingCost.toFixed(2)
+    );
+  }, [products]);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -63,18 +75,18 @@ export default function Checkout({ products, data }) {
           </select>
         </label>
         <div className="font-lora flex justify-evenly my-12">
-          {products && products.length > 0 && 
-          <h1 className="text-2xl">
-              Products price: {productPrices}
-            </h1>}
-            {products && products.length > 0 && 
-          <h1 className="text-2xl">
-              Shipping cost: {productShipping}
-            </h1>}
-            {products && products.length > 0 && 
-          <h1 className="text-2xl">
-              Products price: {Math.round((Number(productPrices) + Number(productShipping)) * 100) / 100}
-            </h1>}
+          {products && products.length > 0 && (
+            <h1 className="text-2xl">Products price: {productPrices}</h1>
+          )}
+          {products && products.length > 0 && (
+            <h1 className="text-2xl">Shipping cost: {productShipping}</h1>
+          )}
+          {products && products.length > 0 && (
+            <h1 className="text-2xl">
+              Products price:{' '}
+              {Math.round((Number(productPrices) + Number(productShipping)) * 100) / 100}
+            </h1>
+          )}
         </div>
         <form id="form1" className="flex justify-center my-10">
           <div></div>

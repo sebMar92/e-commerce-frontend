@@ -13,12 +13,8 @@ import {
   getProducts,
 } from '../Redux/Actions/actions';
 import carrito from './utils/carrito triste.png';
-<<<<<<< HEAD
 import ModalPortal from '../components/modals/GuestModal';
-=======
-import ModalPortal from "../components/modals/GuestModal"
-import ModalPortalDirections from '../components/modals/DirectionsModal'
->>>>>>> c62ae0b0156c05dc5a2311a43641d34a0dcade10
+import ModalPortalDirections from '../components/modals/DirectionsModal';
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -50,8 +46,8 @@ export default function Cart() {
     dispatch(getProducts());
   }, [resPutOrder, resPostBulk]);
 
-  const [stateModal, setStateModal] = useState(false)
-  const [stateDirectionsModal, setStateDirectionsModal] = useState(false)
+  const [stateModal, setStateModal] = useState(false);
+  const [stateDirectionsModal, setStateDirectionsModal] = useState(false);
 
   function handleCloseModal(e) {
     e.preventDefault();
@@ -59,8 +55,8 @@ export default function Cart() {
   }
 
   function handleCloseDirectionsModal(e) {
-    e.preventDefault()
-    setStateDirectionsModal(!stateDirectionsModal)
+    e.preventDefault();
+    setStateDirectionsModal(!stateDirectionsModal);
   }
 
   function handleAllBuy(e) {
@@ -87,14 +83,16 @@ export default function Cart() {
           navigate('/purchase');
         }, 1000);
       } else {
-        handleCloseDirectionsModal(e)
+        handleCloseDirectionsModal(e);
       }
     }
   }
 
   return (
     <div>
-      {stateDirectionsModal ? <ModalPortalDirections onClose={(e) => handleCloseDirectionsModal(e)} /> : null}
+      {stateDirectionsModal ? (
+        <ModalPortalDirections onClose={(e) => handleCloseDirectionsModal(e)} />
+      ) : null}
       {stateModal ? <ModalPortal onClose={(e) => handleCloseModal(e)} /> : null}
       <NavBar />
       {product && product.length > 0 ? (
