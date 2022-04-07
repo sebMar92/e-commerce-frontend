@@ -1,41 +1,41 @@
-import React, { useState, useEffect } from "react";
-import NavBar from "./NavBar";
-import { useDispatch, useSelector } from "react-redux";
-import { getCategories, postProduct } from "../Redux/Actions/actions";
-import { validation } from "./validation";
-import ButtonCreate from "./commons/ButtonCreate";
-import check from "./utils/check-shield-regular-24.png";
-import Modelo from "./utils/modelo.jpg";
-import mas from "./utils/image-add-regular-24.png";
-import Slider from "./ProductDetails/Slider";
-import Axios from "axios";
-import NavbarAdmin from "./NavbarAdmin";
-import { Cloudinary } from "@cloudinary/url-gen";
-import NavBarEmpty from "./NavBarEmpty";
-import AdminPreview from "../components/AdminPreview";
-import { AiOutlineCloseSquare } from "react-icons/ai";
+import React, { useState, useEffect } from 'react';
+import NavBar from './NavBar';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCategories, postProduct } from '../Redux/Actions/actions';
+import { validation } from './validation';
+import ButtonCreate from './commons/ButtonCreate';
+import check from './utils/check-shield-regular-24.png';
+import Modelo from './utils/modelo.jpg';
+import mas from './utils/image-add-regular-24.png';
+import Slider from './ProductDetails/Slider';
+import Axios from 'axios';
+import NavbarAdmin from './NavbarAdmin';
+import { Cloudinary } from '@cloudinary/url-gen';
+import NavBarEmpty from './NavBarEmpty';
+import AdminPreview from '../components/AdminPreview';
+import { AiOutlineCloseSquare } from 'react-icons/ai';
 
 export default function CreateProducts() {
   const dispatch = useDispatch();
   const allCategories = useSelector((e) => e.home.categories);
-  const [newCategory, setNewCategory] = useState("");
-  const [inputImages, setInputImages] = useState("");
+  const [newCategory, setNewCategory] = useState('');
+  const [inputImages, setInputImages] = useState('');
   const [aprove, setAprove] = useState(false);
   const [denied, setDenied] = useState(false);
   const [errors, setErrors] = useState({});
 
   const [input, setInput] = useState({
-    title: "",
-    name: "",
-    price: "",
-    shippingCost: "",
-    description: "",
+    title: '',
+    name: '',
+    price: '',
+    shippingCost: '',
+    description: '',
     images: [],
-    stock: "",
+    stock: '',
     categories: [],
   });
   const [repeat, setRepeat] = useState({
-    name: [""],
+    name: [''],
   });
 
   useEffect(() => {
@@ -51,13 +51,13 @@ export default function CreateProducts() {
       }
       dispatch(postProduct(input));
       setInput({
-        title: "",
-        name: "",
-        price: "",
-        shippingCost: "",
-        description: "",
+        title: '',
+        name: '',
+        price: '',
+        shippingCost: '',
+        description: '',
         images: [],
-        stock: "",
+        stock: '',
         categories: [],
       });
 
@@ -72,15 +72,12 @@ export default function CreateProducts() {
     setNewCategory(value);
   }
   function handleSubmitAddCategory(e) {
-    if (newCategory !== "") {
+    if (newCategory !== '') {
       setInput({
         ...input,
-        categories: [
-          ...input.categories,
-          { name: newCategory, id: e.target.id },
-        ],
+        categories: [...input.categories, { name: newCategory, id: e.target.id }],
       });
-      setNewCategory("");
+      setNewCategory('');
     }
   }
 
@@ -102,28 +99,22 @@ export default function CreateProducts() {
       if (!input.categories.includes(e.target.value)) {
         setInput({
           ...input,
-          categories: [
-            ...input.categories,
-            { name: e.target.value, id: e.target.id },
-          ],
+          categories: [...input.categories, { name: e.target.value, id: e.target.id }],
         });
       }
     }
   }
   let arr = [];
-  let aux = [""];
+  let aux = [''];
   const uploadImage = (files) => {
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
       aux.push(files[i].name);
-      formData.append("file", files[i]);
-      formData.append("upload_preset", "ecommerce");
+      formData.append('file', files[i]);
+      formData.append('upload_preset', 'ecommerce');
       const newAxios = Axios.create();
       newAxios
-        .post(
-          "https://api.cloudinary.com/v1_1/dmjbff5rm/image/upload",
-          formData
-        )
+        .post('https://api.cloudinary.com/v1_1/dmjbff5rm/image/upload', formData)
         .then((res) => {
           arr.push(res.data.secure_url);
           setInput({
@@ -132,9 +123,9 @@ export default function CreateProducts() {
           });
         });
     }
-    console.log("aux: " + aux);
+    console.log('aux: ' + aux);
     aux.length && setRepeat({ ...repeat, name: [...repeat.name, aux] });
-    aux.length && console.log("repeat: " + repeat.name);
+    aux.length && console.log('repeat: ' + repeat.name);
   };
 
   function addImage(e) {
@@ -145,7 +136,7 @@ export default function CreateProducts() {
           ...input,
           images: [...input.images, inputImages],
         });
-        setInputImages("");
+        setInputImages('');
       }
     }
   }
@@ -153,9 +144,7 @@ export default function CreateProducts() {
     e.preventDefault();
     setInput({
       ...input,
-      categories: input.categories.filter(
-        (category) => category.name !== e.target.id
-      ),
+      categories: input.categories.filter((category) => category.name !== e.target.id),
     });
   }
 
@@ -167,7 +156,7 @@ export default function CreateProducts() {
     });
   }
 
-  const desc = input.description && input.description.split(".");
+  const desc = input.description && input.description.split('.');
   const description2 = desc && desc.slice(0, -1);
 
   return (
@@ -309,10 +298,7 @@ export default function CreateProducts() {
                       </button>
                     </div>
                     <br />
-                    <span className="m-8">
-                      {" "}
-                      Please, fill in all the fields{" "}
-                    </span>
+                    <span className="m-8"> Please, fill in all the fields </span>
                     <br />
                     <br />
                     <div className="flex justify-evenly m-3">
@@ -336,11 +322,25 @@ export default function CreateProducts() {
                   <option>Select</option>
                   {allCategories &&
                     allCategories.length > 0 &&
-                    allCategories.map((e) => (
-                      <option id={e.id} key={e.id}>
-                        {e.name}
-                      </option>
-                    ))}
+                    allCategories
+                      .filter((e) => {
+                        let flag = false;
+                        if (input.categories && input.categories.length > 0) {
+                          for (const cat of input.categories) {
+                            if (e.name == cat.name) {
+                              flag = true;
+                            }
+                          }
+                        }
+                        if (!flag) {
+                          return e;
+                        }
+                      })
+                      .map((e) => (
+                        <option id={e.id} key={e.id}>
+                          {e.name}
+                        </option>
+                      ))}
                 </select>
 
                 <div className="flex mt-1">
@@ -449,9 +449,7 @@ export default function CreateProducts() {
           </form>
           <div className="bg-secondary-100 dark:bg-slate-700">
             <br />
-            <h2 className="text-center dark:bg-slate-700 dark:text-white">
-              Preview
-            </h2>
+            <h2 className="text-center dark:bg-slate-700 dark:text-white">Preview</h2>
             <br />
             <hr />
             {/* previsualizacion */}
