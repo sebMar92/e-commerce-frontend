@@ -357,7 +357,7 @@ export default function ProductDetails() {
                     {(
                       product.price -
                       product.price *
-                        ((productSales.length > 0 && productSales[0].percentage / 100) ||
+                        ((productSales && productSales.length > 0 && productSales[0].percentage / 100) ||
                           saleSelected.percentage / 100)
                     ).toFixed(2)}
                   </p>

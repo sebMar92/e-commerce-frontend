@@ -221,6 +221,7 @@ export function postOrder(order) {
   const token = window.localStorage.getItem('access');
   if (token) {
     return async function (dispatch) {
+      console.log(order)
       var json = await axios.post(`/order`, order);
       return dispatch({
         type: POST_ORDERS,
