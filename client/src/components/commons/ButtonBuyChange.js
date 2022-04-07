@@ -38,9 +38,9 @@ export default function ButtonBuyChange({ text = "Buy now", id, status, onClick 
         if (localStorageRefresh && localStorageAccess) {
             if (direccion && direccion.length) {
                 dispatch(
-                    postOrder({
+                    changeOrderStatus({
                         status: status,
-                        productId: id,
+                        id: id,
                     })
                 );
                 setTimeout(() => {

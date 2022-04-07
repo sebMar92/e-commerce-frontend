@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteOrder, getOrder } from '../Redux/Actions/actions';
 import { ToastContainer, toast } from 'react-toastify';
 import ButtonAddToCart from './commons/ButtonAddToCart';
+import ButtonBuy from './commons/ButtonBuy'
 
 export default function CardWishlist({
   id,
@@ -18,11 +19,13 @@ export default function CardWishlist({
   productSales,
   globalSales
 }) {
+  console.log("id Orden",idOrder)
+  console.log("id producto",id)
   const dispatch = useDispatch();
   const deleteWishList = (e) => dispatch(deleteOrder(idOrder, id, 'inWishList'));
   const [saleON, setSaleON] = useState(false);
   const [saleSelected, setSaleSelected] = useState(undefined);
-    
+
   useEffect(() => {
     const date = Date();
     const days = [];
@@ -57,23 +60,23 @@ export default function CardWishlist({
   return (
     <div className="flex flex-wrap justify-center mt-5 relative">
       <div className="bg-secondary-100 w-9/12 m-5 rounded-md relative">
-      {saleON && (productSales && productSales.length > 0 || saleSelected.percentage) && (
-            <div className="absolute inset-x-0 mx-auto -translate-y-6 border-[2px] border-orange-600 h-fit w-fit p-1 rounded text-base bg-white font-lora font-extrabold	 text-orange-600">
-              <p>
-                {saleON &&
-                  ((productSales && productSales.length > 0 && productSales[0].percentage) ||
-                    saleSelected.percentage)}
-                % OFF{' '}
-                {productSales && productSales.length > 0
-                  ? productSales[0].productAmount > 0
-                    ? `on ${productSales[0].productAmount + 1}º unit`
-                    : ''
-                  : saleSelected.productAmount > 0
+        {saleON && (productSales && productSales.length > 0 || saleSelected.percentage) && (
+          <div className="absolute inset-x-0 mx-auto -translate-y-6 border-[2px] border-orange-600 h-fit w-fit p-1 rounded text-base bg-white font-lora font-extrabold	 text-orange-600">
+            <p>
+              {saleON &&
+                ((productSales && productSales.length > 0 && productSales[0].percentage) ||
+                  saleSelected.percentage)}
+              % OFF{' '}
+              {productSales && productSales.length > 0
+                ? productSales[0].productAmount > 0
+                  ? `on ${productSales[0].productAmount + 1}º unit`
+                  : ''
+                : saleSelected.productAmount > 0
                   ? `on ${saleSelected.productAmount + 1}º unit`
                   : ''}
-              </p>
-            </div>
-          )}
+            </p>
+          </div>
+        )}
         <div className="flex flex-row-reverse">
           <button
             onClick={(e) => deleteWishList(e)}
@@ -118,66 +121,73 @@ export default function CardWishlist({
                 <div>
 
                   {productSales && productSales.length > 0 ? (
-              productSales[0].productAmount === 0 ? (
-                <div className="flex flex-col justify-center items-center font-lora">
-                  <p
-                    className={
-                      (saleON && saleSelected.percentage
-                        ? 'text-sm text-primary-400 line-through	xl:text-xl '
-                        : 'text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black') +
-                      'font-bold xl:border-b-[1px] xl:border-primary-300'
-                    }
-                  >
-                    ${price}
-                  </p>
-                  {saleON && saleSelected.percentage ? (
-                    <p className="font-bold text-primary-700 text-xl xl:text-2xl xl:border-b-[1px] xl:border-primary-300 2xl:text-3xl 2xl:font-black">
-                      $
-                      {(
-                        price -
-                        price *
-                          ((productSales && productSales.length > 0 &&
-                            productSales[0].percentage / 100) ||
-                            saleSelected.percentage / 100)
-                      ).toFixed(2)}
+                    productSales[0].productAmount === 0 ? (
+                      <div className="flex flex-col justify-center items-center font-lora">
+                        <p
+                          className={
+                            (saleON && saleSelected.percentage
+                              ? 'text-sm text-primary-400 line-through	xl:text-xl '
+                              : 'text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black') +
+                            'font-bold xl:border-b-[1px] xl:border-primary-300'
+                          }
+                        >
+                          ${price}
+                        </p>
+                        {saleON && saleSelected.percentage ? (
+                          <p className="font-bold text-primary-700 text-xl xl:text-2xl xl:border-b-[1px] xl:border-primary-300 2xl:text-3xl 2xl:font-black">
+                            $
+                            {(
+                              price -
+                              price *
+                              ((productSales && productSales.length > 0 &&
+                                productSales[0].percentage / 100) ||
+                                saleSelected.percentage / 100)
+                            ).toFixed(2)}
+                          </p>
+                        ) : null}
+                      </div>
+                    ) : (
+                      <p className="text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black font-bold xl:border-b-[1px] xl:border-primary-300">
+                        ${price}
+                      </p>
+                    )
+                  ) : saleSelected && saleSelected.productAmount === 0 ? (
+                    <div className="flex flex-col justify-center items-center font-lora">
+                      <p
+                        className={
+                          (saleON && saleSelected.percentage
+                            ? 'text-sm text-primary-400 line-through	xl:text-xl '
+                            : 'text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black') +
+                          'font-bold xl:border-b-[1px] xl:border-primary-300'
+                        }
+                      >
+                        ${price}
+                      </p>
+                      {saleON && saleSelected.percentage ? (
+                        <p className="font-bold text-primary-700 text-xl xl:text-2xl xl:border-b-[1px] xl:border-primary-300 2xl:text-3xl 2xl:font-black">
+                          $
+                          {(
+                            price -
+                            price *
+                            ((productSales && productSales.length > 0 && productSales[0].percentage / 100) ||
+                              saleSelected.percentage / 100)
+                          ).toFixed(2)}
+                        </p>
+                      ) : null}
+                    </div>
+                  ) : (
+                    <p className="text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black font-bold xl:border-b-[1px] xl:border-primary-300 font-lora">
+                      ${price}
                     </p>
-                  ) : null}
-                </div>
-              ) : (
-                <p className="text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black font-bold xl:border-b-[1px] xl:border-primary-300">
-                  ${price}
-                </p>
-              )
-            ) : saleSelected && saleSelected.productAmount === 0 ? (
-              <div className="flex flex-col justify-center items-center font-lora">
-                <p
-                  className={
-                    (saleON && saleSelected.percentage
-                      ? 'text-sm text-primary-400 line-through	xl:text-xl '
-                      : 'text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black') +
-                    'font-bold xl:border-b-[1px] xl:border-primary-300'
-                  }
-                >
-                  ${price}
-                </p>
-                {saleON && saleSelected.percentage ? (
-                  <p className="font-bold text-primary-700 text-xl xl:text-2xl xl:border-b-[1px] xl:border-primary-300 2xl:text-3xl 2xl:font-black">
-                    $
-                    {(
-                      price -
-                      price *
-                        ((productSales && productSales.length > 0 && productSales[0].percentage / 100) ||
-                          saleSelected.percentage / 100)
-                    ).toFixed(2)}
-                  </p>
-                ) : null}
-              </div>
-            ) : (
-              <p className="text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black font-bold xl:border-b-[1px] xl:border-primary-300 font-lora">
-                ${price}
-              </p>
-            )}
-            <ButtonAddToCart text={"Add to cart"} id={id} status={'inCart'}/>
+                  )}
+                  <div className="flex mt-2 mb-1">
+                    <ButtonBuy id={id}
+                      status={"pending"}
+                      amount={1}
+                      text={"Buy"} />
+                          
+                    <ButtonAddToCart text={"Add to cart"} id={id} status={'inCart'} />
+                  </div>
                 </div>
               </div>
             </div>

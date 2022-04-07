@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"
 import { postOrder } from "../../Redux/Actions/actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ModalPortal from "../../components/modals/GuestModal"
+import ModalPortalDirections from "../modals/DirectionsModal"
 
 //Componente que recibe props , si no recibe ninguna se inicializa con el valor predeterminado seteado en el parametro
 
@@ -13,8 +15,18 @@ export default function ButtonBuy({
   onClick,
 }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const [stateModal, setStateModal] = useState(false)
+
+  const userInfo = useSelector((state) => state.home.user);
+  const direccion = userInfo.directions;
+
+  const [stateDirectionsModal, setStateDirectionsModal] = useState(false)
+  function handleCloseDirectionsModal(e) {
+    e.preventDefault()
+    setStateDirectionsModal(!stateDirectionsModal)
+  }
 
 
   function handleBuyProduct(e) {
@@ -22,19 +34,27 @@ export default function ButtonBuy({
     const localStorageAccess = window.localStorage.getItem("access")
     const localStorageRefresh = window.localStorage.getItem("refresh")
     if (localStorageRefresh && localStorageAccess) {
-      dispatch(
-        postOrder({
-          status: status,
-          amount: amount,
-          productId: id,
-        })
-      );
+      if (direccion && direccion.length) {
+        console.log("id en boton",id)
+        dispatch(
+          postOrder({
+            status: status,
+            amount: amount,
+            productId: id,
+          })
+        );
+        navigate("/purchase")
+      } else {
+        handleCloseDirectionsModal(e)
+      }
     } else {
       setStateModal(!stateModal)
     }
   }
   return (
-    <div> {stateModal ? <ModalPortal onClose={(e) => handleBuyProduct(e)} /> : null}
+    <div>
+      {stateDirectionsModal ? <ModalPortalDirections onClose={(e) => handleCloseDirectionsModal(e)} /> : null}
+      {stateModal ? <ModalPortal onClose={(e) => handleBuyProduct(e)} /> : null}
 
       <div>
         <button
