@@ -30,6 +30,10 @@ export default function SearchBar(props) {
       setSearchValue("");
     }
   };
+  
+  function handleSearch(){
+    setSearchValue("");
+  }
 
   return (
     <form
@@ -60,7 +64,7 @@ export default function SearchBar(props) {
           categories &&
           categories.map((category) => {
             return (
-              <div className="text-black" key={category.id}>
+              <div className="text-black" key={category.id} onClick={()=>handleSearch()}>
                 <Link
                   to={`/products?categoryId=${category.id}&offset=1`}
                   className="text-decoration-line: no-underline"
@@ -87,9 +91,9 @@ export default function SearchBar(props) {
           products.products &&
           products.products.map((product) => {
             return (
-              <div key={product.id}>
+              <div key={product.id} onClick={()=>handleSearch()}>
                 <Link
-                  to={`/product/${product.id}&offset=1`}
+                  to={`/product/${product.id}`}
                   className="text-decoration-line: no-underline"
                 >
                   <div className="hover:bg-primary-300 flex gap-4 p-4">
