@@ -1,12 +1,15 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate, createSearchParams } from "react-router-dom";
+import { category } from "../Redux/Actions/actions";
 
 export default function DropDownCategories({ tittle, array }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   return (
     <div className="group ">
-      <button className="bg-primary-800 shadow-md font-medium rounded-lg text-center text-sm w-full px-2 py-2">
+      <button className="bg-secondary-100 font-medium rounded-lg text-center text-sm w-11/12 p-2">
         <div className="flex justify-between text-center">
           <div>
             <h4></h4>
@@ -30,7 +33,7 @@ export default function DropDownCategories({ tittle, array }) {
         </div>
       </button>
       <div
-        className={`bg-secondary-100 flex-col overflow-y-auto max-h-56 overflow-x-auto rounded absolute hidden group-hover:block  `}
+        className={`bg-white shadow-md font-lora flex-col overflow-y-auto max-h-56 overflow-x-auto rounded absolute hidden group-hover:block z-10 `}
       >
         {array.map((cat) => {
           return (
@@ -39,7 +42,7 @@ export default function DropDownCategories({ tittle, array }) {
               id={cat.id}
               onClick={(e) => {
                 navigate({
-                  pathname: "/admin/products",
+                  pathname: "/products",
                   search: createSearchParams({
                     categoryId: e.target.id,
                     offset: "1",

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import NavBar from '../NavBar';
-import Footer from '../Footer/Footer';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import NavBar from "../NavBar";
+import Footer from "../Footer/Footer";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   clearProductDetail,
   getProductByID,
@@ -12,21 +12,21 @@ import {
   getProducts,
   clearCarrusel,
   getUserInfo,
-} from '../../Redux/Actions/actions';
-import Slider from './Slider';
-import CreateComment from '../Comment/CreateComment';
-import { FaBan } from 'react-icons/fa';
+} from "../../Redux/Actions/actions";
+import Slider from "./Slider";
+import CreateComment from "../Comment/CreateComment";
+import { FaBan } from "react-icons/fa";
 import {
   AiOutlineCheckCircle,
   AiOutlineShoppingCart,
   AiOutlineHeart,
-} from 'react-icons/ai';
-import { MdLocalShipping } from 'react-icons/md';
-import { GoPrimitiveDot } from 'react-icons/go';
-import ButtonBuy from '../commons/ButtonBuy';
-import { ToastContainer, toast } from 'react-toastify';
-import RealtedCarousel from '../commons/RelatedCarousel';
-import ModalPortal from '../../components/modals/GuestModal';
+} from "react-icons/ai";
+import { MdLocalShipping } from "react-icons/md";
+import { GoPrimitiveDot } from "react-icons/go";
+import ButtonBuy from "../commons/ButtonBuy";
+import { ToastContainer, toast } from "react-toastify";
+import RealtedCarousel from "../commons/RelatedCarousel";
+import ModalPortal from "../../components/modals/GuestModal";
 
 export default function ProductDetails() {
   const admin = useSelector((state) => state.home.admin);
@@ -34,9 +34,11 @@ export default function ProductDetails() {
   const product = useSelector((state) => state.productID.product);
   const wishListDB = useSelector((state) => state.home.inWishList);
   const cartDB = useSelector((state) => state.home.inCart);
-  const token = window.localStorage.getItem('access');
-  const [cartLS, setCartLS] = useState(window.localStorage.getItem('inCart'));
-  const [wishListLS, setWishListLS] = useState(window.localStorage.getItem('inWishList'));
+  const token = window.localStorage.getItem("access");
+  const [cartLS, setCartLS] = useState(window.localStorage.getItem("inCart"));
+  const [wishListLS, setWishListLS] = useState(
+    window.localStorage.getItem("inWishList")
+  );
   const postOrders = useSelector((state) => state.home.postOrders);
   const deleted = useSelector((state) => state.home.deleted);
   const user = useSelector((state) => state.home.user);
@@ -72,8 +74,8 @@ export default function ProductDetails() {
   }, [idProduct]);
 
   useEffect(() => {
-    dispatch(getOrder({ status: 'inCart' }));
-    dispatch(getOrder({ status: 'inWishList' }));
+    dispatch(getOrder({ status: "inCart" }));
+    dispatch(getOrder({ status: "inWishList" }));
     dispatch(getProductByID(idProduct));
     return () => {
       dispatch(clearProductDetail());
@@ -103,8 +105,8 @@ export default function ProductDetails() {
         setSelectedWishList(false);
       }
     } else {
-      setCartLS(window.localStorage.getItem('inCart'));
-      setWishListLS(window.localStorage.getItem('inWishList'));
+      setCartLS(window.localStorage.getItem("inCart"));
+      setWishListLS(window.localStorage.getItem("inWishList"));
 
       const parsedCart = JSON.parse(cartLS);
       const parsedWishList = JSON.parse(wishListLS);
@@ -117,7 +119,8 @@ export default function ProductDetails() {
       const foundProductInWishList =
         wishListLS === null || wishListLS.length === 0
           ? null
-          : parsedWishList && parsedWishList.find((el) => el.productId == idProduct);
+          : parsedWishList &&
+            parsedWishList.find((el) => el.productId == idProduct);
 
       if (foundProductInCart) {
         setSelectedCart(true);
@@ -138,42 +141,48 @@ export default function ProductDetails() {
 
     const pSales = product && product.sales && product.sales.productSales;
     setProductSales(pSales);
-    const categorySales = product && product.sales && product.sales.categorySales;
-    
+    const categorySales =
+      product && product.sales && product.sales.categorySales;
+
     if (productSales && productSales.length > 0) {
-      
       for (const sale of productSales) {
-        if (sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() || sale.day == 'all') {
+        if (
+          sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() ||
+          sale.day == "all"
+        ) {
           days.push(sale);
         }
       }
     }
     if (categorySales && categorySales.length > 0) {
       for (const sale of categorySales) {
-        if (sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() || sale.day == 'all') {
+        if (
+          sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() ||
+          sale.day == "all"
+        ) {
           days.push(sale);
         }
       }
     }
     if (globalSales && globalSales.length > 0) {
-      
       for (const sale of globalSales) {
-        
-        if (sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() || sale.day == 'all') {
-          
+        if (
+          sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() ||
+          sale.day == "all"
+        ) {
           days.push(sale);
         }
       }
     }
     if (days && days.length > 0) {
       const sortedDays = days.sort((a, b) => b.percentage - a.percentage);
-      
+
       setSaleSelected(sortedDays[0]);
       setSaleON(true);
     }
   }, [product, globalSales]);
 
-  const desc = product.description && product.description.split('. ');
+  const desc = product.description && product.description.split(". ");
   const description = desc && desc.slice(0, -1);
 
   const [stateModal, setStateModal] = useState(false);
@@ -183,18 +192,18 @@ export default function ProductDetails() {
   }
 
   const notifyDetail3 = (e) => {
-    const localStorageAccess = window.localStorage.getItem('access');
-    const localStorageRefresh = window.localStorage.getItem('refresh');
+    const localStorageAccess = window.localStorage.getItem("access");
+    const localStorageRefresh = window.localStorage.getItem("refresh");
     if (!localStorageAccess && !localStorageRefresh) {
       handleCloseModal(e);
     }
 
-    toast.success('Purchase successfull !', {
+    toast.success("Purchase successfull !", {
       position: toast.POSITION.BOTTOM_LEFT,
     });
-    navigate('/purchase');
+    navigate("/purchase");
     if (localStorageAccess && localStorageRefresh) {
-      toast.success('Purchase successfull !', {
+      toast.success("Purchase successfull !", {
         position: toast.POSITION.BOTTOM_LEFT,
       });
     }
@@ -204,7 +213,7 @@ export default function ProductDetails() {
     if (!selectedCart) {
       dispatch(
         postOrder({
-          status: 'inCart',
+          status: "inCart",
           amount: 1,
           productId: idProduct,
           title: product.title,
@@ -216,25 +225,26 @@ export default function ProductDetails() {
           id: idProduct,
         })
       );
-      toast.success('Added to the cart !', {
+      toast.success("Added to the cart !", {
         position: toast.POSITION.BOTTOM_LEFT,
       });
     } else {
-      const foundProductInCart = cartDB && cartDB.find((el) => el.id == idProduct);
+      const foundProductInCart =
+        cartDB && cartDB.find((el) => el.id == idProduct);
       const orderId = foundProductInCart && foundProductInCart.orders[0].id;
-      dispatch(deleteOrder(orderId, idProduct, 'inCart'));
-      toast.error('Removed from cart !', {
+      dispatch(deleteOrder(orderId, idProduct, "inCart"));
+      toast.error("Removed from cart !", {
         position: toast.POSITION.BOTTOM_LEFT,
       });
     }
-    setCartLS(window.localStorage.getItem('inCart'));
+    setCartLS(window.localStorage.getItem("inCart"));
   }
 
   function addFavDetails() {
     if (!selectedWishList) {
       dispatch(
         postOrder({
-          status: 'inWishList',
+          status: "inWishList",
           amount: 1,
           productId: idProduct,
           title: product.title,
@@ -246,18 +256,19 @@ export default function ProductDetails() {
           id: idProduct,
         })
       );
-      toast.success('Added to the wishlist !', {
+      toast.success("Added to the wishlist !", {
         position: toast.POSITION.BOTTOM_LEFT,
       });
     } else {
-      const foundProductInWL = wishListDB && wishListDB.find((el) => el.id == idProduct);
+      const foundProductInWL =
+        wishListDB && wishListDB.find((el) => el.id == idProduct);
       const orderId = foundProductInWL && foundProductInWL.orders[0].id;
-      dispatch(deleteOrder(orderId, idProduct, 'inWishList'));
-      toast.error('Removed from wishlist !', {
+      dispatch(deleteOrder(orderId, idProduct, "inWishList"));
+      toast.error("Removed from wishlist !", {
         position: toast.POSITION.BOTTOM_LEFT,
       });
     }
-    setWishListLS(window.localStorage.getItem('inWishList'));
+    setWishListLS(window.localStorage.getItem("inWishList"));
   }
 
   return (
@@ -270,15 +281,25 @@ export default function ProductDetails() {
           <div id="category_container" className="pt-2 flex gap-2">
             {product.categories &&
               product.categories.map((el) => (
-                <div className="w-fit h-fit p-2 bg-white rounded shadow-sm text-xs 2xl:text-sm">
-                  {el.name}
-                </div>
+                <Link
+                  to={`/products?categoryId=${el.id}&offset=1`}
+                  className="text-decoration-line: no-underline text-black"
+                >
+                  <div className="w-fit h-fit p-2 bg-white rounded shadow-sm text-xs 2xl:text-sm">
+                    {el.name}
+                  </div>
+                </Link>
               ))}
           </div>
 
-          <div id="slider_container" className="p-2 bg-white rounded shadow-sm my-2">
+          <div
+            id="slider_container"
+            className="p-2 bg-white rounded shadow-sm my-2"
+          >
             <div className="p-2 border-b-[1px] border-b-primary-300 font-lora flex flex-col-reverse justify-center items-center gap-2 md:flex-row md:justify-between">
-              <h2 className="2xl:text-2xl text-3xl">{product && product.title}</h2>
+              <h2 className="2xl:text-2xl text-3xl">
+                {product && product.title}
+              </h2>
               {saleON &&
                 ((productSales && productSales.length > 0) ||
                   saleSelected.percentage) && (
@@ -289,14 +310,14 @@ export default function ProductDetails() {
                           productSales.length > 0 &&
                           productSales[0].percentage) ||
                           saleSelected.percentage)}
-                      % OFF{' '}
+                      % OFF{" "}
                       {productSales && productSales.length > 0
                         ? productSales[0].productAmount > 0
                           ? `on ${productSales[0].productAmount + 1}º unit`
-                          : ''
+                          : ""
                         : saleSelected.productAmount > 0
                         ? `on ${saleSelected.productAmount + 1}º unit`
-                        : ''}
+                        : ""}
                     </p>
                   </div>
                 )}
@@ -319,9 +340,9 @@ export default function ProductDetails() {
                       <p
                         className={
                           (saleON && saleSelected.percentage
-                            ? 'text-xl md:text-3xl text-primary-400 line-through	md:text-xl '
-                            : 'text-primary-700 md:text-3xl text-2xl xl:text-2xl 2xl:text-3xl 2xl:font-black') +
-                          'font-bold xl:border-b-[1px] xl:border-primary-300'
+                            ? "text-xl md:text-3xl text-primary-400 line-through	md:text-xl "
+                            : "text-primary-700 md:text-3xl text-2xl xl:text-2xl 2xl:text-3xl 2xl:font-black") +
+                          "font-bold xl:border-b-[1px] xl:border-primary-300"
                         }
                       >
                         ${product.price}
@@ -332,7 +353,8 @@ export default function ProductDetails() {
                           {(
                             product.price -
                             product.price *
-                              ((productSales && productSales.length > 0 &&
+                              ((productSales &&
+                                productSales.length > 0 &&
                                 productSales[0].percentage / 100) ||
                                 (saleSelected && saleSelected.percentage) / 100)
                           ).toFixed(2)}
@@ -349,24 +371,24 @@ export default function ProductDetails() {
                     <p
                       className={
                         (saleON && saleSelected.percentage
-                          ? 'text-xl md:text-2xl text-primary-400 line-through '
-                          : 'text-primary-700 text-2xl md:text-2xl xl:text-2xl 2xl:text-3xl 2xl:font-black ') +
-                        'font-bold xl:border-b-[1px] xl:border-primary-300'
+                          ? "text-xl md:text-2xl text-primary-400 line-through "
+                          : "text-primary-700 text-2xl md:text-2xl xl:text-2xl 2xl:text-3xl 2xl:font-black ") +
+                        "font-bold xl:border-b-[1px] xl:border-primary-300"
                       }
                     >
                       ${product.price}
                     </p>
                     {saleON && saleSelected.percentage ? (
                       <p className="font-bold text-primary-700 text-2xl md:text-5xl xl:border-b-[1px] xl:border-primary-300 2xl:font-black">
-                        $ 
-                        {
-                          (
-                            product.price -
-                            product.price *
-                              ((productSales && productSales.length > 0 &&
-                                productSales[0].percentage / 100) ||
-                                (saleSelected && saleSelected.percentage) / 100)
-                          ).toFixed(2)}
+                        $
+                        {(
+                          product.price -
+                          product.price *
+                            ((productSales &&
+                              productSales.length > 0 &&
+                              productSales[0].percentage / 100) ||
+                              (saleSelected && saleSelected.percentage) / 100)
+                        ).toFixed(2)}
                       </p>
                     ) : null}
                   </div>
@@ -403,13 +425,13 @@ export default function ProductDetails() {
                       addFavDetails();
                     }}
                     className={
-                      (selectedWishList ? 'bg-primary-400 ' : 'bg-white ') +
-                      'flex items-center justify-center gap-2 rounded no-underline h-fit w-12 bg-white font-bold p-2 border-[1px] border-primary-400 font-lora hover:border-primary-700 hover:text-primary-700 hover:shadow-md active:scale-95'
+                      (selectedWishList ? "bg-primary-400 " : "bg-white ") +
+                      "flex items-center justify-center gap-2 rounded no-underline h-fit w-12 bg-white font-bold p-2 border-[1px] border-primary-400 font-lora hover:border-primary-700 hover:text-primary-700 hover:shadow-md active:scale-95"
                     }
                   >
                     <AiOutlineHeart
                       className="h-6 w-6 inline-block"
-                      color={selectedWishList ? '#ffffff' : '#FEBD70'}
+                      color={selectedWishList ? "#ffffff" : "#FEBD70"}
                     />
                   </button>
                 </div>
@@ -420,25 +442,25 @@ export default function ProductDetails() {
                       addCartDetails();
                     }}
                     className={
-                      (selectedCart ? 'bg-primary-400 ' : 'bg-white ') +
-                      'flex items-center justify-center gap-2 rounded no-underline h-fit w-12 bg-white font-bold p-2 border-[1px] border-primary-400 font-lora hover:border-primary-700 hover:text-primary-700 hover:shadow-md active:scale-95'
+                      (selectedCart ? "bg-primary-400 " : "bg-white ") +
+                      "flex items-center justify-center gap-2 rounded no-underline h-fit w-12 bg-white font-bold p-2 border-[1px] border-primary-400 font-lora hover:border-primary-700 hover:text-primary-700 hover:shadow-md active:scale-95"
                     }
                   >
                     <AiOutlineShoppingCart
                       className="h-6 w-6 inline-block"
-                      color={selectedCart ? '#ffffff' : '#FEBD70'}
+                      color={selectedCart ? "#ffffff" : "#FEBD70"}
                     />
                   </button>
                 </div>
               </div>
-              {user && user.rol !== 'admin' ? (
+              {user && user.rol !== "admin" ? (
                 product.stock && product.stock !== 0 ? (
                   <div>
                     <ButtonBuy
                       id={idProduct}
-                      status={'pending'}
+                      status={"pending"}
                       amount={1}
-                      text={'Buy'}
+                      text={"Buy"}
                       onClick={(e) => notifyDetail3(e)}
                     />
                   </div>

@@ -8,7 +8,8 @@ import {
   POST_EMAIL,
   POST_SALE,
   EDIT_SALE,
-} from '../Actions/types.js';
+  CATEGORY,
+} from "../Actions/types.js";
 
 const initialState = {
   sales: [],
@@ -18,6 +19,7 @@ const initialState = {
   deletedProduct: {},
   saleChange: {},
   deletedProduct: {},
+  category: "",
 };
 
 export const AdminReducer = (state = initialState, { type, payload }) => {
@@ -64,6 +66,11 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         saleChange: { change: payload },
+      };
+    case CATEGORY:
+      return {
+        ...state,
+        category: payload,
       };
     default:
       return state;
