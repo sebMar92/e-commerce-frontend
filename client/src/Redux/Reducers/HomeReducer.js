@@ -115,10 +115,17 @@ export const HomeReducer = (state = initialState, action) => {
         postOrders: action.payload,
       };
     case GET_ORDERS:
+      if(action.payload.status === "inWishList" || action.payload.status === "inCart" || action.payload.status === "finished" || action.payload.status === "pending"){
       return {
         ...state,
         [action.payload.status]: action.payload.data,
-      };
+      }
+    }else{
+      return{
+        ...state,
+        historial: action.payload
+      }
+    }
     case GET_USER_INFO:
       return {
         ...state,

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import { motion } from "framer-motion";
 export default function CardHistorial({
   images,
   title,
@@ -10,7 +10,7 @@ export default function CardHistorial({
   }) 
   {
   return (
-    <div className="flex flex-wrap justify-center">
+    <motion.div className="flex flex-wrap justify-center">
       <div className="bg-secondary-100 w-9/12 m-5 rounded-md">
         <div>
           <div className=" flex flex-wrap justify-between   rounded-lg w-11/12 h-auto">
@@ -48,6 +48,6 @@ export default function CardHistorial({
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
