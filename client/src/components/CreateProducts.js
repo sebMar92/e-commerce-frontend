@@ -212,7 +212,7 @@ export default function CreateProducts() {
                   <label>Price </label>
                   <input
                     className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
-                    type="text"
+                    type="number"
                     name="price"
                     placeholder="$ 000.00"
                     value={input.price}
@@ -225,7 +225,7 @@ export default function CreateProducts() {
                   <label>Shipping Cost</label>
                   <input
                     className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
-                    type="text"
+                    type="number"
                     name="shippingCost"
                     placeholder="$ 000.00"
                     value={input.shippingCost}
