@@ -24,7 +24,7 @@ export default function PurchasePage() {
     dispatch(getProducts('?limit=1'));
     dispatch(getOrder({ status: 'pending' }));
     dispatch(getBulkOrders({ status: 'pending' }));
-  }, [resDelete, location.search,data]);
+  }, [resDelete, location.search]);
 
   
   useEffect(() => {
@@ -133,7 +133,7 @@ export default function PurchasePage() {
   return (
     <>
       <NavBarEmpty />
-      {data && <Checkout data={data} products={productsWithSales} />}
+      {productsWithSales && productsWithSales.length > 0 ? <Checkout data={data} products={productsWithSales}/> : <><h1>Loading</h1></>}
       <Footer />
     </>
   );

@@ -12,8 +12,8 @@ export const allCategories = [
   { icon: "👜", label: "Purchases" },
 ];
 
-const [tomato, lettuce, cheese] = allCategories;
-export const tabs = [tomato, lettuce, cheese];
+const [wishlist,carts,purchases] = allCategories;
+export const tabs = [wishlist,carts,purchases];
 
 export default function NavigatorProfile() {
   const dispatch = useDispatch();
