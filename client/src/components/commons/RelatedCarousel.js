@@ -17,6 +17,7 @@ export default function RelatedCarousel({ data }) {
     const indiceDePrimerProdcuto = indiceDeUltimoProducto - productosPorCarrusel
     const [productos, setProductos] = useState()
     const paginasLength = Math.ceil(data.length / productosPorCarrusel)
+    const globalSales = useSelector((state) => state.home.globalSales)
 
     const [width, setWidth] = useState(window.innerWidth);
     const [height, setHeight] = useState(window.innerHeight);
@@ -106,6 +107,9 @@ export default function RelatedCarousel({ data }) {
                                         cartDB={cartDB}
                                         token={token}
                                         deleted={deleted}
+                                        globalSales={globalSales}
+                                        categorySales={el.sales.categorySales}
+                                        productSales={el.sales.productSales}
                                         postOrders={postOrders} className="ir-arriba" />
                                 </div>
                             ))}

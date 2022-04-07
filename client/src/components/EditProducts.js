@@ -65,6 +65,9 @@ export default function EditProducts() {
     setAprove(false);
     if (Object.keys(errors).length === 0) {
       setSucces(true);
+      if (input.images.length === 0) {
+        input.images.push(Modelo);
+      }
       dispatch(putProductByID(idProduct, input));
       setInput({
         title: "",
