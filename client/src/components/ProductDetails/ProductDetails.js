@@ -28,17 +28,21 @@ export default function ProductDetails() {
   const token = window.localStorage.getItem("access")
   const [cartLS, setCartLS] = useState(window.localStorage.getItem("inCart"))
   const [wishListLS, setWishListLS] = useState(window.localStorage.getItem("inWishList"))
-  const deleted = useSelector((state) => state.home.deleted)
   const postOrders = useSelector((state) => state.home.postOrders)
+  const deleted = useSelector((state) => state.home.deleted)
   const user = useSelector((state) => state.home.user)
   const [selectedWishList, setSelectedWishList] = useState(false)
   const [selectedCart, setSelectedCart] = useState(false)
-
+  const globalSales = useSelector((state) => state.home.globalSales)
+  const [saleON, setSaleON] = useState(false);
+  const [saleSelected, setSaleSelected] = useState(undefined);
+  const [productSales, setProductSales] = useState(undefined)
+  
   const dispatch = useDispatch();
   let { idProduct } = useParams();
   const navigate = useNavigate()
-
-
+  
+  
   const productsCategory = useSelector((state) => state.home.products)
 
   const [data, setData] = useState([])
@@ -113,6 +117,47 @@ export default function ProductDetails() {
       }
     }
   }, [cartLS, wishListLS, deleted, postOrders, wishListDB, cartDB])
+
+  useEffect(() => {
+    const date = Date();
+    const days = [];
+  
+    const pSales = product && product.sales && product.sales.productSales
+    setProductSales(pSales)
+    const categorySales = product && product.sales && product.sales.categorySales
+    console.log(globalSales)
+    if (productSales && productSales.length > 0) {
+      console.log(1)
+      for (const sale of productSales) {
+        if (sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() || sale.day == 'all') {
+          days.push(sale);
+        }
+      }
+    }
+    if (categorySales && categorySales.length > 0) {
+      for (const sale of categorySales) {
+        if (sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() || sale.day == 'all') {
+          days.push(sale);
+        }
+      }
+    }
+    if (globalSales && globalSales.length > 0) {
+      console.log("2" + globalSales)
+      for (const sale of globalSales) {
+        console.log(sale)
+        if (sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() || sale.day == 'all') {
+          console.log("push")
+          days.push(sale);
+        }
+      }
+    }
+    if (days && days.length > 0) {
+      const sortedDays = days.sort((a, b) => b.percentage - a.percentage);
+      console.log("hi")
+      setSaleSelected(sortedDays[0]);
+      setSaleON(true);
+    }
+  }, [product, globalSales])
 
 
   const desc = product.description && product.description.split('. ');
@@ -229,8 +274,26 @@ export default function ProductDetails() {
           </div>
 
           <div id="slider_container" className="p-2 bg-white rounded shadow-sm my-2">
-            <div className="p-2 border-b-[1px] border-b-primary-300 font-lora">
-              <h2 className="2xl:text-2xl text-3xl">{product && product.title}</h2>
+            <div className="p-2 border-b-[1px] border-b-primary-300 font-lora flex flex-col-reverse justify-center items-center gap-2 md:flex-row md:justify-between">
+            <h2 className="2xl:text-2xl text-3xl">{product && product.title}</h2>
+              {saleON && (productSales && productSales.length > 0 || saleSelected.percentage) && (
+                <div className="border-[2px] border-orange-600 h-fit w-fit p-1 rounded text-base bg-white font-lora font-extrabold md:text-2xl text-orange-600">
+              <p>
+                {saleON &&
+                  ((productSales && productSales.length > 0 && productSales[0].percentage) ||
+                  saleSelected.percentage)}
+                % OFF{' '}
+                {productSales && productSales.length > 0
+                  ? productSales[0].productAmount > 0
+                  ? `on ${productSales[0].productAmount + 1}º unit`
+                  : ''
+                  : saleSelected.productAmount > 0
+                  ? `on ${saleSelected.productAmount + 1}º unit`
+                  : ''}
+              </p>
+            </div>
+          )}
+            
             </div>
             <Slider images={product.images} />
           </div>
@@ -242,12 +305,69 @@ export default function ProductDetails() {
             <div
               id="add_to_cart_container"
               className="w-full bg-white rounded p-2 flex flex-col gap-3 items-center justify-center lg:flex-row "
-            >
-
-              <div className="flex gap-2 text-4xl items-center w-4/5 justify-center text-bold text-primary-700">
-                <span className="pb-2 border-b-[1px] border-primary-400">
-                  U$S {product.price}
-                </span>
+              >
+              
+              <div className="flex gap-2 items-center w-4/5 justify-center text-bold text-primary-700">
+              {productSales && productSales.length > 0 ? (
+              productSales[0].productAmount === 0 ? (
+                <div className="flex flex-col lg:flex-row-reverse gap-2 justify-center items-center">
+                  <p
+                    className={
+                      (saleON && saleSelected.percentage
+                        ? 'text-xl md:text-3xl text-primary-400 line-through	md:text-xl '
+                        : 'text-primary-700 md:text-3xl text-2xl xl:text-2xl 2xl:text-3xl 2xl:font-black') +
+                      'font-bold xl:border-b-[1px] xl:border-primary-300'
+                    }
+                  >
+                    ${product.price}
+                  </p>
+                  {saleON && saleSelected.percentage ? (
+                    <p className="font-bold text-primary-700 text-2xl md:text-5xl xl:border-b-[1px] xl:border-primary-300 2xl:font-black">
+                      $
+                      {(
+                        product.price -
+                        product.price *
+                          ((productSales.length > 0 &&
+                            productSales[0].percentage / 100) ||
+                            saleSelected.percentage / 100)
+                      ).toFixed(2)}
+                    </p>
+                  ) : null}
+                </div>
+              ) : (
+                <p className="text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black font-bold xl:border-b-[1px] xl:border-primary-300">
+                  ${product.price}
+                </p>
+              )
+            ) : saleSelected && saleSelected.productAmount === 0 ? (
+              <div className="flex gap-2 flex-col lg:flex-row-reverse gap-2 justify-center items-center ">
+                <p
+                  className={
+                    (saleON && saleSelected.percentage
+                      ? 'text-xl md:text-2xl text-primary-400 line-through '
+                      : 'text-primary-700 text-2xl md:text-2xl xl:text-2xl 2xl:text-3xl 2xl:font-black ') +
+                    'font-bold xl:border-b-[1px] xl:border-primary-300'
+                  }
+                >
+                  ${product.price}
+                </p>
+                {saleON && saleSelected.percentage ? (
+                  <p className="font-bold text-primary-700 text-2xl md:text-5xl xl:border-b-[1px] xl:border-primary-300 2xl:font-black">
+                    $
+                    {(
+                      product.price -
+                      product.price *
+                        ((productSales.length > 0 && productSales[0].percentage / 100) ||
+                          saleSelected.percentage / 100)
+                    ).toFixed(2)}
+                  </p>
+                ) : null}
+              </div>
+            ) : (
+              <p className="text-primary-700 text-3xl 2xl:text-5xl 2xl:font-black font-bold xl:border-b-[1px] xl:border-primary-300">
+                ${product.price}
+              </p>
+            )}
               </div>
 
               <div className="flex justify-evenly w-full">
