@@ -217,6 +217,7 @@ export function validateMail(mail) {
 }
 
 export function postOrder(order) {
+  console.log("post", order.productId)
   const token = window.localStorage.getItem('access');
   if (token) {
     return async function (dispatch) {
@@ -238,7 +239,7 @@ export function postOrder(order) {
           stock: order.stock,
           description: order.description,
           images: order.images,
-          orders: [{ id: 0, amount: order.amount }],
+          orders: [{ id: order.productId, amount: order.amount }],
           price: order.price,
         };
         var arr = [];
@@ -255,7 +256,7 @@ export function postOrder(order) {
           stock: order.stock,
           description: order.description,
           images: order.images,
-          orders: [{ id: 0, amount: order.amount }],
+          orders: [{ id: order.productId, amount: order.amount }],
           price: order.price,
         };
         var item = window.localStorage.getItem(`${order.status}`);
@@ -309,12 +310,12 @@ export function changeOrderStatus(order) {
   };
 }
 
-export function changeOrderAmount(order, id, status) {
-  console.log('order', order);
+export function changeOrderAmount(order) {
+  console.log("holi", order.id)
   const token = window.localStorage.getItem('access');
   if (token) {
     return async function (dispatch) {
-      var json = await axios.put(`/order/${order.id}?amount=${order.amount}`);
+      var json = await axios.put(`/order/${order.id}`, { amount: order.amount });
       return dispatch({
         type: PUT_ORDERS_AMOUNT,
         payload: { status: order.status, data: json.data },
@@ -322,12 +323,13 @@ export function changeOrderAmount(order, id, status) {
     };
   } else {
     return function (dispatch) {
-      const item = window.localStorage.getItem(`${status}`);
+      const item = window.localStorage.getItem(`${order.status}`);
       const parsedItem = item && JSON.parse(item);
       const itemChange =
         parsedItem &&
         parsedItem.map((el) => {
-          if (el.productId === id) {
+          if (el.productId == order.id) {
+            console.log("entro")
             if (Math.abs(el.orders[0].amount + order.amount) < 1) {
               return {
                 error: 'amount is less than one',
@@ -344,10 +346,10 @@ export function changeOrderAmount(order, id, status) {
             return el;
           }
         });
-      window.localStorage.setItem(`${status}`, JSON.stringify(itemsFilter));
+      window.localStorage.setItem(`${order.status}`, JSON.stringify(itemsFilter));
       return dispatch({
         type: PUT_ORDERS_AMOUNT,
-        payload: { status: status, data: itemsFilter },
+        payload: { status: order.status, data: itemsFilter },
       });
     };
   }
