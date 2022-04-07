@@ -44,12 +44,12 @@ export default function AdminProfile() {
   const products = useSelector((state) => state.home.bulkAdmin);
   const user = useSelector((state) => state.home.users);
   const fecha = []; // fecha de la compra
-  const cantidad = [];// cantidad por orden
-  const product = []; 
-  const priceCu = []; 
+  const cantidad = []; // cantidad por orden
+  const product = [];
+  const priceCu = [];
   const cantidadProduct = [];
 
-  if (products) {
+  if (products && products.length) {
     products.map((f) => {
       if (f.orders) {
         fecha.push(dayjs(f.orders[0].serverPurchaseDate).format('MMMM D, YYYY'));
@@ -59,7 +59,7 @@ export default function AdminProfile() {
     });
   }
 
-  if (products) {
+  if (products && products.length) {
     products.map((p) => {
       if (p.orders) {
         cantidad.push(p.orders[0].amount);
@@ -69,20 +69,19 @@ export default function AdminProfile() {
     });
   }
 
-  if (products) {
+  if (products && products.length) {
     products.map((p) => {
       if (p.orders) {
         cantidadProduct.push(p.orders[0].amount);
       } else {
-        p.products.map((und)=>{
+        p.products.map((und) => {
           cantidadProduct.push(und.length);
-        })
-     
+        });
       }
     });
   }
 
-  if (products) {
+  if (products && products.length) {
     products.map((pr) => {
       if (pr.orders) {
         product.push(pr.title.substring(0, 15));
@@ -94,7 +93,7 @@ export default function AdminProfile() {
     });
   }
 
-  if (products) {
+  if (products && products.length) {
     products.map((p) => {
       if (p.orders) {
         priceCu.push(p.price);
@@ -106,11 +105,9 @@ export default function AdminProfile() {
     });
   }
 
-
-
   useEffect(() => {
     dispatch(getBulkAdmin({ status: 'finished' }));
-    dispatch(getUsersInfo())
+    dispatch(getUsersInfo());
   }, []);
 
   const data = {
@@ -223,7 +220,7 @@ export default function AdminProfile() {
                     if (us.rol === 'user') {
                       var name = us.firstName.split(' ')[0].toLowerCase();
                       var apellido = us.lastName.split(' ')[0].toLowerCase();
-                      
+
                       return (
                         <p className="border border-secondary-200 overflo  w-auto  ">
                           {name.charAt(0).toUpperCase() +
