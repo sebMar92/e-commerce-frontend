@@ -1,22 +1,35 @@
-import React from "react";
-import NavBar from "./NavBar";
-import Footer from "./Footer/Footer";
-import CardCart from "./CardCart";
-import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { MdRestaurantMenu } from "react-icons/md";
-import { getOrder, changeOrderStatus } from "../Redux/Actions/actions";
-import carrito from "./utils/carrito triste.png";
+import React from 'react';
+import NavBar from './NavBar';
+import Footer from './Footer/Footer';
+import CardCart from './CardCart';
+import { useEffect, useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { MdRestaurantMenu } from 'react-icons/md';
+import {
+  getOrder,
+  changeOrderStatus,
+  postBulkOrder,
+  getProducts,
+} from '../Redux/Actions/actions';
+import carrito from './utils/carrito triste.png';
+import ModalPortal from '../components/modals/GuestModal';
+import ModalPortalDirections from '../components/modals/DirectionsModal';
 
 export default function Cart() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const product = useSelector((state) => state.home.inCart);
-  const direccion = useSelector((state) => state.home.user.directions);
+  const userInfo = useSelector((state) => state.home.user);
+  const globalSales = useSelector((state) => state.home.globalSales);
+  const direccion = userInfo.directions;
   var total = 0;
   var finalShippingCost = [];
 
   const resPutOrder = useSelector((state) => state.home.resPutOrder);
+  const resPostBulk = useSelector((state) => state.home.resPostBulk);
+  const localStorageAccess = window.localStorage.getItem('access');
+  const localStorageRefresh = window.localStorage.getItem('refresh');
 
   if (product && product.length > 0) {
     total = product
@@ -29,26 +42,59 @@ export default function Cart() {
   }
 
   useEffect(() => {
-    dispatch(getOrder({ status: "inCart" }));
-  }, [resPutOrder]);
+    dispatch(getOrder({ status: 'inCart' }));
+    dispatch(getProducts());
+  }, [resPutOrder, resPostBulk]);
 
-  function handleAllBuy() {
-    product &&
-      product.forEach((e) => {
-        const id = e.orders[0].id;
-        dispatch(
-          changeOrderStatus({
-            id: id,
-            status: "finished",
-          })
-        );
-      });
+  const [stateModal, setStateModal] = useState(false);
+  const [stateDirectionsModal, setStateDirectionsModal] = useState(false);
+
+  function handleCloseModal(e) {
+    e.preventDefault();
+    setStateModal(!stateModal);
+  }
+
+  function handleCloseDirectionsModal(e) {
+    e.preventDefault();
+    setStateDirectionsModal(!stateDirectionsModal);
+  }
+
+  function handleAllBuy(e) {
+    const localStorageAccess = window.localStorage.getItem('access');
+    const localStorageRefresh = window.localStorage.getItem('refresh');
+    if (!localStorageAccess && !localStorageRefresh) {
+      handleCloseModal(e);
+    }
+
+    if (localStorageAccess && localStorageRefresh) {
+      if (direccion && direccion.length) {
+        if (product.length > 1) {
+          const ids = product.map((e) => e.orders[0].id);
+          dispatch(postBulkOrder({ orderIds: ids }));
+        } else {
+          dispatch(
+            changeOrderStatus({
+              id: product[0].orders[0].id,
+              status: 'pending',
+            })
+          );
+        }
+        setTimeout(() => {
+          navigate('/purchase');
+        }, 1000);
+      } else {
+        handleCloseDirectionsModal(e);
+      }
+    }
   }
 
   return (
     <div>
+      {stateDirectionsModal ? (
+        <ModalPortalDirections onClose={(e) => handleCloseDirectionsModal(e)} />
+      ) : null}
+      {stateModal ? <ModalPortal onClose={(e) => handleCloseModal(e)} /> : null}
       <NavBar />
-
       {product && product.length > 0 ? (
         product.map((prod) => {
           return (
@@ -63,6 +109,9 @@ export default function Cart() {
                 shippingCost={prod.shippingCost}
                 stock={prod.stock}
                 amount={prod.orders && prod.orders[0].amount}
+                categorySales={prod.sales && prod.sales.categorySales}
+                productSales={prod.sales && prod.sales.productSales}
+                globalSales={globalSales}
               />
             </div>
           );
@@ -86,10 +135,8 @@ export default function Cart() {
                 <div className="flex justify-end mx-8 my-2">
                   {product && product.length > 0 ? (
                     <div>
-                      {" "}
-                      <h1 className="text-1xl  text-gray-900">
-                        Total ${total}
-                      </h1>
+                      {' '}
+                      <h1 className="text-1xl  text-gray-900">Total ${total}</h1>
                     </div>
                   ) : (
                     <div></div>
@@ -99,23 +146,35 @@ export default function Cart() {
                   <h1>Shipment</h1>
                   <span>Direction: </span>
 
-                  <select
-                    id="direction"
-                    className="bg-[#3b82f6] text-white p-1 m-2 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition"
-                  >
-                    {direccion &&
-                      direccion.map((dir) => {
-                        return (
-                          <option>
-                            {dir.city +
-                              ", " +
-                              dir.street +
-                              " " +
-                              dir.streetNumber}
-                          </option>
-                        );
-                      })}
-                  </select>
+                  {localStorageAccess && localStorageRefresh ? (
+                    direccion && direccion.length ? (
+                      <select
+                        id="direction"
+                        className="bg-[#3b82f6] text-white p-1 m-2 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition"
+                      >
+                        {direccion &&
+                          direccion.map((dir) => {
+                            return (
+                              <option>
+                                {dir.city + ', ' + dir.street + ' ' + dir.streetNumber}
+                              </option>
+                            );
+                          })}
+                      </select>
+                    ) : (
+                      <Link to="/user">
+                        <span className="bg-[#3b82f6] text-white pl-1 pr-1 ml-2 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition">
+                          Register address
+                        </span>
+                      </Link>
+                    )
+                  ) : (
+                    <Link to="/login">
+                      <span className="bg-[#3b82f6] text-white pl-1 pr-1 ml-2 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition">
+                        Login to add an address
+                      </span>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
@@ -123,16 +182,7 @@ export default function Cart() {
 
           <div className="flex justify-center">
             <button
-              onClick={() => handleAllBuy()}
-              className="bg-[#3b82f6] text-white p-1 my-8 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition  w-24"
-            >
-              Buy All
-            </button>
-          </div>
-
-          <div className="flex justify-center">
-            <button
-              onClick={() => handleAllBuy()}
+              onClick={(e) => handleAllBuy(e)}
               className="bg-[#3b82f6] text-white p-1 my-8 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition  w-24"
             >
               Buy All
@@ -141,12 +191,8 @@ export default function Cart() {
         </>
       ) : (
         <div className="flex justify-center">
-          {" "}
-          <img
-            className="w-36 mx-10 m-10 animate-bounce"
-            src={carrito}
-            alt=""
-          />{" "}
+          {' '}
+          <img className="w-36 mx-10 m-10" src={carrito} alt="" />{' '}
         </div>
       )}
       <Footer />

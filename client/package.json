@@ -12,6 +12,7 @@
     "axios": "^0.26.1",
     "chart.js": "^3.6.0",
     "cloudinary": "^1.29.0",
+    "dayjs": "^1.11.0",
     "dotenv": "^16.0.0",
     "framer-motion": "^6.2.8",
     "os-browserify": "^0.3.0",

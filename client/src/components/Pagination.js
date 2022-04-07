@@ -1,39 +1,55 @@
-import React, { useEffect } from "react";
-import { BsFillArrowRightCircleFill, BsFillArrowLeftCircleFill } from "react-icons/bs";
-import { useSelector } from "react-redux";
-import { useNavigate, createSearchParams } from "react-router-dom";
-import useURLqueries from "./hooks/useURLqueries";
+import React, { useEffect } from 'react';
+import { BsFillArrowRightCircleFill, BsFillArrowLeftCircleFill } from 'react-icons/bs';
+import { useSelector } from 'react-redux';
+import { useNavigate, createSearchParams } from 'react-router-dom';
+import useURLqueries from './hooks/useURLqueries';
 
 export default function Pagination() {
   const navigate = useNavigate();
   const queryObjects = useURLqueries();
   const pages = useSelector((state) => state.home.totalPages);
-  const pagesArray = pages && Array.from({ length: pages }, (value, i) => i + 1);
+  var pagesArray = pages && Array.from({ length: pages }, (value, i) => i + 1);
 
   useEffect(() => {
-    const btnPrev = document.getElementById("btnPrev")
-    const btnNext = document.getElementById("btnNext")
+    pagesArray = pages && Array.from({ length: pages }, (value, i) => i + 1);
+  }, [pages]);
+  useEffect(() => {
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
     if (queryObjects.offset == 1) {
-      btnPrev.classList.add("hidden")
+      btnPrev.classList.add('hidden');
     } else {
-      btnPrev.classList.remove("hidden")
+      btnPrev.classList.remove('hidden');
     }
     if (queryObjects.offset == pages) {
-      btnNext.classList.add("hidden")
+      btnNext.classList.add('hidden');
     } else {
-      btnNext.classList.remove("hidden")
+      btnNext.classList.remove('hidden');
     }
 
-  }, [queryObjects])
+    const focusedButtons = document.getElementsByClassName('paginationBTN');
+    if (focusedButtons) {
+      for (const button of focusedButtons) {
+        if (button.id == queryObjects.offset) {
+          button.classList.add('scale-125');
+          button.classList.add('shadow');
+          button.classList.add('shadow-secondary-500');
+        } else {
+          button.classList.remove('scale-125');
+          button.classList.remove('shadow');
+          button.classList.remove('shadow-secondary-500');
+        }
+      }
+    }
+  }, [queryObjects]);
 
   useEffect(() => {
     if (pagesArray === 0) {
-      document.getElementById("paginado").classList.add("hidden")
-    }else{
-      document.getElementById("paginado").classList.remove("hidden")
+      document.getElementById('paginado').classList.add('hidden');
+    } else {
+      document.getElementById('paginado').classList.remove('hidden');
     }
-  }, [pagesArray])
-
+  }, [pagesArray]);
 
   return (
     <div id="paginado" className="">
@@ -45,11 +61,14 @@ export default function Pagination() {
                 navigate({
                   search: createSearchParams({
                     ...queryObjects,
-                    offset: Number(queryObjects.offset) - 1
+                    offset: Number(queryObjects.offset) - 1,
                   }).toString(),
                 });
               }}
-              className={"m-0.5 text-2xl text-secondary-200 border-2 rounded-full border-primary-400 hover:scale-125 hover:shadow hover:shadow-secondary-500 "}>
+              className={
+                'm-0.5 text-2xl text-secondary-200 border-2 rounded-full border-primary-400 hover:scale-125 hover:shadow hover:shadow-secondary-500 '
+              }
+            >
               <BsFillArrowLeftCircleFill />
             </button>
             <label className="flex flex-col sm:hidden">Previous</label>
@@ -59,7 +78,7 @@ export default function Pagination() {
             pagesArray.map((number) => {
               return (
                 <div
-                  id={number}
+                  id={'div ' + number}
                   key={number}
                   className="hidden sm:flex sm:justify-center"
                 >
@@ -74,7 +93,7 @@ export default function Pagination() {
                           }).toString(),
                         });
                       }}
-                      className="mx-1 w-5 h-5 flex justify-center items-center text-xs rounded-full bg-primary-400 m-1 hover:scale-125 hover:border-secondary-500 hover:shadow hover:shadow-secondary-500 focus:scale-125 focus:shadow focus:shadow-secondary-500"
+                      className="paginationBTN mx-1 w-5 h-5 flex justify-center items-center text-xs rounded-full bg-primary-400 m-1 hover:scale-125 hover:border-secondary-500 hover:shadow hover:shadow-secondary-500 "
                     >
                       {number}
                     </button>
@@ -88,11 +107,12 @@ export default function Pagination() {
                 navigate({
                   search: createSearchParams({
                     ...queryObjects,
-                    offset: Number(queryObjects.offset) + 1
+                    offset: Number(queryObjects.offset) + 1,
                   }).toString(),
                 });
               }}
-              className="m-0.5 text-2xl text-secondary-200 border-2 rounded-full border-primary-400 hover:scale-125 hover:shadow hover:shadow-secondary-500"  >
+              className="m-0.5 text-2xl text-secondary-200 border-2 rounded-full border-primary-400 hover:scale-125 hover:shadow hover:shadow-secondary-500"
+            >
               <BsFillArrowRightCircleFill />
             </button>
             <label className="flex flex-col sm:hidden">Next</label>

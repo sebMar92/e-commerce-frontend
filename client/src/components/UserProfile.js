@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ModalPortal from "../components/modals/UserProfileModal"
 import { Link } from "react-router-dom"
 import axios from 'axios';
-
+import NavigatorProfile from './NavigatorProfile';
 
 
 /* nose que esta pasando */
@@ -18,6 +18,7 @@ import axios from 'axios';
 export default function UserProfile() {
 
     const user = useSelector((state) => state.home.user)
+    console.log("usuario", user)
     const [directionsUser, setDirectionsUser] = useState([])
     const dispatch = useDispatch()
 
@@ -190,30 +191,31 @@ export default function UserProfile() {
             {stateModal ? <ModalPortal directionsUser={user?.directions || []} onClose={(e) => handleCloseModal(e)} /> : null}
             <div>
                 <NavBar />
-                <div className='userprofile'>
+                <div className='userprofile font-lora text-xl'>
                     <div className="flex flex-col items-center justify-center">
                         <div>
 
-                            <h1 className="text-center">User Profile</h1>
+                            <h1 className="text-center text-5xl">Profile</h1>
                             <br />
+                            <div className="flex justify-center flex-row-reverse w-full items-end ml-auto mr-auto -translate-x-3 mb-4">
+                                <img className=' w-60 h-60 object-cover border-2 border-solid border-slate-700 rounded-full shadow-xl' src={stateUser.profilePicture} />
 
-                            <img className='w-60 h-60 object-cover border-2 border-solid border-slate-700 rounded-full shadow-xl' src={stateUser.profilePicture} />
-
-                            <input
-                                id="browse"
-                                type="file"
-                                onChange={(e) => {
-                                    uploadImage(e.target.files);
-                                }}
-                                className=" w-20 hidden"
-                            />
-                            <div className="text-xl translate-x-52 -translate-y-10 cursor-pointer">
-                                <RiImageEditFill onClick={() => HandleBrowseClick()} />
+                                <input
+                                    id="browse"
+                                    type="file"
+                                    onChange={(e) => {
+                                        uploadImage(e.target.files);
+                                    }}
+                                    className="hidden"
+                                />
+                                <div className="text-xl cursor-pointer w-fit translate-x-6 -translate-y-4">
+                                    <RiImageEditFill onClick={() => HandleBrowseClick()} />
+                                </div>
                             </div>
                             <div className="flex justify-center items-center">
                                 <input id="btnconfirmImg" className="hidden mb-1 mr-16 ml-16 p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 text-xs" type="button" value="Confirm image" onClick={() => handleChangeImg()} />
                             </div>
-                            <h3 className="text-center">{stateUser.firstName} {stateUser.lastName}</h3>
+                            <h3 className="text-center text-4xl font-lora font-medium">{stateUser.firstName} {stateUser.lastName}</h3>
                             <br />
 
                         </div>
@@ -222,25 +224,8 @@ export default function UserProfile() {
                         {/* Formulario del usuario */}
                         <div className="flex flex-col w-96 justify-center items-center">
 
-                            <div className="">
-                                <Link to={`/historial`} className="no-underline text-black">
-                                    <button className="p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 text-xs">Go to history</button>
-                                </Link>
-
-                                <Link to={`/wishlist`} className="no-underline text-black">
-
-                                    <button className="mb-1 mr-16 ml-16 p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 text-xs">Go to wish list</button>
-                                </Link>
-
-                                <Link to={`/cart`} className="no-underline text-black">
-
-                                    <button className="p-1 bg-primary-300 rounded-lg shadow-sm shadow-slate-900 hover:shadow-md border-2 border-solid border-primary-500 text-xs">Go to cart</button>
-                                </Link>
-
-                            </div>
-
                             <div className='bg-secondary-100 rounded-md p-2 shadow-sm shadow-slate-900 mb-4'>
-                                <h5 className="text-center mb-2">Data User</h5>
+                                <h5 className="text-center text-xl mb-2">User Data</h5>
 
                                 <div className='rounded-md shadow-sm shadow-slate-400 mb-1'>
 
@@ -317,75 +302,77 @@ export default function UserProfile() {
                                     </div>
 
                                 </div>
+                                {user.googleUser === false ?
+                                    <div className='rounded-md shadow-sm shadow-slate-400 mb-1'>
+                                        <form>
+                                            <div className='flex justify-between'>
 
-                                <div className='rounded-md shadow-sm shadow-slate-400 mb-1'>
-                                    <form>
-                                        <div className='flex justify-between'>
-
-                                            <span className="text-slate-500 m-1">Password</span>
+                                                <span className="text-slate-500 m-1">Password</span>
 
 
-                                            <div
-                                                id="btnEdit4"
-                                                onClick={() => hanldeClickChangeData("passwordUser")}
-                                                className="cursor-pointer m-1 mt-2">
-                                                <AiFillEdit />
+                                                <div
+                                                    id="btnEdit4"
+                                                    onClick={() => hanldeClickChangeData("passwordUser")}
+                                                    className="cursor-pointer m-1 mt-2">
+                                                    <AiFillEdit />
+                                                </div>
+
+                                                <div
+                                                    id="btnClosePassword"
+                                                    onClick={() => hanldeClickChangeData("passwordUser")}
+                                                    className="hidden cursor-pointer m-1 mt-2">
+                                                    <AiFillCloseSquare />
+                                                </div>
+
+                                                <button
+                                                    id="passwordBtn" type="submit" onClick={(e) => hanldeClickChangeData("passwordBtn", e)}
+                                                    className="hidden cursor-pointer m-1 mt-2">
+                                                    <BsSave2 />
+                                                </button>
+
+
                                             </div>
 
-                                            <div
-                                                id="btnClosePassword"
-                                                onClick={() => hanldeClickChangeData("passwordUser")}
-                                                className="hidden cursor-pointer m-1 mt-2">
-                                                <AiFillCloseSquare />
-                                            </div>
+                                            <div className="flex">
 
-                                            <button
-                                                id="passwordBtn" type="submit" onClick={(e) => hanldeClickChangeData("passwordBtn", e)}
-                                                className="hidden cursor-pointer m-1 mt-2">
-                                                <BsSave2 />
-                                            </button>
+                                                <div id="passwordUser" className="ml-1 hidden w-full">
 
+                                                    <div className="flex flex-col justify-between rounded-md shadow-sm shadow-slate-400 mb-1 p-1">
+                                                        <span>Old password:</span>
 
-                                        </div>
+                                                        <input
+                                                            id="oldPassword"
+                                                            type="password"
+                                                            value={stateUser.prevPassword}
+                                                            name="prevPassword"
+                                                            onChange={(e) => handleChangePassword(e)}
+                                                            className="ml-1 mb-1 rounded-md border border-solid border-slate-900" />
 
-                                        <div className="flex">
+                                                    </div>
 
-                                            <div id="passwordUser" className="ml-1 hidden">
+                                                    <div className="flex flex-col rounded-md shadow-sm shadow-slate-400 mb-1 p-1 ">
+                                                        <span>New password:</span>
 
-                                                <div className="flex justify-between rounded-md shadow-sm shadow-slate-400 mb-1 p-1">
-                                                    <span>Old password:</span>
+                                                        <input
+                                                            id="newPassword"
+                                                            type="password"
+                                                            value={stateUser.newPassword}
+                                                            name="newPassword"
+                                                            onChange={(e) => handleChangePassword(e)}
+                                                            disabled
+                                                            className="ml-1 mb-1 rounded-md border border-solid border-slate-900" />
 
-                                                    <input
-                                                        id="oldPassword"
-                                                        type="password"
-                                                        value={stateUser.prevPassword}
-                                                        name="prevPassword"
-                                                        onChange={(e) => handleChangePassword(e)}
-                                                        className="ml-1 mb-1 rounded-md border border-solid border-slate-900" />
+                                                    </div>
 
                                                 </div>
 
-                                                <div className="flex rounded-md shadow-sm shadow-slate-400 mb-1 p-1 ">
-                                                    <span>New password:</span>
 
-                                                    <input
-                                                        id="newPassword"
-                                                        type="password"
-                                                        value={stateUser.newPassword}
-                                                        name="newPassword"
-                                                        onChange={(e) => handleChangePassword(e)}
-                                                        disabled
-                                                        className="ml-1 mb-1 rounded-md border border-solid border-slate-900" />
-
-                                                </div>
 
                                             </div>
-
-
-
-                                        </div>
-                                    </form>
-                                </div>
+                                        </form>
+                                    </div>
+                                    : null
+                                }
 
                                 <div className='rounded-md shadow-sm shadow-slate-400 mb-1'>
 
@@ -418,6 +405,10 @@ export default function UserProfile() {
                         </div>
                         {/* BUTTONS NewsLetter & DeleteAccount */}
 
+                    </div>
+                    <h1 className='mt-10 text-center text-5xl font-medium'>Overview</h1>
+                    <div className='mt-2 flex justify-center h-[60vh] my-[5rem]'>
+                        <NavigatorProfile />
                     </div>
                     <Footer />
                 </div>

@@ -1,35 +1,144 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import NavBar from './NavBar';
 import Footer from './Footer/Footer';
+import Checkout from './Mercadopago/Checkout';
+import axios from 'axios';
+import { getBulkOrders, getOrder, getProducts } from '../Redux/Actions/actions';
+import NavBarEmpty from './NavBarEmpty';
+import { useLocation } from 'react-router-dom';
 
 export default function PurchasePage() {
-    return (
-        <>
-        <NavBar/>
-        <div className='purchasepage'>
-            <h1>This is purchase page</h1>
+  const dispatch = useDispatch();
+  const product = useSelector((state) => state.home.pending);
+  const globalSales = useSelector((state) => state.home.globalSales);
+  const bulkOrders = useSelector((state) => state.home.bulkOrders);
+  const direccion = useSelector((state) => state.home.user.directions);
+  const resPutOrder = useSelector((state) => state.home.resPutOrder);
+  const resDelete = useSelector((state) => state.home.deleted);
+  const location = useLocation();
+  const [data, setData] = useState('');
+  const [productsWithSales, setProductsWithSales] = useState([]);
 
-             {/* informacino de pago  */}
-      <div className="flex flex-wrap justify-center">
-        <div className="bg-secondary-100 w-9/12 m-5 p-5 rounded-md ">
-          <h1>Payment information </h1>
-          <br />
-          <button className="bg-black text-white p-1 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition m-2">
-            Tarjeta
-          </button>
-          <button className="bg-black text-white p-1 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition m-2">
-            efectivo
-          </button>
-          <div>payment information</div>
-        </div>
-      </div>
-      <div className="flex justify-center">
-        <button className="bg-[#3b82f6] text-white p-1 my-8 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition  w-24">
-          Buy
-        </button>
-      </div>
-        </div>
-        <Footer/>
-        </>
-    );
+  useEffect(() => {
+    dispatch(getProducts('?limit=1'));
+    dispatch(getOrder({ status: 'pending' }));
+    dispatch(getBulkOrders({ status: 'pending' }));
+  }, [resDelete, location.search]);
+
+  useEffect(() => {
+    let item = [];
+    if (product && product.length > 0) {
+      let productsDiscounted = product
+        ? product
+            .map((e) => {
+              const productSales = e.sales;
+              var categorySales = [];
+              if (e.categories && e.categories.length) {
+                for (const category of e.categories) {
+                  if (category.sales && category.sales.length > 0) {
+                    categorySales.push(category.sales);
+                  }
+                }
+                categorySales = categorySales.flat();
+              }
+              const date = Date();
+              const days = [];
+              if (productSales && productSales.length > 0) {
+                for (const sale of productSales) {
+                  if (
+                    sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() ||
+                    sale.day == 'all'
+                  ) {
+                    days.push(sale);
+                  }
+                }
+              }
+              if (categorySales.length > 0) {
+                for (const sale of categorySales) {
+                  if (
+                    sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() ||
+                    sale.day == 'all'
+                  ) {
+                    days.push(sale);
+                  }
+                }
+              }
+              if (globalSales.length > 0) {
+                for (const sale of globalSales) {
+                  if (
+                    sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() ||
+                    sale.day == 'all'
+                  ) {
+                    days.push(sale);
+                  }
+                }
+              }
+              if (days.length > 0) {
+                const sortedDays = days.sort((a, b) => b.percentage - a.percentage);
+                var filteredSales = sortedDays.filter((sale) =>
+                  e.orders[0].amount ? e.orders[0].amount : 1 > sale.productAmount
+                );
+              }
+              if (filteredSales && filteredSales.length > 0) {
+                if (filteredSales[0].amount > 0) {
+                  const lastProduct = e;
+                  lastProduct.shippingCost = 0;
+                  lastProduct.price =
+                    e.price - e.price * (filteredSales[0].percentage / 100);
+                  e.amount = e.amount - 1;
+                  return [e, lastProduct];
+                } else {
+                  let discountPrice =
+                    e.price - e.price * (filteredSales[0].percentage / 100);
+                  e.price = discountPrice;
+                  return e;
+                }
+              } else {
+                return e;
+              }
+            })
+            .flat()
+        : [];
+      setProductsWithSales(productsDiscounted);
+      item = productsWithSales
+        ? productsWithSales.map((e) => {
+            return {
+              title: e.title,
+              amount: e.orders[0].amount || 1,
+              price: e.price,
+            };
+          })
+        : [];
+      let res = 0;
+      for (const it of productsWithSales) {
+        res = res + it.shippingCost;
+      }
+      let shippingCost = { title: 'shippingCost', amount: 1, price: res };
+      item.push(shippingCost);
+    }
+    console.log(item);
+    if ((product && product.length) || (bulkOrders && bulkOrders.length)) {
+      const idToken = axios
+        .post('/mercadopago/pay', {
+          items: item,
+          baseURL: window.location.href.slice(0, -9),
+        })
+        .then((data) => {
+          //id
+          if (data) {
+            setData(data.data);
+          }
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [product, bulkOrders, resPutOrder, resDelete]);
+
+  return (
+    <>
+      <NavBarEmpty />
+      {data && <Checkout data={data} products={productsWithSales} />}
+      <Footer />
+    </>
+  );
 }

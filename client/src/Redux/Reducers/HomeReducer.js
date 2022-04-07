@@ -19,8 +19,17 @@ import {
   CLEAR_PRODUCT_AND_CATEGORY,
   DELETE_ADRESS_USER,
   CLEAR_USER_EMAIL,
+  DELETE_USER_INFO,
+  DELETE_USER_ADMIN,
+  PUT_USER_ADMIN,
   CLEAR_CARRUSEL,
-  DELETE_USER_INFO
+  POST_BULK_ORDER,
+  GET_BULK_ORDERS,
+  PUT_BULK_ORDERS,
+  GET_CARRUSELTWO,
+  GET_CARRUSELONE,
+  GET_CARRUSELTHIRD,
+  GET_BULK_ADMIN,
 } from '../Actions/types';
 
 const initialState = {
@@ -35,15 +44,25 @@ const initialState = {
   openFiles: '',
   answer: {},
   user: {},
-  users: {},
+  users: [],
   inWishList: [],
   inCart: [],
+  pending: [],
   finished: [],
   postOrders: [],
   deleted: [],
   resPutOrder: [],
   resAmountOrder: {},
   resNewAdress: {},
+  userDelete: {},
+  carruselTwo: [],
+  carruselOne: [],
+  carruselThird: [],
+  resPostBulk: [],
+  bulkOrders: [],
+  putBulkOrders: [],
+  bulkAdmin: [],
+  globalSales:[]
 };
 export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -53,6 +72,7 @@ export const HomeReducer = (state = initialState, action) => {
         products: action.payload.products,
         currentPage: action.payload.page,
         totalPages: action.payload.pages,
+        globalSales:action.payload.globalSales
       };
     case GET_CATEGORIES:
       return {
@@ -95,10 +115,17 @@ export const HomeReducer = (state = initialState, action) => {
         postOrders: action.payload,
       };
     case GET_ORDERS:
+      if(action.payload.status === "inWishList" || action.payload.status === "inCart" || action.payload.status === "finished" || action.payload.status === "pending"){
       return {
         ...state,
         [action.payload.status]: action.payload.data,
-      };
+      }
+    }else{
+      return{
+        ...state,
+        historial: action.payload
+      }
+    }
     case GET_USER_INFO:
       return {
         ...state,
@@ -115,11 +142,21 @@ export const HomeReducer = (state = initialState, action) => {
         ...state,
         answer: action.payload,
       };
-      case DELETE_USER_INFO:
-        return {
-          ...state,
-          users: action.payload,
-        }
+    case PUT_USER_ADMIN:
+      return {
+        ...state,
+        answer: action.payload,
+      };
+    case DELETE_USER_INFO:
+      return {
+        ...state,
+        userDelete: action.payload,
+      };
+    case DELETE_USER_ADMIN:
+      return {
+        ...state,
+        userDelete: action.payload,
+      };
 
     case PUT_ORDERS:
       return {
@@ -134,34 +171,73 @@ export const HomeReducer = (state = initialState, action) => {
     case CLEAR_TOKENS_USER:
       return {
         ...state,
-        userTokens: "",
-        user: {}
-      }
+        userTokens: '',
+        user: {},
+      };
     case POST_NEW_ADRESS_USER:
       return {
         ...state,
-        resNewAdress: action.payload
-      }
+        resNewAdress: action.payload,
+      };
     case CLEAR_PRODUCT_AND_CATEGORY:
       return {
         ...state,
-        products: ""
-      }
+        products: '',
+      };
     case DELETE_ADRESS_USER:
       return {
         ...state,
-        resNewAdress: action.payload
-      }
+        resNewAdress: action.payload,
+      };
     case CLEAR_USER_EMAIL:
       return {
         ...state,
-        userMail: []
-      }
+        userMail: [],
+      };
     case CLEAR_CARRUSEL:
       return {
         ...state,
-        products: []
+        products: [],
+        carruselOne: [],
+        carruselTwo: [],
+        carruselThird: []
       }
+    case GET_CARRUSELTWO:
+      return {
+        ...state,
+        carruselTwo: action.payload.products
+      }
+    case GET_CARRUSELONE:
+      return {
+        ...state,
+        carruselOne: action.payload.products
+      }
+    case GET_CARRUSELTHIRD:
+      return {
+        ...state,
+        carruselThird: action.payload.products
+      }
+    case POST_BULK_ORDER:
+      return {
+        ...state,
+        resPostBulk: action.payload,
+      };
+    case GET_BULK_ORDERS:
+      return {
+        ...state,
+        bulkOrders: action.payload,
+      };
+    case PUT_BULK_ORDERS:
+      return {
+        ...state,
+        putBulkOrders: action.payload,
+      };
+
+      case GET_BULK_ADMIN:
+        return {
+          ...state,
+          bulkAdmin :action.payload,
+        }
 
     default:
       return state;

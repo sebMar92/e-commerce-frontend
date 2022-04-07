@@ -12,12 +12,17 @@ import {
 import Pick from "./commons/Pick.js";
 import NavBarEmpty from "./NavBarEmpty";
 import Axios from "axios";
+import useURLqueries from "./hooks/useURLqueries";
 
 export default function ActivateDiscounts() {
   var allSales = useSelector((state) => state.admin.sales);
   const categories = useSelector((state) => state.home.categories);
   const products = useSelector((state) => state.admin.salesAllProducts);
   const deleteUpdate = useSelector((state) => state.admin.deleted);
+  const postAndEditUpdate = useSelector((state) => state.admin.saleChange);
+  const [on, setOn] = useState(false);
+  const [prop, setProp] = useState();
+  const queryObjects = useURLqueries();
   const [reRender, setReRender] = useState({});
   const [tab, setTab] = useState(true);
   const [errors, setErrors] = useState({});
@@ -35,10 +40,19 @@ export default function ActivateDiscounts() {
 
   const dispatch = useDispatch();
   useEffect(() => {
+    if (
+      queryObjects.hasOwnProperty("p") &&
+      products.length > 0 &&
+      sale.products.length === 0
+    ) {
+      setTab(false);
+    }
+  }, []);
+  useEffect(() => {
     dispatch(getCategories());
     dispatch(getAllProductsForSales());
     dispatch(getSales());
-  }, [reRender, deleteUpdate]);
+  }, [reRender, deleteUpdate, postAndEditUpdate]);
 
   const validate = (input) => {
     let errors = {};
@@ -91,17 +105,34 @@ export default function ActivateDiscounts() {
       if (dropdown) {
         dropdown.classList.remove("hidden");
       }
-      setSale({
-        description: "",
-        percentage: "",
-        day: "",
-        image:
-          "https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg",
-        productAmount: 0,
-        categories: [],
-        products: [],
-        id: 0,
-      });
+      if (queryObjects.hasOwnProperty("p")) {
+        const productInUrl = products.find(
+          (product) => product.id == queryObjects.p
+        );
+        setSale({
+          description: "",
+          percentage: "",
+          day: "",
+          image:
+            "https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg",
+          productAmount: 0,
+          categories: [],
+          products: [productInUrl],
+          id: 0,
+        });
+      } else {
+        setSale({
+          description: "",
+          percentage: "",
+          day: "",
+          image:
+            "https://shamanicartshop.com/wp-content/uploads/2021/04/sale_tag_1_.jpg",
+          productAmount: 0,
+          categories: [],
+          products: [],
+          id: 0,
+        });
+      }
     }
   }, [tab]);
   function handleItem(e) {
@@ -205,9 +236,10 @@ export default function ActivateDiscounts() {
   }
   function handleSubmit(e) {
     e.preventDefault();
-    if (errors === {}) {
+    if (Object.keys(errors).length === 0) {
       if (tab) {
         if (sale.id !== 0) {
+          console.log("Editing sale: ", sale);
           dispatch(
             editSale({ ...sale, id: Number(sale.id.replace("sale ", "")) })
           );
@@ -224,6 +256,8 @@ export default function ActivateDiscounts() {
           });
         }
       } else {
+        console.log("Posting sale: ", sale);
+
         dispatch(
           postSale({
             description: sale.description,
@@ -253,6 +287,7 @@ export default function ActivateDiscounts() {
     }
   }
   function handleDelete(e) {
+    setOn(false);
     dispatch(deleteSale(e.target.id));
     const items = document.getElementsByClassName("saleItem");
     const dropdown = document.getElementById("dropdown");
@@ -310,14 +345,14 @@ export default function ActivateDiscounts() {
   return (
     <>
       <NavBarEmpty />
-      <div className="sm:flex dark:bg-slate-700 dark:text-white">
+      <div className="sm:flex dark:bg-slate-700 dark:text-white font-lora">
         <NavbarAdmin />
-        <div className="w-full h-full dark:text-white">
+        <div className="w-full xl:w-full h-screen dark:text-white">
           <div className="flex flex-row w-full justify-center bg-primary-500 rounded-t-lg dark:text-white ">
             <div
               id="activeTab"
               onClick={(e) => handleTab(e)}
-              className={`select-none rounded-tl-lg grow font-medium text-lg px-1 py-1 text-slate-900 flex justify-center hover:bg-primary-400 dark:bg-slate-700 dark:text-white dark:text-white dark:hover:bg-slate-900 ${
+              className={`select-none grow font-medium text-lg px-1 py-1 text-slate-900 flex justify-center hover:bg-primary-400 dark:bg-slate-700 dark:text-white dark:text-white dark:hover:bg-slate-900 ${
                 !tab &&
                 "bg-primary-300 border-b-2 border-primary-500 dark:bg-slate-700 dark:text-white"
               }`}
@@ -327,14 +362,52 @@ export default function ActivateDiscounts() {
             <div
               id="createTab"
               onClick={(e) => handleTab(e)}
-              className={`select-none rounded-tr-lg grow font-medium text-lg px-1 py-1 text-slate-900 flex justify-center hover:bg-primary-400 dark:bg-slate-700 dark:text-white dark:hover:bg-slate-900 ${
+              className={`select-none grow font-medium text-lg px-1 py-1 text-slate-900 flex justify-center hover:bg-primary-400 dark:bg-slate-700 dark:text-white dark:hover:bg-slate-900 ${
                 tab &&
                 "bg-primary-300 border-b-2 border-primary-500 dark:bg-slate-700 dark:text-white"
               }`}
             >
               Create sales
             </div>
+
+            {on && (
+              <div className="absolute mt-10 justify-center items-center font-lora ">
+                <div className="p-2  w-80 h-50 bg-white rounded-lg ring-1 ">
+                  <div className=" mx-3 flex justify-between border-b border-gray-200 p-2">
+                    <h3>Confirmation</h3>
+                    <button
+                      onClick={() => setOn(false)}
+                      className=" text-gray-500 px-1 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-[#f84d4dd1] hover:text-white shadow-lg shadow-primary-200/80"
+                    >
+                      x
+                    </button>
+                  </div>
+                  <br />
+                  <span className="m-8">
+                    {" "}
+                    Are you sure you want to delete it ?{" "}
+                  </span>
+                  <br />
+                  <br />
+                  <div className="flex justify-evenly m-3">
+                    <button
+                      onClick={() => handleDelete(prop)}
+                      className="bg-primary-600 px-4 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-primary-200/80"
+                    >
+                      Accept
+                    </button>
+                    <button
+                      onClick={() => setOn(false)}
+                      className="bg-primary-600 px-4 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-primary-200/80"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
+
           <div className="border-x-2 border-b-2 border-primary-500 h-fit dark:bg-slate-900 dark:text-white dark:border-slate-400">
             {allSales &&
               allSales
@@ -363,13 +436,16 @@ export default function ActivateDiscounts() {
                         >
                           {sale.description}
                         </div>
-                        <div
+                        <button
                           id={sale.id}
-                          onClick={(e) => handleDelete(e)}
+                          onClick={(e) => {
+                            setOn(true);
+                            setProp(e);
+                          }}
                           className="grow-0 pl-5 justify-center w-14 border-t-4 border-r-4 border-white p-4 bg-secondary-100 hover:bg-rose-700 hover:font-medium dark:bg-slate-800 dark:text-white dark:border-slate-900 dark:hover:bg-rose-400"
                         >
                           X
-                        </div>
+                        </button>
                       </div>
                     </div>
                   );
@@ -390,7 +466,7 @@ export default function ActivateDiscounts() {
                           value={sale.description}
                           type="text-area"
                           onChange={(e) => handleInputChange(e)}
-                          className="ml-2 rounded-sm border border-primary-500 w-full pl-2 dark:bg-slate-400"
+                          className="ml-2 rounded-sm border border-primary-500 w-full pl-2 dark:bg-slate-700"
                         ></input>
                         <strong>{errors.description}</strong>
                       </div>
@@ -403,7 +479,7 @@ export default function ActivateDiscounts() {
                           value={sale.percentage}
                           onChange={(e) => handleInputChange(e)}
                           type="number"
-                          className="ml-2 rounded-sm border border-primary-500 flex w-full pl-2 dark:bg-slate-400"
+                          className="ml-2 rounded-sm border border-primary-500 flex w-full pl-2 dark:bg-slate-700"
                         ></input>
                         <strong>{errors.percentage}</strong>
                       </div>
@@ -434,7 +510,7 @@ export default function ActivateDiscounts() {
                           value={sale.productAmount}
                           onChange={(e) => handleInputChange(e)}
                           type="number"
-                          className="ml-2 rounded-sm border border-primary-500 w-full pl-2 dark:bg-slate-400"
+                          className="ml-2 rounded-sm border border-primary-500 w-full pl-2 dark:bg-slate-700"
                         ></input>
                       </div>
                     </div>
@@ -554,7 +630,7 @@ export default function ActivateDiscounts() {
                         placeholder="Image URL..."
                         id="image"
                         onChange={(e) => handleInputChange(e)}
-                        className="mt-7 mb-2 ml-2 mr-2 h-fit border rounded border-primary-500 w-full pl-2 dark:bg-slate-200"
+                        className="mt-7 mb-2 ml-2 mr-2 h-fit border rounded border-primary-500 w-full pl-2 dark:text-white dark:bg-slate-700"
                       />
                       <strong>{errors.image}</strong>
                     </div>

@@ -1,0 +1,42 @@
+import React from "react";
+import ReactDOM from 'react-dom';
+import { BiError } from "react-icons/bi"
+import { AiOutlineCloseCircle } from "react-icons/ai"
+import { Link } from "react-router-dom"
+
+function GuestModal({ onClose }) {
+
+
+
+
+    return (
+        <div className="bg-black/20 fixed h-screen w-screen z-50">
+            <div className="p-2 w-full md:w-3/4 lg:w-1/2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-md  bg-secondary-100  shadow-sm shadow-slate-900 font-lora">
+
+                <div className="flex justify-end">
+                    <button onClick={onClose} className="cursor-pointer text-3xl hover:text-primary-600 hover:scale-125" ><AiOutlineCloseCircle /> </button>
+                </div>
+
+                <div className="flex flex-col text-center items-center">
+                    <h1 className="p-2 border-b-[1px] border-primary-600">You must be logged in to perform this action!</h1>
+                    <span className="mt-6 text-8xl"><BiError /></span>
+                </div>
+
+                <div className="flex justify-center mt-8">
+                    <Link to="/login" className="no-underline text-black">
+                        <button className="p-1 pl-2 pr-2 bg-primary-600 rounded-md hover:scale-110">Log in/Sign up</button>
+                    </Link>
+                </div>
+
+            </div>
+        </div >
+    )
+}
+
+export default function ModalPortal({ onClose }) {
+    return ReactDOM.createPortal(
+        <GuestModal onClose={onClose}>
+        </GuestModal>,
+        document.getElementById("modal")
+    )
+}
