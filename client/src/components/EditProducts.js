@@ -1,21 +1,21 @@
-import NavbarAdmin from "./NavbarAdmin";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getProductByID, putProductByID } from "../Redux/Actions/actions";
-import React, { useState, useEffect } from "react";
-import { getCategories } from "../Redux/Actions/actions";
-import { validation } from "./validation";
-import ButtonCreate from "./commons/ButtonCreate";
-import ButtonDiscard from "./commons/ButtonDiscard";
-import check from "./utils/check-shield-regular-24.png";
-import Modelo from "./utils/modelo.jpg";
-import mas from "./utils/image-add-regular-24.png";
-import Slider from "./ProductDetails/Slider";
-import NavBarEmpty from "./NavBarEmpty";
-import Axios from "axios";
-import { AiOutlineConsoleSql } from "react-icons/ai";
-import AdminPreview from "../components/AdminPreview";
-import { AiOutlineCloseSquare } from "react-icons/ai";
+import NavbarAdmin from './NavbarAdmin';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProductByID, putProductByID } from '../Redux/Actions/actions';
+import React, { useState, useEffect } from 'react';
+import { getCategories } from '../Redux/Actions/actions';
+import { validation } from './validation';
+import ButtonCreate from './commons/ButtonCreate';
+import ButtonDiscard from './commons/ButtonDiscard';
+import check from './utils/check-shield-regular-24.png';
+import Modelo from './utils/modelo.jpg';
+import mas from './utils/image-add-regular-24.png';
+import Slider from './ProductDetails/Slider';
+import NavBarEmpty from './NavBarEmpty';
+import Axios from 'axios';
+import { AiOutlineConsoleSql } from 'react-icons/ai';
+import AdminPreview from '../components/AdminPreview';
+import { AiOutlineCloseSquare } from 'react-icons/ai';
 
 export default function EditProducts() {
   const { idProduct } = useParams();
@@ -23,8 +23,8 @@ export default function EditProducts() {
   const product = useSelector((state) => state.productID.product);
   const allCategories = useSelector((state) => state.home.categories);
   const [errors, setErrors] = useState({});
-  const [newCategory, setNewCategory] = useState("");
-  const [inputImages, setInputImages] = useState("");
+  const [newCategory, setNewCategory] = useState('');
+  const [inputImages, setInputImages] = useState('');
   const [aprove, setAprove] = useState(false);
   const [denied, setDenied] = useState(false);
   const [cancel, setCancel] = useState(false);
@@ -70,13 +70,13 @@ export default function EditProducts() {
       }
       dispatch(putProductByID(idProduct, input));
       setInput({
-        title: "",
-        name: "",
-        price: "",
-        shippingCost: "",
-        description: "",
+        title: '',
+        name: '',
+        price: '',
+        shippingCost: '',
+        description: '',
         images: [],
-        stock: "",
+        stock: '',
         categories: [],
       });
 
@@ -93,15 +93,12 @@ export default function EditProducts() {
   }
   function handleSubmitAddCategory(e) {
     e.preventDefault();
-    if (newCategory !== "") {
+    if (newCategory !== '') {
       setInput({
         ...input,
-        categories: [
-          ...input.categories,
-          { name: newCategory, id: e.target.id },
-        ],
+        categories: [...input.categories, { name: newCategory, id: e.target.id }],
       });
-      setNewCategory("");
+      setNewCategory('');
     }
   }
 
@@ -124,10 +121,7 @@ export default function EditProducts() {
       if (!input.categories.includes(e.target.value)) {
         setInput({
           ...input,
-          categories: [
-            ...input.categories,
-            { name: e.target.value, id: e.target.id },
-          ],
+          categories: [...input.categories, { name: e.target.value, id: e.target.id }],
         });
       }
     }
@@ -137,20 +131,17 @@ export default function EditProducts() {
   const uploadImage = (files) => {
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
-      formData.append("file", files[i]);
-      formData.append("upload_preset", "ecommerce");
+      formData.append('file', files[i]);
+      formData.append('upload_preset', 'ecommerce');
       const newAxios = Axios.create();
       newAxios
-        .post(
-          "https://api.cloudinary.com/v1_1/dmjbff5rm/image/upload",
-          formData
-        )
+        .post('https://api.cloudinary.com/v1_1/dmjbff5rm/image/upload', formData)
         .then((res) => {
           arr.push(res.data.secure_url);
           console.log(arr);
           setInput({
             ...input,
-            images: [...input.images, { url: arr[0], alt: "" }],
+            images: [...input.images, { url: arr[0], alt: '' }],
           });
         });
     }
@@ -159,9 +150,9 @@ export default function EditProducts() {
   function addImage(e) {
     setInput({
       ...input,
-      images: [...input.images, { url: inputImages, alt: "" }],
+      images: [...input.images, { url: inputImages, alt: '' }],
     });
-    setInputImages("");
+    setInputImages('');
   }
 
   function handleDelete(e) {
@@ -185,7 +176,7 @@ export default function EditProducts() {
     window.location.reload();
   }
 
-  const desc = input.description && input.description.split(".");
+  const desc = input.description && input.description.split('.');
   const description2 = desc && desc.slice(0, -1);
 
   if (product) {
@@ -194,7 +185,7 @@ export default function EditProducts() {
         <NavBarEmpty />
         <div className="sm:flex dark:bg-slate-700 font-lora">
           <NavbarAdmin />
-          <div className="bg-secondary-100 dark:bg-slate-700 dark:text-white ">
+          <div className="bg-secondary-100 dark:bg-slate-700 dark:text-white h-screen">
             <form
               onSubmit={(prop) => {
                 handleSubmit(prop);
@@ -353,9 +344,7 @@ export default function EditProducts() {
                       </button>
                     </div>
                     <br />
-                    <span className="m-8">
-                      Some fields are missing. Check again
-                    </span>
+                    <span className="m-8">Some fields are missing. Check again</span>
                     <br />
                     <br />
                     <div className="flex justify-evenly m-3">
@@ -382,9 +371,7 @@ export default function EditProducts() {
                       </button>
                     </div>
                     <br />
-                    <span className="m-8">
-                      Do you want to discard the changes?
-                    </span>
+                    <span className="m-8">Do you want to discard the changes?</span>
                     <br />
                     <br />
                     <div className="flex justify-evenly m-3">

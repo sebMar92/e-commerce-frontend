@@ -1,22 +1,22 @@
-import React from "react";
-import Slider from "./ProductDetails/Slider";
-import Modelo from "./utils/modelo.jpg";
-import ButtonBuy from "../components/commons/ButtonBuy";
+import React from 'react';
+import Slider from './ProductDetails/Slider';
+import Modelo from './utils/modelo.jpg';
+import ButtonBuy from '../components/commons/ButtonBuy';
 import {
   AiOutlineCheckCircle,
   AiOutlineShoppingCart,
   AiOutlineHeart,
-} from "react-icons/ai";
-import { FaBan } from "react-icons/fa";
-import { MdLocalShipping } from "react-icons/md";
-import { GoPrimitiveDot } from "react-icons/go";
+} from 'react-icons/ai';
+import { FaBan } from 'react-icons/fa';
+import { MdLocalShipping } from 'react-icons/md';
+import { GoPrimitiveDot } from 'react-icons/go';
 
 export default function AdminPreview({ input }) {
-  const desc = input.description && input.description.split(".");
+  const desc = input.description && input.description.split('.');
   const description2 = desc && desc.slice(0, -1);
 
   return (
-    <div className="flex ">
+    <div className="flex w-full">
       <div className="flex w-full flex-col bg-secondary-100 dark:bg-slate-700">
         {/* Categorias */}
         <div id="category_container" className="pt-2 flex gap-2 mx-8">
@@ -43,7 +43,13 @@ export default function AdminPreview({ input }) {
                 </div>
               ) : (
                 <div className="flex justify-center">
-                  <img className=" w-8/12" src={Modelo} alt="" />
+                  <img
+                    className=" w-8/12"
+                    src={
+                      'https://images.pexels.com/photos/38568/apple-imac-ipad-workplace-38568.jpeg'
+                    }
+                    alt=""
+                  />
                 </div>
               )}
             </div>
@@ -99,7 +105,7 @@ export default function AdminPreview({ input }) {
 
               {/* button buy */}
               <div className="h-auto p-2 flex">
-                <ButtonBuy text={"Buy"} />
+                <ButtonBuy text={'Buy'} />
               </div>
               {/* button buy */}
             </div>

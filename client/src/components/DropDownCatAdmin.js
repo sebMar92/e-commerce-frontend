@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate, createSearchParams } from "react-router-dom";
-import { category } from "../Redux/Actions/actions";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate, createSearchParams } from 'react-router-dom';
+import { category } from '../Redux/Actions/actions';
 
 export default function DropDownCategories({ tittle, array }) {
   const navigate = useNavigate();
@@ -24,7 +24,6 @@ export default function DropDownCategories({ tittle, array }) {
             aria-hidden="true"
           >
             <path
-        
               fillRule="evenodd"
               d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
               clipRule="evenodd"
@@ -42,12 +41,13 @@ export default function DropDownCategories({ tittle, array }) {
               id={cat.id}
               onClick={(e) => {
                 navigate({
-                  pathname: "/products",
+                  pathname: '/admin/products',
                   search: createSearchParams({
                     categoryId: e.target.id,
-                    offset: "1",
+                    offset: '1',
                   }).toString(),
                 });
+                dispatch(category(cat));
               }}
               className="px-2 py-1 hover:bg-primary-300 rounded no-underline text-black cursor-pointer"
             >
