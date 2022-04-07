@@ -26,14 +26,12 @@ export default function CardCart({
   const resAmountOrder = useSelector((state) => state.home.resAmountOrder);
 
 
-
   useEffect(() => {
     dispatch(getOrder({ status: "inCart" }));
   }, [resAmountOrder]);
 
   useEffect(() => {
-    console.log(price);
-    console.log(amount);
+
   }, [price]);
 
   const dispatch = useDispatch();
@@ -48,9 +46,8 @@ export default function CardCart({
         {
           id: idOrder,
           amount: -1,
-        },
-        id,
-        "inCart"
+          status: "inCart",
+        }
       )
     );
   }
@@ -61,9 +58,8 @@ export default function CardCart({
         {
           id: idOrder,
           amount: +1,
+          status: "inCart"
         },
-        id,
-        "inCart"
       )
     );
   }
@@ -104,9 +100,9 @@ export default function CardCart({
                     <p className="text-sm text-blue-900 m-3">
                       ShippingCost: ${shippingCost}
                     </p>
-                    <ButtonBuyChange id={idOrder} status={"pending"} />
                   </div>
                 )}
+                <ButtonBuyChange id={idOrder} status={"pending"} />
               </div>
             </div>
             <div className=" w-48">
