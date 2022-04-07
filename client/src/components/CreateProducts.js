@@ -164,7 +164,7 @@ export default function CreateProducts() {
       <NavBarEmpty />
       <div className="flex flex-col w-full sm:flex-row font-lora">
         <NavbarAdmin className="dark:text-black w-full" />
-        <div className="flex-col bg-secondary-100 dark:bg-slate-700 dark:text-white sm:grid sm:grid-flow-col sm:w-[85rem]">
+        <div className="flex-col bg-secondary-100 dark:bg-slate-700 dark:text-white sm:grid sm:grid-flow-col sm:w-full h-screen">
           <form
             onSubmit={(e) => {
               handleSubmit(e);

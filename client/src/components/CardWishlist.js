@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteOrder, getOrder } from '../Redux/Actions/actions';
 import { ToastContainer, toast } from 'react-toastify';
 import ButtonAddToCart from './commons/ButtonAddToCart';
-import ButtonBuy from './commons/ButtonBuy'
+import ButtonBuy from './commons/ButtonBuy';
 
 export default function CardWishlist({
   id,
@@ -17,10 +17,10 @@ export default function CardWishlist({
   description,
   categorySales,
   productSales,
-  globalSales
+  globalSales,
 }) {
-  console.log("id Orden",idOrder)
-  console.log("id producto",id)
+  console.log('id Orden', idOrder);
+  console.log('id producto', id);
   const dispatch = useDispatch();
   const deleteWishList = (e) => dispatch(deleteOrder(idOrder, id, 'inWishList'));
   const [saleON, setSaleON] = useState(false);
@@ -55,28 +55,31 @@ export default function CardWishlist({
       setSaleSelected(sortedDays[0]);
       setSaleON(true);
     }
-  }, [productSales])
+  }, [productSales]);
 
   return (
     <div className="flex flex-wrap justify-center mt-5 relative">
       <div className="bg-secondary-100 w-9/12 m-5 rounded-md relative">
-        {saleON && (productSales && productSales.length > 0 || saleSelected.percentage) && (
-          <div className="absolute inset-x-0 mx-auto -translate-y-6 border-[2px] border-orange-600 h-fit w-fit p-1 rounded text-base bg-white font-lora font-extrabold	 text-orange-600">
-            <p>
-              {saleON &&
-                ((productSales && productSales.length > 0 && productSales[0].percentage) ||
-                  saleSelected.percentage)}
-              % OFF{' '}
-              {productSales && productSales.length > 0
-                ? productSales[0].productAmount > 0
-                  ? `on ${productSales[0].productAmount + 1}º unit`
-                  : ''
-                : saleSelected.productAmount > 0
+        {saleON &&
+          ((productSales && productSales.length > 0) || saleSelected.percentage) && (
+            <div className="absolute inset-x-0 mx-auto -translate-y-6 border-[2px] border-orange-600 h-fit w-fit p-1 rounded text-base bg-white font-lora font-extrabold	 text-orange-600">
+              <p>
+                {saleON &&
+                  ((productSales &&
+                    productSales.length > 0 &&
+                    productSales[0].percentage) ||
+                    saleSelected.percentage)}
+                % OFF{' '}
+                {productSales && productSales.length > 0
+                  ? productSales[0].productAmount > 0
+                    ? `on ${productSales[0].productAmount + 1}º unit`
+                    : ''
+                  : saleSelected.productAmount > 0
                   ? `on ${saleSelected.productAmount + 1}º unit`
                   : ''}
-            </p>
-          </div>
-        )}
+              </p>
+            </div>
+          )}
         <div className="flex flex-row-reverse">
           <button
             onClick={(e) => deleteWishList(e)}
@@ -119,7 +122,6 @@ export default function CardWishlist({
               <div>
                 <br />
                 <div>
-
                   {productSales && productSales.length > 0 ? (
                     productSales[0].productAmount === 0 ? (
                       <div className="flex flex-col justify-center items-center font-lora">
@@ -139,9 +141,10 @@ export default function CardWishlist({
                             {(
                               price -
                               price *
-                              ((productSales && productSales.length > 0 &&
-                                productSales[0].percentage / 100) ||
-                                saleSelected.percentage / 100)
+                                ((productSales &&
+                                  productSales.length > 0 &&
+                                  productSales[0].percentage / 100) ||
+                                  saleSelected.percentage / 100)
                             ).toFixed(2)}
                           </p>
                         ) : null}
@@ -169,8 +172,10 @@ export default function CardWishlist({
                           {(
                             price -
                             price *
-                            ((productSales && productSales.length > 0 && productSales[0].percentage / 100) ||
-                              saleSelected.percentage / 100)
+                              ((productSales &&
+                                productSales.length > 0 &&
+                                productSales[0].percentage / 100) ||
+                                saleSelected.percentage / 100)
                           ).toFixed(2)}
                         </p>
                       ) : null}
@@ -181,12 +186,9 @@ export default function CardWishlist({
                     </p>
                   )}
                   <div className="flex mt-2 mb-1">
-                    <ButtonBuy id={id}
-                      status={"pending"}
-                      amount={1}
-                      text={"Buy"} />
-                          
-                    <ButtonAddToCart text={"Add to cart"} id={id} status={'inCart'} />
+                    <ButtonBuy id={id} status={'pending'} amount={1} text={'Buy'} />
+                        
+                    <ButtonAddToCart text={'Add to cart'} id={id} status={'inCart'} />
                   </div>
                 </div>
               </div>
