@@ -4,6 +4,7 @@ import {
   getUserInfo,
   getOrder,
   deleteOrder,
+  postOrder
 } from "../../Redux/Actions/actions";
 import { Link } from "react-router-dom";
 import { AiOutlineHeart } from "react-icons/ai";
@@ -28,6 +29,27 @@ export default function FavsModal() {
       toastId: "success1",
     });
   };
+
+  const handleAddToCart = (id, title, shippingCost, stock, description, images, price) => {
+    dispatch(
+      postOrder({
+          status: "inCart",
+          productId: id,
+          amount: 1,
+          title: title,
+          shippingCost: shippingCost,
+          stock: stock,
+          description: description,
+          images: images,
+          price: price,
+          id: id
+      })
+    );
+    toast.success('Added to the cart !', {
+      position: toast.POSITION.BOTTOM_LEFT,
+    });
+  }
+  
 
   return (
     <div>
@@ -89,12 +111,11 @@ export default function FavsModal() {
                             >
                               Delete
                             </button>
-                            <Link
-                              to="/cart"
-                              className="no-underline text-black bg-primary-700 rounded-md px-2 py-2 my-1 active:translate-y-1 font-medium hover:bg-slate-700 hover:text-white"
-                            >
-                              Go to buy
-                            </Link>
+                            
+                              <button onClick={() => handleAddToCart(e.id, e.title, e.shippingCost, e.stock, e.description, e.images, e.price)} className="no-underline text-black bg-primary-700 rounded-md px-2 py-2 my-1 active:translate-y-1 font-medium hover:bg-slate-700 hover:text-white">
+                                Add to cart
+                              </button> 
+                            
                           </div>
                         </div>
                       </>

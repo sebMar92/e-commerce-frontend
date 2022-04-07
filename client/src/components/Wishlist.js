@@ -20,8 +20,10 @@ export default function Wishlist({}) {
     dispatch(getOrder({ status: 'inWishList' }));
   }, [wishListOrder, deleted]);
 
+  
   return (
     <>
+      <ToastContainer/>
       <NavBar />
       <div className="h-screen">
         {product &&

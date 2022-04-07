@@ -139,9 +139,9 @@ export default function ProductDetails() {
     const pSales = product && product.sales && product.sales.productSales;
     setProductSales(pSales);
     const categorySales = product && product.sales && product.sales.categorySales;
-    console.log(globalSales);
+    
     if (productSales && productSales.length > 0) {
-      console.log(1);
+      
       for (const sale of productSales) {
         if (sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() || sale.day == 'all') {
           days.push(sale);
@@ -156,18 +156,18 @@ export default function ProductDetails() {
       }
     }
     if (globalSales && globalSales.length > 0) {
-      console.log('2' + globalSales);
+      
       for (const sale of globalSales) {
-        console.log(sale);
+        
         if (sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() || sale.day == 'all') {
-          console.log('push');
+          
           days.push(sale);
         }
       }
     }
     if (days && days.length > 0) {
       const sortedDays = days.sort((a, b) => b.percentage - a.percentage);
-      console.log('hi');
+      
       setSaleSelected(sortedDays[0]);
       setSaleON(true);
     }
@@ -332,9 +332,9 @@ export default function ProductDetails() {
                           {(
                             product.price -
                             product.price *
-                              ((productSales.length > 0 &&
+                              ((productSales && productSales.length > 0 &&
                                 productSales[0].percentage / 100) ||
-                                saleSelected.percentage / 100)
+                                (saleSelected && saleSelected.percentage) / 100)
                           ).toFixed(2)}
                         </p>
                       ) : null}
@@ -358,15 +358,14 @@ export default function ProductDetails() {
                     </p>
                     {saleON && saleSelected.percentage ? (
                       <p className="font-bold text-primary-700 text-2xl md:text-5xl xl:border-b-[1px] xl:border-primary-300 2xl:font-black">
-                        $
-                        {productSales &&
-                          productSales.length > 0 &&
+                        $ 
+                        {
                           (
                             product.price -
                             product.price *
-                              ((productSales.length > 0 &&
+                              ((productSales && productSales.length > 0 &&
                                 productSales[0].percentage / 100) ||
-                                saleSelected.percentage / 100)
+                                (saleSelected && saleSelected.percentage) / 100)
                           ).toFixed(2)}
                       </p>
                     ) : null}

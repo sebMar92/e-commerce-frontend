@@ -22,7 +22,8 @@ export default function CarouselCateg({ onClick, onClick2 }) {
   const deleted = useSelector((state) => state.home.deleted);
   const postOrders = useSelector((state) => state.home.postOrders);
 
-  /* fix */
+  const globalSales = useSelector((state) => state.home.globalSales)
+
   const firstCarrusel = useSelector((state) => state.home.carruselOne);
 
   const secondCarrusel = useSelector((state) => state.home.carruselTwo);
@@ -181,6 +182,7 @@ export default function CarouselCateg({ onClick, onClick2 }) {
       {carrusels &&
         carrusels.length > 0 &&
         carrusels.map((carr, index) => {
+          console.log(carrusels)
           return (
             <div
               key={index}
@@ -197,6 +199,7 @@ export default function CarouselCateg({ onClick, onClick2 }) {
 
               <Slider {...settings}>
                 {carr.map((product) => {
+                  
                   return (
                     <div key={product.id} className="p-2 h-full">
                       <CardHome
@@ -214,6 +217,9 @@ export default function CarouselCateg({ onClick, onClick2 }) {
                         token={token}
                         deleted={deleted}
                         postOrders={postOrders}
+                        globalSales={globalSales}
+                        categorySales={product.sales.categorySales}
+                        productSales={product.sales.productSales}
                       />
                     </div>
                   );
