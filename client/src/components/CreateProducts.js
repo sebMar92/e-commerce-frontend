@@ -46,6 +46,9 @@ export default function CreateProducts() {
     e.preventDefault();
     if (Object.keys(errors).length === 0) {
       setAprove(true);
+      if (input.images.length === 0) {
+        input.images.push(Modelo);
+      }
       dispatch(postProduct(input));
       setInput({
         title: "",
