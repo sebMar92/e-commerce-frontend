@@ -2,7 +2,7 @@ import React from 'react';
 import NavBar from './NavBar';
 import Footer from './Footer/Footer';
 import CardWishlist from './CardWishlist';
-import { getOrder } from '../Redux/Actions/actions';
+import { getOrder, getProducts } from '../Redux/Actions/actions';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import wishlist from "./utils/empty-wishlist.png"
@@ -14,10 +14,11 @@ export default function Wishlist({}) {
   const product = useSelector((state) => state.home.inWishList);
   const wishListOrder = useSelector((state) => state.home.resPutOrder);
   const deleted = useSelector((state) => state.home.deleted)
-  const cart = useSelector((state) => state.home.inCart);
+  const globalSales = useSelector((state) => state.home.globalSales)
 
   useEffect(() => {
     dispatch(getOrder({ status: 'inWishList' }));
+    dispatch(getProducts())
   }, [wishListOrder, deleted]);
 
   
@@ -40,6 +41,9 @@ export default function Wishlist({}) {
                   shippingCost={prod.shippingCost}
                   stock={prod.stock}
                   key={prod.id}
+                  categorySales={prod.sales.categorySales}
+                  productSales={prod.sales.productSales}
+                  globalSales={globalSales}
                 />
               </div>
             );
