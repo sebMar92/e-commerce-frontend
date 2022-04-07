@@ -132,7 +132,7 @@ export default function ListOfOrders() {
                           </select>
                         </div>
 
-                        <div className="w-20 m-2 text-center">${b.price}</div>
+                        <div className="w-20 m-2 text-center">${b.price.toFixed(2)}</div>
                         <div className="w-20 m-2 text-center">
                           {b.orders[0].userId}
                         </div>
@@ -141,7 +141,7 @@ export default function ListOfOrders() {
                       <div id={"detail" + i} className="hidden">
                         <div className="flex mx-3 mb-3 justify-between bg-white rounded-lg hover:bg-primary-300">
                           <div className="w-96 m-1 mx-3">{b.title}</div>
-                          <div className="w-40 m-1 mx-3">${b.price}</div>
+                          <div className="w-40 m-1 mx-3">${b.price.toFixed(2)}</div>
                         </div>{" "}
                       </div>
                     </>
