@@ -120,7 +120,10 @@ export default function PurchasePage() {
     console.log(item);
     if ((product && product.length) || (bulkOrders && bulkOrders.length)) {
       const idToken = axios
-        .post('/mercadopago/pay', item)
+        .post('/mercadopago/pay', {
+          items: item,
+          baseURL: window.location.href.slice(0, -9),
+        })
         .then((data) => {
           //id
           if (data) {
