@@ -18,7 +18,7 @@ export const tabs = [tomato, lettuce, cheese];
 export default function NavigatorProfile() {
   const dispatch = useDispatch();
   const ordersF = useSelector((state) => state.home.finished);
-  const finished = ordersF.length > 0 && ordersF.slice(0, 4);
+  const finished = ordersF && ordersF.length > 0 && ordersF.slice(0, 4);
   const ordersC = useSelector((state) => state.home.inCart);
   const cart = ordersC.length > 0 && ordersC.slice(0, 4);
   const ordersW = useSelector((state) => state.home.inWishList);
