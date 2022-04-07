@@ -26,7 +26,6 @@ export default function PurchasePage() {
     dispatch(getBulkOrders({ status: 'pending' }));
   }, [resDelete, location.search]);
 
-  
   useEffect(() => {
     let item = [];
     if (product && product.length > 0) {
@@ -118,13 +117,18 @@ export default function PurchasePage() {
       let shippingCost = { title: 'shippingCost', amount: 1, price: res };
       item.push(shippingCost);
     }
-    console.log(item)
+    console.log(item);
     if ((product && product.length) || (bulkOrders && bulkOrders.length)) {
       const idToken = axios
-        .post('/mercadopago/pay', item)
+        .post('/mercadopago/pay', {
+          items: item,
+          baseURL: window.location.href.slice(0, -9),
+        })
         .then((data) => {
           //id
-          setData(data.data);
+          if (data) {
+            setData(data.data);
+          }
         })
         .catch((err) => console.error(err));
     }

@@ -7,13 +7,15 @@ import { useDispatch} from "react-redux";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function CardHome({ id, image, title, price,onClick,onClick2, shippingCost, stock, description,images, wishListDB, cartDB, token, deleted, postOrders }) {
+export default function CardHome({ id, image, title, price,onClick,onClick2, shippingCost, stock, description,images, wishListDB, cartDB, token, deleted, postOrders, globalSales, productSales, categorySales}) {
   const dispatch = useDispatch();
 
   const [selectedWishList, setSelectedWishList] = useState(false)
   const [selectedCart, setSelectedCart] = useState(false)
   const [cartLS, setCartLS] = useState(window.localStorage.getItem("inCart"))
   const [wishListLS, setWishListLS] = useState(window.localStorage.getItem("inWishList"))
+  const [saleON, setSaleON] = useState(false);
+  const [saleSelected, setSaleSelected] = useState(undefined);
   
   
   useEffect(() => {
@@ -60,7 +62,36 @@ export default function CardHome({ id, image, title, price,onClick,onClick2, shi
           setSelectedWishList(false)
         }
     }
-  },[cartLS, wishListLS, deleted, postOrders, wishListDB, cartDB])
+
+    const date = Date();
+    const days = [];
+    if (productSales && productSales.length > 0) {
+      for (const sale of productSales) {
+        if (sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() || sale.day == 'all') {
+          days.push(sale);
+        }
+      }
+    }
+    if (categorySales && categorySales.length > 0) {
+      for (const sale of categorySales) {
+        if (sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() || sale.day == 'all') {
+          days.push(sale);
+        }
+      }
+    }
+    if (globalSales && globalSales.length > 0) {
+      for (const sale of globalSales) {
+        if (sale.day.slice(0, 3) == date.slice(0, 3).toLowerCase() || sale.day == 'all') {
+          days.push(sale);
+        }
+      }
+    }
+    if (days.length > 0) {
+      const sortedDays = days.sort((a, b) => b.percentage - a.percentage);
+      setSaleSelected(sortedDays[0]);
+      setSaleON(true);
+    }
+  },[cartLS, wishListLS, deleted, postOrders, wishListDB, cartDB, productSales])
 
     
   function addCart(){
@@ -128,21 +159,42 @@ export default function CardHome({ id, image, title, price,onClick,onClick2, shi
 
 
   return (
-    <div className=" shadow-md shadow-slate-300 hover:shadow-slate-500 rounded-lg scale-95 hover:scale-100">
-      <div className="max-w-sm rounded overflow-hidden shadow-lg h-full">
+    <div className={
+      (saleON && saleSelected.percentage ? 'border-t-[2px] border-orange-600 ' : '') +
+      'flex rounded shadow-sm bg-white scale-95 hover:scale-100 relative '
+    }>
+      {saleON && (productSales.length > 0 || saleSelected.percentage) && (
+            <div className="absolute inset-x-0 mx-auto -translate-y-4 border-[2px] border-orange-600 h-fit w-fit p-1 rounded text-base bg-white font-lora font-extrabold	 text-orange-600">
+              <p>
+                {saleON &&
+                  ((productSales.length > 0 && productSales[0].percentage) ||
+                    saleSelected.percentage)}
+                % OFF{' '}
+                {productSales.length > 0
+                  ? productSales[0].productAmount > 0
+                    ? `on ${productSales[0].productAmount + 1}º unit`
+                    : ''
+                  : saleSelected.productAmount > 0
+                  ? `on ${saleSelected.productAmount + 1}º unit`
+                  : ''}
+              </p>
+            </div>
+          )}
+      <div className="w-full rounded overflow-hidden shadow-lg h-full">
         <Link to={`/product/${id}`} className="no-underline">
           <div className="flex justify-center m-3">
             <img className="h-36  rounded-lg" src={image} alt="img" />
           </div>
 
           <div className="m-1">
-            <div className="font-bold text-xl flex justify-start "></div>
+            <div className="font-bold text-xl flex justify-center ">
             <p className="font-semibold tracking-tight h-12 text-gray-900 dark:text-white text-base">
               {title}
             </p>
+            </div>
           </div>
         </Link>
-        <div className="pt-5">
+        <div className="pt-7">
           <span className="flex flex-row justify-around">
           <button
                     onClick={() => addFav()}
@@ -158,10 +210,69 @@ export default function CardHome({ id, image, title, price,onClick,onClick2, shi
                     <AiOutlineShoppingCart className="h-4 w-4 md:h-5 md:w-5 inline-block" color={selectedCart ? "#ffffff" : "#FEBD70"} />
                   </button>
           </span>
-          <br />
-          <span className="flex justify-center text-3xl font-bold text-gray-900 mr-2 mb-2 dark:text-white">
-            ${price}
-          </span>
+          
+          <div className="pt-4 flex justify-center items-center font-lora">
+          {productSales && productSales.length > 0 ? (
+              productSales[0].productAmount === 0 ? (
+                <div className="flex flex-col justify-center items-center">
+                  <p
+                    className={
+                      (saleON && saleSelected.percentage
+                        ? 'text-sm text-primary-400 line-through	xl:text-xl '
+                        : 'text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black') +
+                      'font-bold xl:border-b-[1px] xl:border-primary-300'
+                    }
+                  >
+                    ${price}
+                  </p>
+                  {saleON && saleSelected.percentage ? (
+                    <p className="font-bold text-primary-700 text-xl xl:text-2xl xl:border-b-[1px] xl:border-primary-300 2xl:text-3xl 2xl:font-black">
+                      $
+                      {(
+                        price -
+                        price *
+                          ((productSales.length > 0 &&
+                            productSales[0].percentage / 100) ||
+                            saleSelected.percentage / 100)
+                      ).toFixed(2)}
+                    </p>
+                  ) : null}
+                </div>
+              ) : (
+                <p className="text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black font-bold xl:border-b-[1px] xl:border-primary-300">
+                  ${price}
+                </p>
+              )
+            ) : saleSelected && saleSelected.productAmount === 0 ? (
+              <div className="flex flex-col justify-center items-center">
+                <p
+                  className={
+                    (saleON && saleSelected.percentage
+                      ? 'text-sm text-primary-400 line-through	xl:text-xl '
+                      : 'text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black') +
+                    'font-bold xl:border-b-[1px] xl:border-primary-300'
+                  }
+                >
+                  ${price}
+                </p>
+                {saleON && saleSelected.percentage ? (
+                  <p className="font-bold text-primary-700 text-xl xl:text-2xl xl:border-b-[1px] xl:border-primary-300 2xl:text-3xl 2xl:font-black">
+                    $
+                    {(
+                      price -
+                      price *
+                        ((productSales.length > 0 && productSales[0].percentage / 100) ||
+                          saleSelected.percentage / 100)
+                    ).toFixed(2)}
+                  </p>
+                ) : null}
+              </div>
+            ) : (
+              <p className="text-primary-700 text-xl xl:text-2xl 2xl:text-3xl 2xl:font-black font-bold xl:border-b-[1px] xl:border-primary-300">
+                ${price}
+              </p>
+            )}
+            </div>
         </div>
       </div>
 

@@ -21,7 +21,10 @@ export default function Cart() {
 
   const resPutOrder = useSelector((state) => state.home.resPutOrder);
   const resPostBulk = useSelector((state) => state.home.resPostBulk);
-  console.log(resPostBulk);
+  const localStorageAccess = window.localStorage.getItem("access")
+  const localStorageRefresh = window.localStorage.getItem("refresh")
+
+
   if (product && product.length > 0) {
     total = product
       .map((item) => item.price * item.orders[0].amount)
@@ -124,19 +127,32 @@ export default function Cart() {
                   <h1>Shipment</h1>
                   <span>Direction: </span>
 
-                  <select
-                    id="direction"
-                    className="bg-[#3b82f6] text-white p-1 m-2 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition"
-                  >
-                    {direccion &&
-                      direccion.map((dir) => {
-                        return (
-                          <option>
-                            {dir.city + ', ' + dir.street + ' ' + dir.streetNumber}
-                          </option>
-                        );
-                      })}
-                  </select>
+                  {localStorageAccess && localStorageRefresh ?
+                    direccion && direccion.length ?
+                      <select
+                        id="direction"
+                        className="bg-[#3b82f6] text-white p-1 m-2 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition"
+                      >
+                        {direccion &&
+                          direccion.map((dir) => {
+                            return (
+                              <option>
+                                {dir.city + ', ' + dir.street + ' ' + dir.streetNumber}
+                              </option>
+                            );
+                          })}
+                      </select>
+                      :
+                      <Link to="/user">
+                        <span className="bg-[#3b82f6] text-white pl-1 pr-1 ml-2 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition" >Register address</span>
+                      </Link>
+
+                    :
+                    <Link to="/login">
+                      <span className="bg-[#3b82f6] text-white pl-1 pr-1 ml-2 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition" >Login to add an address</span>
+                    </Link>
+                  }
+
                 </div>
               </div>
             </div>

@@ -12,6 +12,7 @@ export default function ButtonAddToCart({ text = "Add to cart", id, status }) {
     const postOrders = useSelector((state) => state.home.postOrders)
     const deleted = useSelector((state) => state.home.deleted)
     const [found, setFound] = useState(false)
+    const token = window.localStorage.getItem("access")
 
     useEffect(() => {
         dispatch(getOrder({status: "inCart"}))
@@ -25,6 +26,14 @@ export default function ButtonAddToCart({ text = "Add to cart", id, status }) {
             setFound(false)
         }
     }, [inCart])
+
+    const addToCart = () => {
+        if(token) {
+        toast.success('Added to the cart !', {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
+        }
+    }
 
     const dispatch = useDispatch()
     const [stateModal, setStateModal] = useState(false)
@@ -57,11 +66,11 @@ export default function ButtonAddToCart({ text = "Add to cart", id, status }) {
             {found ? 
             <div>
                 <p className="bg-primary-500  p-2 rounded-md text-lg font-lora font-bold ">
-                    Added to the cart.
+                    Added to the cart
                 </p>
             </div>
             : <div>
-                <button onClick={(e) => handleBuyProduct(e) } className='bg-primary-600 px-6 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-primary-200/80'>
+                <button onClick={(e) => {handleBuyProduct(e); addToCart()} } className='bg-primary-600 px-6 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-primary-200/80'>
                     {text}
                 </button>
               </div>

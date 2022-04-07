@@ -1,9 +1,9 @@
-import React from 'react';
-import { AiOutlineSearch } from 'react-icons/ai';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, createSearchParams } from 'react-router-dom';
-import { getProducts, getSearch } from '../../Redux/Actions/actions';
+import React from "react";
+import { AiOutlineSearch } from "react-icons/ai";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, createSearchParams } from "react-router-dom";
+import { getProducts, getSearch } from "../../Redux/Actions/actions";
 
 export default function SearchBar(props) {
   const [isOpen, setIsOpen] = useState(true); //controla que aparezca y desaparezca el autocomplete
@@ -11,50 +11,48 @@ export default function SearchBar(props) {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.home.search.products);
   const categories = useSelector((state) => state.home.search.categories);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
 
   const handleInputChange = (e) => {
     const { value } = e.target;
     setSearchValue(value);
-    if (value !== '') {
+    if (value !== "") {
       dispatch(getSearch(value));
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (searchValue !== '') {
+    if (searchValue !== "") {
       navigate({
-        pathname: `/products?search=${searchValue}`,
+        pathname: `/products?search=${searchValue}&offset=1`,
       });
-      setSearchValue('');
+      setSearchValue("");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex justify-center font-lora w-full md:w-[50%]">
-      <div className='relative w-full'>
-
-      <input
-        onChange={(e) => handleInputChange(e)}
-        onFocus={() => setIsOpen(false)}
-        value={searchValue}
-        className="outline-none  bg-white rounded p-2 border-[1px] border-white w-full"
-        placeholder="Type to search..."
+    <form
+      onSubmit={handleSubmit}
+      className="flex justify-center font-lora w-full md:w-[50%]"
+    >
+      <div className="relative w-full">
+        <input
+          onChange={(e) => handleInputChange(e)}
+          onFocus={() => setIsOpen(false)}
+          value={searchValue}
+          className="outline-none  bg-white rounded p-2 border-[1px] border-white w-full"
+          placeholder="Type to search..."
         />
         <div className="absolute p-1 top-0 md:p-0 md:text-2xl right-0">
-
-          <button
-            type="submit"
-            className="p-2 rounded bg-white"
-            >
-            <AiOutlineSearch color="#FFA438"/>
+          <button type="submit" className="p-2 rounded bg-white">
+            <AiOutlineSearch color="#FFA438" />
           </button>
         </div>
-        </div>
+      </div>
       <div
         className={`absolute mt-10 bg-secondary-100 m-2 overflow-hidden rounded-lg shadow-lg z-20 w-10/12 md:w-4/12 overflow-y-auto max-h-96 overflow-x-auto  ${
-          (isOpen || searchValue === '') && 'hidden'
+          (isOpen || searchValue === "") && "hidden"
         }`}
       >
         {searchValue &&
@@ -91,7 +89,7 @@ export default function SearchBar(props) {
             return (
               <div key={product.id}>
                 <Link
-                  to={`/product/${product.id}`}
+                  to={`/product/${product.id}&offset=1`}
                   className="text-decoration-line: no-underline"
                 >
                   <div className="hover:bg-primary-300 flex gap-4 p-4">
@@ -104,7 +102,9 @@ export default function SearchBar(props) {
                       <h3 className="text-sm font-semibold text-black">
                         {product.title}
                       </h3>
-                      <p className="text-xs text-gray-600">Price: US $ {product.price}</p>
+                      <p className="text-xs text-gray-600">
+                        Price: US $ {product.price}
+                      </p>
                     </div>
                   </div>
                 </Link>

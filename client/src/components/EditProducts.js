@@ -25,6 +25,10 @@ export default function EditProducts() {
   const [errors, setErrors] = useState({});
   const [newCategory, setNewCategory] = useState("");
   const [inputImages, setInputImages] = useState("");
+  const [aprove, setAprove] = useState(false);
+  const [denied, setDenied] = useState(false);
+  const [cancel, setCancel] = useState(false);
+  const [succes, setSucces] = useState(false);
 
   useEffect(() => {
     dispatch(getProductByID(idProduct));
@@ -58,19 +62,29 @@ export default function EditProducts() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch(putProductByID(idProduct, input));
-    setInput({
-      title: "",
-      name: "",
-      price: "",
-      shippingCost: "",
-      description: "",
-      images: [],
-      stock: "",
-      categories: [],
-    });
+    setAprove(false);
+    if (Object.keys(errors).length === 0) {
+      setSucces(true);
+      if (input.images.length === 0) {
+        input.images.push(Modelo);
+      }
+      dispatch(putProductByID(idProduct, input));
+      setInput({
+        title: "",
+        name: "",
+        price: "",
+        shippingCost: "",
+        description: "",
+        images: [],
+        stock: "",
+        categories: [],
+      });
 
-    alert("Product Modified!!");
+      /* alert("Product Modified!!"); */
+    } else {
+      setDenied(true);
+      /* alert("Some fields are missing. Check again"); */
+    }
   }
 
   function handleAddCategory(e) {
@@ -165,9 +179,9 @@ export default function EditProducts() {
       images: input.images.flat().filter((name) => name.url !== e.target.name),
     });
   }
-  function reload(e) {
-    e.preventDefault();
-    alert("Discard changes!!");
+  function reload() {
+    setCancel(false);
+    /* alert("Discard changes!!"); */
     window.location.reload();
   }
 
@@ -182,8 +196,8 @@ export default function EditProducts() {
           <NavbarAdmin />
           <div className="bg-secondary-100 dark:bg-slate-700 dark:text-white ">
             <form
-              onSubmit={(e) => {
-                handleSubmit(e);
+              onSubmit={(prop) => {
+                handleSubmit(prop);
               }}
             >
               <br />
@@ -266,6 +280,130 @@ export default function EditProducts() {
                   />
                 </div>
               </div>
+              {aprove && (
+                <div className="absolute ml-4 justify-center items-center font-lora ">
+                  <div className="p-2  w-80 h-50 bg-white rounded-lg ring-1 ">
+                    <div className=" mx-3 flex justify-between border-b border-gray-200 p-2">
+                      <h3>Confirmation</h3>
+                      <button
+                        onClick={() => setAprove(false)}
+                        className=" text-gray-500 px-1 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-[#f84d4dd1] hover:text-white shadow-lg shadow-primary-200/80"
+                      >
+                        x
+                      </button>
+                    </div>
+                    <br />
+                    <span className="m-8"> Is the product ready ?</span>
+                    <br />
+                    <br />
+                    <div className="flex justify-evenly m-3">
+                      <button
+                        onClick={(prop) => handleSubmit(prop)}
+                        className="bg-primary-600 px-4 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-primary-200/80"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={() => setAprove(false)}
+                        className="bg-primary-600 px-4 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-primary-200/80"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {succes && (
+                <div className="absolute ml-4 justify-center items-center font-lora ">
+                  <div className="p-2  w-80 h-50 bg-white rounded-lg ring-1 ">
+                    <div className=" mx-3 flex justify-between border-b border-gray-200 p-2">
+                      <h3>Confirmation</h3>
+                      <button
+                        onClick={() => setSucces(false)}
+                        className=" text-gray-500 px-1 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-[#f84d4dd1] hover:text-white shadow-lg shadow-primary-200/80"
+                      >
+                        x
+                      </button>
+                    </div>
+                    <br />
+                    <span className="m-8"> Changes saved successfully !!</span>
+                    <br />
+                    <br />
+                    <div className="flex justify-evenly m-3">
+                      <button
+                        onClick={() => setSucces(false)}
+                        className="bg-primary-600 px-4 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-primary-200/80"
+                      >
+                        Accept
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {denied && (
+                <div className="absolute ml-2 justify-center items-center font-lora ">
+                  <div className="p-2  w-80 h-50 bg-white rounded-lg ring-1 ">
+                    <div className=" mx-3 flex justify-between border-b border-gray-200 p-2">
+                      <h3>Denied</h3>
+                      <button
+                        onClick={() => setDenied(false)}
+                        className=" text-gray-500 px-1 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-[#f84d4dd1] hover:text-white shadow-lg shadow-primary-200/80"
+                      >
+                        x
+                      </button>
+                    </div>
+                    <br />
+                    <span className="m-8">
+                      Some fields are missing. Check again
+                    </span>
+                    <br />
+                    <br />
+                    <div className="flex justify-evenly m-3">
+                      <button
+                        onClick={() => setDenied(false)}
+                        className="bg-primary-600 px-4 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-primary-200/80"
+                      >
+                        Accept
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {cancel && (
+                <div className="absolute ml-2 justify-center items-center font-lora ">
+                  <div className="p-2  w-80 h-50 bg-white rounded-lg ring-1 ">
+                    <div className=" mx-3 flex justify-between border-b border-gray-200 p-2">
+                      <h3>Discard</h3>
+                      <button
+                        onClick={() => setCancel(false)}
+                        className=" text-gray-500 px-1 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-[#f84d4dd1] hover:text-white shadow-lg shadow-primary-200/80"
+                      >
+                        x
+                      </button>
+                    </div>
+                    <br />
+                    <span className="m-8">
+                      Do you want to discard the changes?
+                    </span>
+                    <br />
+                    <br />
+                    <div className="flex justify-evenly m-3">
+                      <button
+                        onClick={(e) => reload(e)}
+                        className="bg-primary-600 px-4 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-primary-200/80"
+                      >
+                        Accept
+                      </button>
+                      <button
+                        onClick={() => setCancel(false)}
+                        className="bg-primary-600 px-4 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-primary-200/80"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className=" justify-center p-2 ">
                 <label>Categories</label>
@@ -378,15 +516,27 @@ export default function EditProducts() {
                     })}
                 </div>
               </div>
-              <ButtonCreate
+              <button
+                type="button"
+                onClick={(e) => {
+                  setAprove(true);
+                }}
+                className="bg-primary-600 px-6 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-primary-500 shadow-lg shadow-primary-200/80 m-3 dark:hover:text-white dark:hover:bg-slate-900 dark:hover:shadow-slate-600 dark:bg-slate-400 dark:text-slate-900 dark:shadow-slate-900"
+              >
+                Save Changes
+              </button>
+              {/* <ButtonCreate
                 disable={errors?.disableSubmit}
                 text="Save Changes"
-                type="submit"
-                onClick={(e) => handleSubmit(e)}
-              ></ButtonCreate>
+                type="button"
+                onClick={(e) => {
+                  setAprove(true);
+                  setProp(e);
+                }}
+              ></ButtonCreate> */}
             </form>
             <button
-              onClick={(e) => reload(e)}
+              onClick={() => setCancel(true)}
               className="bg-[#3b82f6] text-white px-6 py-2 rounded-md text-lg font-lora font-bold active:translate-y-1 hover:bg-[#3491fc] shadow-lg shadow-primary-200/80 m-3 dark:hover:text-white dark:hover:bg-slate-900 dark:hover:shadow-slate-600 dark:bg-slate-400 dark:text-slate-900 dark:shadow-slate-900"
             >
               Discard Changes

@@ -2,40 +2,21 @@ import React, { useEffect, useState } from 'react';
 import NavBar from './NavBar';
 import Footer from './Footer/Footer';
 import CardHistorial from './CardHistorial';
-import { getBulkOrders, getOrder } from '../Redux/Actions/actions';
+import { getBulkOrders } from '../Redux/Actions/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import historial from './utils/no-wishlist.svg';
-import { motion, AnimateSharedLayout, AnimatePresence } from "framer-motion";
-
 
 export default function Historial() {
   const dispatch = useDispatch();
-  const bulks = useSelector((state) => state.home.bulkOrders);
-  const orders = useSelector((state) => state.home.historial);
-  const [products,setProducts] = useState([])
-  console.log(products)
+  const products = useSelector((state) => state.home.bulkOrders);
 
   useEffect(() => {
-    dispatch(getBulkOrders({status:"finished"}));
-    dispatch(getOrder({status:'pending,finished,preparing,onDelivery'}))
+    dispatch(getBulkOrders());
   }, []);
-
-  useEffect(() => {
-    if(orders && orders.length > 0 && bulks && bulks.length > 0){
-      setProducts([...orders,...bulks])
-    }else{
-    if(orders && orders.length > 0){
-    setProducts([...orders])}
-    if(bulks && bulks.length > 0){
-      setProducts([...bulks])}
-    }
-  }, [orders,bulks])
-  
-
-  
   function prettyDate(date) {
     if (date) {
       const splitTime = date.slice(0, 24);
+
       return splitTime;
     }
   }
@@ -43,16 +24,13 @@ export default function Historial() {
     <>
       <NavBar />
       <div className="historial">
-        <h1 className='flex justify-center my-8 text-4xl'>Your Purchases</h1>
-        <AnimateSharedLayout>
         {products && products.length > 0 ? (
           products.map((prod) => {
             if (prod.orders) {
-              console.log(prod.orders[0].localPurchaseDate)
               return (
                 <div>
-                  <h1 className='xl:ml-[13rem] underline decoration-primary-700'>
-                    {' '}
+                  <h1>
+                    Purchase date:{' '}
                     {prod && prod.orders
                       ? prettyDate(prod.orders[0].localPurchaseDate)
                       : 'trying to remember'}
@@ -69,11 +47,10 @@ export default function Historial() {
                 </div>
               );
             } else {
-              console.log(prod.localPurchaseDate)
               return (
                 <div>
-                  <h1 className='xl:ml-[13rem] underline decoration-primary-700'>
-                    {' '}
+                  <h1>
+                    Purchase date:{' '}
                     {prod ? prettyDate(prod.localPurchaseDate) : 'trying to remember'}
                   </h1>
                   {prod.products &&
@@ -100,12 +77,11 @@ export default function Historial() {
               <h1 className="font-serif text-center">You haven't made purchases</h1>
               <br />
               <span className="flex justify-center">
-                <img className="animate-pulse w-4/6" src={historial} />
+                <img className=" animate-pulse   w-4/6" src={historial} />
               </span>
             </div>
           </div>
         )}
-        </AnimateSharedLayout>
       </div>
       <Footer />
     </>
