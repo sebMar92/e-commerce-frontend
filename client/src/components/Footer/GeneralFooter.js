@@ -25,7 +25,7 @@ export default function GeneralFooter() {
 
   useEffect(() => {
     dispatch(getNetworks());
-  }, [])
+  }, []);
   console.log(networks);
 
   function handleClickFooterG() {
@@ -60,35 +60,50 @@ export default function GeneralFooter() {
                     </h5>
                   </Link>
                 </div>
-              { (networks[0].facebook === '' && networks[0].twitter === '' && networks[0].instagram === '') ? null : (
-                <div className="m-2 lg:mr-20 sm:mr-8 xl:mr-60">
-                  <h3 className="flex justify-center text-2xl md:text-3xl">Follow us</h3>
-                {networks[0].facebook !== '' ? (
-                  <a href={`${networks[0].facebook}`} className="no-underline text-black">
-                    <h5 className="flex ml-8 m-2 text-lg md:text-sm">
-                      <AiOutlineFacebook />
-                      Facebook
-                    </h5>
-                  </a>
-                ) : null} 
-                {networks[0].twitter !== '' ? (
-                  <a href={`${networks[0].twitter}`} className="no-underline text-black">
-                    <h5 className="flex ml-8 m-2 text-lg md:text-sm">
-                      <AiOutlineTwitter />
-                      Twitter
-                    </h5>
-                  </a>
-                ) : null}
-                {networks[0].instagram !== '' ? (
-                  <a href={`${networks[0].instagram}`} className="no-underline text-black">
-                    <h5 className="flex ml-8 m-2 text-lg md:text-sm">
-                      <AiOutlineInstagram />
-                      Instagram
-                    </h5>
-                  </a>
-                ) : null}
-                </div>
-              )}
+                {networks &&
+                networks.length &&
+                networks[0].facebook === '' &&
+                networks[0].twitter === '' &&
+                networks[0].instagram === '' ? null : (
+                  <div className="m-2 lg:mr-20 sm:mr-8 xl:mr-60">
+                    <h3 className="flex justify-center text-2xl md:text-3xl">
+                      Follow us
+                    </h3>
+                    {networks && networks.length && networks[0].facebook !== '' ? (
+                      <a
+                        href={`${networks[0].facebook}`}
+                        className="no-underline text-black"
+                      >
+                        <h5 className="flex ml-8 m-2 text-lg md:text-sm">
+                          <AiOutlineFacebook />
+                          Facebook
+                        </h5>
+                      </a>
+                    ) : null}
+                    {networks && networks.length && networks[0].twitter !== '' ? (
+                      <a
+                        href={`${networks[0].twitter}`}
+                        className="no-underline text-black"
+                      >
+                        <h5 className="flex ml-8 m-2 text-lg md:text-sm">
+                          <AiOutlineTwitter />
+                          Twitter
+                        </h5>
+                      </a>
+                    ) : null}
+                    {networks && networks.length && networks[0].instagram !== '' ? (
+                      <a
+                        href={`${networks[0].instagram}`}
+                        className="no-underline text-black"
+                      >
+                        <h5 className="flex ml-8 m-2 text-lg md:text-sm">
+                          <AiOutlineInstagram />
+                          Instagram
+                        </h5>
+                      </a>
+                    ) : null}
+                  </div>
+                )}
               </div>
 
               <div className="flex sm:flex-row flex-col">
