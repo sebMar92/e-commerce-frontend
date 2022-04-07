@@ -17,7 +17,7 @@ export default function CardAdmin({ images, title, price, id }) {
   return (
     <div className="flex flex-row justify-between border-white">
       <div className="flex grow w-1/2 h-24 border-t-4 border-x-4 border-white p-4 bg-secondary-100 hover:bg-primary-200 hover:font-medium">
-        <Link to={`/admin/edit/${id}`} className="text-inherit no-underline">
+        <Link to={`/product/${id}`} className="text-inherit no-underline">
           <div className=" flex flex-row flex-wrap justify-around">
             <div className=" flex justify-start w-40">
               <img
