@@ -1,4 +1,7 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { getNetworks } from '../../Redux/Actions/actions';
 import { Link } from 'react-router-dom';
 import {
   AiFillGithub,
@@ -16,6 +19,14 @@ import { MdFavorite, MdOutlineShoppingBag } from 'react-icons/md';
 export default function GeneralFooter() {
   const localStorageAccess = window.localStorage.getItem('access');
   const localStorageRefresh = window.localStorage.getItem('refresh');
+
+  const dispatch = useDispatch();
+  const networks = useSelector((state) => state.admin.networks);
+
+  useEffect(() => {
+    dispatch(getNetworks());
+  }, [])
+  console.log(networks);
 
   function handleClickFooterG() {
     document.getElementById('footerGeneral').classList.toggle('hidden');
@@ -49,29 +60,35 @@ export default function GeneralFooter() {
                     </h5>
                   </Link>
                 </div>
-
+              { (networks[0].facebook === '' && networks[0].twitter === '' && networks[0].instagram === '') ? null : (
                 <div className="m-2 lg:mr-20 sm:mr-8 xl:mr-60">
                   <h3 className="flex justify-center text-2xl md:text-3xl">Follow us</h3>
-
-                  <a href="" className="no-underline text-black">
+                {networks[0].facebook !== '' ? (
+                  <a href={`${networks[0].facebook}`} className="no-underline text-black">
                     <h5 className="flex ml-8 m-2 text-lg md:text-sm">
                       <AiOutlineFacebook />
                       Facebook
                     </h5>
                   </a>
-                  <a href="" className="no-underline text-black">
+                ) : null} 
+                {networks[0].twitter !== '' ? (
+                  <a href={`${networks[0].twitter}`} className="no-underline text-black">
                     <h5 className="flex ml-8 m-2 text-lg md:text-sm">
                       <AiOutlineTwitter />
                       Twitter
                     </h5>
                   </a>
-                  <a href="" className="no-underline text-black">
+                ) : null}
+                {networks[0].instagram !== '' ? (
+                  <a href={`${networks[0].instagram}`} className="no-underline text-black">
                     <h5 className="flex ml-8 m-2 text-lg md:text-sm">
                       <AiOutlineInstagram />
                       Instagram
                     </h5>
                   </a>
+                ) : null}
                 </div>
+              )}
               </div>
 
               <div className="flex sm:flex-row flex-col">
