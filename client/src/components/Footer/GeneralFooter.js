@@ -70,10 +70,7 @@ export default function GeneralFooter() {
                       Follow us
                     </h3>
                     {networks && networks.length && networks[0].facebook !== '' ? (
-                      <a
-                        href={`${networks[0].facebook}`}
-                        className="no-underline text-black"
-                      >
+                      <a href="www.facebook.com" URL className="no-underline text-black">
                         <h5 className="flex ml-8 m-2 text-lg md:text-sm">
                           <AiOutlineFacebook />
                           Facebook
