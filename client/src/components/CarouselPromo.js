@@ -14,6 +14,7 @@ export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const sales = useSelector((state) => state.admin.sales);
 
+  /* sales && console.log("sales: " + sales[1].categories[0].id); */
   const dispatch = useDispatch();
   const slideRef = useRef();
   useEffect(() => {

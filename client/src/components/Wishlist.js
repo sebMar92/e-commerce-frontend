@@ -6,21 +6,24 @@ import { getOrder } from '../Redux/Actions/actions';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import wishlist from "./utils/empty-wishlist.png"
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Wishlist({}) {
   const dispatch = useDispatch();
 
   const product = useSelector((state) => state.home.inWishList);
   const wishListOrder = useSelector((state) => state.home.resPutOrder);
+  const deleted = useSelector((state) => state.home.deleted)
+  const cart = useSelector((state) => state.home.inCart);
 
   useEffect(() => {
     dispatch(getOrder({ status: 'inWishList' }));
-  }, [wishListOrder]);
+  }, [wishListOrder, deleted]);
 
   return (
     <>
       <NavBar />
-      <div className="wishlist">
+      <div className="h-screen">
         {product &&
           product.length > 0 ? (
           product.map((prod) => {

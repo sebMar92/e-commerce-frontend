@@ -3,7 +3,8 @@ import Product from './utils/Notebook-Odyssey-2.jpg';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteOrder, getOrder } from '../Redux/Actions/actions';
-import ButtonBuyChange from '../components/commons/ButtonBuyChange';
+import { ToastContainer, toast } from 'react-toastify';
+import ButtonAddToCart from './commons/ButtonAddToCart';
 
 export default function CardWishlist({
   id,
@@ -16,6 +17,8 @@ export default function CardWishlist({
 }) {
   const dispatch = useDispatch();
   const deleteWishList = (e) => dispatch(deleteOrder(idOrder, id, 'inWishList'));
+    
+  
 
   return (
     <div className="flex flex-wrap justify-center">
@@ -62,7 +65,7 @@ export default function CardWishlist({
               <div>
                 <br />
                 <div>
-                  <ButtonBuyChange text={"Add to cart"} id={idOrder} status={'inCart'} />
+                  <ButtonAddToCart text={"Add to cart"} id={id} status={'inCart'}/>
 
                   <span className="text-1xl font-bold text-gray-900 mx-5">$ {price}</span>
                 </div>
