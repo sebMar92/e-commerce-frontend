@@ -19,32 +19,16 @@ export default function PurchasePage() {
   const location = useLocation();
   const [data, setData] = useState('');
   const [productsWithSales, setProductsWithSales] = useState([]);
+
   useEffect(() => {
     dispatch(getProducts('?limit=1'));
     dispatch(getOrder({ status: 'pending' }));
     dispatch(getBulkOrders({ status: 'pending' }));
-  }, [resDelete, location.search]);
+  }, [resDelete, location.search,data]);
 
+  
   useEffect(() => {
     let item = [];
-    // if (bulkOrders && bulkOrders.length > 0) {
-    //   console.log('BULKS EN PURCHASE: ', bulkOrders);
-    //   item =
-    //     bulkOrders && bulkOrders[0].products
-    //       ? bulkOrders[0].products.map((e) => ({
-    //           title: e.title,
-    //           amount: 1,
-    //           price: e.price,
-    //         }))
-    //       : [];
-    //   let shippingCost = {
-    //     title: 'shippingCost',
-    //     amount: 1,
-    //     price: bulkOrders[0].combinedShippingCost,
-    //   };
-    //   item.push(shippingCost);
-    // } else
-
     if (product && product.length > 0) {
       let productsDiscounted = product
         ? product
@@ -134,6 +118,7 @@ export default function PurchasePage() {
       let shippingCost = { title: 'shippingCost', amount: 1, price: res };
       item.push(shippingCost);
     }
+    console.log(item)
     if ((product && product.length) || (bulkOrders && bulkOrders.length)) {
       const idToken = axios
         .post('/mercadopago/pay', item)

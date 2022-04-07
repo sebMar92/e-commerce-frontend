@@ -42,3 +42,4 @@ export const POST_EMAIL = "POST_EMAIL"
 export const GET_BULK_ADMIN = "GET_BULK_ADMIN";
 export const POST_SALE = 'POST_SALE';
 export const EDIT_SALE = 'EDIT_SALE';
+export const GET_ORDERS_HIS = "GET_ORDERS"

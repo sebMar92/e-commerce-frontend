@@ -15,7 +15,7 @@ export default function OptionRender() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [res, setRes] = useState();
-  const [render, setRender] = useState(false);
+  const [render, setRender] = useState(true);
   const [status, setStatus] = useState(false);
   const bulkOrders = useSelector((state) => state.home.bulkOrders);
   const put = useSelector((state) => state.home.putBulkOrders);
@@ -36,6 +36,7 @@ export default function OptionRender() {
       if (res.Status === 'approved') {
         if (bulkOrders.length > 0) {
           let id = bulkOrders[0].id;
+          console.log(bulkOrders)
           dispatch(
             putBulkOrders(
               {
@@ -62,7 +63,7 @@ export default function OptionRender() {
         setRender(false);
       }
     }
-  }, [res, status, product, bulkOrders]);
+  }, [res, product, bulkOrders]);
 
   return <>{render ? <Success /> : <Failure />}</>;
 }

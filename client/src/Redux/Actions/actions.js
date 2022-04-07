@@ -41,6 +41,7 @@ import {
   DELETE_PRODUCT,
   POST_SALE,
   EDIT_SALE,
+  GET_ORDERS_HIS
 } from './types';
 
 requestInterceptor();
