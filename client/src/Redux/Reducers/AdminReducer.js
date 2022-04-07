@@ -6,8 +6,10 @@ import {
   GET_BULK_ADMIN,
   DELETE_PRODUCT,
   POST_EMAIL,
+  POST_NETWORKS,
   POST_SALE,
   EDIT_SALE,
+  GET_NETWORKS
 } from '../Actions/types.js';
 
 const initialState = {
@@ -18,6 +20,7 @@ const initialState = {
   deletedProduct: {},
   saleChange: {},
   deletedProduct: {},
+  networks: {}
 };
 
 export const AdminReducer = (state = initialState, { type, payload }) => {
@@ -55,6 +58,10 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
       };
+    case POST_NETWORKS:
+      return {
+        ...state,
+      };
     case EDIT_SALE:
       return {
         ...state,
@@ -65,6 +72,12 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
         ...state,
         saleChange: { change: payload },
       };
+    case GET_NETWORKS:
+      return {
+        ...state,
+        networks: payload,
+      }
+
     default:
       return state;
   }

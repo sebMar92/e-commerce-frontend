@@ -41,6 +41,7 @@ import {
   DELETE_PRODUCT,
   POST_SALE,
   EDIT_SALE,
+  GET_NETWORKS
 } from './types';
 
 requestInterceptor();
@@ -504,6 +505,13 @@ export function postEmail(data) {
   };
 }
 
+export function postNetworks(data) {
+  return async function () {
+    var json = await axios.post('/networks', data);
+    return json;
+  };
+}
+
 export function editSale(body) {
   return async function (dispatch) {
     body.category = body.categories;
@@ -661,6 +669,16 @@ export function getBulkAdmin(conditions) {
 
     return dispatch({
       type: GET_BULK_ADMIN,
+      payload: json.data,
+    });
+  };
+}
+
+export function getNetworks() {
+  return async function (dispatch) {
+    var json = await axios.get('/networks');
+    return dispatch({
+      type: GET_NETWORKS,
       payload: json.data,
     });
   };

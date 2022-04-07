@@ -6,6 +6,7 @@ import NavBarEmpty from "./NavBarEmpty";
 import check from "./utils/check-shield-regular-24.png";
 import { postEmail, getUsersInfo } from "../Redux/Actions/actions";
 import ButtonCreate from "./commons/ButtonCreate";
+import SocialNetworks from "./SocialNetworks";
 
 export default function NewsletterEdit() {
   const dispatch = useDispatch();
@@ -141,13 +142,6 @@ export default function NewsletterEdit() {
     }
   }
 
-  useEffect(() => {
-    const face = document.getElementById("face");
-    const twit = document.getElementById("twit");
-    const inst = document.getElementById("inst");
-    const entry = document.getElementById("entry");
-  })
-
   return (
     <>
       <NavBarEmpty />
@@ -251,7 +245,7 @@ export default function NewsletterEdit() {
             </div>
             {input.receivers.length ? (
               <ButtonCreate
-                disabled={error?.disabledSubmit}
+                disabled={Object.keys(error).length > 0 ? true : false}
                 text="Send Email"
                 type="submit"
               />
@@ -287,61 +281,7 @@ export default function NewsletterEdit() {
           </h2>
           <br />
           <hr />
-          <div className=" mx-6 my-2 p-2 justify-between full bg-white dark:bg-slate-800 dark:text-white rounded flex flex-col">
-            <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
-              <div className="flex-col">
-                <div className="flex justify-center">
-                  <label className="ml-5">Facebook</label>
-                    <input
-                      type="checkbox"
-                      id="face"
-                      name="face"
-                      value="faceb"
-                    />
-                </div>
-                    <input
-                      type="text"
-                      value={input.facebook}
-                      id="faceinput"
-                      className="rounded-md h-6 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
-                  />
-              </div>
-              <div className="flex-col">
-                <div className="flex justify-center">
-                  <label>Twitter</label>
-                    <input
-                      type="checkbox"
-                      id="twit"
-                      name="twit"
-                      value="twitt"
-                  />
-                </div>
-                  <input
-                    type="text"
-                    value={input.twitter}
-                    id="twitinput"
-                    className="rounded-md h-6 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
-                />
-              </div>
-              <div className="flex-col">
-                <div className="flex justify-center">
-                  <label>Instagram</label>
-                    <input
-                      type="checkbox"
-                      id="inst"
-                      name="inst"
-                      value="insta"
-                    />
-                </div>
-                    <input
-                      type="text"
-                      value={input.instagram}
-                      id="instinput"
-                      className="rounded-md h-6 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
-                  />
-              </div>
-            </div>
-          </div>
+          <SocialNetworks />
         </div>
       </div>
     </>
