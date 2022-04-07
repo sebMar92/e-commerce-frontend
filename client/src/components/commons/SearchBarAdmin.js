@@ -32,7 +32,7 @@ export default function SearchBar(props) {
     e.preventDefault();
     if (searchValue !== "") {
       navigate({
-        pathname: `/admin/products?search=${searchValue}`,
+        pathname: `/admin/products?search=${searchValue}&offset=1`,
       });
       setSearchValue("");
     }
