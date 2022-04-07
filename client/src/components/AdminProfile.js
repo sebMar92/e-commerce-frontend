@@ -85,10 +85,10 @@ export default function AdminProfile() {
   if (products) {
     products.map((pr) => {
       if (pr.orders) {
-        product.push(pr.title);
+        product.push(pr.title.substring(0, 15));
       } else {
         pr.products.map((gPr) => {
-          product.push(gPr.title);
+          product.push(gPr.title.substring(0, 15));
         });
       }
     });

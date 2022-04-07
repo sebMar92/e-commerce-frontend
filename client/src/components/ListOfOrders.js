@@ -21,6 +21,7 @@ export default function ListOfOrders() {
     dispatch(getBulkAdmin());
   }, []);
   function handelChangeStatus(e) {
+    console.log(e)
     dispatch(getBulkAdmin({ status: input.status }));
   }
 
@@ -124,11 +125,11 @@ export default function ListOfOrders() {
                             arial-label=".form-select-lg example"
                           >
                             <option>{b.orders[0].status} </option>
-                            <option value="delivered">Delivered </option>
-                            <option value="finished">Finished </option>
-                            <option value="preparing">Preparing </option>
-                            <option value="onDelivery">On Delivery </option>
-                            <option value="cancelled">Cancelled</option>
+                            <option name="status" value="delivered">Delivered </option>
+                            <option name="status" value="finished">Finished </option>
+                            <option name="status" value="preparing">Preparing </option>
+                            <option name="status" value="onDelivery">On Delivery </option>
+                            <option name="status" value="cancelled">Cancelled</option>
                           </select>
                         </div>
 
@@ -167,11 +168,11 @@ export default function ListOfOrders() {
                             arial-label=".form-select-lg example"
                           >
                             <option>{b.status} </option>
-                            <option value="delivered">Delivered </option>
-                            <option value="finished">Finished </option>
-                            <option value="preparing">Preparing </option>
-                            <option value="onDelivery">On Delivery </option>
-                            <option value="cancelled">Cancelled</option>
+                            <option name="status"value="delivered">Delivered </option>
+                            <option name="status" value="finished">Finished </option>
+                            <option name="status" value="preparing">Preparing </option>
+                            <option name="status" value="onDelivery">On Delivery </option>
+                            <option name="status" value="cancelled">Cancelled</option>
                           </select>
                         </div>
                         <div className="w-20 m-2 text-center">
