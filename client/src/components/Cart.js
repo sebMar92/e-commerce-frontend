@@ -6,25 +6,29 @@ import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdRestaurantMenu } from 'react-icons/md';
-import { getOrder, changeOrderStatus, postBulkOrder, getProducts } from '../Redux/Actions/actions';
+import {
+  getOrder,
+  changeOrderStatus,
+  postBulkOrder,
+  getProducts,
+} from '../Redux/Actions/actions';
 import carrito from './utils/carrito triste.png';
-import ModalPortal from "../components/modals/GuestModal"
+import ModalPortal from '../components/modals/GuestModal';
 
 export default function Cart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const product = useSelector((state) => state.home.inCart);
   const userInfo = useSelector((state) => state.home.user);
-  const globalSales = useSelector((state) => state.home.globalSales)
+  const globalSales = useSelector((state) => state.home.globalSales);
   const direccion = userInfo.directions;
   var total = 0;
   var finalShippingCost = [];
 
   const resPutOrder = useSelector((state) => state.home.resPutOrder);
   const resPostBulk = useSelector((state) => state.home.resPostBulk);
-  const localStorageAccess = window.localStorage.getItem("access")
-  const localStorageRefresh = window.localStorage.getItem("refresh")
-
+  const localStorageAccess = window.localStorage.getItem('access');
+  const localStorageRefresh = window.localStorage.getItem('refresh');
 
   if (product && product.length > 0) {
     total = product
@@ -38,25 +42,23 @@ export default function Cart() {
 
   useEffect(() => {
     dispatch(getOrder({ status: 'inCart' }));
-    dispatch(getProducts())
+    dispatch(getProducts());
   }, [resPutOrder, resPostBulk]);
 
-  const [stateModal, setStateModal] = useState(false)
+  const [stateModal, setStateModal] = useState(false);
   function handleCloseModal(e) {
-    e.preventDefault()
-    setStateModal(!stateModal)
+    e.preventDefault();
+    setStateModal(!stateModal);
   }
 
   function handleAllBuy(e) {
-
-    const localStorageAccess = window.localStorage.getItem("access")
-    const localStorageRefresh = window.localStorage.getItem("refresh")
+    const localStorageAccess = window.localStorage.getItem('access');
+    const localStorageRefresh = window.localStorage.getItem('refresh');
     if (!localStorageAccess && !localStorageRefresh) {
-      handleCloseModal(e)
+      handleCloseModal(e);
     }
 
     if (localStorageAccess && localStorageRefresh) {
-
       if (product.length > 1) {
         const ids = product.map((e) => e.orders[0].id);
         dispatch(postBulkOrder({ orderIds: ids }));
@@ -73,9 +75,6 @@ export default function Cart() {
       }, 1000);
     }
   }
-
-
-
 
   return (
     <div>
@@ -95,8 +94,8 @@ export default function Cart() {
                 shippingCost={prod.shippingCost}
                 stock={prod.stock}
                 amount={prod.orders && prod.orders[0].amount}
-                categorySales={prod.sales.categorySales}
-                productSales={prod.sales.productSales}
+                categorySales={prod.sales && prod.sales.categorySales}
+                productSales={prod.sales && prod.sales.productSales}
                 globalSales={globalSales}
               />
             </div>
@@ -132,8 +131,8 @@ export default function Cart() {
                   <h1>Shipment</h1>
                   <span>Direction: </span>
 
-                  {localStorageAccess && localStorageRefresh ?
-                    direccion && direccion.length ?
+                  {localStorageAccess && localStorageRefresh ? (
+                    direccion && direccion.length ? (
                       <select
                         id="direction"
                         className="bg-[#3b82f6] text-white p-1 m-2 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition"
@@ -147,17 +146,20 @@ export default function Cart() {
                             );
                           })}
                       </select>
-                      :
+                    ) : (
                       <Link to="/user">
-                        <span className="bg-[#3b82f6] text-white pl-1 pr-1 ml-2 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition" >Register address</span>
+                        <span className="bg-[#3b82f6] text-white pl-1 pr-1 ml-2 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition">
+                          Register address
+                        </span>
                       </Link>
-
-                    :
+                    )
+                  ) : (
                     <Link to="/login">
-                      <span className="bg-[#3b82f6] text-white pl-1 pr-1 ml-2 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition" >Login to add an address</span>
+                      <span className="bg-[#3b82f6] text-white pl-1 pr-1 ml-2 rounded-md bg-secundary-100 cursor-pointer hover:bg-opacity-60 transition">
+                        Login to add an address
+                      </span>
                     </Link>
-                  }
-
+                  )}
                 </div>
               </div>
             </div>
