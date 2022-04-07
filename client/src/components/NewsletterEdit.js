@@ -6,6 +6,7 @@ import NavBarEmpty from "./NavBarEmpty";
 import check from "./utils/check-shield-regular-24.png";
 import { postEmail, getUsersInfo } from "../Redux/Actions/actions";
 import ButtonCreate from "./commons/ButtonCreate";
+import SocialNetworks from "./SocialNetworks";
 
 export default function NewsletterEdit() {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ export default function NewsletterEdit() {
   }, [dispatch]);
 
   useEffect(() => {
-    let users = usersAll.filter((user) => user.newsletterSubscription === true);
+    let users = usersAll.filter(user => user.newsletterSubscription === true);
     users.length && users.map((user) => receiver.push(user.email));
     setReceiver([...new Set(receiver)]);
   }, [usersAll]);
@@ -147,90 +148,91 @@ export default function NewsletterEdit() {
   return (
     <>
       <NavBarEmpty />
-      <div className="flex flex-col w-full sm:flex-row font-lora">
+      <div className="bg-secondary-100 dark:bg-slate-700 dark:text-white flex flex-col sm:flex-row font-lora">
         <NavbarAdmin className="dark:text-black" />
 
         <form
           onSubmit={(e) => handleSubmit(e)}
-          className=" bg-secondary-100 dark:bg-slate-700 dark:text-white h-screen w-30"
+          className="mx-5 bg-secondary-100 dark:bg-slate-700 dark:text-white grid grid-flow-col w-[85 rem]"
         >
-          <br />
-          <h2 className="text-center">Edit Newsletter</h2>
-          <br />
-          <hr />
           <div>
-            <div className="justify-center p-2">
-              <label>Subject</label>
-              <br />
-              <input
-                className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
-                type="text"
-                value={input.title}
-                name="title"
-                onChange={(e) => handleChangeInput(e)}
-                autoComplete="off"
-              />
-              <strong>{error.title}</strong>
+            <br />
+            <h2 className="text-center">Edit Newsletter</h2>
+            <br />
+            <hr />
+            <div>
+              <div className="justify-center p-2">
+                <label>Subject</label>
+                <br />
+                <input
+                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
+                  type="text"
+                  value={input.title}
+                  name="title"
+                  onChange={(e) => handleChangeInput(e)}
+                  autoComplete="off"
+                />
+                <strong>{error.title}</strong>
+              </div>
+
+              <div className="justify-center p-2">
+                <label>Message</label>
+                <br />
+                <textarea
+                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
+                  type="text"
+                  name="message"
+                  value={input.message}
+                  onChange={(e) => handleChangeInput(e)}
+                  autoComplete="off"
+                />
+                <p className="font-bold">{error.message}</p>
+              </div>
             </div>
 
             <div className="justify-center p-2">
-              <label>Message</label>
-              <br />
-              <textarea
+              <label>Receivers</label>
+              <select
                 className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
-                type="text"
-                name="message"
-                value={input.message}
-                onChange={(e) => handleChangeInput(e)}
-                autoComplete="off"
-              />
-              <p className="font-bold">{error.message}</p>
-            </div>
-          </div>
-
-          <div className="justify-center p-2">
-            <label>Receivers</label>
-            <select
-              className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
-              onChange={(e) => handleSelect(e)}
-            >
-              <option value="select">Select</option>
-              <option value="All">All</option>
-              {receiver.length > 0 &&
-                receiver.map((rec) => {
-                  return (
-                    <option id={rec} key={rec}>
-                      {rec}
-                    </option>
-                  );
-                })}
-            </select>
-            <div className="flex">
-              <input
-                className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
-                type="email"
-                placeholder="Add Email..."
-                value={newEmail}
-                /* name="email" */
-                onChange={(e) => handleNewEmail(e)}
-                autoComplete="off"
-              />
-              <button
-                type="button"
-                className="text-secondary-200 bg-secondary-100 w-16 ml-1 border-2 border-gray-300 rounded-md hover:border-2 hover:border-solid hover:border-green-600 hover:text-green-600 dark:hover:text-white dark:hover:bg-slate-900 dark:hover:shadow-slate-600 dark:bg-slate-400 dark:text-slate-900 dark:shadow-slate-900"
-                onClick={(e) => handleSubmitNewEmail(e)}
+                onChange={(e) => handleSelect(e)}
               >
-                Add
-              </button>
-            </div>
-
-            {input.receivers.length ? (
-              input.receivers.map((rec) => (
-                <div
-                  className="flex w-full hover:bg-secondary-100 bg-gray-50 dark:bg-slate-700"
-                  key={rec}
-                  value={rec}
+                <option value="select">Select</option>
+                <option value="All">All</option>
+                {receiver.length > 0 &&
+                  receiver.map((rec) => {
+                    return (
+                      <option id={rec} key={rec}>
+                        {rec}
+                      </option>
+                    );
+                  })}
+              </select>
+              <div className="flex">
+                <input
+                  className="rounded-md h-8 w-full hover:bg-secondary-100 border-2 border-gray-300 bg-gray-50 dark:bg-slate-700"
+                  type="email"
+                  placeholder="Add Email..."
+                  value={newEmail}
+                  /* name="email" */
+                  onChange={(e) => handleNewEmail(e)}
+                  autoComplete="off"
+                />
+                <button
+                  type="button"
+                  className="text-secondary-200 bg-secondary-100 w-16 ml-1 border-2 border-gray-300 rounded-md hover:border-2 hover:border-solid hover:border-green-600 hover:text-green-600 dark:hover:text-white dark:hover:bg-slate-900 dark:hover:shadow-slate-600 dark:bg-slate-400 dark:text-slate-900 dark:shadow-slate-900"
+                  onClick={(e) => handleSubmitNewEmail(e)}
                 >
+                Add
+                </button>
+              </div>
+
+              {input.receivers.length ? (
+                input.receivers.map((rec) => (
+                  <div
+                    className="flex w-full hover:bg-secondary-100 bg-gray-50 dark:bg-slate-700"
+                    key={rec}
+                    value={rec}
+                  >
                   <img src={check} alt="check" />
                   <button
                     type="button"
@@ -308,6 +310,7 @@ export default function NewsletterEdit() {
               </div>
             </div>
           )}
+          </div>
         </form>
 
         <div className="w-[70rem] bg-secondary-100 dark:bg-slate-700">
@@ -330,6 +333,14 @@ export default function NewsletterEdit() {
                 ))}
             </div>
           </div>
+          <br />
+          <br />
+          <h2 className="text-center dark:bg-slate-700 dark:text-white">
+            Social Networks
+          </h2>
+          <br />
+          <hr />
+          <SocialNetworks />
         </div>
       </div>
     </>
