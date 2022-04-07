@@ -190,10 +190,10 @@ export default function NavBar() {
         id="desplegable"
         className={
           (isOpen ? "" : "hidden ") +
-          "bg-slate-100 flex flex-col items-center justify-center"
+          "bg-white flex flex-col items-center justify-center md:hidden"
         }
       >
-        <div className="flex justify-around items-center w-full p-2">
+        <div className="flex justify-around gap-1 items-center w-full p-2">
           {admin.rol != "admin" && <FavsModal />}
           {admin.rol != "admin" && <CartModal />}
           {token && admin.rol != "admin" && (

@@ -266,7 +266,7 @@ export function postOrder(order) {
     }
     return {
       type: POST_ORDERS,
-      payload: 'sarasa',
+      payload: Math.random(),
     };
   }
 }
