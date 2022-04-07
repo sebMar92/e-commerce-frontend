@@ -10,6 +10,7 @@ import { getCategories, getProducts } from "../Redux/Actions/actions";
 import DropDownCatAdmin from "./DropDownCatAdmin";
 import CardAdmin from "./CardAdmin";
 import Pagination from "./Pagination";
+import { Link } from "react-router-dom";
 
 export default function AdminAllProducts() {
   const dispatch = useDispatch();
@@ -20,6 +21,8 @@ export default function AdminAllProducts() {
   const deletedProductConfirm = useSelector(
     (state) => state.admin.deletedProduct
   );
+  const category = useSelector((state) => state.admin.category);
+  console.log(category);
   useEffect(() => {
     dispatch(getProducts(search));
     dispatch(getCategories());
@@ -36,7 +39,7 @@ export default function AdminAllProducts() {
       <div className="flex flex-col sm:flex-row font-lora">
         <NavbarAdmin />
         <div className="m-auto w-full h-full">
-          <div className="flex flex-row flex-wrap">
+          <div className="flex flex-row flex-wrap m-2 ">
             <div className="basis-1/5">
               <DropDownCatAdmin tittle="Categories" array={allCategories} />
             </div>
@@ -45,6 +48,16 @@ export default function AdminAllProducts() {
             </div>
           </div>
           <Pagination />
+          {category && (
+            <div className="w-fit h-fit p-2 ml-2 bg-secondary-100 rounded shadow-sm text-xs 2xl:text-sm">
+              <Link
+                to={`/products?categoryId=${category.id}&offset=1`}
+                className="text-decoration-line: no-underline text-black"
+              >
+                {category.name}
+              </Link>
+            </div>
+          )}
           {allProducts &&
             allProducts.map((prod) => {
               return (

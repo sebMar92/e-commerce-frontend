@@ -54,7 +54,7 @@ export default function CardAdmin({ images, title, price, id }) {
           X
         </button>
         {on && (
-          <div className="absolute mt-10 -ml-60 justify-center items-center font-lora ">
+          <div className="absolute mt-10 justify-center items-center font-lora ">
             <div className="p-2  w-80 h-50 bg-white rounded-lg ring-1 ">
               <div className=" mx-3 flex justify-between border-b border-gray-200 p-2">
                 <h3>Confirmation</h3>
