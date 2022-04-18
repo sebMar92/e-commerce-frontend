@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate, createSearchParams } from 'react-router-dom';
-import { category } from '../Redux/Actions/actions';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate, createSearchParams } from "react-router-dom";
+import { category } from "../Redux/Actions/actions";
 
 export default function DropDownCategories({ tittle, array }) {
   const navigate = useNavigate();
@@ -40,11 +40,12 @@ export default function DropDownCategories({ tittle, array }) {
               key={cat.id}
               id={cat.id}
               onClick={(e) => {
+                dispatch(category(cat));
                 navigate({
-                  pathname: '/admin/products',
+                  pathname: "/admin/products",
                   search: createSearchParams({
                     categoryId: e.target.id,
-                    offset: '1',
+                    offset: "1",
                   }).toString(),
                 });
                 dispatch(category(cat));
