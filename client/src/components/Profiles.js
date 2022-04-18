@@ -1,5 +1,14 @@
 import NavBar from "./NavBar";
 import Footer from "./Footer/Footer";
+import Seba from "../components/images/Seba.png";
+import Mati from "../components/images/Mati.jpg";
+import Pablo from "../components/images/Pablo.jpg";
+import Yes from "../components/images/Yes.jpg";
+import Feli from "../components/images/Feli.jpg";
+import Alejo from "../components/images/Alejo.jpg";
+import Fran from "../components/images/Fran.jpg";
+import Luciano from "../components/images/Luciano.png";
+
 export default function Profiles() {
   return (
     <div>
@@ -9,7 +18,7 @@ export default function Profiles() {
           <h2>Seba</h2>
           <div className="m-2">
             <img
-              src="https://media-exp1.licdn.com/dms/image/D4D35AQEJbzJmvs0ohg/profile-framedphoto-shrink_400_400/0/1647922633148?e=1649318400&v=beta&t=XeNbFro8sVI1uVzxa8Dv88k7WPWzl-tbIIExOT4wBX0"
+              src={Seba}
               alt="not found"
               className="w-20 h-20 rounded-lg mx-auto"
             />
@@ -44,7 +53,7 @@ export default function Profiles() {
           <h2>Mati</h2>
           <div className="m-2">
             <img
-              src="https://media-exp1.licdn.com/dms/image/C4E03AQHjPvoN9RNI6Q/profile-displayphoto-shrink_400_400/0/1628617456940?e=1654732800&v=beta&t=cijtI-SzmvjJt6MwlmL7mmZxwji3Lsjl1LGy4jNaQ28"
+              src={Mati}
               alt="not found"
               className="w-20 h-20 rounded-lg mx-auto"
             />
@@ -79,7 +88,7 @@ export default function Profiles() {
           <h2>Pablo</h2>
           <div className="m-2">
             <img
-              src="https://media-exp1.licdn.com/dms/image/D4E35AQH_EiWNuGRxSw/profile-framedphoto-shrink_400_400/0/1642015510128?e=1649322000&v=beta&t=2CIVT_vioZqPMuuX09dx3wrFJbGUvgphpSI4wcrJjmU"
+              src={Pablo}
               alt="not found"
               className="w-20 h-20 rounded-lg mx-auto"
             />
@@ -114,7 +123,7 @@ export default function Profiles() {
           <h2>Yes</h2>
           <div className="m-2">
             <img
-              src="https://media-exp1.licdn.com/dms/image/D4D35AQGbETiXKvYMWw/profile-framedphoto-shrink_400_400/0/1646840438833?e=1649322000&v=beta&t=-IgDuOh8l0hyvyHBlnMg_f3Avun-BowCGq5mg3Ym1hw"
+              src={Yes}
               alt="not found"
               className="w-20 h-20 rounded-lg mx-auto"
             />
@@ -149,7 +158,7 @@ export default function Profiles() {
           <h2>Feli</h2>
           <div className="m-2">
             <img
-              src="https://media-exp1.licdn.com/dms/image/D4D35AQGxCJH9Rrw1jg/profile-framedphoto-shrink_400_400/0/1647101675758?e=1649318400&v=beta&t=zKa5jvVuGJmaJa3Oq0NpfcKFppo32y6LikDq_vENseQ"
+              src={Feli}
               alt="not found"
               className="w-20 h-20 rounded-lg mx-auto"
             />
@@ -184,7 +193,7 @@ export default function Profiles() {
           <h2>Alejo</h2>
           <div className="m-2">
             <img
-              src="https://media-exp1.licdn.com/dms/image/D4D35AQGwUSB6yJAaug/profile-framedphoto-shrink_400_400/0/1645156017622?e=1649322000&v=beta&t=MdQ-A5wh7n6otcBsONa_6R18h7f38x5CAsHQIymtIyc"
+              src={Alejo}
               alt="not found"
               className="w-20 h-20 rounded-lg mx-auto"
             />
@@ -219,7 +228,7 @@ export default function Profiles() {
           <h2>Fran</h2>
           <div className="m-2">
             <img
-              src="https://media-exp1.licdn.com/dms/image/D4E35AQHfwz27SvOUKg/profile-framedphoto-shrink_400_400/0/1639513430839?e=1649322000&v=beta&t=KEJpfmVujC1w2ltc2sbjVFKE9amdZfR_TEEFLfznJsg"
+              src={Fran}
               alt="not found"
               className="w-20 h-20 rounded-lg mx-auto"
             />
@@ -254,7 +263,7 @@ export default function Profiles() {
           <h2>Luciano</h2>
           <div className="m-2">
             <img
-              src="https://media-exp1.licdn.com/dms/image/D4D35AQHWTb9zVi_Hcw/profile-framedphoto-shrink_400_400/0/1647379933454?e=1649322000&v=beta&t=FQT1tef97O6tAIJJ5rAegZFkNqYHiHjB2LTUdcOUIAM"
+              src={Luciano}
               alt="not found"
               className="w-20 h-20 rounded-lg mx-auto"
             />
